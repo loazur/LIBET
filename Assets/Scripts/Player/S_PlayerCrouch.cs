@@ -26,16 +26,16 @@ public class S_PlayerCrouch : MonoBehaviour
 
         originalHeight = playerController.capsuleCollider.height; // Taille originale du personnage
     }
-    
+
+    void Update()
+    {
+        Debug.Log("Grounded: " + playerController.isGrounded() + " isCrouching : " + isCrouching + " canRaise : " + canRaise());
+    }
+
     //! --------------- Fonctions privés ---------------
 
     private void OnCrouchPerformed(InputAction.CallbackContext context) //& Gestion de l'accroupissement
     {
-        if (playerSprint.isSprinting && playerController.movementVector != Vector2.zero) // Si en train de slide ou en train de courir partout ne peut pas s'accroupir 
-        {
-            return;
-        }
-
         //  Se lever
         if (playerController.isGrounded() && isCrouching && canRaise()) // AU SOL / ACCROUPI / PEUT SE LEVER
         {

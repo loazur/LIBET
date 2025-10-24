@@ -18,7 +18,7 @@ public class S_PlayerNoClip : MonoBehaviour
         
         noClipAction = InputSystem.actions.FindAction("NoClip");
         sprintAction = InputSystem.actions.FindAction("Sprint");
-        flyUp = InputSystem.actions.FindAction("Jump");
+        flyUp = InputSystem.actions.FindAction("flyUp");
         flyDown = InputSystem.actions.FindAction("FlyDown");
     }
 

@@ -79,6 +79,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "flyUp",
+                    "type": "Button",
+                    "id": "5c202e08-9bc9-4a2d-9964-9c9fa1a1e865",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "FlyDown",
                     "type": "Button",
                     "id": "a6226b3f-bd1a-4994-b54a-853860eea3b7",
@@ -383,6 +392,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "FlyDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "763700f1-cdcc-41de-81eb-dfa617dff52b",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "flyUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
