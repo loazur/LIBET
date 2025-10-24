@@ -5,7 +5,7 @@ public class S_PlayerController : MonoBehaviour
 {
     //~ Références
     [Header("References")]
-    public GameObject playerCamera; // Camera Cinemachine
+    //public GameObject playerCamera; // Camera Cinemachine
     [HideInInspector] public Rigidbody playerRigidbody;
     [HideInInspector] public MeshRenderer meshRenderer;
     public CapsuleCollider capsuleCollider;
@@ -45,15 +45,6 @@ public class S_PlayerController : MonoBehaviour
     public GameObject groundCheck;
     [HideInInspector] public BoxCollider colliderGround;
 
-    //~ Constantes
-    private const float rotationSpeed = 40f; // Rotation du personnage en fonction de la camera
-
-
-    public InputAction lookAction; // assignée dans ton Input System
-    public float sensitivity = 100f;
-
-    private float xRotation = 0f; // rotation verticale
-
     void Start() //& INITIALISATION VARIABLES
     {
         // Pour que le camera sois lock et ne bouge plus
@@ -72,7 +63,6 @@ public class S_PlayerController : MonoBehaviour
 
         // Action de mouvement
         moveAction = InputSystem.actions.FindAction("Move");
-
         stepRayUpper.transform.localPosition = new Vector3(stepRayUpper.transform.localPosition.x, -stepHeight, stepRayUpper.transform.localPosition.z); // Hauteur = hauteur steps
 
         overheadCheck.SetActive(false); // On désactive overheadCheck dès qu'on spawn
@@ -85,7 +75,7 @@ public class S_PlayerController : MonoBehaviour
 
     void FixedUpdate() //& PHYSICS 
     {
-        Rotate(); // Pour que le joueur regarde dans la direction de la caméra
+        //Rotate(); // Pour que le joueur regarde dans la direction de la caméra
 
         if (playerNoClip.isNoClipping)
         {
@@ -136,38 +126,6 @@ public class S_PlayerController : MonoBehaviour
         playerRigidbody.linearVelocity = new Vector3(move.x * movementSpeed, playerRigidbody.linearVelocity.y, move.z * movementSpeed);
 
     }
-
-    /*
-    private void Rotate() //& Gére la rotation du joueur en fonction de la camera
-    {
-        Vector3 forward = playerCamera.transform.forward;
-        forward.y = 0f; // ignore l'inclinaison verticale
-        forward.Normalize();
-
-        if (forward.sqrMagnitude > 0.001f) // évite les vecteurs nuls
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(forward, Vector3.up);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                Time.deltaTime * rotationSpeed
-            );
-        }
-    }
-    */
-    private void Rotate()
-    {
-        Vector2 lookInput = lookAction.ReadValue<Vector2>() * sensitivity * Time.deltaTime;
-
-        // rotation horizontale du joueur
-        transform.Rotate(Vector3.up * lookInput.x);
-
-        // rotation verticale de la caméra
-        xRotation -= lookInput.y;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-        playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-    }
-    
 
     public bool isGrounded() //& Vérifie si le joueur est au sol
     {
