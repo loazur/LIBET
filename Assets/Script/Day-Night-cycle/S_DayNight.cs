@@ -1,25 +1,14 @@
+using NUnit.Framework;
 using UnityEngine;
 
-/**
- * change le direction of light pour simuler un cycle jour et la nuit
- * besoins d'être attaché à un diresctional light 
- *
- * @author	Unknown
- * @since	v0.0.1
- * @version	v1.0.0	Friday, October 24th, 2025.
- * @global
- */
 public class S_DayNight : MonoBehaviour
 {
-
-    public bool isDay = true;
-    public float speed = 1f;
-    public float dayTime = 10f; // entre 6h et 18h (12h de journée)
-    public float ActualTime = 0f;
-
+    public Light directionalLight;
+    public float dayLength = 120f; // Length of a full day in seconds
+    private float time;
 
     /**
-     * initialisation du ciscle jour/nuit
+     * Au lancement, le jour est instancié par défaut
      *
      * @author	Unknown
      * @since	v0.0.1
@@ -28,11 +17,14 @@ public class S_DayNight : MonoBehaviour
      */
     void Start()
     {
-        transform.rotation = Quaternion.Euler(50f, -30f, 0f);
+        Assert.IsNotNull(directionalLight, "Aucune lumière directionnelle assignée pour le cycle jour/nuit.");
+
+        // Par défaut, démarrer en jour
+        StartDay();
     }
 
     /**
-     * Change le temps petit à petit en fonction de la vitesse, du dayTime et du ActualTime
+     * Change la lumière au fur et à mesure de la journée pour faire un cycle jour/nuit
      *
      * @author	Unknown
      * @since	v0.0.1
@@ -41,6 +33,79 @@ public class S_DayNight : MonoBehaviour
      */
     void Update()
     {
-        
+        // Increment time
+        time += Time.deltaTime / dayLength;
+        time %= 1; // Keep time in range [0, 1]
+        // Apply lighting/rotation for the current time
+        UpdateLighting(time);
+    }
+
+    /**
+     * Met à jour la rotation du soleil et l'intensité de la lumière en fonction du temps (0..1).
+     *
+     * @author	Unknown
+     * @since	v0.0.1
+     * @version	v1.0.0	Friday, October 24th, 2025.
+     * @access	private
+     * @param	mixed	float
+     * @return	void
+     */
+    private void UpdateLighting(float t)
+    {
+        // Rotate the directional light to simulate the sun's movement
+        float sunAngle = t * 360f - 90f;
+        transform.localRotation = Quaternion.Euler(sunAngle, 170f, 0f);
+
+        if (directionalLight == null)
+            return;
+
+        // Adjust the light's intensity based on the time of day
+        if (t <= 0.23f || t >= 0.75f)
+        {
+            directionalLight.intensity = 0;
+        }
+        else if (t <= 0.25f)
+        {
+            directionalLight.intensity = Mathf.Lerp(0, 1, (t - 0.23f) * 50);
+        }
+        else if (t >= 0.73f)
+        {
+            directionalLight.intensity = Mathf.Lerp(1, 0, (t - 0.73f) * 50);
+        }
+        else
+        {
+            directionalLight.intensity = 1;
+        }
+    }
+
+    /**
+     * Forcer le démarrage en mode jour (milieu de journée).
+     * Appeler depuis d'autres scripts ou via l'Inspector (si attaché).
+     *
+     * @author	Unknown
+     * @since	v0.0.1
+     * @version	v1.0.0	Friday, October 24th, 2025.
+     * @access	public
+     * @return	void
+     */
+    public void StartDay()
+    {
+        time = 0.5f; // midi approximatif
+        UpdateLighting(time);
+    }
+
+    /**
+     * Forcer le démarrage en mode nuit (minuit).
+     *
+     * @author	Unknown
+     * @since	v0.0.1
+     * @version	v1.0.0	Friday, October 24th, 2025.
+     * @access	public
+     * @return	void
+     */
+    public void StartNight()
+    {
+        time = 0f; // minuit
+        UpdateLighting(time);
     }
 }
