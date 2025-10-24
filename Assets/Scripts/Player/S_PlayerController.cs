@@ -48,6 +48,12 @@ public class S_PlayerController : MonoBehaviour
     //~ Constantes
     private const float rotationSpeed = 40f; // Rotation du personnage en fonction de la camera
 
+
+    public InputAction lookAction; // assignée dans ton Input System
+    public float sensitivity = 100f;
+
+    private float xRotation = 0f; // rotation verticale
+
     void Start() //& INITIALISATION VARIABLES
     {
         // Pour que le camera sois lock et ne bouge plus
@@ -124,13 +130,14 @@ public class S_PlayerController : MonoBehaviour
 
             playerRigidbody.linearVelocity = slopesMove;
             return;
-        } 
+        }
 
         // Applique le mouvement
         playerRigidbody.linearVelocity = new Vector3(move.x * movementSpeed, playerRigidbody.linearVelocity.y, move.z * movementSpeed);
 
     }
 
+    /*
     private void Rotate() //& Gére la rotation du joueur en fonction de la camera
     {
         Vector3 forward = playerCamera.transform.forward;
@@ -147,6 +154,20 @@ public class S_PlayerController : MonoBehaviour
             );
         }
     }
+    */
+    private void Rotate()
+    {
+        Vector2 lookInput = lookAction.ReadValue<Vector2>() * sensitivity * Time.deltaTime;
+
+        // rotation horizontale du joueur
+        transform.Rotate(Vector3.up * lookInput.x);
+
+        // rotation verticale de la caméra
+        xRotation -= lookInput.y;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+    }
+    
 
     public bool isGrounded() //& Vérifie si le joueur est au sol
     {

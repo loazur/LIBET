@@ -27,11 +27,6 @@ public class S_PlayerCrouch : MonoBehaviour
         originalHeight = playerController.capsuleCollider.height; // Taille originale du personnage
     }
 
-    void Update()
-    {
-        Debug.Log("Grounded: " + playerController.isGrounded() + " isCrouching : " + isCrouching + " canRaise : " + canRaise());
-    }
-
     //! --------------- Fonctions privés ---------------
 
     private void OnCrouchPerformed(InputAction.CallbackContext context) //& Gestion de l'accroupissement
