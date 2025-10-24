@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -6,6 +7,9 @@ public class S_DayNight : MonoBehaviour
     public Light directionalLight;
     public float dayLength = 120f; // Length of a full day in seconds
     private float time;
+
+    // convertir time en heures et minutes pour affichage si besoin
+    
 
     /**
      * Au lancement, le jour est instancié par défaut
@@ -38,6 +42,8 @@ public class S_DayNight : MonoBehaviour
         time %= 1; // Keep time in range [0, 1]
         // Apply lighting/rotation for the current time
         UpdateLighting(time);
+
+        print(time);
     }
 
     /**
@@ -90,7 +96,7 @@ public class S_DayNight : MonoBehaviour
      */
     public void StartDay()
     {
-        time = 0.5f; // midi approximatif
+        time = 0.25f; // midi approximatif
         UpdateLighting(time);
     }
 
@@ -105,7 +111,26 @@ public class S_DayNight : MonoBehaviour
      */
     public void StartNight()
     {
-        time = 0f; // minuit
+        time = 0.75f; // minuit
         UpdateLighting(time);
     }
+
+    /**
+     * Choisir l'heure du jour (entre 0 et 1 - 0.25 à 0.75 jour, 0.75 à 0.25 nuit)
+     *
+     * @author	Unknown
+     * @since	v0.0.1
+     * @version	v1.0.0	Friday, October 24th, 2025.
+     * @access	public
+     * @param	float	newTime	
+     * @return	mixed
+     */
+    public float SetTime(float newTime)
+    {
+        time = newTime % 1f;
+        UpdateLighting(time);
+        return time;
+    }
+
+    
 }
