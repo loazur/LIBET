@@ -55,7 +55,6 @@ public class S_PlayerController : MonoBehaviour
         Cursor.visible = false;
 
         meshRenderer = GetComponent<MeshRenderer>();
-        capsuleCollider = GetComponent<CapsuleCollider>();
         playerRigidbody = GetComponent<Rigidbody>();
 
         colliderOverhead = overheadCheck.GetComponent<SphereCollider>();
