@@ -1,7 +1,4 @@
-using System;
-using JetBrains.Annotations;
 using NUnit.Framework;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class S_DayNight : MonoBehaviour
@@ -11,7 +8,6 @@ public class S_DayNight : MonoBehaviour
     private float time;
 
     // convertir time en heures et minutes pour affichage si besoin
-    
 
     /**
      * Au lancement, le jour est instancié par défaut
@@ -39,7 +35,6 @@ public class S_DayNight : MonoBehaviour
         // Apply lighting/rotation for the current time
         UpdateLighting(time);
 
-        Debug.Log(GetCurrentTimeString());
     }
 
     /**
@@ -51,14 +46,14 @@ public class S_DayNight : MonoBehaviour
      */
     private void UpdateLighting(float t)
     {
-        // Rotate the directional light to simulate the sun's movement
+        // Applique la rotation du soleil pour simuler un vrai soleil
         float sunAngle = t * 360f - 90f;
         transform.localRotation = Quaternion.Euler(sunAngle, 170f, 0f);
 
         if (directionalLight == null)
             return;
 
-        // Adjust the light's intensity based on the time of day
+        // Ajuste l'intensité de la lumière en fonction de l'heure de la journée
         if (t <= 0.23f || t >= 0.75f)
         {
             directionalLight.intensity = 0;

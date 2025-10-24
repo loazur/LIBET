@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class S_FirstPersonCamera : MonoBehaviour
 {
     //~ Gestion de la camera
+    [Header("Gestion de la caméra")]
     public Transform player;
     private InputAction lookAction;
     [SerializeField] private float mouseSensitivity;
@@ -13,13 +14,12 @@ public class S_FirstPersonCamera : MonoBehaviour
     private Vector2 lookValue = Vector2.zero;
     private float cameraVerticalRotation = 0f;
 
-
-    void Start()
+    void Start() //& INITIALISATION VARIABLES
     {
         lookAction = InputSystem.actions.FindAction("Look");   
     }
 
-    void Update()
+    void Update() //& PAS PHYSICS
     {
         Rotate();
     }
