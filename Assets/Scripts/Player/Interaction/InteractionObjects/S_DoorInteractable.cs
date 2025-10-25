@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class S_DoorInteractable : MonoBehaviour, SI_Interactable
 {
-    //~ Implémente l'interface d'interaction
     [SerializeField] private string interactText;
+    
 
     //! Méthodes provenant de l'interface SI_Interactable
 
