@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class S_PlayerInteract : MonoBehaviour
 {
+    //~ Gestion des interactions
+    [SerializeField] private float interactRange;
     private InputAction interactAction;
 
     void Start()
@@ -15,57 +17,53 @@ public class S_PlayerInteract : MonoBehaviour
     {
         if (interactAction.WasReleasedThisFrame())
         {
-            float interactRange = 2f;
-            Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
+            SI_Interactable interactable = GetInteractableObject();
 
-            foreach (Collider collider in colliderArray) // On récupère tout les colliders autour du joueur
+            if (interactable != null)
             {
-                if (collider.TryGetComponent(out S_NPCInteractable npcInteractable)) // On regarde si c'est un NPC
-                {
-                    npcInteractable.Interact();
-                }
+                interactable.Interact();
             }
+
         }
     }
 
     //! --------------- Fonctions privés ---------------
     
-    public S_NPCInteractable GetInteractableObject()
+    public SI_Interactable GetInteractableObject() //& Recherche l'interaction la plus proche et la retourne
     {
-        List<S_NPCInteractable> npcInteractableList = new List<S_NPCInteractable>();
-
-        float interactRange = 4f;
-        Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange);
+        List<SI_Interactable> interactableList = new List<SI_Interactable>();
+        Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange); // Récupère tout les colliders autour du joueur
 
         foreach (Collider collider in colliderArray) // On récupère tout les colliders autour du joueur
         {
-            if (collider.TryGetComponent(out S_NPCInteractable npcInteractable)) // On regarde si c'est un NPC
+            if (collider.TryGetComponent(out SI_Interactable interactable)) // On regarde si c'est un NPC
             {
-                npcInteractableList.Add(npcInteractable);
+                interactableList.Add(interactable);
             }
         }
 
 
-        // Recherche du NPC le plus proche
-        S_NPCInteractable closestNPCInteractable = null;
-        foreach(S_NPCInteractable npcInteractable in npcInteractableList)
+        // Recherche l'interaction la plus proche
+        SI_Interactable closestInteractable = null;
+
+        foreach(SI_Interactable interactable in interactableList)
         {
-            if (closestNPCInteractable == null)
+            if (closestInteractable == null)
             {
-                closestNPCInteractable = npcInteractable;
+                closestInteractable = interactable;
             }
             else
             {
-                if (Vector3.Distance(transform.position, npcInteractable.transform.position) < 
-                Vector3.Distance(transform.position, closestNPCInteractable.transform.position))
+                if (Vector3.Distance(transform.position, interactable.getTransform().position) < 
+                Vector3.Distance(transform.position, closestInteractable.getTransform().position))
                 {
-                    // Closer
-                    closestNPCInteractable = npcInteractable;
+                    // Le plus proche
+                    closestInteractable = interactable;
                 }
             }
         }
 
-        return closestNPCInteractable;
+        return closestInteractable; // Retourne l'interaction la plus proche
 
     }
 

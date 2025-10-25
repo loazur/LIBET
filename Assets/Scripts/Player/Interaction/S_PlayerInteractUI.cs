@@ -3,6 +3,7 @@ using TMPro;
 
 public class S_PlayerInteractUI : MonoBehaviour
 {
+    //~ Gestion de l'UI
     [SerializeField] private GameObject containerGameObject;
     [SerializeField] private S_PlayerInteract playerInteract;
     [SerializeField] private TextMeshProUGUI interactText;
@@ -21,13 +22,13 @@ public class S_PlayerInteractUI : MonoBehaviour
 
     //! --------------- Fonctions privés ---------------
 
-    private void Show(S_NPCInteractable npcInteractable)
+    private void Show(SI_Interactable interactable) //& Affiche l'UI et change le texte en fonction de interactText
     {
         containerGameObject.SetActive(true);
-        interactText.text = npcInteractable.getInteractText();
+        interactText.text = interactable.getInteractText();
     }
     
-    private void Hide()
+    private void Hide() //& Cache l'UI
     {
         containerGameObject.SetActive(false);
     }
