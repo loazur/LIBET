@@ -9,8 +9,8 @@ Ce sont des tâches qui deviendront de plus en plus difficiles et dangereuses à
 Moteur utilisé: *Unity 6*  
 
 # Credits
-[Clément BOUNAIX](https://github.com/loazur)  
-[Lucas CONTRERAS-HODAPP](https://github.com/Por-Tra)  
-[Nathanael MORIT](https://github.com/Mortann)  
-[Lucas CHAPON](https://github.com/LucasChap-git)  
-[Morphée SEVESTRE](https://github.com/MorpheeSp)  
+[Clément BOUNAIX](https://github.com/loazur) - Programmeur  
+[Lucas CONTRERAS-HODAPP](https://github.com/Por-Tra) - Programmeur  
+[Nathanaël MORIT](https://github.com/Mortann) - Modélisateur  
+[Lucas CHAPON](https://github.com/LucasChap-git) - Modélisateur  
+[Morphée SEVESTRE](https://github.com/MorpheeSp) - Modélisateur  
