@@ -5,7 +5,7 @@ public class S_NPCInteractable : MonoBehaviour, SI_Interactable
     //~ Implémente l'interface d'interaction
     [SerializeField] private string interactText; // Texte à afficher en fonction du NPC
 
-    //! Méthodes provenant de l'interface
+    //! Méthodes provenant de l'interface SI_Interactable
 
     public void Interact()
     {
