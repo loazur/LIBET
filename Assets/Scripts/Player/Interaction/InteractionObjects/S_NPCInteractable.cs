@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class S_NPCInteractable : MonoBehaviour, SI_Interactable
 {
-    //~ Implémente l'interface d'interaction
+    //~ Gestion du NPC
     [SerializeField] private string interactText; // Texte à afficher en fonction du NPC
 
-    //! Méthodes provenant de l'interface
+    //! Méthodes provenant de l'interface SI_Interactable
 
-    public void Interact()
+    public void Interact(Transform playerTransform)
     {
         //! LANCE LE DIALOGUE AVEC LE JOUEUR
         Debug.Log("Le joueur essaye de parler avec " + gameObject.name);
