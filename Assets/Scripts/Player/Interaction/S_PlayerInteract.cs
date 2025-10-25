@@ -21,7 +21,7 @@ public class S_PlayerInteract : MonoBehaviour
 
             if (interactable != null)
             {
-                interactable.Interact();
+                interactable.Interact(transform);
             }
 
         }

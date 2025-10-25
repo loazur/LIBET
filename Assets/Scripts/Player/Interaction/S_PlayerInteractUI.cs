@@ -8,7 +8,7 @@ public class S_PlayerInteractUI : MonoBehaviour
     [SerializeField] private S_PlayerInteract playerInteract;
     [SerializeField] private TextMeshProUGUI interactText;
 
-    void Update()
+    void Update() //& PAS PHYSICS
     {
         if (playerInteract.GetInteractableObject() != null) // Est à portée d'une interaction
         {
