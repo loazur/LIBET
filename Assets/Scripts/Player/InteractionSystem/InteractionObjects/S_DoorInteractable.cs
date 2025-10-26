@@ -4,12 +4,13 @@ using UnityEngine;
 public class S_DoorInteractable : MonoBehaviour, SI_Interactable
 {
     //~ Gestion de la porte
+    [Header("Gestion de la porte")]
     [SerializeField] private float rotationSpeed = 1f; // Vitesse d'ouverture
     [SerializeField] private float rotationAmount = 90f; // L'angle d'ouverture
+
+    private string interactText = "Ouvrir"; // Texte affiché sur l'UI
     private bool isOpen = false;
     private float forwardDirection = 0f;
-    private string interactText = "Ouvrir"; // Texte affiché sur l'UI
-
     private Vector3 startRotationVec;
     private Vector3 forward;
 

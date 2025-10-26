@@ -7,6 +7,7 @@ public class S_PlayerInteract : MonoBehaviour
     //~ Gestion des interactions
     [SerializeField] private float interactRange;
     private InputAction interactAction;
+    private bool areInteractionsEnabled = true;
 
     void Start()
     {
@@ -15,7 +16,7 @@ public class S_PlayerInteract : MonoBehaviour
 
     void Update() //& PAS PHYSICS
     {
-        if (interactAction.WasReleasedThisFrame())
+        if (interactAction.WasReleasedThisFrame() && canInteract())
         {
             SI_Interactable interactable = GetInteractableObject();
 
@@ -28,7 +29,7 @@ public class S_PlayerInteract : MonoBehaviour
     }
 
     //! --------------- Fonctions privés ---------------
-    
+
     public SI_Interactable GetInteractableObject() //& Recherche l'interaction la plus proche et la retourne
     {
         List<SI_Interactable> interactableList = new List<SI_Interactable>();
@@ -46,7 +47,7 @@ public class S_PlayerInteract : MonoBehaviour
         // Recherche l'interaction la plus proche
         SI_Interactable closestInteractable = null;
 
-        foreach(SI_Interactable interactable in interactableList)
+        foreach (SI_Interactable interactable in interactableList)
         {
             if (closestInteractable == null)
             {
@@ -54,7 +55,7 @@ public class S_PlayerInteract : MonoBehaviour
             }
             else
             {
-                if (Vector3.Distance(transform.position, interactable.getTransform().position) < 
+                if (Vector3.Distance(transform.position, interactable.getTransform().position) <
                 Vector3.Distance(transform.position, closestInteractable.getTransform().position))
                 {
                     // Le plus proche
@@ -64,10 +65,23 @@ public class S_PlayerInteract : MonoBehaviour
         }
 
         return closestInteractable; // Retourne l'interaction la plus proche
-
     }
 
-    
+    //? ------------------------------------------------
 
+    public bool canInteract() //& Retourne si les interactions sont actif ou pas
+    {
+        return areInteractionsEnabled;
+    }
+
+    public void EnableInteractions() //& Active les interactions
+    {
+        areInteractionsEnabled = true;
+    }
+    
+    public void DisableInteractions() //& Désactive les interactions
+    {
+        areInteractionsEnabled = false;
+    }
 
 }
