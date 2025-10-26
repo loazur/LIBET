@@ -24,7 +24,6 @@ public class S_PlayerNoClip : MonoBehaviour
 
     void Update()  //& PAS PHYSICS
     {
-
         if (noClipAction.WasPressedThisFrame())
         {
             if (!isNoClipping)
@@ -47,14 +46,6 @@ public class S_PlayerNoClip : MonoBehaviour
     }
 
     //! --------------- Fonctions privés ---------------
-
-    private void EnableNoClip() //& Activation No Clip
-    {
-        isNoClipping = true;
-
-        playerController.playerRigidbody.isKinematic = true; // Désactive collisions
-        playerController.playerRigidbody.useGravity = false; // Désactive gravité
-    }
 
     private void NoClipMovement() //& Changement du système de mouvement
     {
@@ -80,6 +71,15 @@ public class S_PlayerNoClip : MonoBehaviour
         }
     }
 
+    //? ------------------------------------------------    
+
+    private void EnableNoClip() //& Activation No Clip
+    {
+        isNoClipping = true;
+
+        playerController.playerRigidbody.isKinematic = true; // Désactive collisions
+        playerController.playerRigidbody.useGravity = false; // Désactive gravité
+    }
 
     private void DisableNoClip() //& Désactivation No Clip
     {
