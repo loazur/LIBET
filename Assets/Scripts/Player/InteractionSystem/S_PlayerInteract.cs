@@ -16,7 +16,7 @@ public class S_PlayerInteract : MonoBehaviour
 
     void Update() //& PAS PHYSICS
     {
-        if (interactAction.WasReleasedThisFrame() && canInteract())
+        if (interactAction.WasReleasedThisFrame())
         {
             SI_Interactable interactable = GetInteractableObject();
 
@@ -32,6 +32,11 @@ public class S_PlayerInteract : MonoBehaviour
 
     public SI_Interactable GetInteractableObject() //& Recherche l'interaction la plus proche et la retourne
     {
+        if (!canInteract()) // Si désactivé
+        {
+            return null;
+        }
+
         List<SI_Interactable> interactableList = new List<SI_Interactable>();
         Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange); // Récupère tout les colliders autour du joueur
 
