@@ -23,6 +23,8 @@ public class S_PlayerController : MonoBehaviour
     public float movementSpeed; // 6.5f
     private float gravity = 10f;
 
+    private bool isMovingEnabled = true;
+
 
     //~ Gestion Slopes
     [Header("Gestion Slopes")]
@@ -78,15 +80,11 @@ public class S_PlayerController : MonoBehaviour
 
         //! Tout ce qui en dessous ne sera pas actif en Mode NoClip
 
-        if (!S_DialogueManager.Instance.isDialogueActive)
+        if (canMove())
         {
             Move(movementVector); // Gestion Mouvements
         }
-        else
-        {
-            playerRigidbody.linearVelocity = Vector3.zero;
-        }
-
+        
         HandleGravity(); // Gestion de la gravité
         StepClimb(); // Gestion Stairs
     }
@@ -126,7 +124,6 @@ public class S_PlayerController : MonoBehaviour
 
         // Applique le mouvement
         playerRigidbody.linearVelocity = new Vector3(move.x * movementSpeed, playerRigidbody.linearVelocity.y, move.z * movementSpeed);
-
     }
 
     public bool isGrounded() //& Vérifie si le joueur est au sol
@@ -236,5 +233,23 @@ public class S_PlayerController : MonoBehaviour
                 playerRigidbody.position -= new Vector3(0f, -stepSmooth, 0f);
             }
         }
+    }
+
+    //? ------------------------------------------------    
+
+    public bool canMove() //& Retourne si le joueur peut se déplacer
+    {
+        return isMovingEnabled;
+    }
+
+    public void EnableMovements() //& Active les mouvements
+    {
+        isMovingEnabled = true;
+    }
+    
+    public void DisableMovements() //& Désactive les mouvements
+    {
+        isMovingEnabled = false;
+        playerRigidbody.linearVelocity = Vector3.zero; // Désactive la vélocity actuel
     }
 }

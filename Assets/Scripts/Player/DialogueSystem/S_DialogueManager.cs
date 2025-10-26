@@ -5,38 +5,47 @@ using UnityEngine;
 
 public class S_DialogueManager : MonoBehaviour
 {
+    //~ Instance du DialogueManager (pour l'utiliser partout)
     public static S_DialogueManager Instance;
 
     //~ Gestion des éléments d'UI
+    [Header("Gestion éléments d'UI")]
     public GameObject containerGameObject;
     public TextMeshProUGUI npcName;
     public TextMeshProUGUI dialogueText;
-
     private Queue<S_DialogueLine> lines;
-
+    public float typingSpeed = 0;
     [HideInInspector] public bool isDialogueActive;
-    public float typingSpeed = 0.2f;
 
+    //~ Références d'autres scripts
+    [Header("Références vers d'autres scripts")]
+    [SerializeField] private S_PlayerController playerController;
+    [SerializeField] private S_PlayerInteract playerInteract;
     [SerializeField] private S_FirstPersonCamera firstPersonCamera;
 
     void Start()
     {
-        HideUI();
+        EndDialogue();
         lines = new Queue<S_DialogueLine>();
 
         if (Instance == null)
         {
             Instance = this;
-
         }
     }
 
-
     //! --------------- Fonctions privés ---------------
 
-    public void StartDialogue(S_Dialogue dialogue)
+    public void StartDialogue(S_Dialogue dialogue) //& Démarre le dialogue
     {
-        ShowUI();
+        // Active désactive des scripts
+        playerController.DisableMovements(); // Mouvements
+        playerInteract.DisableInteractions(); // Interactions
+        firstPersonCamera.EnableCursor(); // Curseur
+        firstPersonCamera.DisableRotation(); // Rotation camera
+
+        containerGameObject.SetActive(true);
+
         lines.Clear();
 
         foreach (S_DialogueLine dialogueLine in dialogue.dialogueLines)
@@ -47,11 +56,11 @@ public class S_DialogueManager : MonoBehaviour
         DisplayNextDialogueLine();
     }
 
-    public void DisplayNextDialogueLine()
+    public void DisplayNextDialogueLine() //& Passe à la ligne d'après
     {
         if (lines.Count == 0)
         {
-            HideUI();
+            EndDialogue();
             return;
         }
 
@@ -64,7 +73,7 @@ public class S_DialogueManager : MonoBehaviour
         StartCoroutine(TypeSentence(currentLine));
     }
 
-    private IEnumerator TypeSentence(S_DialogueLine dialogueLine)
+    private IEnumerator TypeSentence(S_DialogueLine dialogueLine) //& Ecrit une ligne
     {
         dialogueText.text = "";
         foreach (char letter in dialogueLine.line.ToCharArray())
@@ -74,19 +83,14 @@ public class S_DialogueManager : MonoBehaviour
         }
     }
 
-
-
-    //
-    private void ShowUI() //& Affiche l'UI
+    private void EndDialogue() //& Termine le dialogue
     {
-        firstPersonCamera.EnableCursor();
-        isDialogueActive = true;
-        containerGameObject.SetActive(true);
-    }
-    
-    private void HideUI() //& Cache l'UI
-    {
-        firstPersonCamera.DisableCursor();
+        // Active désactive des scripts
+        playerController.EnableMovements(); // Mouvements
+        playerInteract.EnableInteractions(); // Interactions
+        firstPersonCamera.DisableCursor(); // Curseur
+        firstPersonCamera.EnableRotation(); // Rotation camera
+
         isDialogueActive = false;
         containerGameObject.SetActive(false);
     }

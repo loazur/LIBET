@@ -4,13 +4,14 @@ using TMPro;
 public class S_PlayerInteractUI : MonoBehaviour
 {
     //~ Gestion de l'UI
-    [SerializeField] private GameObject containerGameObject;
+    [Header("Gestion de l'UI")]
     [SerializeField] private S_PlayerInteract playerInteract;
     [SerializeField] private TextMeshProUGUI interactText;
+    [SerializeField] private GameObject containerGameObject;
 
     void Update() //& PAS PHYSICS
     {
-        if (playerInteract.GetInteractableObject() != null ) // Est à portée d'une interaction
+        if (playerInteract.GetInteractableObject() != null && playerInteract.canInteract()) // Est à portée d'une interaction
         {
             Show(playerInteract.GetInteractableObject());
         }
