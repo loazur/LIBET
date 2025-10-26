@@ -80,11 +80,8 @@ public class S_PlayerController : MonoBehaviour
 
         //! Tout ce qui en dessous ne sera pas actif en Mode NoClip
 
-        if (canMove())
-        {
-            Move(movementVector); // Gestion Mouvements
-        }
         
+        Move(movementVector); // Gestion Mouvements
         HandleGravity(); // Gestion de la gravité
         StepClimb(); // Gestion Stairs
     }
@@ -93,6 +90,11 @@ public class S_PlayerController : MonoBehaviour
 
     private void Move(Vector2 movementVector) //& Gére les mouvements du joueur et la gravité
     {
+        if (!canMove()) // Si désactivé
+        {
+            return;
+        }
+
         // Variables pour les mouvements horizontaux
         Vector3 move = transform.forward * movementVector.y + transform.right * movementVector.x;
         move.Normalize();
