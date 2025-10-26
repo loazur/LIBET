@@ -25,16 +25,18 @@ public class S_FirstPersonCamera : MonoBehaviour
 
     void Update() //& PAS PHYSICS
     {
-        if (canRotateCamera())
-        {
-            Rotate();
-        }
+        Rotate();
     }
 
     //! --------------- Fonctions privés ---------------
 
     private void Rotate() //& Gère la rotation de la camera et du joueur
     {
+        if (!canRotateCamera()) // Si désactivé
+        {
+            return;
+        }
+
         lookValue = lookAction.ReadValue<Vector2>() * mouseSensitivity;
 
         // Rotation vertical
