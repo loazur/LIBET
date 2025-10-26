@@ -47,10 +47,6 @@ public class S_PlayerController : MonoBehaviour
 
     void Start() //& INITIALISATION VARIABLES
     {
-        // Pour que le camera sois lock et ne bouge plus
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
         meshRenderer = GetComponent<MeshRenderer>();
         playerRigidbody = GetComponent<Rigidbody>();
 
@@ -75,8 +71,6 @@ public class S_PlayerController : MonoBehaviour
 
     void FixedUpdate() //& PHYSICS 
     {
-        //Rotate(); // Pour que le joueur regarde dans la direction de la caméra
-
         if (playerNoClip.isNoClipping)
         {
             return;
@@ -84,7 +78,15 @@ public class S_PlayerController : MonoBehaviour
 
         //! Tout ce qui en dessous ne sera pas actif en Mode NoClip
 
-        Move(movementVector); // Gestion Mouvements
+        if (!S_DialogueManager.Instance.isDialogueActive)
+        {
+            Move(movementVector); // Gestion Mouvements
+        }
+        else
+        {
+            playerRigidbody.linearVelocity = Vector3.zero;
+        }
+
         HandleGravity(); // Gestion de la gravité
         StepClimb(); // Gestion Stairs
     }

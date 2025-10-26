@@ -16,12 +16,17 @@ public class S_FirstPersonCamera : MonoBehaviour
 
     void Start() //& INITIALISATION VARIABLES
     {
-        lookAction = InputSystem.actions.FindAction("Look");   
+        lookAction = InputSystem.actions.FindAction("Look");
+
+        DisableCursor();
     }
 
     void Update() //& PAS PHYSICS
     {
-        Rotate();
+        if (!S_DialogueManager.Instance.isDialogueActive)
+        {
+            Rotate();
+        }
     }
 
     //! --------------- Fonctions privés ---------------
@@ -37,6 +42,19 @@ public class S_FirstPersonCamera : MonoBehaviour
 
         // Rotation horizontal
         player.Rotate(Vector3.up * lookValue.x);
-
     }
+
+    public void EnableCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+    
+    public void DisableCursor()
+    {
+        // Pour que le camera sois lock et ne bouge plus
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    
 }

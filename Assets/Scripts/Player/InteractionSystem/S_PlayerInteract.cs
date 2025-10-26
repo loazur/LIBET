@@ -15,7 +15,7 @@ public class S_PlayerInteract : MonoBehaviour
 
     void Update() //& PAS PHYSICS
     {
-        if (interactAction.WasReleasedThisFrame())
+        if (interactAction.WasReleasedThisFrame() && !S_DialogueManager.Instance.isDialogueActive)
         {
             SI_Interactable interactable = GetInteractableObject();
 

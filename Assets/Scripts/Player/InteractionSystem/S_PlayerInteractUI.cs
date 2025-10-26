@@ -10,7 +10,7 @@ public class S_PlayerInteractUI : MonoBehaviour
 
     void Update() //& PAS PHYSICS
     {
-        if (playerInteract.GetInteractableObject() != null) // Est à portée d'une interaction
+        if (playerInteract.GetInteractableObject() != null ) // Est à portée d'une interaction
         {
             Show(playerInteract.GetInteractableObject());
         }

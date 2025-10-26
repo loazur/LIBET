@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class S_DialogueManager : MonoBehaviour
 {
-    public static S_DialogueManager instance;
+    public static S_DialogueManager Instance;
 
     //~ Gestion des éléments d'UI
     public GameObject containerGameObject;
@@ -14,17 +14,19 @@ public class S_DialogueManager : MonoBehaviour
 
     private Queue<S_DialogueLine> lines;
 
-    public bool isDialogueActive;
+    [HideInInspector] public bool isDialogueActive;
     public float typingSpeed = 0.2f;
 
+    [SerializeField] private S_FirstPersonCamera firstPersonCamera;
 
     void Start()
     {
         HideUI();
+        lines = new Queue<S_DialogueLine>();
 
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
 
         }
     }
@@ -35,7 +37,6 @@ public class S_DialogueManager : MonoBehaviour
     public void StartDialogue(S_Dialogue dialogue)
     {
         ShowUI();
-
         lines.Clear();
 
         foreach (S_DialogueLine dialogueLine in dialogue.dialogueLines)
@@ -78,12 +79,14 @@ public class S_DialogueManager : MonoBehaviour
     //
     private void ShowUI() //& Affiche l'UI
     {
+        firstPersonCamera.EnableCursor();
         isDialogueActive = true;
         containerGameObject.SetActive(true);
     }
     
     private void HideUI() //& Cache l'UI
     {
+        firstPersonCamera.DisableCursor();
         isDialogueActive = false;
         containerGameObject.SetActive(false);
     }

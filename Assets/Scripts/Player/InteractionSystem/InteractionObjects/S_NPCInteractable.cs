@@ -3,14 +3,13 @@ using UnityEngine;
 public class S_NPCInteractable : MonoBehaviour, SI_Interactable
 {
     //~ Gestion de l'interaction du NPC
-    [SerializeField] private S_DialogueTrigger dialogueTrigger;
     [SerializeField] private string interactText; // Texte à afficher en fonction du NPC
+    [SerializeField] private S_DialogueTrigger dialogueTrigger;
 
     //! Méthodes provenant de l'interface SI_Interactable
 
     public void Interact(Transform playerTransform)
     {
-        //! LANCE LE DIALOGUE AVEC LE JOUEUR
         dialogueTrigger.TriggerDialogue();
     }
 

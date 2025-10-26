@@ -26,6 +26,6 @@ public class S_DialogueTrigger : MonoBehaviour
 
     public void TriggerDialogue()
     {
-        S_DialogueManager.instance.StartDialogue(dialogue);
+        S_DialogueManager.Instance.StartDialogue(dialogue);
     }
 }
