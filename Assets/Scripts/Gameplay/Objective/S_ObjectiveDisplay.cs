@@ -1,108 +1,171 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-// & Classe pour gérer les objectifs dans le jeu
 public class S_ObjectiveDisplay : MonoBehaviour
 {
-    //! Variables 
+    [Header("Objectifs Principaux (linéaires)")]
+    public List<S_Objective> mainObjectives;
 
+    [Header("Objectifs Secondaires (libres)")]
+    public List<S_Objective> sideObjectives;
 
-
-    // Liste des objectifs 
-    public List<S_Objective> principale_objectives; //& Le faire en File peut-être ?
-    public List<S_Objective> side_objectives; //& Ne pas fair en File car le joueur peut choisir l'ordre
-    private int currentObjectiveIndex = 0;
-    // Canvas pour afficher l'objectif
+    [Header("UI")]
     public GameObject objectiveCanvas;
+    public Text objectiveNameText;
+    public Text objectiveDescriptionText;
+    public Text objectiveStatusText;
 
-    //! Méthodes
+    private int currentMainIndex = 0;
+
     void Start()
     {
-        // Initialisation de l'objectif
-        principale_objectives[currentObjectiveIndex].isCompleted = false;
+        ChangeUIForNoObjective();
+        SubscribeToObjectives();
         UpdateObjectiveUI();
     }
 
-    void Update()
+    /**
+     * Abonne tous les objectifs à l’événement de complétion
+     *
+     * @author	Unknown
+     * @since	v0.0.1
+     * @version	v1.0.0	Tuesday, October 28th, 2025.
+     * @return	void
+     */
+    void SubscribeToObjectives()
     {
-        // Vérifier si les objectifs sont complétés
-        for (int i = 0; i < principale_objectives.Count; i++)
-        {
-            if (principale_objectives[i].isCompleted && i == currentObjectiveIndex)
-            {
-                currentObjectiveIndex++;
-                if (currentObjectiveIndex < principale_objectives.Count)
-                {
-                    UpdateObjectiveUI();
-                }
-                // & Sinon rien
-            }
-        }
+        foreach (var obj in mainObjectives)
+            obj.OnObjectiveCompleted.AddListener(OnObjectiveCompleted);
+
+        foreach (var obj in sideObjectives)
+            obj.OnObjectiveCompleted.AddListener(OnObjectiveCompleted);
     }
 
     /**
-     * vérifie s'il y a un objectif
+     * Appelé quand un objectif est terminé
      *
-     * @access	private
+     * @author	Unknown
+     * @since	v0.0.1
+     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @return	void
      */
-    private void ChangeUIForNoObjective()
+    void OnObjectiveCompleted()
     {
-        if (principale_objectives.Count == 0)
+        // Si c’est un objectif principal et qu’il correspond à l’actuel
+        if (currentMainIndex < mainObjectives.Count && mainObjectives[currentMainIndex].isCompleted)
         {
-            if (objectiveCanvas != null)
-            {
-                objectiveCanvas.SetActive(false);
-            }
+            currentMainIndex++;
+            if (currentMainIndex < mainObjectives.Count)
+                UpdateObjectiveUI();
+            else
+                HideObjectiveUI(); // plus d’objectifs
         }
         else
         {
-            if (objectiveCanvas != null)
-            {
-                objectiveCanvas.SetActive(true);
-            }
+            // Objectif secondaire terminé
+            UpdateObjectiveUI();
         }
     }
 
     /**
-     * Mettre à jour l'interface utilisateur de l'objectif
+     * Changer l’objectif secondaire suivi (choix du joueur)
      *
+     * @author	Unknown
+     * @since	v0.0.1
+     * @version	v1.0.0	Tuesday, October 28th, 2025.
+     * @access	public
+     * @param	int	index	
+     * @return	void
+     */
+    public void SelectSideObjective(int index)
+    {
+        if (index >= 0 && index < sideObjectives.Count)
+        {
+            DisplayObjective(sideObjectives[index]);
+        }
+    }
+
+    /**
+     * Met à jour l’UI pour l’objectif principal courant
+     *
+     * @author	Unknown
+     * @since	v0.0.1
+     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @return	void
      */
     void UpdateObjectiveUI()
     {
-        if (objectiveCanvas != null)
+        ChangeUIForNoObjective();
+
+        if (currentMainIndex < mainObjectives.Count)
         {
-            // Mettre à jour le texte de l'objectif
-            UnityEngine.UI.Text[] texts = objectiveCanvas.GetComponentsInChildren<UnityEngine.UI.Text>();
-            foreach (var text in texts)
-            {
-                if (text.gameObject.name == "ObjectiveName")
-                {
-                    text.text = principale_objectives[currentObjectiveIndex].objectiveName;
-                }
-                else if (text.gameObject.name == "ObjectiveDescription")
-                {
-                    text.text = principale_objectives[currentObjectiveIndex].description;
-                }
-                else if (text.gameObject.name == "ObjectiveStatus")
-                {
-                    text.text = principale_objectives[currentObjectiveIndex].isCompleted ? "Completed" : "In Progress";
-                }
-            }
+            DisplayObjective(mainObjectives[currentMainIndex]);
+        }
+        else
+        {
+            HideObjectiveUI();
         }
     }
 
     /**
-     * Objectif compléter
+     * Affiche un objectif précis
      *
+     * @author	Unknown
+     * @since	v0.0.1
+     * @version	v1.0.0	Tuesday, October 28th, 2025.
+     * @param	s_objective	objective	
+     * @return	void
+     */
+    void DisplayObjective(S_Objective objective)
+    {
+        if (objectiveCanvas == null) return;
+        objectiveCanvas.SetActive(true);
+
+        objectiveNameText.text = objective.objectiveName;
+        objectiveDescriptionText.text = objective.description;
+        objectiveStatusText.text = objective.isCompleted ? "Completed" : "In Progress";
+    }
+
+    /**
+     * Ajuste l’UI si aucun objectif principal n’est disponible
+     *
+     * @author	Unknown
+     * @since	v0.0.1
+     * @version	v1.0.0	Tuesday, October 28th, 2025.
+     * @return	void
+     */
+    void ChangeUIForNoObjective()
+    {
+        if (objectiveCanvas != null)
+            objectiveCanvas.SetActive(mainObjectives.Count > 0);
+    }
+
+    /**
+     * Cache l’UI de l’objectif
+     *
+     * @author	Unknown
+     * @since	v0.0.1
+     * @return	void
+     */
+    void HideObjectiveUI()
+    {
+        if (objectiveCanvas != null)
+            objectiveCanvas.SetActive(false);
+    }
+
+    /**
+     * Méthode publique pour compléter l’objectif courant
+     *
+     * @author	Unknown
+     * @since	v0.0.1
+     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @access	public
      * @return	void
      */
-    public void CompleteObjective()
+    public void CompleteCurrentObjective()
     {
-        principale_objectives[currentObjectiveIndex].isCompleted = true;
-        UpdateObjectiveUI();
+        if (currentMainIndex < mainObjectives.Count)
+            mainObjectives[currentMainIndex].Complete();
     }
-    
 }

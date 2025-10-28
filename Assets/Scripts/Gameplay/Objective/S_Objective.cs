@@ -1,10 +1,21 @@
 using UnityEngine;
+using UnityEngine.Events;
 
+[System.Serializable]
 public class S_Objective : MonoBehaviour
 {
+    public string objectiveName;
+    public string description;
+    public bool isCompleted = false;
 
-    public string objectiveName; // Nom de l'objectif
-    public string description; // Description de l'objectif
-    public bool isCompleted; // Statut de l'objectif
-    
+    public UnityEvent OnObjectiveCompleted; //& Événement déclenché lorsque l'objectif est complété
+
+    public void Complete()
+    {
+        if (!isCompleted)
+        {
+            isCompleted = true;
+            OnObjectiveCompleted?.Invoke();
+        }
+    }
 }
