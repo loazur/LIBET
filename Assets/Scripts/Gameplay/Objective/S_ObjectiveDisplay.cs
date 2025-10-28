@@ -9,7 +9,8 @@ public class S_ObjectiveDisplay : MonoBehaviour
 
 
     // Liste des objectifs 
-    public List<S_Objective> principale_objectives;
+    public List<S_Objective> principale_objectives; //& Le faire en File peut-être ?
+    public List<S_Objective> side_objectives; //& Ne pas fair en File car le joueur peut choisir l'ordre
     private int currentObjectiveIndex = 0;
     // Canvas pour afficher l'objectif
     public GameObject objectiveCanvas;
@@ -39,6 +40,29 @@ public class S_ObjectiveDisplay : MonoBehaviour
         }
     }
 
+    /**
+     * vérifie s'il y a un objectif
+     *
+     * @access	private
+     * @return	void
+     */
+    private void ChangeUIForNoObjective()
+    {
+        if (principale_objectives.Count == 0)
+        {
+            if (objectiveCanvas != null)
+            {
+                objectiveCanvas.SetActive(false);
+            }
+        }
+        else
+        {
+            if (objectiveCanvas != null)
+            {
+                objectiveCanvas.SetActive(true);
+            }
+        }
+    }
 
     /**
      * Mettre à jour l'interface utilisateur de l'objectif

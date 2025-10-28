@@ -3451,7 +3451,7 @@ GameObject:
   - component: {fileID: 1081630418}
   - component: {fileID: 1081630417}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: ObjectiveStatus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6160,8 +6160,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2002077364}
   - component: {fileID: 2002077363}
+  - component: {fileID: 2002077365}
+  - component: {fileID: 2002077366}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: ObjectiveManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6179,10 +6181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b88f1bff8f89db458d6b955c2fd50cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectiveName: Test
-  description: fdkv mkjebfdjv bqejv jqe
-  isCompleted: 0
-  nextObjective: {fileID: 0}
+  principale_objectives:
+  - {fileID: 2002077365}
   objectiveCanvas: {fileID: 1312735572}
 --- !u!4 &2002077364
 Transform:
@@ -6199,6 +6199,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2002077365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002077362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7438d62d731f4c44681fa00136874e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectiveName: Test
+  description: Test
+  isCompleted: 1
+--- !u!114 &2002077366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2002077362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7438d62d731f4c44681fa00136874e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectiveName: test 2
+  description: test 2
+  isCompleted: 0
 --- !u!43 &2078475171
 Mesh:
   m_ObjectHideFlags: 0
