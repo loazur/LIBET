@@ -6181,9 +6181,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b88f1bff8f89db458d6b955c2fd50cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  principale_objectives:
+  mainObjectives:
   - {fileID: 2002077365}
+  sideObjectives:
+  - {fileID: 2002077366}
   objectiveCanvas: {fileID: 1312735572}
+  objectiveNameText: {fileID: 245581614}
+  objectiveDescriptionText: {fileID: 135836471}
+  objectiveStatusText: {fileID: 1081630417}
 --- !u!4 &2002077364
 Transform:
   m_ObjectHideFlags: 0
@@ -6213,7 +6218,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectiveName: Test
   description: Test
-  isCompleted: 1
+  isCompleted: 0
+  OnObjectiveCompleted:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2002077366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6229,6 +6237,9 @@ MonoBehaviour:
   objectiveName: test 2
   description: test 2
   isCompleted: 0
+  OnObjectiveCompleted:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!43 &2078475171
 Mesh:
   m_ObjectHideFlags: 0
