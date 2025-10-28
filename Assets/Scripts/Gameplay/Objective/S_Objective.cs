@@ -2,15 +2,9 @@ using UnityEngine;
 
 public class S_Objective : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public string objectiveName; // Nom de l'objectif
+    public string description; // Description de l'objectif
+    public bool isCompleted; // Statut de l'objectif
+    
 }
