@@ -1,3 +1,16 @@
+// ! Fichier : S_ObjectiveDisplay.cs
+// ! Fonctionnalités:
+// ! - Gère le système d'objectifs principaux et secondaires
+// ! - Met à jour l'interface utilisateur pour afficher l'objectif actuel
+// ! ----------------------------------------------------------------------
+// ! Fonctionnalités externes mais qui interagissent avec ce script:
+// ! CompleteCurrentObjective() -> Méthode publique pour compléter l’objectif courant.
+// ! SelectSideObjective(int index) -> Changer l’objectif secondaire suivi (choix du joueur).
+
+// * =========================================================================================
+// * =========================================================================================
+// * =========================================================================================
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,12 +38,11 @@ public class S_ObjectiveDisplay : MonoBehaviour
         UpdateObjectiveUI();
     }
 
+    // & ----------------------- Méthodes Privées ----------------------- & //
+
     /**
      * Abonne tous les objectifs à l’événement de complétion
      *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @return	void
      */
     void SubscribeToObjectives()
@@ -45,9 +57,6 @@ public class S_ObjectiveDisplay : MonoBehaviour
     /**
      * Appelé quand un objectif est terminé
      *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @return	void
      */
     void OnObjectiveCompleted()
@@ -59,7 +68,7 @@ public class S_ObjectiveDisplay : MonoBehaviour
             if (currentMainIndex < mainObjectives.Count)
                 UpdateObjectiveUI();
             else
-                HideObjectiveUI(); // plus d’objectifs
+                HideObjectiveUI(); // plus d’objectifs, on cache l’UI
         }
         else
         {
@@ -68,30 +77,10 @@ public class S_ObjectiveDisplay : MonoBehaviour
         }
     }
 
-    /**
-     * Changer l’objectif secondaire suivi (choix du joueur)
-     *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
-     * @access	public
-     * @param	int	index	
-     * @return	void
-     */
-    public void SelectSideObjective(int index)
-    {
-        if (index >= 0 && index < sideObjectives.Count)
-        {
-            DisplayObjective(sideObjectives[index]);
-        }
-    }
-
+    
     /**
      * Met à jour l’UI pour l’objectif principal courant
      *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @return	void
      */
     void UpdateObjectiveUI()
@@ -111,9 +100,6 @@ public class S_ObjectiveDisplay : MonoBehaviour
     /**
      * Affiche un objectif précis
      *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @param	s_objective	objective	
      * @return	void
      */
@@ -124,15 +110,12 @@ public class S_ObjectiveDisplay : MonoBehaviour
 
         objectiveNameText.text = objective.objectiveName;
         objectiveDescriptionText.text = objective.description;
-        objectiveStatusText.text = objective.isCompleted ? "Completed" : "In Progress";
+        objectiveStatusText.text = objective.isCompleted ? "Terminer" : "En cours";
     }
 
     /**
      * Ajuste l’UI si aucun objectif principal n’est disponible
      *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @return	void
      */
     void ChangeUIForNoObjective()
@@ -142,7 +125,7 @@ public class S_ObjectiveDisplay : MonoBehaviour
     }
 
     /**
-     * Cache l’UI de l’objectif
+     * Cache l’UI de l’objectif, fonctionne quand tous les objectifs sont complétés
      *
      * @author	Unknown
      * @since	v0.0.1
@@ -154,12 +137,11 @@ public class S_ObjectiveDisplay : MonoBehaviour
             objectiveCanvas.SetActive(false);
     }
 
+    // & ----------------------- Méthodes Publiques ----------------------- & //
+
     /**
      * Méthode publique pour compléter l’objectif courant
      *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @access	public
      * @return	void
      */
@@ -167,5 +149,20 @@ public class S_ObjectiveDisplay : MonoBehaviour
     {
         if (currentMainIndex < mainObjectives.Count)
             mainObjectives[currentMainIndex].Complete();
+    }
+
+    /**
+     * Changer l’objectif secondaire suivi (choix du joueur)
+     *
+     * @access	public
+     * @param	int	index	
+     * @return	void
+     */
+    public void SelectSideObjective(int index)
+    {
+        if (index >= 0 && index < sideObjectives.Count)
+        {
+            DisplayObjective(sideObjectives[index]);
+        }
     }
 }
