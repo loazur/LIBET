@@ -28,9 +28,6 @@ public class S_ObjectiveDisplay : MonoBehaviour
     /**
      * Abonne tous les objectifs à l’événement de complétion
      *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @return	void
      */
     void SubscribeToObjectives()
@@ -45,9 +42,6 @@ public class S_ObjectiveDisplay : MonoBehaviour
     /**
      * Appelé quand un objectif est terminé
      *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @return	void
      */
     void OnObjectiveCompleted()
@@ -71,9 +65,6 @@ public class S_ObjectiveDisplay : MonoBehaviour
     /**
      * Changer l’objectif secondaire suivi (choix du joueur)
      *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @access	public
      * @param	int	index	
      * @return	void
@@ -89,9 +80,6 @@ public class S_ObjectiveDisplay : MonoBehaviour
     /**
      * Met à jour l’UI pour l’objectif principal courant
      *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @return	void
      */
     void UpdateObjectiveUI()
@@ -111,9 +99,6 @@ public class S_ObjectiveDisplay : MonoBehaviour
     /**
      * Affiche un objectif précis
      *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @param	s_objective	objective	
      * @return	void
      */
@@ -130,9 +115,6 @@ public class S_ObjectiveDisplay : MonoBehaviour
     /**
      * Ajuste l’UI si aucun objectif principal n’est disponible
      *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @return	void
      */
     void ChangeUIForNoObjective()
@@ -157,9 +139,6 @@ public class S_ObjectiveDisplay : MonoBehaviour
     /**
      * Méthode publique pour compléter l’objectif courant
      *
-     * @author	Unknown
-     * @since	v0.0.1
-     * @version	v1.0.0	Tuesday, October 28th, 2025.
      * @access	public
      * @return	void
      */
