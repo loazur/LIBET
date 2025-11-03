@@ -4,8 +4,14 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
 {
     //~ Gestion de l'interrupteur
     [Header("Gestion de l'interrupteur")]
+    [SerializeField] private Light lightObject; // Object qui a la light
+    [SerializeField] private float offLightIntensity; // Intensité de la lumière eteinte
+    [SerializeField] private float onLightIntensity; // Intensité de la lumière allumé
+
     private string interactText = "Allumer";
-    private bool isOn = false;
+    private bool isOn = false; // Allumé ou non
+    
+    //! Méthodes provenant de l'interface SI_Interactable
 
     public void Interact(Transform playerTransform)
     {
@@ -38,6 +44,7 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
         isOn = true;
         interactText = "Eteindre";
 
+        lightObject.intensity = onLightIntensity;
     }
 
     private void SwitchOff() //& Eteindre l'interrupteur
@@ -46,6 +53,6 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
         isOn = false;
         interactText = "Allumer";
 
-
+        lightObject.intensity = offLightIntensity;
     }
 }
