@@ -7,9 +7,12 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
     [Header("Gestion de la porte")]
     [SerializeField] private float rotationSpeed = 1f; // Vitesse d'ouverture
     [SerializeField] private float rotationAmount = 90f; // L'angle d'ouverture
+    [SerializeField] private bool isRotatingDoor = true;
 
     private string interactText = "Ouvrir"; // Texte affiché sur l'UI
     private bool isOpen = false;
+    
+    // Porte qui rotate
     private float forwardDirection = 0f;
     private Vector3 startRotationVec;
     private Vector3 forward;
@@ -61,9 +64,12 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
                 StopCoroutine(animationCoroutine);
             }
 
-            // Ce qui permettra de vérifier de quel coté de la porte le joueur est
-            float dot = Vector3.Dot(forward, (playerPosition - transform.position).normalized);
-            animationCoroutine = StartCoroutine(DoRotationOpen(dot));
+            if (isRotatingDoor) // Si porte rotative
+            {
+                // Ce qui permettra de vérifier de quel coté de la porte le joueur est
+                float dot = Vector3.Dot(forward, (playerPosition - transform.position).normalized);
+                animationCoroutine = StartCoroutine(DoRotationOpen(dot));
+            }
         }
     }
 
@@ -101,7 +107,10 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
                 StopCoroutine(animationCoroutine);
             }
 
-            animationCoroutine = StartCoroutine(DoRotationClose());
+            if (isRotatingDoor) // Si porte rotative
+            {
+                animationCoroutine = StartCoroutine(DoRotationClose());
+            }
         }
     }
 
