@@ -110,7 +110,7 @@ public class S_ObjectiveDisplay : MonoBehaviour
 
         objectiveNameText.text = objective.objectiveName;
         objectiveDescriptionText.text = objective.description;
-        objectiveStatusText.text = objective.isCompleted ? "Completed" : "In Progress";
+        objectiveStatusText.text = objective.isCompleted ? "Terminer" : "En cours";
     }
 
     /**
