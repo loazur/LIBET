@@ -6,14 +6,15 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
     //~ Gestion de l'item
     [Header("Gestion de l'item")]
     [SerializeField] private S_PlayerInteract playerInteract;
+    [SerializeField] private S_FirstPersonCamera playerCamera;
     [SerializeField] private string interactText; // Nom de l'objet
     private Rigidbody rigidbodyItem;
-    private InputAction interactAction;
+    private InputAction dropThrowAction;
 
 
     void Start()
     {
-        interactAction = InputSystem.actions.FindAction("Interact");
+        dropThrowAction = InputSystem.actions.FindAction("Drop&Throw");
         rigidbodyItem = GetComponent<Rigidbody>();
     }
 
@@ -65,12 +66,12 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
             return;
         }
 
-        // Gestion des mouvements
-        Vector3 targetPos = playerInteract.transform.position + playerInteract.transform.forward * 1.3f;
+        // Gestion des mouvements de l'item
+        Vector3 targetPos = playerInteract.transform.position + playerCamera.transform.forward * 1.3f;
         transform.position = targetPos;
-        transform.rotation = playerInteract.transform.rotation;
+        transform.rotation = playerInteract.transform.rotation; // Suit la rotation du joueur
 
-        if (interactAction.WasReleasedThisFrame()) // Pour le lacher
+        if (dropThrowAction.WasReleasedThisFrame()) // Action de lacher
         {
             Drop();
         }
@@ -82,22 +83,13 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
     {
         if (!playerInteract.isHoldingItem()) return;
 
-        // 1. Détache d'abord le parent
+        rigidbodyItem.useGravity = true;
+        rigidbodyItem.isKinematic = false;
+        rigidbodyItem.constraints = RigidbodyConstraints.None;
         transform.SetParent(null);
 
-        // 2. Réactive la physique
-        rigidbodyItem.isKinematic = false;
-        rigidbodyItem.useGravity = true;
-
-        // 3. Supprime toutes les contraintes
-        rigidbodyItem.constraints = RigidbodyConstraints.None;
-
-        // 4. Marque que le joueur ne tient plus rien
+        playerInteract.EnableInteractions();
         playerInteract.setHoldingItem(false);
-        //playerInteract.EnableInteractions(); faudrait ajouter un delay avant de re ramasser
-
-
-        Debug.Log("Drop called");
     }
 
     
