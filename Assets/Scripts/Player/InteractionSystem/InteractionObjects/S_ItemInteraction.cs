@@ -78,24 +78,28 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         //! Manque jeter
     }
 
-    private void Drop() //& Lacher un item
+    private void Drop()
     {
-        if (!playerInteract.isHoldingItem())
-        {
-            return;
-        }
+        if (!playerInteract.isHoldingItem()) return;
 
-        rigidbodyItem.useGravity = true;
-        rigidbodyItem.isKinematic = false;
-        rigidbodyItem.constraints = RigidbodyConstraints.None;
+        // 1. Détache d'abord le parent
         transform.SetParent(null);
-        
 
-        playerInteract.EnableInteractions();
+        // 2. Réactive la physique
+        rigidbodyItem.isKinematic = false;
+        rigidbodyItem.useGravity = true;
+
+        // 3. Supprime toutes les contraintes
+        rigidbodyItem.constraints = RigidbodyConstraints.None;
+
+        // 4. Marque que le joueur ne tient plus rien
         playerInteract.setHoldingItem(false);
+        //playerInteract.EnableInteractions(); faudrait ajouter un delay avant de re ramasser
 
-        Debug.Log("caca");
+
+        Debug.Log("Drop called");
     }
+
     
     private void Throw() //& Lancer un item
     {
