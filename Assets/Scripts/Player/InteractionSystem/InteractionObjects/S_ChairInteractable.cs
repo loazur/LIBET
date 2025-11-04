@@ -12,13 +12,10 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     private string interactText = "S'asseoir";
     [SerializeField] private GameObject player;
     [SerializeField] private S_FirstPersonCamera playerCamera;
+    [SerializeField] private Collider chairCollider; // Objet qui contient le collider a désactivé/activer en fonction de si on est assis
+
     private S_PlayerController playerController;
     private bool isPlayerSitting = false;
-
-    
-    
-    
-
 
     void Start()
     {
@@ -59,16 +56,16 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     // Teleporte le joueur à la position assise
     private void SitPlayer()
     {
-
         // milieu de la chaise
-        UnityEngine.Vector3 chairPosition_Center = transform.position + new UnityEngine.Vector3(0, 0.5f, 0);
-
+        Vector3 chairPosition_Center = transform.position + new Vector3(0, 0.5f, 0);
 
         player.transform.position = chairPosition_Center;
+        playerCamera.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); //! Pas oublier de changer en fonction de l'angle de la chaise
 
         // Bloquer les mouvements du joueur
         playerController.DisableMovements();
-        CameraLock();
+        playerCamera.DisableRotation();
+        chairCollider.enabled = false;
 
 
         interactText = "Se lever";
@@ -76,38 +73,16 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
 
     private void UnsitPlayer()
     {
-
         // Mettre le joueur debout à coté de la chaise
-        UnityEngine.Vector3 chairPosition_Side = transform.position + transform.right * 1.0f;
+        Vector3 chairPosition_Side = transform.position + transform.right * 1.0f;
         player.transform.position = chairPosition_Side;
-
 
         // Débloquer les mouvements du joueur
         playerController.EnableMovements();
-        CameraLock();
-
+        playerCamera.EnableRotation();
+        chairCollider.enabled = true;
 
         interactText = "S'asseoir";
     }
-
-    private void CameraLock()
-    {
-        if (isPlayerSitting)
-        {
-            playerCamera.DisableRotation();
-
-            // Orientation de la caméra alignée avec la chaise
-            Vector3 forward = transform.forward;
-            forward.y = 0; // on garde l’horizontale
-            forward.Normalize();
-
-            playerCamera.transform.rotation = Quaternion.LookRotation(forward, Vector3.up);
-        }
-        else
-        {
-            playerCamera.EnableRotation();
-        }
-    }
-
 
 }
