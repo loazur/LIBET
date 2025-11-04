@@ -65,18 +65,17 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
             return;
         }
 
-        
+        // Gestion des mouvements
         Vector3 targetPos = playerInteract.transform.position + playerInteract.transform.forward * 1.3f;
         transform.position = targetPos;
         transform.rotation = playerInteract.transform.rotation;
 
-        if (interactAction.WasReleasedThisFrame())
+        if (interactAction.WasReleasedThisFrame()) // Pour le lacher
         {
-            Debug.Log("dd");
             Drop();
         }
 
-        //! Gestion jeter
+        //! Manque jeter
     }
 
     private void Drop() //& Lacher un item
@@ -86,8 +85,6 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
             return;
         }
 
-        //!marche po
-
         rigidbodyItem.useGravity = true;
         rigidbodyItem.isKinematic = false;
         rigidbodyItem.constraints = RigidbodyConstraints.None;
@@ -96,6 +93,8 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 
         playerInteract.EnableInteractions();
         playerInteract.setHoldingItem(false);
+
+        Debug.Log("caca");
     }
     
     private void Throw() //& Lancer un item
