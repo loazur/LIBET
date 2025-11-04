@@ -244,14 +244,17 @@ public class S_PlayerController : MonoBehaviour
         return isMovingEnabled;
     }
 
-    public void EnableMovements() //& Active les mouvements
+    public void setMovementsEnabled(bool isEnabled) //& Active/Désactive les mouvements
     {
-        isMovingEnabled = true;
-    }
-    
-    public void DisableMovements() //& Désactive les mouvements
-    {
-        isMovingEnabled = false;
-        playerRigidbody.linearVelocity = Vector3.zero; // Désactive la vélocity actuel
+        if (isEnabled)
+        {
+            isMovingEnabled = true;
+        }
+        else
+        {
+            isMovingEnabled = false;
+            playerRigidbody.linearVelocity = Vector3.zero; // Désactive la vélocity actuel
+        }
+        
     }
 }
