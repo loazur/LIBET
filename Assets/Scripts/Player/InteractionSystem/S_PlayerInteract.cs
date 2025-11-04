@@ -8,6 +8,7 @@ public class S_PlayerInteract : MonoBehaviour
     [SerializeField] private float interactRange;
     private InputAction interactAction;
     private bool areInteractionsEnabled = true;
+    private bool holdingItem = false;
 
     void Start()
     {
@@ -44,7 +45,14 @@ public class S_PlayerInteract : MonoBehaviour
         {
             if (collider.TryGetComponent(out SI_Interactable interactable)) // On regarde si c'est un NPC
             {
-                interactableList.Add(interactable);
+                // Vérifie en fonction de si l'objet est devant le joueur
+                float dot = Vector3.Dot(transform.forward, (interactable.getTransform().position - transform.position).normalized);
+
+                if (dot > 0.5f) // SI DEVANT LE JOUEUR (0.5f = devant le joueur et dans son champ de vision)
+                {
+                    interactableList.Add(interactable); // On peux intéragir avec
+                }
+
             }
         }
 
@@ -83,10 +91,22 @@ public class S_PlayerInteract : MonoBehaviour
     {
         areInteractionsEnabled = true;
     }
-    
+
     public void DisableInteractions() //& Désactive les interactions
     {
         areInteractionsEnabled = false;
+    }
+
+    //? ------------------------------------------------
+
+    public bool isHoldingItem()
+    {
+        return holdingItem;
+    }
+    
+    public void setHoldingItem(bool valueHoldingItem)
+    {
+        holdingItem = valueHoldingItem;
     }
 
 }

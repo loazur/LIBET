@@ -4,13 +4,24 @@ using UnityEngine;
 public class S_DoorInteractable : MonoBehaviour, SI_Interactable
 {
     //~ Gestion de la porte
-    [Header("Gestion de la porte")]
-    [SerializeField] private float rotationSpeed = 1f; // Vitesse d'ouverture
-    [SerializeField] private float rotationAmount = 90f; // L'angle d'ouverture
+    [Header("Type de porte")]
+    [SerializeField] private bool isRotatingDoor = true;
+    [SerializeField] private float speed = 1f; // Vitesse d'ouverture/fermeture
 
     private string interactText = "Ouvrir"; // Texte affiché sur l'UI
     private bool isOpen = false;
+    
+    //~ Porte Rotative
+    [Header("Gestion de la porte rotative")]
+    [SerializeField] private float rotationAmount = 90f; // L'angle d'ouverture
     private float forwardDirection = 0f;
+
+    //~ Porte coulissante
+    [Header("Gestion de la porte coulissante")]
+    [SerializeField] private Vector3 slideDirection = Vector3.back;
+    [SerializeField] private float slideAmount = 1.9f;
+
+    private Vector3 startPositionVec;
     private Vector3 startRotationVec;
     private Vector3 forward;
 
@@ -20,6 +31,7 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
     {
         startRotationVec = transform.rotation.eulerAngles;
         forward = transform.right;
+        startPositionVec = transform.position;
     }
 
     //! Méthodes provenant de l'interface SI_Interactable
@@ -61,13 +73,20 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
                 StopCoroutine(animationCoroutine);
             }
 
-            // Ce qui permettra de vérifier de quel coté de la porte le joueur est
-            float dot = Vector3.Dot(forward, (playerPosition - transform.position).normalized);
-            animationCoroutine = StartCoroutine(DoRotationOpen(dot));
+            if (isRotatingDoor) // Si porte rotative
+            {
+                // Ce qui permettra de vérifier de quel coté de la porte le joueur est
+                float dot = Vector3.Dot(forward, (playerPosition - transform.position).normalized);
+                animationCoroutine = StartCoroutine(DoRotationOpen(dot));
+            }
+            else
+            {
+                animationCoroutine = StartCoroutine(DoSlidingOpen());
+            }
         }
     }
 
-    private IEnumerator DoRotationOpen(float forwardAmount)
+    private IEnumerator DoRotationOpen(float forwardAmount) //& Ouverture porte rotative
     {
         Quaternion startRotationQuat = transform.rotation;
         Quaternion endRotation;
@@ -88,7 +107,23 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
         {
             transform.rotation = Quaternion.Slerp(startRotationQuat, endRotation, time);
             yield return null;
-            time += Time.deltaTime * rotationSpeed;
+            time += Time.deltaTime * speed;
+        }
+    }
+
+    private IEnumerator DoSlidingOpen() //& Ouverture porte coulissante
+    {
+        Vector3 endPosition = startPositionVec + slideAmount * slideDirection;
+        Vector3 startPosition = transform.position;
+        
+        float time = 0;
+        isOpen = true;
+        
+        while (time < 1)
+        {
+            transform.position = Vector3.Lerp(startPosition, endPosition, time);
+            yield return null;
+            time += Time.deltaTime * speed;
         }
     }
 
@@ -101,11 +136,18 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
                 StopCoroutine(animationCoroutine);
             }
 
-            animationCoroutine = StartCoroutine(DoRotationClose());
+            if (isRotatingDoor) // Si porte rotative
+            {
+                animationCoroutine = StartCoroutine(DoRotationClose());
+            }
+            else
+            {
+                animationCoroutine = StartCoroutine(DoSlidingClose());
+            }
         }
     }
 
-    private IEnumerator DoRotationClose()
+    private IEnumerator DoRotationClose() //& Fermeture porte rotative
     {
         Quaternion startRotationQuat = transform.rotation;
         Quaternion endRotation = Quaternion.Euler(startRotationVec);
@@ -117,9 +159,25 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
         {
             transform.rotation = Quaternion.Slerp(startRotationQuat, endRotation, time);
             yield return null;
-            time += Time.deltaTime * rotationSpeed;
+            time += Time.deltaTime * speed;
         }
 
+    }
+
+    private IEnumerator DoSlidingClose() //& Fermeture porte coulissante
+    {
+        Vector3 endPosition = startPositionVec;
+        Vector3 startPosition = transform.position;
+
+        float time = 0;
+        isOpen = false;
+        
+        while (time < 1)
+        {
+            transform.position = Vector3.Lerp(startPosition, endPosition, time);
+            yield return null;
+            time += Time.deltaTime * speed;
+        } 
     }
 
 }
