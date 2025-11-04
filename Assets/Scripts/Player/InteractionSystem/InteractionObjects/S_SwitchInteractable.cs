@@ -17,11 +17,11 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
     {
         if (isOn)
         {
-            SwitchOff();
+            SwitchOnOff(false);
         }
         else
         {
-            SwitchOn();
+            SwitchOnOff(true);
         }
     }
 
@@ -38,21 +38,23 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
     //! --------------- Fonctions privés ---------------
 
 
-    private void SwitchOn() //& Allumer l'interrupteur
+    private void SwitchOnOff(bool isOnOrOff) //& Allumer/Eteindre l'interrupteur
     {
-        // Changement des valeurs
-        isOn = true;
-        interactText = "Eteindre";
+        if (isOnOrOff)
+        {
+            // Changement des valeurs
+            isOn = true;
+            interactText = "Eteindre";
 
-        lightObject.intensity = onLightIntensity;
-    }
+            lightObject.intensity = onLightIntensity;
+        }
+        else
+        {
+            // Changement des valeurs
+            isOn = false;
+            interactText = "Allumer";
 
-    private void SwitchOff() //& Eteindre l'interrupteur
-    {
-        // Changement des valeurs
-        isOn = false;
-        interactText = "Allumer";
-
-        lightObject.intensity = offLightIntensity;
+            lightObject.intensity = offLightIntensity;
+        }
     }
 }

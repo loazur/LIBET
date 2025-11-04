@@ -20,7 +20,7 @@ public class S_FirstPersonCamera : MonoBehaviour
     {
         lookAction = InputSystem.actions.FindAction("Look");
 
-        DisableCursor();
+        setCursorEnabled(false);
     }
 
     void Update() //& PAS PHYSICS
@@ -50,17 +50,19 @@ public class S_FirstPersonCamera : MonoBehaviour
 
     //? ------------------------------------------------    
 
-    public void EnableCursor() //& Unlock le curseur et l'affiche
+    public void setCursorEnabled(bool isEnabled) //& Affiche/Enleve le curseur (ou le lock)
     {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
-
-    public void DisableCursor() //& Lock le curseur et le cache
-    {
-        // Pour que le camera sois lock et ne bouge plus
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (isEnabled)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            // Pour que le camera sois lock et ne bouge plus
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     public bool canRotateCamera() //& A le droit de rotate la camera
@@ -68,14 +70,9 @@ public class S_FirstPersonCamera : MonoBehaviour
         return isRotationActive;
     }
 
-    public void EnableRotation() //& Active la rotation
+    public void setRotationEnabled(bool isEnabled) //& Active/Désactive la rotation
     {
-        isRotationActive = true;
-    }
-    
-    public void DisableRotation() //& Désactive la rotation
-    {
-        isRotationActive = false;
+        isRotationActive = isEnabled;
     }
     
 }
