@@ -39,10 +39,10 @@ public class S_DialogueManager : MonoBehaviour
     public void StartDialogue(S_Dialogue dialogue) //& Démarre le dialogue
     {
         // Active désactive des scripts
-        playerController.DisableMovements(); // Mouvements
-        playerInteract.DisableInteractions(); // Interactions
-        firstPersonCamera.EnableCursor(); // Curseur
-        firstPersonCamera.DisableRotation(); // Rotation camera
+        playerController.setMovementsEnabled(false); // Mouvements
+        playerInteract.setInteractionEnabled(false); // Interactions
+        firstPersonCamera.setCursorEnabled(true); // Curseur
+        firstPersonCamera.setRotationEnabled(false); // Rotation camera
 
         containerGameObject.SetActive(true);
 
@@ -86,10 +86,10 @@ public class S_DialogueManager : MonoBehaviour
     private void EndDialogue() //& Termine le dialogue
     {
         // Active désactive des scripts
-        playerController.EnableMovements(); // Mouvements
-        playerInteract.EnableInteractions(); // Interactions
-        firstPersonCamera.DisableCursor(); // Curseur
-        firstPersonCamera.EnableRotation(); // Rotation camera
+        playerController.setMovementsEnabled(true); // Mouvements
+        playerInteract.setInteractionEnabled(true); // Interactions
+        firstPersonCamera.setCursorEnabled(false); // Curseur
+        firstPersonCamera.setRotationEnabled(true); // Rotation camera
 
         isDialogueActive = false;
         containerGameObject.SetActive(false);

@@ -10,11 +10,13 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
     [SerializeField] private string interactText; // Nom de l'objet
     private Rigidbody rigidbodyItem;
     private InputAction dropThrowAction;
+    private Transform originalParent; // Utile pour le remettre à son état initial
 
 
     void Start()
     {
         dropThrowAction = InputSystem.actions.FindAction("CancelInteraction");
+        originalParent = transform.parent;
         rigidbodyItem = GetComponent<Rigidbody>();
     }
 
@@ -55,7 +57,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         rigidbodyItem.constraints = RigidbodyConstraints.FreezeRotation;
         transform.SetParent(playerInteract.transform);
 
-        playerInteract.DisableInteractions();
+        playerInteract.setInteractionEnabled(false);
         playerInteract.setHoldingItem(true);
     }
 
@@ -86,9 +88,9 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         rigidbodyItem.useGravity = true;
         rigidbodyItem.isKinematic = false;
         rigidbodyItem.constraints = RigidbodyConstraints.None;
-        transform.SetParent(null);
+        transform.SetParent(originalParent);
 
-        playerInteract.EnableInteractions();
+        playerInteract.setInteractionEnabled(true);
         playerInteract.setHoldingItem(false);
     }
 
@@ -102,7 +104,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 
         //! Lancer
         Debug.Log("Jeter " + interactText);
-        playerInteract.EnableInteractions();
+        playerInteract.setInteractionEnabled(true);
         playerInteract.setHoldingItem(false);
     }
 }

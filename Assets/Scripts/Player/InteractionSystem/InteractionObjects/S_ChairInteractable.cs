@@ -70,8 +70,8 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         playerCamera.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); //! Pas oublier de changer en fonction de l'angle de la chaise
 
         // Bloquer les mouvements du joueur
-        playerController.DisableMovements();
-        playerCamera.DisableRotation();
+        playerController.setMovementsEnabled(false);
+        playerCamera.setRotationEnabled(false);
         chairCollider.enabled = false;
         
         isPlayerSitting = true;
@@ -86,8 +86,8 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         player.transform.position = chairPosition_Side;
 
         // Débloquer les mouvements du joueur
-        playerController.EnableMovements();
-        playerCamera.EnableRotation();
+        playerController.setMovementsEnabled(true);
+        playerCamera.setRotationEnabled(true);
         chairCollider.enabled = true;
 
         isPlayerSitting = false;
