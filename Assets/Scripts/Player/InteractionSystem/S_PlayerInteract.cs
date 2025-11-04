@@ -8,6 +8,7 @@ public class S_PlayerInteract : MonoBehaviour
     [SerializeField] private float interactRange;
     private InputAction interactAction;
     private bool areInteractionsEnabled = true;
+    private bool holdingItem = false;
 
     void Start()
     {
@@ -90,10 +91,22 @@ public class S_PlayerInteract : MonoBehaviour
     {
         areInteractionsEnabled = true;
     }
-    
+
     public void DisableInteractions() //& Désactive les interactions
     {
         areInteractionsEnabled = false;
+    }
+
+    //? ------------------------------------------------
+
+    public bool isHoldingItem()
+    {
+        return holdingItem;
+    }
+    
+    public void setHoldingItem(bool valueHoldingItem)
+    {
+        holdingItem = valueHoldingItem;
     }
 
 }
