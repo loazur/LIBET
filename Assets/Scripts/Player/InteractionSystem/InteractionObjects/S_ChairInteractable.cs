@@ -6,13 +6,17 @@
 
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class S_ChairInteractable : MonoBehaviour, SI_Interactable
 {
-    private string interactText = "S'asseoir";
+    //~ Gestion de chaises
+    [Header("Gestion de la chaise")]
     [SerializeField] private GameObject player;
     [SerializeField] private S_FirstPersonCamera playerCamera;
     [SerializeField] private Collider chairCollider; // Objet qui contient le collider a désactivé/activer en fonction de si on est assis
+    private InputAction getUpAction;
+    private string interactText = "S'asseoir";
 
     private S_PlayerController playerController;
     private bool isPlayerSitting = false;
@@ -20,6 +24,15 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     void Start()
     {
         playerController = player.GetComponent<S_PlayerController>();
+        getUpAction = InputSystem.actions.FindAction("CancelInteraction"); 
+    }
+
+    void Update()
+    {
+        if (isPlayerSitting && getUpAction.WasPressedThisFrame())
+        {
+            GetUp();
+        }
     }
 
     // * ===================================================================================
@@ -31,13 +44,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     {
         if (!isPlayerSitting)
         {
-            isPlayerSitting = true;
-            SitPlayer();
-        }
-        else
-        {
-            isPlayerSitting = false;
-            UnsitPlayer();
+            Sit();
         }
     }
 
@@ -54,7 +61,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     // * ===================================================================================
 
     // Teleporte le joueur à la position assise
-    private void SitPlayer()
+    private void Sit() //& S'assoir
     {
         // milieu de la chaise
         Vector3 chairPosition_Center = transform.position + new Vector3(0, 0.5f, 0);
@@ -66,12 +73,13 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         playerController.DisableMovements();
         playerCamera.DisableRotation();
         chairCollider.enabled = false;
-
+        
+        isPlayerSitting = true;
 
         interactText = "Se lever";
     }
 
-    private void UnsitPlayer()
+    private void GetUp() //& Se lever
     {
         // Mettre le joueur debout à coté de la chaise
         Vector3 chairPosition_Side = transform.position + transform.right * 1.0f;
@@ -81,6 +89,8 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         playerController.EnableMovements();
         playerCamera.EnableRotation();
         chairCollider.enabled = true;
+
+        isPlayerSitting = false;
 
         interactText = "S'asseoir";
     }

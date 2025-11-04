@@ -14,7 +14,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 
     void Start()
     {
-        dropThrowAction = InputSystem.actions.FindAction("Drop&Throw");
+        dropThrowAction = InputSystem.actions.FindAction("CancelInteraction");
         rigidbodyItem = GetComponent<Rigidbody>();
     }
 
