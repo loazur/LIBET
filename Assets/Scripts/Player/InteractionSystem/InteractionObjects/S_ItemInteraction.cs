@@ -57,7 +57,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         rigidbodyItem.constraints = RigidbodyConstraints.FreezeRotation;
         transform.SetParent(playerInteract.transform);
 
-        playerInteract.DisableInteractions();
+        playerInteract.setInteractionEnabled(false);
         playerInteract.setHoldingItem(true);
     }
 
@@ -90,7 +90,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         rigidbodyItem.constraints = RigidbodyConstraints.None;
         transform.SetParent(originalParent);
 
-        playerInteract.EnableInteractions();
+        playerInteract.setInteractionEnabled(true);
         playerInteract.setHoldingItem(false);
     }
 
@@ -104,7 +104,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 
         //! Lancer
         Debug.Log("Jeter " + interactText);
-        playerInteract.EnableInteractions();
+        playerInteract.setInteractionEnabled(true);
         playerInteract.setHoldingItem(false);
     }
 }

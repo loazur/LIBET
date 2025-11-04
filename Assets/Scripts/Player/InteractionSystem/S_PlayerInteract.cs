@@ -87,26 +87,21 @@ public class S_PlayerInteract : MonoBehaviour
         return areInteractionsEnabled;
     }
 
-    public void EnableInteractions() //& Active les interactions
+    public void setInteractionEnabled(bool isEnabled) //& Active/Désactive les interactions
     {
-        areInteractionsEnabled = true;
-    }
-
-    public void DisableInteractions() //& Désactive les interactions
-    {
-        areInteractionsEnabled = false;
+        areInteractionsEnabled = isEnabled;
     }
 
     //? ------------------------------------------------
 
-    public bool isHoldingItem()
+    public bool isHoldingItem() //& Si le joueur tient un item
     {
         return holdingItem;
     }
     
-    public void setHoldingItem(bool valueHoldingItem)
+    public void setHoldingItem(bool hasHoldingItem) //& Permet d'activer si il tiens un item
     {
-        holdingItem = valueHoldingItem;
+        holdingItem = hasHoldingItem;
     }
 
 }
