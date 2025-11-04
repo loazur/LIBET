@@ -28,11 +28,11 @@ public class S_PlayerNoClip : MonoBehaviour
         {
             if (!isNoClipping)
             {
-                EnableNoClip();
+                setNoClipEnabled(true);
             }
             else
             {
-                DisableNoClip();
+                setNoClipEnabled(false);
             }
         }
     }
@@ -73,19 +73,21 @@ public class S_PlayerNoClip : MonoBehaviour
 
     //? ------------------------------------------------    
 
-    private void EnableNoClip() //& Activation No Clip
+    private void setNoClipEnabled(bool isEnabled) //& Activation/Désactivation No Clip
     {
-        isNoClipping = true;
+        if (isEnabled)
+        {
+            isNoClipping = true;
 
-        playerController.playerRigidbody.isKinematic = true; // Désactive collisions
-        playerController.playerRigidbody.useGravity = false; // Désactive gravité
-    }
+            playerController.playerRigidbody.isKinematic = true; // Désactive collisions
+            playerController.playerRigidbody.useGravity = false; // Désactive gravité
+        }
+        else
+        {
+            isNoClipping = false;
 
-    private void DisableNoClip() //& Désactivation No Clip
-    {
-        isNoClipping = false;
-
-        playerController.playerRigidbody.isKinematic = false;
-        playerController.playerRigidbody.useGravity = true;
+            playerController.playerRigidbody.isKinematic = false;
+            playerController.playerRigidbody.useGravity = true;
+        }
     }
 }
