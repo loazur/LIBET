@@ -15,7 +15,6 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     private S_PlayerController playerController;
     private bool isPlayerSitting = false;
 
-    // & ===================================================
     
     
     
