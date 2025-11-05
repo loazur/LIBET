@@ -8,6 +8,8 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
     [SerializeField] private S_PlayerInteract playerInteract;
     [SerializeField] private S_FirstPersonCamera playerCamera;
     [SerializeField] private string interactText; // Nom de l'objet
+    [SerializeField] private float distanceMultiplier; // Distance de l'item quand on le tient
+    [SerializeField] private float offsetY; // Position vertical de l'item quant on le tient (0.5 = au milieu de l'ecran)
     private Rigidbody rigidbodyItem;
     private InputAction dropThrowAction;
     private Transform originalParent; // Utile pour le remettre à son état initial
@@ -68,15 +70,18 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
             return;
         }
 
-        // Gestion des mouvements de l'item
-        Vector3 targetPos = playerInteract.transform.position + playerCamera.transform.forward * 1.3f;
-        transform.position = targetPos;
-        transform.rotation = playerInteract.transform.rotation; // Suit la rotation du joueur
-
         if (dropThrowAction.WasReleasedThisFrame()) // Action de lacher
         {
             Drop();
         }
+
+        // Gestion des mouvements de l'item
+        Vector3 targetPos =
+            playerInteract.transform.position + playerCamera.transform.forward * // Part de la position du joueur, vers l'avant de la camera
+            distanceMultiplier + // En fonction de la distance choisi
+            Vector3.up * offsetY; // Ajout l'offsetY vers le haut
+
+        transform.SetPositionAndRotation(targetPos, playerInteract.transform.rotation);
 
         //! Manque jeter
     }
