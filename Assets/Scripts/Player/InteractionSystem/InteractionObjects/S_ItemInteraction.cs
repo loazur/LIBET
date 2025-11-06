@@ -111,10 +111,6 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         playerInteract.setHoldingItem(false);
     }
     
-
-
-
-
     private void Throw() //& Lancer un item
     {
         if (!playerInteract.isHoldingItem()) return;

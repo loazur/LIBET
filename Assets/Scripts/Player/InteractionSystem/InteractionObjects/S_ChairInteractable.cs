@@ -14,7 +14,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     [Header("Gestion de la chaise")]
     [SerializeField] private GameObject player;
     [SerializeField] private S_FirstPersonCamera playerCamera;
-    [SerializeField] private Collider chairCollider; // Objet qui contient le collider a désactivé/activer en fonction de si on est assis
+    [SerializeField] private Collider chairCollider; // Collider a désactivé/activer en fonction de si on est assis
     private InputAction getUpAction;
     private string interactText = "S'asseoir";
 
@@ -36,7 +36,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     }
 
     // * ===================================================================================
-    // * Ne pas retirer ce qui est en desssous, nécessaire pour l'interface SI_Interactable
+    // * Ne pas retirer ce qui est en dessous, nécessaire pour l'interface SI_Interactable
     // * ===================================================================================
 
     // ~ Méthode qui est activer quand on interagit avec l'objet
