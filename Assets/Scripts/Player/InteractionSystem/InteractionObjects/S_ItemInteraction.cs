@@ -16,7 +16,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
     private Transform originalParent; // Utile pour le remettre à son état initial
 
 
-    void Start()
+    void Start() //& INITIALISATION DE VARIABLES
     {
         dropThrowAction = InputSystem.actions.FindAction("CancelInteraction");
         itemCollider = GetComponent<Collider>();
@@ -24,7 +24,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         rigidbodyItem = GetComponent<Rigidbody>();
     }
 
-    void Update()
+    void LateUpdate() //& Late update car l'objet se déplace après la camera
     {
         HoldingItem();
     }
@@ -61,7 +61,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         transform.SetParent(playerInteract.transform);
 
         playerInteract.setInteractionEnabled(false);
-        playerInteract.setHoldingItem(true);
+        playerInteract.setHoldingItem(this);
     }
 
     private void HoldingItem() //& Gestion lorsqu'on tient un item
@@ -71,7 +71,11 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         if (dropThrowAction.WasReleasedThisFrame()) // Action de lacher
         {
             Drop();
+            return;
         }
+
+        //! Manque jeter
+        //...
 
         // Gestion des mouvements de l'item
         Vector3 targetPos =
@@ -80,9 +84,6 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
             Vector3.up * offsetY; // Ajout l'offsetY vers le haut
 
         transform.SetPositionAndRotation(targetPos, playerInteract.transform.rotation);
-
-        //! Manque jeter
-        //...
     }
 
     
@@ -92,23 +93,21 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 
         itemCollider.enabled = true; // On le réactive pour pouvoir detecté l'interaction
 
-        /*Comprend pas pourquoi ça marche pas
         Vector3 hitPos = castRaycast();
 
-        if (hitPos != Vector3.zero)
+        if (hitPos != Vector3.zero) // Si essaye de poser l'item dans le mur
         {
             transform.position = hitPos;
         }
-        */
+        
 
         rigidbodyItem.useGravity = true;
         rigidbodyItem.isKinematic = false;
         rigidbodyItem.constraints = RigidbodyConstraints.None;
         transform.SetParent(originalParent);
 
-
         playerInteract.setInteractionEnabled(true);
-        playerInteract.setHoldingItem(false);
+        playerInteract.setHoldingItem(null);
     }
     
     private void Throw() //& Lancer un item
@@ -118,7 +117,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         //! Lancer
         Debug.Log("Jeter " + interactText);
         playerInteract.setInteractionEnabled(true);
-        playerInteract.setHoldingItem(false);
+        playerInteract.setHoldingItem(null);
     }
     
     private Vector3 castRaycast() //& Retourne la position de la fin du raycast si il y a un objet entre l'item et la camera
@@ -126,18 +125,19 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         Vector3 camPos = playerCamera.transform.position;
         Vector3 itemPos = transform.position;
 
-        if (Physics.Linecast(camPos, itemPos,out RaycastHit hit))
+        if (Physics.Linecast(camPos, itemPos, out RaycastHit hit)) // Lance le raycast entre la camera et l'item
         {
-            if (hit.collider.transform == transform) return Vector3.zero; // Pour pas se détecter lui même
-            Vector3 hitPos = hit.point;
-
-            Debug.Log("Objet détecté : " + hit.collider.name + " Pos : " + hitPos);
-
-            return hitPos;
+            if (hit.collider.transform == transform) // Pour pas se détecter lui même
+            {
+                return Vector3.zero; 
+            }
+            else // Un objet est entre les deux
+            {
+                return hit.point; 
+            } 
         }
 
-        return Vector3.zero; // Aucun objet
-
+        return Vector3.zero; // Aucun objet detecté
     }
 
 }
