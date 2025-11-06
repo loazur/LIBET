@@ -82,33 +82,37 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         transform.SetPositionAndRotation(targetPos, playerInteract.transform.rotation);
 
         //! Manque jeter
+        //...
     }
 
+    
     private void Drop()
     {
         if (!playerInteract.isHoldingItem()) return;
 
         itemCollider.enabled = true; // On le réactive pour pouvoir detecté l'interaction
 
-        //!Marche pas
+        /*Comprend pas pourquoi ça marche pas
         Vector3 hitPos = castRaycast();
-        Vector3 finalPos = transform.position;
 
         if (hitPos != Vector3.zero)
         {
-            finalPos = hitPos + (transform.position - playerCamera.transform.position).normalized * 0.05f;
+            transform.position = hitPos;
         }
+        */
 
         rigidbodyItem.useGravity = true;
         rigidbodyItem.isKinematic = false;
         rigidbodyItem.constraints = RigidbodyConstraints.None;
         transform.SetParent(originalParent);
 
-        transform.position = finalPos;
 
         playerInteract.setInteractionEnabled(true);
         playerInteract.setHoldingItem(false);
     }
+    
+
+
 
 
     private void Throw() //& Lancer un item
@@ -121,25 +125,22 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         playerInteract.setHoldingItem(false);
     }
     
-    private Vector3 castRaycast() //& Retourne la position du raycast si il y a un objet entre l'item et la camera
+    private Vector3 castRaycast() //& Retourne la position de la fin du raycast si il y a un objet entre l'item et la camera
     {
         Vector3 camPos = playerCamera.transform.position;
         Vector3 itemPos = transform.position;
 
-        Vector3 dir = (itemPos - camPos).normalized;
-        float dist = Vector3.Distance(camPos, itemPos);
-
-        if (Physics.Raycast(camPos, dir, out RaycastHit hit, dist))
+        if (Physics.Linecast(camPos, itemPos,out RaycastHit hit))
         {
             if (hit.collider.transform == transform) return Vector3.zero; // Pour pas se détecter lui même
+            Vector3 hitPos = hit.point;
 
-            Debug.DrawRay(camPos, dir * hit.distance, Color.red);
-            Debug.Log("Objet détecté : " + hit.collider.name + " Pos : " + hit.point);
+            Debug.Log("Objet détecté : " + hit.collider.name + " Pos : " + hitPos);
 
-            return hit.point;
+            return hitPos;
         }
 
-        return Vector3.zero;
+        return Vector3.zero; // Aucun objet
 
     }
 
