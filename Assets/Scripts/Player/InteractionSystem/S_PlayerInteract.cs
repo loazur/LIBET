@@ -5,10 +5,10 @@ using UnityEngine.InputSystem;
 public class S_PlayerInteract : MonoBehaviour
 {
     //~ Gestion des interactions
-    [SerializeField] private float interactRange;
+    [SerializeField] private float interactRange = 2f;
     private InputAction interactAction;
     private bool areInteractionsEnabled = true;
-    private bool holdingItem = false;
+    private S_ItemInteraction holdingItem = null;
 
     void Start()
     {
@@ -99,9 +99,9 @@ public class S_PlayerInteract : MonoBehaviour
         return holdingItem;
     }
     
-    public void setHoldingItem(bool hasHoldingItem) //& Permet d'activer si il tiens un item
+    public void setHoldingItem(S_ItemInteraction itemHolded) //& Permet d'activer si il tiens un item
     {
-        holdingItem = hasHoldingItem;
+        holdingItem = itemHolded;
     }
 
 }

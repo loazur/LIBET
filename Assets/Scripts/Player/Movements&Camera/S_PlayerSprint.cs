@@ -9,7 +9,7 @@ public class S_PlayerSprint : MonoBehaviour
     //~ Gestion du sprint
     [HideInInspector] public InputAction sprintAction;
     [HideInInspector] public bool isSprinting = false;
-    public float sprintMultiplier; // 1.4f
+    [SerializeField] private float sprintMultiplier = 1.5f;
 
     void Start() //& INITIALISATION VARIABLES
     {

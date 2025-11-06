@@ -7,8 +7,9 @@ public class S_FirstPersonCamera : MonoBehaviour
     [Header("Gestion de la caméra")]
     public Transform player;
     private InputAction lookAction;
-    [SerializeField] private float mouseSensitivity;
-    [SerializeField] private float limitYup, limitYdown; // Limit quand on regarde en haut et en bas
+    [SerializeField] private float mouseSensitivity = 0.1f;
+    [SerializeField] private float limitYup = 90f; //Limite quand on regarde en haut
+    [SerializeField] private float limitYdown = -90f; //Limite quand on regarde en bas
 
     //~ Privées
     private Vector2 lookValue = Vector2.zero;
