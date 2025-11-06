@@ -44,6 +44,7 @@ public class S_PlayerCrouch : MonoBehaviour
         else if (playerController.isGrounded()) // AU SOL
         {
             playerController.capsuleCollider.height = crouchHeight;
+            
             transform.localScale = new Vector3(1, crouchHeight, 1); // Change le scale pour etre pareil que le collider
 
             playerController.playerRigidbody.AddForce(Vector3.down * 10f, ForceMode.Impulse); // Pour le coller au sol direct et qu'il vole pas
