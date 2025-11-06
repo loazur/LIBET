@@ -5,10 +5,11 @@ using UnityEngine.InputSystem;
 public class S_PlayerInteract : MonoBehaviour
 {
     //~ Gestion des interactions
-    [SerializeField] private float interactRange;
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private float interactRange = 2f;
     private InputAction interactAction;
     private bool areInteractionsEnabled = true;
-    private bool holdingItem = false;
+    private S_ItemInteraction holdingItem = null;
 
     void Start()
     {
@@ -38,6 +39,16 @@ public class S_PlayerInteract : MonoBehaviour
             return null;
         }
 
+        //~ Raycast droit devant (en priorité)
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out RaycastHit hit, interactRange))
+        {
+            if (hit.collider.TryGetComponent(out SI_Interactable interactableHit))
+            {
+                return interactableHit; // Priorité à ce que le joueur regarde
+            }
+        }
+        
+        //~ Utilisation de la méthode avec la sphere (si jamais le raycast n'a rien donné)
         List<SI_Interactable> interactableList = new List<SI_Interactable>();
         Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange); // Récupère tout les colliders autour du joueur
 
@@ -48,14 +59,13 @@ public class S_PlayerInteract : MonoBehaviour
                 // Vérifie en fonction de si l'objet est devant le joueur
                 float dot = Vector3.Dot(transform.forward, (interactable.getTransform().position - transform.position).normalized);
 
-                if (dot > 0.5f) // SI DEVANT LE JOUEUR (0.5f = devant le joueur et dans son champ de vision)
+                if (dot > 0.5f) // 60° donc devant le joueur
                 {
                     interactableList.Add(interactable); // On peux intéragir avec
                 }
 
             }
         }
-
 
         // Recherche l'interaction la plus proche
         SI_Interactable closestInteractable = null;
@@ -99,9 +109,9 @@ public class S_PlayerInteract : MonoBehaviour
         return holdingItem;
     }
     
-    public void setHoldingItem(bool hasHoldingItem) //& Permet d'activer si il tiens un item
+    public void setHoldingItem(S_ItemInteraction itemHolded) //& Permet d'activer si il tiens un item
     {
-        holdingItem = hasHoldingItem;
+        holdingItem = itemHolded;
     }
 
 }
