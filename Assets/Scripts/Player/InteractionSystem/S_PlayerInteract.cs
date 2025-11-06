@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class S_PlayerInteract : MonoBehaviour
 {
     //~ Gestion des interactions
-    [SerializeField] private float interactRange;
+    [SerializeField] private float interactRange = 2f;
     private InputAction interactAction;
     private bool areInteractionsEnabled = true;
     private S_ItemInteraction holdingItem = null;

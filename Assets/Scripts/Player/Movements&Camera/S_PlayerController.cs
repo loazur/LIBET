@@ -20,7 +20,7 @@ public class S_PlayerController : MonoBehaviour
     //~ Variables de mouvements
     [HideInInspector] public InputAction moveAction; // Direction du mouvement
     [HideInInspector] public Vector2 movementVector;
-    public float movementSpeed; // 6.5f
+    public float movementSpeed = 3.5f; 
     private float gravity = 10f;
 
     private bool isMovingEnabled = true;
@@ -35,8 +35,8 @@ public class S_PlayerController : MonoBehaviour
     [Header("Gestion Stairs")]
     public GameObject stepRayUpper;
     public GameObject stepRayLower;
-    [SerializeField] private float stepHeight; // 0.6f
-    [SerializeField] private float stepSmooth; // 0.1 
+    [SerializeField] private float stepHeight = 0.6f; 
+    [SerializeField] private float stepSmooth = 0.1f;
 
 
     //~ Booleans (Au dessus tête et au sol)

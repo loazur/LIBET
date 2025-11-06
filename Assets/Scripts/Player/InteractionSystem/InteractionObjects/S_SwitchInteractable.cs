@@ -5,7 +5,7 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
     //~ Gestion de l'interrupteur
     [Header("Gestion de l'interrupteur")]
     [SerializeField] private Light lightObject; // Object qui a la light
-    [SerializeField] private float offLightIntensity; // Intensité de la lumière eteinte
+    [SerializeField] private float offLightIntensity = 0f; // Intensité de la lumière eteinte
     [SerializeField] private float onLightIntensity; // Intensité de la lumière allumé
 
     private string interactText = "Allumer";

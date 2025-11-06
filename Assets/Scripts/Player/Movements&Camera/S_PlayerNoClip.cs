@@ -6,11 +6,11 @@ public class S_PlayerNoClip : MonoBehaviour
     //~ Gestion NoClip
     [Header("Gestion No Clip")]
     private S_PlayerController playerController;
+    [SerializeField] private float noClipSpeed = 10f;
+    [SerializeField] private float sprintMultiplier = 1.5f;
+    [HideInInspector] public bool isNoClipping = false;
     
     private InputAction noClipAction, sprintAction, flyUp, flyDown;
-    public float noClipSpeed;
-    public float sprintMultiplier;
-    [HideInInspector] public bool isNoClipping = false;
 
     void Start() //& INITIALISATION VARIABLES
     {
