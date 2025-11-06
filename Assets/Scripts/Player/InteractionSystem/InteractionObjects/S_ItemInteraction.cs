@@ -5,11 +5,11 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 {
     //~ Gestion de l'item
     [Header("Gestion de l'item")]
-    [SerializeField] private S_PlayerInteract playerInteract;
-    [SerializeField] private S_FirstPersonCamera playerCamera;
     [SerializeField] private string interactText = "ItemName"; // Nom de l'objet
     [SerializeField] private float distanceMultiplier = 1.45f; // Distance de l'item quand on le tient
     [SerializeField] private float offsetY = 0.5f; // Position vertical de l'item quant on le tient (0.5 = au milieu de l'ecran)
+    private S_PlayerInteract playerInteract;
+    private S_FirstPersonCamera playerCamera;
     private Rigidbody rigidbodyItem;
     private Collider itemCollider;
     private InputAction dropThrowAction;
@@ -40,6 +40,10 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 
     public void Interact(Transform playerTransform) //& Ramasse l'item
     {
+        // Récupération des bons components au moment de l'interaction
+        playerInteract = playerTransform.GetComponent<S_PlayerInteract>();
+        playerCamera = playerTransform.GetComponentInChildren<S_FirstPersonCamera>();
+
         PickUpItem();
     }
 
@@ -57,7 +61,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 
     private void PickUpItem() //& Ramasser un item
     {
-        if (playerInteract.isHoldingItem()) return;
+        if (playerInteract == null || playerInteract.isHoldingItem()) return;
 
         itemCollider.enabled = false; // Pour ne pas voler
 
@@ -65,7 +69,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         rigidbodyItem.useGravity = false;
         rigidbodyItem.isKinematic = true;
         rigidbodyItem.constraints = RigidbodyConstraints.FreezeRotation;
-        transform.SetParent(playerInteract.transform);
+        transform.SetParent(playerInteract.transform.parent);
 
         playerInteract.setInteractionEnabled(false);
         playerInteract.setHoldingItem(this);
@@ -73,7 +77,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 
     private void HoldingItem() //& Gestion lorsqu'on tient un item
     {
-        if (!playerInteract.isHoldingItem()) return;
+        if (playerInteract == null || !playerInteract.isHoldingItem()) return;
 
         if (dropThrowAction.WasReleasedThisFrame()) // Action de lacher
         {
@@ -107,7 +111,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 
     private void DropItem() //& Poser un item
     {
-        if (!playerInteract.isHoldingItem()) return;
+        if (playerInteract == null || !playerInteract.isHoldingItem()) return;
 
         itemCollider.enabled = true; // On le réactive pour pouvoir detecté l'interaction
 
@@ -119,15 +123,17 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         }
 
         ReEnableInteractionsAndRB();
+
+        // Déstruction components au moment de drop
+        playerInteract = null;
+        playerCamera = null;
     }
 
     private void ThrowItem() //& Lancer un item
     {
-        if (!playerInteract.isHoldingItem()) return;
+        if (playerInteract == null || !playerInteract.isHoldingItem()) return;
 
         itemCollider.enabled = true; // On le réactive pour pouvoir detecté l'interaction
-
-        ReEnableInteractionsAndRB(); // Avant pour réactivé la physique
 
         // Ne pas mettres les items dans d'autres objets
         Vector3 hitPos = castRaycastBetweenCamAndItem();
@@ -136,7 +142,13 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
             transform.position = hitPos;
         }
 
+        ReEnableInteractionsAndRB(); // Avant le AddForce pour réactivé la physique
+
         rigidbodyItem.AddForce(playerCamera.transform.forward * throwForce); // LANCEMENT DANS LA DIRECTION OU LE JOUEUR REGARDE
+
+        // Déstruction components au moment de throw
+        playerInteract = null;
+        playerCamera = null;
     }
     
     private void ReEnableInteractionsAndRB() //& Réactive tout ce qui avait été desactivé lors de PickupItem()

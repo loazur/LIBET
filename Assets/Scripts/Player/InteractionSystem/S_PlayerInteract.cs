@@ -45,6 +45,16 @@ public class S_PlayerInteract : MonoBehaviour
         {
             if (collider.TryGetComponent(out SI_Interactable interactable)) // On regarde si c'est un NPC
             {
+                /*
+                Vector3 playerForward = new Vector3(transform.forward.x, 0, transform.forward.z).normalized;
+                Vector3 directionToTarget = interactable.getTransform().position - transform.position;
+                directionToTarget.y = 0;
+                directionToTarget.Normalize();
+
+                float dot = Vector3.Dot(playerForward, directionToTarget);
+                */
+
+
                 // Vérifie en fonction de si l'objet est devant le joueur
                 float dot = Vector3.Dot(transform.forward, (interactable.getTransform().position - transform.position).normalized);
 
