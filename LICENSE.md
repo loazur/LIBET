@@ -15,7 +15,7 @@ Il est **strictement interdit** de :
 Toute utilisation en dehors de ces conditions nécessite une **autorisation écrite explicite** de LIBET Team.
 
 ### Distribution du jeu
-Le jeu peut être téléchargé et joué gratuitement sur les plateformes autorisées (Steam, itch.io).  
+Le jeu peut être téléchargé et joué gratuitement sur les plateformes autorisées.  
 Toute version non publiée par l’auteur officiel doit être considérée comme non autorisée.
 
 ---
@@ -37,5 +37,5 @@ It is **strictly forbidden** to:
 Any use outside these terms requires **explicit written permission** from LIBET Team.
 
 ### Game distribution
-The game may be freely downloaded and played on authorized platforms (Steam, itch.io).  
+The game may be freely downloaded and played on authorized platforms.  
 Any version not published by the official author must be considered unauthorized.
