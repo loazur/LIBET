@@ -6,7 +6,7 @@ Progressivement Libet va voir se déformer et se transformer les éléments du j
 
 Moteur utilisé: *Unity 6*  
 
-# Credits
+# Credits (LIBET Team)
 [Clément BOUNAIX](https://github.com/loazur) - Programmeur  
 [Lucas CONTRERAS-HODAPP](https://github.com/Por-Tra) - Programmeur  
 [Nathanaël MORIT](https://github.com/Mortann) - Modélisateur  
