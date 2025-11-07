@@ -12,18 +12,17 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
 {
     //~ Gestion de chaises
     [Header("Gestion de la chaise")]
-    [SerializeField] private GameObject player;
-    [SerializeField] private S_FirstPersonCamera playerCamera;
-    [SerializeField] private Collider chairCollider; // Objet qui contient le collider a désactivé/activer en fonction de si on est assis
+    [SerializeField] private Collider chairCollider; // Collider a désactivé/activer en fonction de si on est assis
+    private GameObject player;
+    private S_PlayerController playerController;
+    private S_FirstPersonCamera playerCamera;
     private InputAction getUpAction;
     private string interactText = "S'asseoir";
 
-    private S_PlayerController playerController;
     private bool isPlayerSitting = false;
 
     void Start()
     {
-        playerController = player.GetComponent<S_PlayerController>();
         getUpAction = InputSystem.actions.FindAction("CancelInteraction"); 
     }
 
@@ -36,7 +35,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     }
 
     // * ===================================================================================
-    // * Ne pas retirer ce qui est en desssous, nécessaire pour l'interface SI_Interactable
+    // * Ne pas retirer ce qui est en dessous, nécessaire pour l'interface SI_Interactable
     // * ===================================================================================
 
     // ~ Méthode qui est activer quand on interagit avec l'objet
@@ -44,6 +43,11 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     {
         if (!isPlayerSitting)
         {
+            // Récupère les components au moment de l'interaction
+            player = playerTransform.gameObject;
+            playerController = player.GetComponent<S_PlayerController>();
+            playerCamera = playerTransform.GetComponentInChildren<S_FirstPersonCamera>();
+
             Sit();
         }
     }
@@ -93,6 +97,11 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         isPlayerSitting = false;
 
         interactText = "S'asseoir";
+
+        // Détruit les components 
+        player = null;
+        playerController = null;
+        playerCamera = null;
     }
 
 }
