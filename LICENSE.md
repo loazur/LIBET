@@ -1,5 +1,3 @@
-# LICENSE / LICENCE
-
 ## Français
 
 ### Droit d’auteur
@@ -14,7 +12,7 @@ Il est **strictement interdit** de :
 - Redistribuer, publier, ou réutiliser le contenu dans un autre projet.
 - Revendre ou commercialiser le projet, en tout ou en partie.
 
-Toute utilisation en dehors de ces conditions nécessite une **autorisation écrite explicite** de l’auteur ou des collaborateurs officiels.
+Toute utilisation en dehors de ces conditions nécessite une **autorisation écrite explicite** de LIBET Team.
 
 ### Distribution du jeu
 Le jeu peut être téléchargé et joué gratuitement sur les plateformes autorisées (Steam, itch.io).  
@@ -36,7 +34,7 @@ It is **strictly forbidden** to:
 - Redistribute, publish, or reuse the content in another project.
 - Sell or commercialize the project, in whole or in part.
 
-Any use outside these terms requires **explicit written permission** from the author or official collaborators.
+Any use outside these terms requires **explicit written permission** from LIBET Team.
 
 ### Game distribution
 The game may be freely downloaded and played on authorized platforms (Steam, itch.io).  
