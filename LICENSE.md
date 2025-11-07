@@ -1,8 +1,5 @@
 ## Français
 
-### Droit d’auteur
-© LIBET Team, 2025. Tous droits réservés.
-
 ### Conditions d’utilisation
 Le code source et les ressources de ce projet sont rendus publics **à titre informatif et éducatif uniquement**.  
 Vous pouvez consulter le code, le télécharger, et l’étudier librement.  
@@ -18,12 +15,12 @@ Toute utilisation en dehors de ces conditions nécessite une **autorisation écr
 Le jeu peut être téléchargé et joué gratuitement sur les plateformes autorisées.  
 Toute version non publiée par l’auteur officiel doit être considérée comme non autorisée.
 
+### Droit d’auteur
+© LIBET Team, 2025. Tous droits réservés.
+
 ---
 
 ## English
-
-### Copyright
-© LIBET Team, 2025. All rights reserved.
 
 ### Terms of use
 The source code and assets of this project are made public **for informational and educational purposes only**.  
@@ -39,3 +36,6 @@ Any use outside these terms requires **explicit written permission** from LIBET 
 ### Game distribution
 The game may be freely downloaded and played on authorized platforms.  
 Any version not published by the official author must be considered unauthorized.
+
+### Copyright
+© LIBET Team, 2025. All rights reserved.
