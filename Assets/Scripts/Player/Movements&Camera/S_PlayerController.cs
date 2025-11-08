@@ -5,7 +5,6 @@ public class S_PlayerController : MonoBehaviour
 {
     //~ Références
     [Header("References")]
-    //public GameObject playerCamera; // Camera Cinemachine
     [HideInInspector] public Rigidbody playerRigidbody;
     [HideInInspector] public MeshRenderer meshRenderer;
     public CapsuleCollider capsuleCollider;

@@ -7,7 +7,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
     [Header("Gestion de l'item")]
     [SerializeField] private string interactText = "ItemName"; // Nom de l'objet
     [SerializeField] private float distanceMultiplier = 1.45f; // Distance de l'item quand on le tient
-    [SerializeField] private float offsetY = 0.5f; // Position vertical de l'item quant on le tient (0.5 = au milieu de l'ecran)
+    private float offsetY = 0.6f; // Position vertical de l'item quant on le tient (0.6 = au milieu de l'ecran)
     private S_PlayerInteract playerInteract;
     private S_FirstPersonCamera playerCamera;
     private Rigidbody rigidbodyItem;
@@ -99,12 +99,13 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         {
             holdTimer = holdThrow; // Remet le timer à 0
         }
-        
+
         // Gestion des mouvements de l'item
         Vector3 targetPos =
             playerInteract.transform.position + playerCamera.transform.forward * // Part de la position du joueur, vers l'avant de la camera
             distanceMultiplier + // En fonction de la distance choisi
-            Vector3.up * offsetY; // Ajout l'offsetY vers le haut
+            Vector3.up * offsetY;
+
 
         transform.SetPositionAndRotation(targetPos, playerInteract.transform.rotation);
     }
@@ -150,7 +151,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         playerInteract = null;
         playerCamera = null;
     }
-    
+
     private void ReEnableInteractionsAndRB() //& Réactive tout ce qui avait été desactivé lors de PickupItem()
     {
         rigidbodyItem.useGravity = true;

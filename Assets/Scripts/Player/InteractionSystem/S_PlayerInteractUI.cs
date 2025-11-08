@@ -5,9 +5,9 @@ public class S_PlayerInteractUI : MonoBehaviour
 {
     //~ Gestion de l'UI
     [Header("Gestion de l'UI")]
+    [SerializeField] private GameObject uiContainer;
     [SerializeField] private S_PlayerInteract playerInteract;
     [SerializeField] private TextMeshProUGUI interactText;
-    [SerializeField] private GameObject containerGameObject;
 
     void Update() //& PAS PHYSICS
     {
@@ -25,13 +25,13 @@ public class S_PlayerInteractUI : MonoBehaviour
 
     private void Show(SI_Interactable interactable) //& Affiche l'UI et change le texte en fonction de interactText
     {
-        containerGameObject.SetActive(true);
+        uiContainer.SetActive(true); // Active le visuel
         interactText.text = interactable.getInteractText();
     }
     
     private void Hide() //& Cache l'UI
     {
-        containerGameObject.SetActive(false);
+        uiContainer.SetActive(false); // Désactive le visuel
     }
 
 }
