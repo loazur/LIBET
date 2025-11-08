@@ -6,7 +6,9 @@ public class S_DisplayMenu : MonoBehaviour
     [SerializeField] private GameObject menuContainer;
     [SerializeField] private S_PlayerController playerController;
     [SerializeField] private S_FirstPersonCamera playerCamera;
+    [SerializeField] private S_PlayerInteract playerInteract;
     private bool isOpen = false;
+    private bool ableToOpenCloseMenu = true;
 
     void Start()
     {
@@ -15,7 +17,7 @@ public class S_DisplayMenu : MonoBehaviour
 
     void Update()
     {
-        if (S_UserInput.instance.MenuOpenCloseInput) 
+        if (S_UserInput.instance.MenuOpenCloseInput && ableToOpenCloseMenu) 
         {
             if (!isOpen) // Ouvrir Menu
             {
@@ -37,15 +39,29 @@ public class S_DisplayMenu : MonoBehaviour
         playerController.setMovementsEnabled(false);
         playerCamera.setCursorEnabled(true);
         playerCamera.setRotationEnabled(false);
+        playerInteract.setInteractionEnabled(false);
         isOpen = true;
     }
-    
+
     private void Hide() //& Fermeture Menu
     {
         menuContainer.SetActive(false);
         playerController.setMovementsEnabled(true);
         playerCamera.setCursorEnabled(false);
         playerCamera.setRotationEnabled(true);
+        playerInteract.setInteractionEnabled(true);
         isOpen = false;
+    }
+
+    //? ------------------------------------------------    
+
+    public bool canOpenCloseMenu() //& Si à le droit d'ouvrir/fermer le menu
+    {
+        return ableToOpenCloseMenu;
+    }
+    
+    public void setAbleToOpenCloseMenu(bool canOpenClose) //& Active/Désactive le menu
+    {
+        ableToOpenCloseMenu = canOpenClose;
     }
 }

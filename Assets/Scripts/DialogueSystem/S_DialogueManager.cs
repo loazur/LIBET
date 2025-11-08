@@ -21,6 +21,7 @@ public class S_DialogueManager : MonoBehaviour
     [SerializeField] private S_PlayerController playerController;
     [SerializeField] private S_PlayerInteract playerInteract;
     [SerializeField] private S_FirstPersonCamera firstPersonCamera;
+    [SerializeField] private S_DisplayMenu displayMenu;
 
     void Start()
     {
@@ -42,6 +43,7 @@ public class S_DialogueManager : MonoBehaviour
         playerInteract.setInteractionEnabled(false); // Interactions
         firstPersonCamera.setCursorEnabled(true); // Curseur
         firstPersonCamera.setRotationEnabled(false); // Rotation camera
+        displayMenu.setAbleToOpenCloseMenu(false);
 
         gameObject.SetActive(true); // Active le visuel
 
@@ -89,6 +91,7 @@ public class S_DialogueManager : MonoBehaviour
         playerInteract.setInteractionEnabled(true); // Interactions
         firstPersonCamera.setCursorEnabled(false); // Curseur
         firstPersonCamera.setRotationEnabled(true); // Rotation camera
+        displayMenu.setAbleToOpenCloseMenu(true);
 
         isDialogueActive = false;
         gameObject.SetActive(false); // Désactive le visuel

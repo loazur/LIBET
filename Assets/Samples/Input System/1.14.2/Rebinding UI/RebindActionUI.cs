@@ -346,6 +346,8 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                             if (nextBindingIndex < action.bindings.Count && action.bindings[nextBindingIndex].isPartOfComposite)
                                 PerformInteractiveRebind(action, nextBindingIndex, true);
                         }
+
+                        
                     });
 
             // If it's a part binding, show the name of the part in the UI.
@@ -387,7 +389,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
                 if (binding.effectivePath == newBinding.effectivePath)
                 {
-                    Debug.Log("Duplication: " + newBinding.effectivePath);
                     return true;
                 }
             }
@@ -398,7 +399,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 {
                     if (inputAction.bindings[i].effectivePath == newBinding.effectivePath)
                     {
-                        Debug.Log("Duplication: " + newBinding.effectivePath);
                         return true;
                     }
                 }

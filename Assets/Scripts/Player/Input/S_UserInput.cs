@@ -9,7 +9,7 @@ public class S_UserInput : MonoBehaviour
     public Vector2 MoveInput { get; private set; }
     public Vector2 LookInput { get; private set; }
     public bool InteractInput { get; private set; }
-    public InputAction CancelInteractionAction { get; private set; } // -> Spécial (utilisé en appuyant et maintenant le bouton)
+    public InputAction CancelInteractionAction { get; private set; } // -> Publique (utilisé en appuyant et maintenant le bouton)
     public bool CrouchInput { get; private set; }
     public bool SprintInput { get; private set; }
     public bool MenuOpenCloseInput { get; private set; }
@@ -19,7 +19,7 @@ public class S_UserInput : MonoBehaviour
 
     private InputAction _moveAction;
     private InputAction _lookAction;
-    private InputAction _interactAction;
+    public InputAction _interactAction { get; private set; } // -> Publique (à besoin de récuperer la touche pour l'UI)
     private InputAction _crouchAction;
     private InputAction _sprintAction;
     private InputAction _menuOpenCloseAction;
