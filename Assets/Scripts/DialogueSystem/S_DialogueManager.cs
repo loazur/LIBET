@@ -6,7 +6,7 @@ using UnityEngine;
 public class S_DialogueManager : MonoBehaviour
 {
     //~ Instance du DialogueManager (pour l'utiliser partout)
-    public static S_DialogueManager Instance;
+    public static S_DialogueManager instance;
 
     //~ Gestion des éléments d'UI
     [Header("Gestion éléments d'UI")]
@@ -27,9 +27,9 @@ public class S_DialogueManager : MonoBehaviour
         EndDialogue();
         lines = new Queue<S_DialogueLine>();
 
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
         }
     }
 

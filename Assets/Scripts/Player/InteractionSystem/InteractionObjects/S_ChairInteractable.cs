@@ -6,7 +6,6 @@
 
 
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class S_ChairInteractable : MonoBehaviour, SI_Interactable
 {
@@ -16,19 +15,13 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     private GameObject player;
     private S_PlayerController playerController;
     private S_FirstPersonCamera playerCamera;
-    private InputAction getUpAction;
     private string interactText = "S'asseoir";
 
     private bool isPlayerSitting = false;
 
-    void Start()
-    {
-        getUpAction = InputSystem.actions.FindAction("CancelInteraction"); 
-    }
-
     void Update()
     {
-        if (isPlayerSitting && getUpAction.WasPressedThisFrame())
+        if (isPlayerSitting && S_UserInput.instance.CancelInteractionAction.WasPressedThisFrame())
         {
             GetUp();
         }

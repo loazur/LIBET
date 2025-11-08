@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class S_PlayerSprint : MonoBehaviour
 {
@@ -7,19 +6,11 @@ public class S_PlayerSprint : MonoBehaviour
     private S_PlayerController playerController;
 
     //~ Gestion du sprint
-    [HideInInspector] public InputAction sprintAction;
-    [HideInInspector] public bool isSprinting = false;
     [SerializeField] private float sprintMultiplier = 1.5f;
 
     void Start() //& INITIALISATION VARIABLES
     {
         playerController = GetComponent<S_PlayerController>();
-        sprintAction = InputSystem.actions.FindAction("Sprint");
-    }
-
-    void Update() //& PAS PHYSICS
-    {
-        isSprinting = sprintAction.IsPressed();
     }
 
     //! --------------- Fonctions privés ---------------
