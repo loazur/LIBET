@@ -1,24 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class S_PlayerInteract : MonoBehaviour
 {
     //~ Gestion des interactions
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float interactRange = 2f;
-    private InputAction interactAction;
     private bool areInteractionsEnabled = true;
     private S_ItemInteraction holdingItem = null;
 
-    void Start()
-    {
-        interactAction = InputSystem.actions.FindAction("Interact");
-    }
 
     void Update() //& PAS PHYSICS
     {
-        if (interactAction.WasReleasedThisFrame())
+        if (S_UserInput.instance.InteractInput)
         {
             SI_Interactable interactable = GetInteractableObject();
 

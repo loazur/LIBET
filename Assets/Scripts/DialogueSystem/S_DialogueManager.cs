@@ -6,11 +6,10 @@ using UnityEngine;
 public class S_DialogueManager : MonoBehaviour
 {
     //~ Instance du DialogueManager (pour l'utiliser partout)
-    public static S_DialogueManager Instance;
+    public static S_DialogueManager instance;
 
     //~ Gestion des éléments d'UI
     [Header("Gestion éléments d'UI")]
-    public GameObject containerGameObject;
     public TextMeshProUGUI npcName;
     public TextMeshProUGUI dialogueText;
     private Queue<S_DialogueLine> lines;
@@ -22,15 +21,16 @@ public class S_DialogueManager : MonoBehaviour
     [SerializeField] private S_PlayerController playerController;
     [SerializeField] private S_PlayerInteract playerInteract;
     [SerializeField] private S_FirstPersonCamera firstPersonCamera;
+    [SerializeField] private S_DisplayMenu displayMenu;
 
     void Start()
     {
         EndDialogue();
         lines = new Queue<S_DialogueLine>();
 
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
         }
     }
 
@@ -43,8 +43,9 @@ public class S_DialogueManager : MonoBehaviour
         playerInteract.setInteractionEnabled(false); // Interactions
         firstPersonCamera.setCursorEnabled(true); // Curseur
         firstPersonCamera.setRotationEnabled(false); // Rotation camera
+        displayMenu.setAbleToOpenCloseMenu(false);
 
-        containerGameObject.SetActive(true);
+        gameObject.SetActive(true); // Active le visuel
 
         lines.Clear();
 
@@ -90,8 +91,9 @@ public class S_DialogueManager : MonoBehaviour
         playerInteract.setInteractionEnabled(true); // Interactions
         firstPersonCamera.setCursorEnabled(false); // Curseur
         firstPersonCamera.setRotationEnabled(true); // Rotation camera
+        displayMenu.setAbleToOpenCloseMenu(true);
 
         isDialogueActive = false;
-        containerGameObject.SetActive(false);
+        gameObject.SetActive(false); // Désactive le visuel
     }
 }

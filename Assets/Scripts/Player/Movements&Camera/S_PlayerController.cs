@@ -1,11 +1,9 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class S_PlayerController : MonoBehaviour
 {
     //~ Références
     [Header("References")]
-    //public GameObject playerCamera; // Camera Cinemachine
     [HideInInspector] public Rigidbody playerRigidbody;
     [HideInInspector] public MeshRenderer meshRenderer;
     public CapsuleCollider capsuleCollider;
@@ -18,8 +16,6 @@ public class S_PlayerController : MonoBehaviour
     private S_PlayerNoClip playerNoClip;
 
     //~ Variables de mouvements
-    [HideInInspector] public InputAction moveAction; // Direction du mouvement
-    [HideInInspector] public Vector2 movementVector;
     public float movementSpeed = 3.5f; 
     private float gravity = 10f;
 
@@ -59,16 +55,9 @@ public class S_PlayerController : MonoBehaviour
         playerCrouch = GetComponent<S_PlayerCrouch>();
         playerNoClip = GetComponent<S_PlayerNoClip>();
 
-        // Action de mouvement
-        moveAction = InputSystem.actions.FindAction("Move");
         stepRayUpper.transform.localPosition = new Vector3(stepRayUpper.transform.localPosition.x, -stepHeight, stepRayUpper.transform.localPosition.z); // Hauteur = hauteur steps
 
         overheadCheck.SetActive(false); // On désactive overheadCheck dès qu'on spawn
-    }
-
-    void Update() //& PAS PHYSICS
-    {
-        movementVector = moveAction.ReadValue<Vector2>(); // Vector des directions mouvements
     }
 
     void FixedUpdate() //& PHYSICS 
@@ -81,7 +70,7 @@ public class S_PlayerController : MonoBehaviour
         //! Tout ce qui en dessous ne sera pas actif en Mode NoClip
 
         
-        Move(movementVector); // Gestion Mouvements
+        Move(S_UserInput.instance.MoveInput); // Gestion Mouvements
         HandleGravity(); // Gestion de la gravité
         StepClimb(); // Gestion Stairs
     }
@@ -106,7 +95,7 @@ public class S_PlayerController : MonoBehaviour
         }
 
         //* Gestion du sprint
-        if (playerSprint.isSprinting && !playerCrouch.isCrouching)
+        if (S_UserInput.instance.SprintInput && !playerCrouch.isCrouching)
         {
             playerSprint.Sprint(ref move); // Modifie la variable initial
         }
@@ -156,7 +145,7 @@ public class S_PlayerController : MonoBehaviour
 
                 float slopeGravityMultiplier = 7.5f;
 
-                if (movementVector != Vector2.zero) // Lors d'un mouvement sur slope
+                if (S_UserInput.instance.MoveInput != Vector2.zero) // Lors d'un mouvement sur slope
                 {
                     playerRigidbody.AddForce(Vector3.down * gravity * slopeGravityMultiplier, ForceMode.Acceleration); // Permet de coller de manière plus efficace
                 }
@@ -177,7 +166,6 @@ public class S_PlayerController : MonoBehaviour
         playerRigidbody.useGravity = !OnSlope(out _); // On désactive la gravité géré par RigidBody sur les slopes
         playerRigidbody.AddForce(Vector3.down * gravity, ForceMode.Acceleration);
     }
-
 
     public bool OnSlope(out float slopeAngle) //& Détection si slope en fonction de maxSlopeAngle
     {
