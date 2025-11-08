@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 {
@@ -12,7 +11,6 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
     private S_FirstPersonCamera playerCamera;
     private Rigidbody rigidbodyItem;
     private Collider itemCollider;
-    private InputAction dropThrowAction;
     private Transform originalParent; // Utile pour le remettre à son état initial
 
     [Header("Gestion Lancer")]
@@ -22,7 +20,6 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 
     void Start() //& INITIALISATION DE VARIABLES
     {
-        dropThrowAction = InputSystem.actions.FindAction("CancelInteraction");
         holdTimer = holdThrow;
 
         itemCollider = GetComponent<Collider>();
@@ -79,13 +76,13 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
     {
         if (playerInteract == null || !playerInteract.isHoldingItem()) return;
 
-        if (dropThrowAction.WasReleasedThisFrame()) // Action de lacher
+        if (S_UserInput.instance.CancelInteractionAction.WasReleasedThisFrame()) // Action de lacher
         {
             DropItem();
             return;
         }
 
-        if (dropThrowAction.IsPressed()) // Action de lancer
+        if (S_UserInput.instance.CancelInteractionAction.IsPressed()) // Action de lancer
         {
             holdTimer -= Time.deltaTime;
 

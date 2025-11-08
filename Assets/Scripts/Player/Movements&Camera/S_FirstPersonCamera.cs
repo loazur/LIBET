@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class S_FirstPersonCamera : MonoBehaviour
 {
@@ -12,7 +11,6 @@ public class S_FirstPersonCamera : MonoBehaviour
     private float limitYup = 90f; //Limite quand on regarde en haut
     private float limitYdown = -90f; //Limite quand on regarde en bas
     
-    private InputAction lookAction;
     private Vector2 lookValue = Vector2.zero;
 
     private float cameraVerticalRotation = 0f;
@@ -20,8 +18,6 @@ public class S_FirstPersonCamera : MonoBehaviour
 
     void Start() //& INITIALISATION VARIABLES
     {
-        lookAction = InputSystem.actions.FindAction("Look");
-
         setCursorEnabled(false);
     }
 
@@ -42,11 +38,11 @@ public class S_FirstPersonCamera : MonoBehaviour
         // Ajuste la vitesse de la camera en fonction du controller utilisé
         if (!controllerChecker.isUsingController()) // Souris
         {
-            lookValue = lookAction.ReadValue<Vector2>() * (mouseSensitivityMouse / 1000); // divise par 1000 (car plus précis pour régler)
+            lookValue = S_UserInput.instance.LookInput * (mouseSensitivityMouse / 1000); // divise par 1000 (car plus précis pour régler)
         }
         else // Manettes
         {
-            lookValue = lookAction.ReadValue<Vector2>() * (mouseSensitivityController / 1000); // divise par 1000 (car plus précis pour régler)
+            lookValue = S_UserInput.instance.LookInput * (mouseSensitivityController / 1000); // divise par 1000 (car plus précis pour régler)
         }
 
         // Rotation vertical

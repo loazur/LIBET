@@ -1,14 +1,11 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class S_PlayerCrouch : MonoBehaviour
 {
     //~ Références
     private S_PlayerController playerController;
-    private S_PlayerSprint playerSprint;
 
     //~ Gestion du crouch
-    [HideInInspector] public InputAction crouchAction;
     [HideInInspector] public float speedDecreaser = 1.2f;
     [HideInInspector] public bool isCrouching = false; // Sprint / Accroupissement / EssayeSauter (utile surtout sur un slope)
     private float originalHeight;
@@ -17,19 +14,21 @@ public class S_PlayerCrouch : MonoBehaviour
     void Start() //& INITIALISATION VARIABLES
     {
         playerController = GetComponent<S_PlayerController>();
-        playerSprint = GetComponent<S_PlayerSprint>();
-
-        crouchAction = InputSystem.actions.FindAction("Crouch");
-
-        // Lances ces fonctions qu'on on appuis sur la bonne touche
-        crouchAction.performed += OnCrouchPerformed;
 
         originalHeight = playerController.capsuleCollider.height; // Taille originale du personnage
     }
 
+    void Update()
+    {
+        if (S_UserInput.instance.CrouchInput)
+        {
+            OnCrouch();
+        }
+    }
+
     //! --------------- Fonctions privés ---------------
 
-    private void OnCrouchPerformed(InputAction.CallbackContext context) //& Gestion de l'accroupissement
+    private void OnCrouch() //& Gestion de l'accroupissement
     {
         //  Se lever
         if (playerController.isGrounded() && isCrouching && canRaise()) // AU SOL / ACCROUPI / PEUT SE LEVER
