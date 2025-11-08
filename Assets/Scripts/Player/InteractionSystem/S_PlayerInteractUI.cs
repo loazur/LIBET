@@ -7,6 +7,7 @@ public class S_PlayerInteractUI : MonoBehaviour
     [Header("Gestion de l'UI")]
     [SerializeField] private GameObject uiContainer;
     [SerializeField] private S_PlayerInteract playerInteract;
+    [SerializeField] private TextMeshProUGUI keybind;
     [SerializeField] private TextMeshProUGUI interactText;
 
     void Update() //& PAS PHYSICS
@@ -28,10 +29,12 @@ public class S_PlayerInteractUI : MonoBehaviour
         uiContainer.SetActive(true); // Active le visuel
         interactText.text = interactable.getInteractText();
     }
-    
+
     private void Hide() //& Cache l'UI
     {
         uiContainer.SetActive(false); // Désactive le visuel
     }
+    
+    
 
 }

@@ -12,6 +12,7 @@ public class S_UserInput : MonoBehaviour
     public InputAction CancelInteractionAction { get; private set; } // -> Spécial (utilisé en appuyant et maintenant le bouton)
     public bool CrouchInput { get; private set; }
     public bool SprintInput { get; private set; }
+    public bool MenuOpenCloseInput { get; private set; }
 
     // Actions
     private PlayerInput _playerInput;
@@ -21,6 +22,7 @@ public class S_UserInput : MonoBehaviour
     private InputAction _interactAction;
     private InputAction _crouchAction;
     private InputAction _sprintAction;
+    private InputAction _menuOpenCloseAction;
 
     // ! Dévs
     public bool NoClipInput { get; private set; }
@@ -31,8 +33,7 @@ public class S_UserInput : MonoBehaviour
     private InputAction _flyUpAction;
     private InputAction _flyDownAction;
 
-
-    void Awake()
+    void Awake() //& Initialisation du singleton
     {
         if (instance == null)
         {
@@ -44,10 +45,12 @@ public class S_UserInput : MonoBehaviour
         SetupInputActions();
     }
 
-    void Update()
+    void Update() //& Met à jour les inputs
     {
         UpdateInputs();
     }
+
+    //! --------------- Fonctions privés ---------------
 
     private void SetupInputActions()
     {
@@ -57,6 +60,7 @@ public class S_UserInput : MonoBehaviour
         CancelInteractionAction = _playerInput.actions["CancelInteraction"];
         _crouchAction = _playerInput.actions["Crouch"];
         _sprintAction = _playerInput.actions["Sprint"];
+        _menuOpenCloseAction = _playerInput.actions["MenuOpenClose"];
 
         //! Dévs
         _noClipAction = _playerInput.actions["NoClip"];
@@ -71,6 +75,7 @@ public class S_UserInput : MonoBehaviour
         InteractInput = _interactAction.WasPressedThisFrame();
         CrouchInput = _crouchAction.WasPressedThisFrame();
         SprintInput = _sprintAction.IsPressed();
+        MenuOpenCloseInput = _menuOpenCloseAction.WasPressedThisFrame();
 
         //! Dévs
         NoClipInput = _noClipAction.WasPressedThisFrame();
