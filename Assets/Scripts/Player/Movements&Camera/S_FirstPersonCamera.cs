@@ -1,26 +1,23 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class S_FirstPersonCamera : MonoBehaviour
 {
     //~ Gestion de la camera
     [Header("Gestion de la caméra")]
-    public Transform player;
-    private InputAction lookAction;
-    [SerializeField] private float mouseSensitivity = 0.1f;
-    [SerializeField] private float limitYup = 90f; //Limite quand on regarde en haut
-    [SerializeField] private float limitYdown = -90f; //Limite quand on regarde en bas
-
-    //~ Privées
+    [SerializeField] private S_ControllerChecker controllerChecker;
+    [SerializeField] private Transform player;
+    [SerializeField] private float mouseSensitivityMouse = 100f; // Sensibilité Souris
+    [SerializeField] private float mouseSensitivityController = 900f; // Sensibilité Manette
+    private float limitYup = 90f; //Limite quand on regarde en haut
+    private float limitYdown = -90f; //Limite quand on regarde en bas
+    
     private Vector2 lookValue = Vector2.zero;
-    private float cameraVerticalRotation = 0f;
 
+    private float cameraVerticalRotation = 0f;
     private bool isRotationActive = true;
 
     void Start() //& INITIALISATION VARIABLES
     {
-        lookAction = InputSystem.actions.FindAction("Look");
-
         setCursorEnabled(false);
     }
 
@@ -38,7 +35,15 @@ public class S_FirstPersonCamera : MonoBehaviour
             return;
         }
 
-        lookValue = lookAction.ReadValue<Vector2>() * mouseSensitivity;
+        // Ajuste la vitesse de la camera en fonction du controller utilisé
+        if (!controllerChecker.isUsingController()) // Souris
+        {
+            lookValue = S_UserInput.instance.LookInput * (mouseSensitivityMouse / 1000); // divise par 1000 (car plus précis pour régler)
+        }
+        else // Manettes
+        {
+            lookValue = S_UserInput.instance.LookInput * (mouseSensitivityController / 1000); // divise par 1000 (car plus précis pour régler)
+        }
 
         // Rotation vertical
         cameraVerticalRotation -= lookValue.y;
