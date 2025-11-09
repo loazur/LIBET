@@ -10,6 +10,7 @@ public class S_DialogueManager : MonoBehaviour
 
     //~ Gestion des éléments d'UI
     [Header("Gestion éléments d'UI")]
+    [SerializeField] private GameObject uiContainer;
     public TextMeshProUGUI npcName;
     public TextMeshProUGUI dialogueText;
     private Queue<S_DialogueLine> lines;
@@ -45,7 +46,7 @@ public class S_DialogueManager : MonoBehaviour
         firstPersonCamera.setRotationEnabled(false); // Rotation camera
         displayMenu.setAbleToOpenCloseMenu(false);
 
-        gameObject.SetActive(true); // Active le visuel
+        uiContainer.SetActive(true); // Active le visuel
 
         lines.Clear();
 
@@ -94,6 +95,6 @@ public class S_DialogueManager : MonoBehaviour
         displayMenu.setAbleToOpenCloseMenu(true);
 
         isDialogueActive = false;
-        gameObject.SetActive(false); // Désactive le visuel
+        uiContainer.SetActive(false); // Désactive le visuel
     }
 }

@@ -12,7 +12,12 @@ public class S_DisplayMenus : MonoBehaviour
     //~ Containers des menus / sous-menus
     [Header("Containers des différents menu")]
     [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject keybindsSettingsMenu;
+    [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private GameObject gameSettingsMenu;
+    [SerializeField] private GameObject audioSettingsMenu;
+    [SerializeField] private GameObject videoSettingsMenu;
+    [SerializeField] private GameObject keyboardSettingsMenu;
+    [SerializeField] private GameObject controllerSettingsMenu;
     private List<GameObject> listMenus;
     private GameObject currentOpenedMenu;
 
@@ -28,7 +33,12 @@ public class S_DisplayMenus : MonoBehaviour
         listMenus = new List<GameObject>
         {
             mainMenu,
-            keybindsSettingsMenu
+            settingsMenu,
+            gameSettingsMenu,
+            audioSettingsMenu,
+            videoSettingsMenu,
+            keyboardSettingsMenu,
+            controllerSettingsMenu
         };
         
     }
