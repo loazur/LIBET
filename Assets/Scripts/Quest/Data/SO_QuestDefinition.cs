@@ -2,15 +2,17 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "SO_QuestDefinition", menuName = "Scriptable Objects/SO_QuestDefinition")]
+/**
+ * Définit la structure de base d'une quête
+ *
+ * @author	Unknown
+ * @since	v0.0.1
+ * @version	v1.0.0	Sunday, November 9th, 2025.
+ * @global
+ */
 public class SO_QuestDefinition : ScriptableObject
 {
-    //string id (unique, stable)
-    // string title, string description
-    // List<QuestStage> stages (chaque stage a List<ObjectiveBase> objectives)
-    // List<string> prerequisites (ids de quêtes à terminer)
-    // bool isRepeatable, int repeatCooldown, bool isUnique (uniques = une seule fois dans la vie du profil)
-    // List<RewardDefinition> rewards
-    // List<string> tags (e.g. tutorial, main, side, daily)
+
 
     [Header("Informations de la quête")]
     public string questId;
