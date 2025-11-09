@@ -14,16 +14,16 @@ public class S_DisplayMenus : MonoBehaviour
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject keybindsSettingsMenu;
     private List<GameObject> listMenus;
-
-    private Volume volume;
-    private bool isOpen = false;
-    private bool ableToOpenCloseMenu = true;
     private GameObject currentOpenedMenu;
 
-    void Awake()
+    private Volume volume; // Floutage du background
+    private bool isOpen = false;
+    private bool ableToOpenCloseMenu = true;
+
+    void Awake() //& Avant de tout cacher on initialise les variables
     {
-        volume = playerCamera.GetComponent<Volume>();
-        currentOpenedMenu = mainMenu;
+        volume = playerCamera.GetComponent<Volume>(); 
+        currentOpenedMenu = mainMenu; // Le 1er menu qu'on va ouvrir c'est le mainMenu
 
         listMenus = new List<GameObject>
         {
@@ -33,16 +33,16 @@ public class S_DisplayMenus : MonoBehaviour
         
     }
 
-    void Start()
+    void Start() //& Cache tout les menus
     {
         HideAll();
     }
 
     void Update()
     {
-        if (S_UserInput.instance.MenuOpenCloseInput && ableToOpenCloseMenu) 
+        if (S_UserInput.instance.MenuOpenCloseInput && ableToOpenCloseMenu)
         {
-            if (!isOpen) // Ouvrir Menu
+            if (!isOpen) // Ouvrir MainMenu
             {
                 ShowMenu(mainMenu);
             }
@@ -56,12 +56,13 @@ public class S_DisplayMenus : MonoBehaviour
 
     //! --------------- Fonctions principales ---------------
 
-    public void ShowMenu(GameObject menu) //& Ouverture MainMenu
+    public void ShowMenu(GameObject menu) //& Ouvre le menu pris en paramètre
     {
-        HideCurrent(false);
-        menu.SetActive(true);
-        currentOpenedMenu = menu;
+        HideCurrent(false); // Cache l'ancien
+        menu.SetActive(true); // Active le nouveau
+        currentOpenedMenu = menu; // Et l'assigne à la variable
 
+        //
         playerController.setMovementsEnabled(false);
         playerCamera.setCursorEnabled(true);
         playerCamera.setRotationEnabled(false);
@@ -70,21 +71,6 @@ public class S_DisplayMenus : MonoBehaviour
         isOpen = true;
     }
 
-    public void HideAll() //& Fermeture le menu actuel
-    {
-        foreach (GameObject menu in listMenus)
-        {
-            menu.SetActive(false);
-        }
-
-        playerController.setMovementsEnabled(true);
-        playerCamera.setCursorEnabled(false);
-        playerCamera.setRotationEnabled(true);
-        playerInteract.setInteractionEnabled(true);
-        volume.enabled = false;
-        isOpen = false;
-    }
-    
     public void HideCurrent(bool closingMenu) //& Fermeture du menu actuel
     {
         currentOpenedMenu.SetActive(false);
@@ -100,6 +86,20 @@ public class S_DisplayMenus : MonoBehaviour
         }
     }
 
+    public void HideAll() //& Fermeture tout les menus
+    {
+        foreach (GameObject menu in listMenus) // Désactive tout les menus
+        {
+            menu.SetActive(false);
+        }
+
+        playerController.setMovementsEnabled(true);
+        playerCamera.setCursorEnabled(false);
+        playerCamera.setRotationEnabled(true);
+        playerInteract.setInteractionEnabled(true);
+        volume.enabled = false;
+        isOpen = false;
+    }
 
     //? ------------------------------------------------    
 
