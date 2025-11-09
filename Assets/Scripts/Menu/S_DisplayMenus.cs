@@ -1,25 +1,41 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class S_DisplayMenu : MonoBehaviour
+public class S_DisplayMenus : MonoBehaviour
 {
-    //~ Gestion ouverture du menu
-    [SerializeField] private GameObject menuContainer;
+    //~ Références vers d'autre classes
     [SerializeField] private S_PlayerController playerController;
     [SerializeField] private S_FirstPersonCamera playerCamera;
     [SerializeField] private S_PlayerInteract playerInteract;
+
+    //~ Containers des menus / sous-menus
+    [Header("Containers des différents menu")]
+    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject keybindsSettingsMenu;
+    private List<GameObject> listMenus;
+
     private Volume volume;
     private bool isOpen = false;
     private bool ableToOpenCloseMenu = true;
+    private GameObject currentOpenedMenu;
 
     void Awake()
     {
         volume = playerCamera.GetComponent<Volume>();
+        currentOpenedMenu = mainMenu;
+
+        listMenus = new List<GameObject>
+        {
+            mainMenu,
+            keybindsSettingsMenu
+        };
+        
     }
 
     void Start()
     {
-        Hide();
+        HideAll();
     }
 
     void Update()
@@ -28,21 +44,24 @@ public class S_DisplayMenu : MonoBehaviour
         {
             if (!isOpen) // Ouvrir Menu
             {
-                Show();
+                ShowMenu(mainMenu);
             }
-            else // Fermer Menu
+            else // Fermer Menu actuel
             {
-                Hide();
+                HideCurrent(true);
             }
         }
         
     }
 
-    //! --------------- Fonctions privés ---------------
+    //! --------------- Fonctions principales ---------------
 
-    private void Show() //& Ouverture Menu
+    public void ShowMenu(GameObject menu) //& Ouverture MainMenu
     {
-        menuContainer.SetActive(true);
+        HideCurrent(false);
+        menu.SetActive(true);
+        currentOpenedMenu = menu;
+
         playerController.setMovementsEnabled(false);
         playerCamera.setCursorEnabled(true);
         playerCamera.setRotationEnabled(false);
@@ -51,9 +70,13 @@ public class S_DisplayMenu : MonoBehaviour
         isOpen = true;
     }
 
-    private void Hide() //& Fermeture Menu
+    public void HideAll() //& Fermeture le menu actuel
     {
-        menuContainer.SetActive(false);
+        foreach (GameObject menu in listMenus)
+        {
+            menu.SetActive(false);
+        }
+
         playerController.setMovementsEnabled(true);
         playerCamera.setCursorEnabled(false);
         playerCamera.setRotationEnabled(true);
@@ -61,6 +84,22 @@ public class S_DisplayMenu : MonoBehaviour
         volume.enabled = false;
         isOpen = false;
     }
+    
+    public void HideCurrent(bool closingMenu) //& Fermeture du menu actuel
+    {
+        currentOpenedMenu.SetActive(false);
+
+        if (closingMenu) // SI on ferme le menu 
+        {
+            playerController.setMovementsEnabled(true);
+            playerCamera.setCursorEnabled(false);
+            playerCamera.setRotationEnabled(true);
+            playerInteract.setInteractionEnabled(true);
+            volume.enabled = false;
+            isOpen = false;
+        }
+    }
+
 
     //? ------------------------------------------------    
 

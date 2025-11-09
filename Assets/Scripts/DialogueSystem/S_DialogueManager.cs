@@ -21,7 +21,7 @@ public class S_DialogueManager : MonoBehaviour
     [SerializeField] private S_PlayerController playerController;
     [SerializeField] private S_PlayerInteract playerInteract;
     [SerializeField] private S_FirstPersonCamera firstPersonCamera;
-    [SerializeField] private S_DisplayMenu displayMenu;
+    [SerializeField] private S_DisplayMenus displayMenu;
 
     void Start()
     {
