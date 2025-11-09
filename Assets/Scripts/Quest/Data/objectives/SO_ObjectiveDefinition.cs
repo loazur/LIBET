@@ -11,6 +11,7 @@ public class SO_ObjectiveDefinition : ScriptableObject
 {
     [Header("Identification")]
     public string objectiveId;
+    public string QuestName;
     public string description;
 
     [Header("Type d'objectif")]
