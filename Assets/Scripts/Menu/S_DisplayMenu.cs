@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class S_DisplayMenu : MonoBehaviour
 {
@@ -7,8 +8,14 @@ public class S_DisplayMenu : MonoBehaviour
     [SerializeField] private S_PlayerController playerController;
     [SerializeField] private S_FirstPersonCamera playerCamera;
     [SerializeField] private S_PlayerInteract playerInteract;
+    private Volume volume;
     private bool isOpen = false;
     private bool ableToOpenCloseMenu = true;
+
+    void Awake()
+    {
+        volume = playerCamera.GetComponent<Volume>();
+    }
 
     void Start()
     {
@@ -40,6 +47,7 @@ public class S_DisplayMenu : MonoBehaviour
         playerCamera.setCursorEnabled(true);
         playerCamera.setRotationEnabled(false);
         playerInteract.setInteractionEnabled(false);
+        volume.enabled = true;
         isOpen = true;
     }
 
@@ -50,6 +58,7 @@ public class S_DisplayMenu : MonoBehaviour
         playerCamera.setCursorEnabled(false);
         playerCamera.setRotationEnabled(true);
         playerInteract.setInteractionEnabled(true);
+        volume.enabled = false;
         isOpen = false;
     }
 

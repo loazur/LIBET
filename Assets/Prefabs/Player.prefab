@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 1913605356521662896}
   - component: {fileID: 8798338443872045811}
   - component: {fileID: 1270148158842031400}
+  - component: {fileID: 1673238761029844516}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: MainCamera
@@ -185,6 +186,23 @@ MonoBehaviour:
   player: {fileID: 8557010005859436040}
   mouseSensitivityMouse: 100
   mouseSensitivityController: 1350
+--- !u!114 &1673238761029844516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507892592971500121}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 06fa97ad90c2496008b91e1ababead36, type: 2}
 --- !u!1 &2038182997590088176
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,16 +570,6 @@ MonoBehaviour:
   capsuleCollider: {fileID: 3041798189606514041}
   baseMat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   sprintMat: {fileID: 2100000, guid: c2e40fa84d53ccd428f640eac126b1fb, type: 2}
-  moveAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: e0de22b2-6fbb-4c92-8d77-c9be3a3ebec9
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  movementVector: {x: 0, y: 0}
   movementSpeed: 3.5
   maxSlopeAngle: 60
   stepRayUpper: {fileID: 8838734158530156383}
@@ -584,15 +592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aa527bac69eca6beaf66e3b8cbda652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crouchAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 8ab0bf4f-ffc9-477f-8fb2-a44ac8ef1517
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
   speedDecreaser: 1.2
   isCrouching: 0
 --- !u!114 &8038480735452585374
@@ -607,16 +606,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6a371405665d23abadc3efa7f58045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprintAction:
-    m_Name: 
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: eabc5211-0467-4ec2-bb53-eba4cf0dce17
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  isSprinting: 0
   sprintMultiplier: 1.5
 --- !u!114 &7709009579591783634
 MonoBehaviour:
