@@ -4,10 +4,9 @@ public class S_FirstPersonCamera : MonoBehaviour
 {
     //~ Gestion de la camera
     [Header("Gestion de la caméra")]
-    [SerializeField] private S_ControllerChecker controllerChecker;
     [SerializeField] private Transform player;
-    [SerializeField] private float mouseSensitivityMouse = 100f; // Sensibilité Souris
-    [SerializeField] private float mouseSensitivityController = 900f; // Sensibilité Manette
+    [SerializeField] private float sensitivityMouse = 100f; // Sensibilité Souris
+    [SerializeField] private float sensitivityController = 1600f; // Sensibilité Manette
     private float limitYup = 90f; //Limite quand on regarde en haut
     private float limitYdown = -90f; //Limite quand on regarde en bas
     
@@ -36,14 +35,16 @@ public class S_FirstPersonCamera : MonoBehaviour
         }
 
         // Ajuste la vitesse de la camera en fonction du controller utilisé
-        if (!controllerChecker.isUsingController()) // Souris
+        if (!S_UserInput.instance.isUsingController()) // Clavier & Souris
         {
-            lookValue = S_UserInput.instance.LookInput * (mouseSensitivityMouse / 1000); // divise par 1000 (car plus précis pour régler)
+            lookValue = S_UserInput.instance.LookInput * (sensitivityMouse / 10); // divise par 100 (car plus précis pour régler)
         }
         else // Manettes
         {
-            lookValue = S_UserInput.instance.LookInput * (mouseSensitivityController / 1000); // divise par 1000 (car plus précis pour régler)
+            lookValue = S_UserInput.instance.LookInput * (sensitivityController / 10); // divise par 100 (car plus précis pour régler)
         }
+
+        lookValue *= Time.deltaTime; // Pour que la sensibilité s'ajuste au framerate
 
         // Rotation vertical
         cameraVerticalRotation -= lookValue.y;
@@ -52,6 +53,11 @@ public class S_FirstPersonCamera : MonoBehaviour
 
         // Rotation horizontal
         player.Rotate(Vector3.up * lookValue.x);
+    }
+
+    public void changeMouseSensitivity(float value)
+    {
+        sensitivityMouse = value;
     }
 
     //? ------------------------------------------------    

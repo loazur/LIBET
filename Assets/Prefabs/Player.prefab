@@ -182,10 +182,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 742cdb8fec718a6029660c53845bb5a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controllerChecker: {fileID: 4658029261917165887}
   player: {fileID: 8557010005859436040}
-  mouseSensitivityMouse: 100
-  mouseSensitivityController: 1350
+  sensitivityMouse: 100
+  sensitivityController: 1600
 --- !u!114 &1673238761029844516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,7 +424,6 @@ GameObject:
   - component: {fileID: 8038480735452585374}
   - component: {fileID: 7709009579591783634}
   - component: {fileID: 5001668731640335912}
-  - component: {fileID: 4658029261917165887}
   m_Layer: 2
   m_Name: Body
   m_TagString: Untagged
@@ -636,15 +634,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 7415443177782492238}
   interactRange: 2
---- !u!114 &4658029261917165887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9169824269107651241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec0a545898a815f32be07f178f267c79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

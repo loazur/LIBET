@@ -62,7 +62,7 @@ public class S_DisplayMenus : MonoBehaviour
 
     void Update()
     {
-        if (S_UserInput.instance.MenuOpenCloseInput && ableToOpenCloseMenu)
+        if (S_UserInput.instance.MenuOpenCloseInput && ableToOpenCloseMenu) // Quand on appuit sur la touche d'ouverture du menu
         {
             if (!isOpen) // Ouvrir MainMenu
             {
@@ -97,7 +97,7 @@ public class S_DisplayMenus : MonoBehaviour
 
     //! --------------- Fonctions principales ---------------
 
-    public void ShowMenu(int indexMenu) //& Ouvre le menu pris en paramètre
+    public void ShowMenu(int indexMenu) //& Ouvre le menu pris en paramètre (indexMenu est basé sur l'index dans l'enum)
     {
         HideCurrent(false); // Cache l'ancien
 

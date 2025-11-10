@@ -67,7 +67,7 @@ public class S_UserInput : MonoBehaviour
         _flyUpAction = _playerInput.actions["FlyUp"];
         _flyDownAction = _playerInput.actions["FlyDown"];
     }
-    
+
     private void UpdateInputs()
     {
         MoveInput = _moveAction.ReadValue<Vector2>();
@@ -81,5 +81,11 @@ public class S_UserInput : MonoBehaviour
         NoClipInput = _noClipAction.WasPressedThisFrame();
         FlyUpInput = _flyUpAction.IsPressed();
         FlyDownInput = _flyDownAction.IsPressed();
+    }
+    
+    //? ------------------------------------------------
+    public bool isUsingController() //& Si le joueur utilise une manette
+    {
+        return _playerInput.currentControlScheme == "Gamepad";
     }
 }
