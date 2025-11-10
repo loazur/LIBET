@@ -18,29 +18,41 @@ public class S_DisplayMenus : MonoBehaviour
     [SerializeField] private GameObject videoSettingsMenu;
     [SerializeField] private GameObject keyboardSettingsMenu;
     [SerializeField] private GameObject controllerSettingsMenu;
-    private List<GameObject> listMenus;
-    private GameObject currentOpenedMenu;
+    public enum MenuType // Tout les types de menus
+    {
+        Main,
+        Settings,
+        GameSettings,
+        AudioSettings,
+        VideoSettings,
+        KeyboardSettings,
+        ControllerSettings
+    }
 
+    private Dictionary<MenuType, GameObject> menusList; // Lie l'enum à de vrai gameobjects
+    private MenuType currentMenu; // Menu ouvert actuellement
+
+    //?
     private Volume volume; // Floutage du background
     private bool isOpen = false;
     private bool ableToOpenCloseMenu = true;
 
     void Awake() //& Avant de tout cacher on initialise les variables
     {
-        volume = playerCamera.GetComponent<Volume>(); 
-        currentOpenedMenu = mainMenu; // Le 1er menu qu'on va ouvrir c'est le mainMenu
-
-        listMenus = new List<GameObject>
+        menusList = new Dictionary<MenuType, GameObject>
         {
-            mainMenu,
-            settingsMenu,
-            gameSettingsMenu,
-            audioSettingsMenu,
-            videoSettingsMenu,
-            keyboardSettingsMenu,
-            controllerSettingsMenu
+            {MenuType.Main, mainMenu},
+            {MenuType.Settings, settingsMenu},
+            {MenuType.GameSettings, gameSettingsMenu},
+            {MenuType.AudioSettings, audioSettingsMenu},
+            {MenuType.VideoSettings, videoSettingsMenu},
+            {MenuType.KeyboardSettings, keyboardSettingsMenu},
+            {MenuType.ControllerSettings, controllerSettingsMenu}
+
         };
-        
+
+        volume = playerCamera.GetComponent<Volume>(); 
+        currentMenu = MenuType.Main; // Le 1er menu qu'on va ouvrir c'est le mainMenu     
     }
 
     void Start() //& Cache tout les menus
@@ -54,11 +66,30 @@ public class S_DisplayMenus : MonoBehaviour
         {
             if (!isOpen) // Ouvrir MainMenu
             {
-                ShowMenu(mainMenu);
+                ShowMenu((int)MenuType.Main);
             }
-            else // Fermer Menu actuel
+            else // Fermeture des menus en fonction de la hiérarchie
             {
-                HideCurrent(true);
+                switch(currentMenu)
+                {
+                    case MenuType.Settings:
+                        ShowMenu((int) MenuType.Main);
+                        break;
+
+                    case MenuType.GameSettings:
+                    case MenuType.AudioSettings:
+                    case MenuType.VideoSettings:
+                    case MenuType.KeyboardSettings:
+                    case MenuType.ControllerSettings:
+                        ShowMenu((int) MenuType.Settings);
+                        break;
+
+                    default:
+                        HideCurrent(true);
+                        break;
+                }
+                
+                
             }
         }
         
@@ -66,11 +97,12 @@ public class S_DisplayMenus : MonoBehaviour
 
     //! --------------- Fonctions principales ---------------
 
-    public void ShowMenu(GameObject menu) //& Ouvre le menu pris en paramètre
+    public void ShowMenu(int indexMenu) //& Ouvre le menu pris en paramètre
     {
         HideCurrent(false); // Cache l'ancien
-        menu.SetActive(true); // Active le nouveau
-        currentOpenedMenu = menu; // Et l'assigne à la variable
+
+        menusList[(MenuType) indexMenu].SetActive(true); // Active le nouveau
+        currentMenu = (MenuType) indexMenu; // Et l'assigne à la variable
 
         //
         playerController.setMovementsEnabled(false);
@@ -83,7 +115,7 @@ public class S_DisplayMenus : MonoBehaviour
 
     public void HideCurrent(bool closingMenu) //& Fermeture du menu actuel
     {
-        currentOpenedMenu.SetActive(false);
+        menusList[currentMenu].SetActive(false);
 
         if (closingMenu) // SI on ferme le menu 
         {
@@ -98,7 +130,7 @@ public class S_DisplayMenus : MonoBehaviour
 
     public void HideAll() //& Fermeture tout les menus
     {
-        foreach (GameObject menu in listMenus) // Désactive tout les menus
+        foreach (GameObject menu in menusList.Values) // Désactive tout les menus
         {
             menu.SetActive(false);
         }
