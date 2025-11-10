@@ -6,7 +6,7 @@ public class S_FirstPersonCamera : MonoBehaviour
     [Header("Gestion de la caméra")]
     [SerializeField] private Transform player;
     [SerializeField] private float sensitivityMouse = 100f; // Sensibilité Souris
-    [SerializeField] private float sensitivityController = 1600f; // Sensibilité Manette
+    [SerializeField] private float sensitivityController = 150f; // Sensibilité Manette
     private float limitYup = 90f; //Limite quand on regarde en haut
     private float limitYdown = -90f; //Limite quand on regarde en bas
     
@@ -41,7 +41,7 @@ public class S_FirstPersonCamera : MonoBehaviour
         }
         else // Manettes
         {
-            lookValue = S_UserInput.instance.LookInput * (sensitivityController / 10); // divise par 100 (car plus précis pour régler)
+            lookValue = S_UserInput.instance.LookInput * sensitivityController; // divise par 100 (car plus précis pour régler)
         }
 
         lookValue *= Time.deltaTime; // Pour que la sensibilité s'ajuste au framerate
@@ -55,9 +55,14 @@ public class S_FirstPersonCamera : MonoBehaviour
         player.Rotate(Vector3.up * lookValue.x);
     }
 
-    public void changeMouseSensitivity(float value)
+    public void changeMouseSensitivity(float newValue) //& Changer la sensibilité de la souris
     {
-        sensitivityMouse = value;
+        sensitivityMouse = newValue;
+    }
+
+    public void changeControllerSensitivity(float newValue) //& Changer la sensibilité de la manette
+    {
+        sensitivityController = newValue;
     }
 
     //? ------------------------------------------------    
