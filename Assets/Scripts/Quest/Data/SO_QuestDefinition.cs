@@ -2,12 +2,13 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "SO_QuestDefinition", menuName = "Scriptable Objects/SO_QuestDefinition")]
+
 /**
  * Définit la structure de base d'une quête
  *
- * @author	Unknown
+ * @author	Lucas
  * @since	v0.0.1
- * @version	v1.0.0	Sunday, November 9th, 2025.
+ * @version	v1.0.0	Monday, November 10th, 2025.
  * @global
  */
 public class SO_QuestDefinition : ScriptableObject
