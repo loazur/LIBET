@@ -1,12 +1,17 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class S_FirstPersonCamera : MonoBehaviour
 {
     //~ Gestion de la camera
     [Header("Gestion de la caméra")]
     [SerializeField] private Transform player;
+    [SerializeField] private Slider sliderSensibilityMouse; //! Slider Settings Souris
+    [SerializeField] private Slider sliderSensibilityController; //! Slider Settings Controller
     [SerializeField] private float sensitivityMouse = 100f; // Sensibilité Souris
     [SerializeField] private float sensitivityController = 150f; // Sensibilité Manette
+    private float defaultSensibilityMouse;
+    private float defaultSensibilityController;
     private float limitYup = 90f; //Limite quand on regarde en haut
     private float limitYdown = -90f; //Limite quand on regarde en bas
     
@@ -17,6 +22,10 @@ public class S_FirstPersonCamera : MonoBehaviour
 
     void Start() //& INITIALISATION VARIABLES
     {
+        // Gère les valeurs par défaut des valeurs
+        defaultSensibilityMouse = sensitivityMouse;
+        defaultSensibilityController = sensitivityController;
+
         setCursorEnabled(false);
     }
 
@@ -58,11 +67,25 @@ public class S_FirstPersonCamera : MonoBehaviour
     public void changeMouseSensitivity(float newValue) //& Changer la sensibilité de la souris
     {
         sensitivityMouse = newValue;
+        sliderSensibilityMouse.value = newValue; // On update l'UI
     }
 
     public void changeControllerSensitivity(float newValue) //& Changer la sensibilité de la manette
     {
         sensitivityController = newValue;
+        sliderSensibilityController.value = newValue; // On update l'UI
+    }
+
+    public void resetSensibility(bool controller) //& Utilisé par les boutons de reset de sensibilité dans les menus
+    {
+        if (!controller) // Reset sensibilité souris
+        {
+            changeMouseSensitivity(defaultSensibilityMouse);
+        }
+        else // Reset sensibilité manette
+        {
+            changeControllerSensitivity(defaultSensibilityController);
+        }
     }
 
     //? ------------------------------------------------    
