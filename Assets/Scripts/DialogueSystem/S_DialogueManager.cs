@@ -14,7 +14,6 @@ public class S_DialogueManager : MonoBehaviour
     public TextMeshProUGUI npcName;
     public TextMeshProUGUI dialogueText;
     private Queue<S_DialogueLine> lines;
-    public float typingSpeed = 0;
     [HideInInspector] public bool isDialogueActive;
 
     //~ Références d'autres scripts
@@ -81,7 +80,7 @@ public class S_DialogueManager : MonoBehaviour
         foreach (char letter in dialogueLine.line.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return new WaitForSeconds(typingSpeed);
+            yield return new WaitForSeconds(S_GameSettingsData.instance.currentTypingSpeed / 100); // Divisé par 100 car c'est plus facile de regler de 1 à 100 que 0.1 à 1
         }
     }
 

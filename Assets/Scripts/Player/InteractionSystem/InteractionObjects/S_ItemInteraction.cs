@@ -4,7 +4,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 {
     //~ Gestion de l'item
     [Header("Gestion de l'item")]
-    [SerializeField] private string interactText = "ItemName"; // Nom de l'objet
+    [SerializeField] private string interactText = "not_set"; // Nom de l'objet
     [SerializeField] private float distanceMultiplier = 1.45f; // Distance de l'item quand on le tient
     private float offsetY = 0.6f; // Position vertical de l'item quant on le tient (0.6 = au milieu de l'ecran)
     private S_PlayerInteract playerInteract;
