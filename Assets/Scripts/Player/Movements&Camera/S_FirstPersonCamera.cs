@@ -5,6 +5,7 @@ public class S_FirstPersonCamera : MonoBehaviour
     //~ Gestion de la camera
     [Header("Gestion de la caméra")]
     [SerializeField] private Transform player;
+    private Camera playerCamera;
     private float limitYup = 90f; //Limite quand on regarde en haut
     private float limitYdown = -90f; //Limite quand on regarde en bas
     
@@ -15,7 +16,12 @@ public class S_FirstPersonCamera : MonoBehaviour
 
     void Start() //& INITIALISATION VARIABLES
     {
+        playerCamera = GetComponent<Camera>();
+
+        UpdateFieldOfView();
         setCursorEnabled(false);
+
+        S_CameraSettingsData.instance.OnFieldOfViewChanged += UpdateFieldOfView; // Lance cet fonction à chaque fois que le FOV change
     }
 
     void Update() //& PAS PHYSICS
@@ -82,6 +88,14 @@ public class S_FirstPersonCamera : MonoBehaviour
     public void setRotationEnabled(bool isEnabled) //& Active/Désactive la rotation
     {
         isRotationActive = isEnabled;
+    }
+
+
+    //? ------------------------------------------------
+
+    private void UpdateFieldOfView()
+    {
+        playerCamera.fieldOfView = S_CameraSettingsData.instance.currentFieldOfView;
     }
     
 }

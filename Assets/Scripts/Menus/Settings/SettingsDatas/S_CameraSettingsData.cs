@@ -9,18 +9,21 @@ public class S_CameraSettingsData : MonoBehaviour
     [Header("Gestion de l'UI ")]
     [SerializeField] private Slider sliderSensibilityMouse; //! Slider Settings Souris
     [SerializeField] private Slider sliderSensibilityController; //! Slider Settings Controller
-    [SerializeField] private Toggle toggleInverseXAxis;
-    [SerializeField] private Toggle toggleInverseYAxis;
+    [SerializeField] private Slider sliderFieldOfView; //! Slider FieldOfView
+    [SerializeField] private Toggle toggleInverseXAxis; //! Checkbox InverseXAxis
+    [SerializeField] private Toggle toggleInverseYAxis; //! Checkbox InverseYAxis
     
     //! Valeurs par défauts
     private const float defaultSensibilityMouse = 100f;
     private const float defaultSensibilityController = 150f;
+    private const float defaultFieldOfView = 60f;
     private const bool defaultInverseXAxis = false;
     private const bool defaultInverseYAxis = false;
 
     //! Actuellement utilisé
     public float currentSensibilityMouse {get; private set;}
     public float currentSensibilityController {get; private set;}
+    public float currentFieldOfView {get; private set;}
     public bool currentInverseXAxis {get; private set;}
     public bool currentInverseYAxis {get; private set;}
 
@@ -55,6 +58,17 @@ public class S_CameraSettingsData : MonoBehaviour
         sliderSensibilityController.value = currentSensibilityController;
     }
 
+    public void setCurrentFieldOfView(float newFieldOfView)
+    {
+        if (currentFieldOfView == newFieldOfView)
+            return;
+
+        currentFieldOfView = newFieldOfView;
+        sliderFieldOfView.value = currentFieldOfView;
+
+        OnFieldOfViewChanged?.Invoke();
+    }
+
     public void setCurrentInverseXAxis(bool enabled)
     {
         if (currentInverseXAxis == enabled)
@@ -85,6 +99,11 @@ public class S_CameraSettingsData : MonoBehaviour
         setCurrentSensibilityController(defaultSensibilityController);
     }
 
+    public void resetCurrentFieldOfView()
+    {
+        setCurrentFieldOfView(defaultFieldOfView);
+    }
+
     public void resetCurrentInverseXAxis()
     {
         setCurrentInverseXAxis(defaultInverseXAxis);
@@ -97,6 +116,7 @@ public class S_CameraSettingsData : MonoBehaviour
 
     //?------------------------------------- EVENTS
 
+    public event Action OnFieldOfViewChanged;
 
 
     //! ------------------------------------ SAVES/LOADS
@@ -106,6 +126,7 @@ public class S_CameraSettingsData : MonoBehaviour
         // Met à jour les préferences
         PlayerPrefs.SetFloat("MouseSensitivity", currentSensibilityMouse);
         PlayerPrefs.SetFloat("ControllerSensitivity", currentSensibilityController);
+        PlayerPrefs.SetFloat("FieldOfView", currentFieldOfView);
         PlayerPrefs.SetInt("InverseXAxis", Convert.ToInt32(currentInverseXAxis));
         PlayerPrefs.SetInt("InverseYAxis", Convert.ToInt32(currentInverseYAxis));
 
@@ -116,26 +137,30 @@ public class S_CameraSettingsData : MonoBehaviour
     public void LoadData() //& Charge les données
     {
         //Charge les données si elles sont présentes sinon charge les valeurs par défaut
-        if (PlayerPrefs.HasKey("MouseSensitivity"))  //~ Language
+        if (PlayerPrefs.HasKey("MouseSensitivity"))  //~ MouseSensitivity
             setCurrentSensibilityMouse(PlayerPrefs.GetFloat("MouseSensitivity"));
         else
             setCurrentSensibilityMouse(defaultSensibilityMouse);
 
-        if (PlayerPrefs.HasKey("ControllerSensitivity")) //~ CameraShake
+        if (PlayerPrefs.HasKey("ControllerSensitivity")) //~ ControllerSensitivity
             setCurrentSensibilityController(PlayerPrefs.GetFloat("ControllerSensitivity"));
         else
             setCurrentSensibilityController(defaultSensibilityController);
 
-        if (PlayerPrefs.HasKey("InverseXAxis")) //~ ATHSize
+        if (PlayerPrefs.HasKey("FieldOfView")) //~ FieldOfView
+            setCurrentFieldOfView(PlayerPrefs.GetFloat("FieldOfView"));
+        else
+            setCurrentFieldOfView(defaultFieldOfView);
+
+        if (PlayerPrefs.HasKey("InverseXAxis")) //~ InverseXAxis
             setCurrentInverseXAxis(Convert.ToBoolean(PlayerPrefs.GetInt("InverseXAxis")));
         else
             setCurrentInverseXAxis(defaultInverseXAxis);
 
-        if (PlayerPrefs.HasKey("InverseYAxis")) //~ TypingSpeed
+        if (PlayerPrefs.HasKey("InverseYAxis")) //~ InverseYAxis
             setCurrentInverseYAxis(Convert.ToBoolean(PlayerPrefs.GetInt("InverseYAxis")));
         else
             setCurrentInverseYAxis(defaultInverseYAxis);
     }
 
-    
 }
