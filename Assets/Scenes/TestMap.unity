@@ -1940,8 +1940,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1365708504}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.28421053, y: 0}
-  m_AnchorMax: {x: 0.28421053, y: 1}
+  m_AnchorMin: {x: 0.32960895, y: 0}
+  m_AnchorMax: {x: 0.32960895, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11244,17 +11244,17 @@ MonoBehaviour:
   m_FillRect: {fileID: 2014075738}
   m_HandleRect: {fileID: 175876043}
   m_Direction: 0
-  m_MinValue: 25
-  m_MaxValue: 500
+  m_MinValue: 1
+  m_MaxValue: 180
   m_WholeNumbers: 1
-  m_Value: 160
+  m_Value: 60
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1453702293}
         m_TargetAssemblyTypeName: S_CameraSettingsData, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: setCurrentFieldOfView
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -12355,7 +12355,7 @@ GameObject:
   - component: {fileID: 891847633}
   - component: {fileID: 891847632}
   m_Layer: 5
-  m_Name: SensibilityText
+  m_Name: FOVText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12400,7 +12400,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Field of View
+  m_text: Champ de vision
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17851,7 +17851,7 @@ GameObject:
   - component: {fileID: 1295289328}
   - component: {fileID: 1295289327}
   m_Layer: 5
-  m_Name: ResetSensi
+  m_Name: ResetFOV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17923,7 +17923,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1453702293}
         m_TargetAssemblyTypeName: S_CameraSettingsData, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: resetCurrentFieldOfView
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20986,6 +20986,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sliderSensibilityMouse: {fileID: 1346179251}
   sliderSensibilityController: {fileID: 1243771363}
+  sliderFieldOfView: {fileID: 795137002}
   toggleInverseXAxis: {fileID: 606515736}
   toggleInverseYAxis: {fileID: 1540780746}
 --- !u!1 &1461524463
@@ -26755,7 +26756,7 @@ RectTransform:
   m_Father: {fileID: 286182487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.28421053, y: 1}
+  m_AnchorMax: {x: 0.32960895, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
