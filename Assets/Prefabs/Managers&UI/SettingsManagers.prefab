@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8598887018655505653}
   - component: {fileID: 7697597852150912193}
   - component: {fileID: 6727140742138806262}
+  - component: {fileID: 437017128089410630}
   m_Layer: 0
   m_Name: SettingsManagers
   m_TagString: Untagged
@@ -45,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ca69b5c232f2c2bdb98d8b4dd06b67d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typingSpeedSlider: {fileID: 0}
-  languageDropdown: {fileID: 0}
+  sliderTypingSpeed: {fileID: 0}
+  dropdownLanguage: {fileID: 0}
 --- !u!114 &6727140742138806262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,3 +65,20 @@ MonoBehaviour:
   sliderFieldOfView: {fileID: 0}
   toggleInverseXAxis: {fileID: 0}
   toggleInverseYAxis: {fileID: 0}
+--- !u!114 &437017128089410630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4044828985070155395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be92c1c57de33b3e2bb7b8f2ebb08dce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropdownResolution: {fileID: 0}
+  dropdownFullscreen: {fileID: 0}
+  dropdownParticlesEffects: {fileID: 0}
+  sliderFPSMax: {fileID: 0}
+  toggleVSync: {fileID: 0}

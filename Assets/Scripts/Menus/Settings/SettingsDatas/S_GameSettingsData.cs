@@ -7,8 +7,8 @@ public class S_GameSettingsData : MonoBehaviour
     public static S_GameSettingsData instance;
 
     [Header("Elements d'UI")]
-    [SerializeField] private Slider typingSpeedSlider;
-    [SerializeField] private TMPro.TMP_Dropdown languageDropdown;
+    [SerializeField] private Slider sliderTypingSpeed;
+    [SerializeField] private TMPro.TMP_Dropdown dropdownLanguage;
 
     public enum Languages
     {
@@ -60,7 +60,7 @@ public class S_GameSettingsData : MonoBehaviour
             return;
 
         currentLanguage = (Languages)indexLanguage;
-        languageDropdown.value = (int)currentLanguage;
+        dropdownLanguage.value = (int)currentLanguage;
 
         OnLanguageChanged?.Invoke();
     }
@@ -91,7 +91,7 @@ public class S_GameSettingsData : MonoBehaviour
             return;
 
         currentTypingSpeed = newTypingSpeed;
-        typingSpeedSlider.value = currentTypingSpeed;
+        sliderTypingSpeed.value = currentTypingSpeed;
         
     }
 
