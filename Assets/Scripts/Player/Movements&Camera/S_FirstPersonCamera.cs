@@ -1,17 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class S_FirstPersonCamera : MonoBehaviour
 {
     //~ Gestion de la camera
     [Header("Gestion de la caméra")]
     [SerializeField] private Transform player;
-    [SerializeField] private Slider sliderSensibilityMouse; //! Slider Settings Souris
-    [SerializeField] private Slider sliderSensibilityController; //! Slider Settings Controller
-    [SerializeField] private float sensitivityMouse = 100f; // Sensibilité Souris
-    [SerializeField] private float sensitivityController = 150f; // Sensibilité Manette
-    private float defaultSensibilityMouse;
-    private float defaultSensibilityController;
     private float limitYup = 90f; //Limite quand on regarde en haut
     private float limitYdown = -90f; //Limite quand on regarde en bas
     
@@ -22,10 +15,6 @@ public class S_FirstPersonCamera : MonoBehaviour
 
     void Start() //& INITIALISATION VARIABLES
     {
-        // Gère les valeurs par défaut des valeurs
-        defaultSensibilityMouse = sensitivityMouse;
-        defaultSensibilityController = sensitivityController;
-
         setCursorEnabled(false);
     }
 
@@ -46,13 +35,17 @@ public class S_FirstPersonCamera : MonoBehaviour
         // Ajuste la vitesse de la camera en fonction du controller utilisé
         if (!S_UserInput.instance.isUsingController()) // Clavier & Souris
         {
-            lookValue = S_UserInput.instance.LookInput * (sensitivityMouse / 10); // divise par 100 (car plus précis pour régler)
+            lookValue = S_UserInput.instance.LookInput * (S_CameraSettingsData.instance.currentSensibilityMouse / 10); // divise par 100 (car plus précis pour régler)
         }
         else // Manettes
         {
-            lookValue = S_UserInput.instance.LookInput * sensitivityController; // divise par 100 (car plus précis pour régler)
+            lookValue = S_UserInput.instance.LookInput * S_CameraSettingsData.instance.currentSensibilityController; // divise par 100 (car plus précis pour régler)
         }
 
+        // Inversion de X,Y
+        if (S_CameraSettingsData.instance.currentInverseXAxis) lookValue.x *= -1f;
+        if (S_CameraSettingsData.instance.currentInverseYAxis) lookValue.y *= -1f;
+        
         lookValue *= Time.deltaTime; // Pour que la sensibilité s'ajuste au framerate
 
         // Rotation vertical
@@ -62,30 +55,6 @@ public class S_FirstPersonCamera : MonoBehaviour
 
         // Rotation horizontal
         player.Rotate(Vector3.up * lookValue.x);
-    }
-
-    public void changeMouseSensitivity(float newValue) //& Changer la sensibilité de la souris
-    {
-        sensitivityMouse = newValue;
-        sliderSensibilityMouse.value = newValue; // On update l'UI
-    }
-
-    public void changeControllerSensitivity(float newValue) //& Changer la sensibilité de la manette
-    {
-        sensitivityController = newValue;
-        sliderSensibilityController.value = newValue; // On update l'UI
-    }
-
-    public void resetSensibility(bool controller) //& Utilisé par les boutons de reset de sensibilité dans les menus
-    {
-        if (!controller) // Reset sensibilité souris
-        {
-            changeMouseSensitivity(defaultSensibilityMouse);
-        }
-        else // Reset sensibilité manette
-        {
-            changeControllerSensitivity(defaultSensibilityController);
-        }
     }
 
     //? ------------------------------------------------    
