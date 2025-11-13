@@ -16,6 +16,7 @@ public class S_DisplayMenus : MonoBehaviour
     [SerializeField] private GameObject gameSettingsMenu;
     [SerializeField] private GameObject audioSettingsMenu;
     [SerializeField] private GameObject videoSettingsMenu;
+    [SerializeField] private GameObject cameraSettingsMenu;
     [SerializeField] private GameObject keyboardSettingsMenu;
     [SerializeField] private GameObject controllerSettingsMenu;
     public enum MenuType // Tout les types de menus
@@ -25,6 +26,7 @@ public class S_DisplayMenus : MonoBehaviour
         GameSettings,
         AudioSettings,
         VideoSettings,
+        CameraSettings,
         KeyboardSettings,
         ControllerSettings
     }
@@ -46,6 +48,7 @@ public class S_DisplayMenus : MonoBehaviour
             {MenuType.GameSettings, gameSettingsMenu},
             {MenuType.AudioSettings, audioSettingsMenu},
             {MenuType.VideoSettings, videoSettingsMenu},
+            {MenuType.CameraSettings, cameraSettingsMenu},
             {MenuType.KeyboardSettings, keyboardSettingsMenu},
             {MenuType.ControllerSettings, controllerSettingsMenu}
 
@@ -79,6 +82,7 @@ public class S_DisplayMenus : MonoBehaviour
                     case MenuType.GameSettings:
                     case MenuType.AudioSettings:
                     case MenuType.VideoSettings:
+                    case MenuType.CameraSettings:
                     case MenuType.KeyboardSettings:
                     case MenuType.ControllerSettings:
                         ShowMenu((int) MenuType.Settings);

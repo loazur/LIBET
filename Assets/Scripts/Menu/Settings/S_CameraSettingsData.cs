@@ -9,6 +9,8 @@ public class S_CameraSettingsData : MonoBehaviour
     [Header("Gestion de l'UI ")]
     [SerializeField] private Slider sliderSensibilityMouse; //! Slider Settings Souris
     [SerializeField] private Slider sliderSensibilityController; //! Slider Settings Controller
+    [SerializeField] private Toggle toggleInverseXAxis;
+    [SerializeField] private Toggle toggleInverseYAxis;
     
     //! Valeurs par défauts
     private const float defaultSensibilityMouse = 100f;
@@ -59,7 +61,7 @@ public class S_CameraSettingsData : MonoBehaviour
             return;
 
         currentInverseXAxis = enabled;
-        //TODO changer UI
+        toggleInverseXAxis.isOn = currentInverseXAxis;
     }
 
     public void setCurrentInverseYAxis(bool enabled)
@@ -68,7 +70,7 @@ public class S_CameraSettingsData : MonoBehaviour
             return;
 
         currentInverseYAxis = enabled;
-        //TODO changer UI
+        toggleInverseYAxis.isOn = currentInverseYAxis;
     }
 
     //?------------------------------------- RESETS

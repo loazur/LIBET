@@ -42,8 +42,10 @@ public class S_FirstPersonCamera : MonoBehaviour
             lookValue = S_UserInput.instance.LookInput * S_CameraSettingsData.instance.currentSensibilityController; // divise par 100 (car plus précis pour régler)
         }
 
-        //TODO gérer inversion X,Y
-
+        // Inversion de X,Y
+        if (S_CameraSettingsData.instance.currentInverseXAxis) lookValue.x *= -1f;
+        if (S_CameraSettingsData.instance.currentInverseYAxis) lookValue.y *= -1f;
+        
         lookValue *= Time.deltaTime; // Pour que la sensibilité s'ajuste au framerate
 
         // Rotation vertical
