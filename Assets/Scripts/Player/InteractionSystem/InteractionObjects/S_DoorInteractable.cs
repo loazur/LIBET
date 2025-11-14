@@ -8,7 +8,7 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
     [SerializeField] private bool isRotatingDoor = true;
     [SerializeField] private float speed = 1f; // Vitesse d'ouverture/fermeture
 
-    private string interactText = "Ouvrir"; // Texte affiché sur l'UI
+    private string interactText = "not_set"; // Texte affiché sur l'UI
     private bool isOpen = false;
     
     //~ Porte Rotative
@@ -29,10 +29,15 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
 
     void Start() //& INITIALISATION VARIABLES
     {
+        UpdateInteractText(); // Setup
+
         startRotationVec = transform.rotation.eulerAngles;
         forward = transform.right;
         startPositionVec = transform.position;
+
+        S_GameSettingsData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
     }
+
 
     //! Méthodes provenant de l'interface SI_Interactable
 
@@ -41,14 +46,13 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
         if (!isOpen)
         {
             Open(playerTransform.position);
-            interactText = "Fermer";
         }
         else
         {
             Close();
-            interactText = "Ouvrir";
         }
 
+        UpdateInteractText();
     }
 
     public string getInteractText() //& Texte de la porte
@@ -171,13 +175,40 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
 
         float time = 0;
         isOpen = false;
-        
+
         while (time < 1)
         {
             transform.position = Vector3.Lerp(startPosition, endPosition, time);
             yield return null;
             time += Time.deltaTime * speed;
-        } 
+        }
+    }
+    
+
+    private void UpdateInteractText() //& Gestion du texte en fonction de la langue
+    {
+        if (!isOpen) // Si fermer
+        {
+            if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+            {
+                interactText = "Ouvrir";
+            }
+            else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+            {
+                interactText = "Open";
+            }
+        }
+        else // Si ouverte
+        {
+            if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+            {
+                interactText = "Fermer";
+            }
+            else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+            {
+                interactText = "Close";
+            }
+        }
     }
 
 }
