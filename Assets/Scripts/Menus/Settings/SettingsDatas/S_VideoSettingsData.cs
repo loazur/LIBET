@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ public class S_VideoSettingsData : MonoBehaviour
     [SerializeField] private TMPro.TMP_Dropdown dropdownParticlesEffects; //! Dropdown des effets de particules
     [SerializeField] private Slider sliderFPSMax; //! Slider des FPS max
     [SerializeField] private Toggle toggleVSync; //! Toggle du VSync
+
+    Resolution[] availableResolutions;
     
     //! Valeurs par défauts
     //TODO
@@ -20,6 +23,8 @@ public class S_VideoSettingsData : MonoBehaviour
 
     //! Actuellement utilisé
     //TODO
+    
+    //? currentResolution = Screen.currentResolution
     public float currentFPSMax {get; private set;}
     public bool currentVSync {get; private set;}
 
@@ -31,6 +36,9 @@ public class S_VideoSettingsData : MonoBehaviour
             instance = this;
         }
 
+        Debug.Log(Screen.currentResolution);
+
+        SetupResolutions();
         LoadData();
     }
 
@@ -101,6 +109,11 @@ public class S_VideoSettingsData : MonoBehaviour
             setCurrentVSync(Convert.ToBoolean(PlayerPrefs.GetInt("VSync")));
         else
             setCurrentVSync(defaultVSync);
+    }
+
+    private void SetupResolutions()
+    {
+        availableResolutions = Screen.resolutions;
     }
 
 }
