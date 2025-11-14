@@ -2724,8 +2724,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2808747884964883372}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.12244898, y: 0}
+  m_AnchorMax: {x: 0.12244898, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2936,10 +2936,10 @@ RectTransform:
   - {fileID: 5579951878315343546}
   m_Father: {fileID: 602239268840304953}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -50}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1094026845301295150
 GameObject:
@@ -5674,6 +5674,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2949373327141650255}
   - {fileID: 7474970654373880847}
   - {fileID: 6009477262564816197}
   - {fileID: 1254046583459485771}
@@ -6031,10 +6032,10 @@ RectTransform:
   - {fileID: 801048689499077107}
   m_Father: {fileID: 602239268840304953}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -186.79999}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2417335256041368043
 GameObject:
@@ -7027,10 +7028,10 @@ RectTransform:
   - {fileID: 8591877474240267261}
   m_Father: {fileID: 602239268840304953}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -95.6}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2775120503841746647
 GameObject:
@@ -7533,7 +7534,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8252935543401543917}
         m_TargetAssemblyTypeName: S_GameSettingsData, Assembly-CSharp
         m_MethodName: setCurrentLanguage
         m_Mode: 0
@@ -7911,7 +7912,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8252935543401543917}
         m_TargetAssemblyTypeName: S_GameSettingsData, Assembly-CSharp
         m_MethodName: SaveData
         m_Mode: 1
@@ -8711,7 +8712,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4623835367234651849}
         m_TargetAssemblyTypeName: S_CameraSettingsData, Assembly-CSharp
         m_MethodName: resetCurrentInverseXAxis
         m_Mode: 1
@@ -9610,7 +9611,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8252935543401543917}
         m_TargetAssemblyTypeName: S_GameSettingsData, Assembly-CSharp
         m_MethodName: setCurrentTypingSpeed
         m_Mode: 0
@@ -10578,7 +10579,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4623835367234651849}
         m_TargetAssemblyTypeName: S_CameraSettingsData, Assembly-CSharp
         m_MethodName: resetCurrentFieldOfView
         m_Mode: 1
@@ -11116,7 +11117,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4623835367234651849}
         m_TargetAssemblyTypeName: S_CameraSettingsData, Assembly-CSharp
         m_MethodName: setCurrentInverseYAxis
         m_Mode: 0
@@ -11606,10 +11607,10 @@ RectTransform:
   - {fileID: 86434875118211338}
   m_Father: {fileID: 602239268840304953}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -141.2}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3891731942620735876
 GameObject:
@@ -12398,7 +12399,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4623835367234651849}
         m_TargetAssemblyTypeName: S_CameraSettingsData, Assembly-CSharp
         m_MethodName: resetCurrentSensibilityMouse
         m_Mode: 1
@@ -13581,7 +13582,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4623835367234651849}
         m_TargetAssemblyTypeName: S_CameraSettingsData, Assembly-CSharp
         m_MethodName: SaveData
         m_Mode: 1
@@ -14413,7 +14414,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8252935543401543917}
         m_TargetAssemblyTypeName: S_GameSettingsData, Assembly-CSharp
         m_MethodName: resetCurrentTypingSpeed
         m_Mode: 1
@@ -17308,7 +17309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1659840411984101754
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17419,7 +17420,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4623835367234651849}
         m_TargetAssemblyTypeName: S_CameraSettingsData, Assembly-CSharp
         m_MethodName: setCurrentInverseXAxis
         m_Mode: 0
@@ -18377,7 +18378,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8252935543401543917}
         m_TargetAssemblyTypeName: S_GameSettingsData, Assembly-CSharp
         m_MethodName: resetCurrentLanguage
         m_Mode: 1
@@ -19560,7 +19561,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4623835367234651849}
         m_TargetAssemblyTypeName: S_CameraSettingsData, Assembly-CSharp
         m_MethodName: setCurrentSensibilityController
         m_Mode: 0
@@ -19693,7 +19694,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4623835367234651849}
         m_TargetAssemblyTypeName: S_CameraSettingsData, Assembly-CSharp
         m_MethodName: resetCurrentInverseYAxis
         m_Mode: 1
@@ -23717,7 +23718,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4623835367234651849}
         m_TargetAssemblyTypeName: S_CameraSettingsData, Assembly-CSharp
         m_MethodName: resetCurrentSensibilityController
         m_Mode: 1
@@ -25653,7 +25654,7 @@ RectTransform:
   m_Father: {fileID: 1114822711132819118}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.12244898, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -25907,6 +25908,88 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &8166214525593037817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2949373327141650255}
+  - component: {fileID: 8252935543401543917}
+  - component: {fileID: 4623835367234651849}
+  - component: {fileID: 277447410824205301}
+  m_Layer: 0
+  m_Name: SettingsDatas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2949373327141650255
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8166214525593037817}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11.240784, y: -1.388092, z: -15.282623}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7613577145526839747}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8252935543401543917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8166214525593037817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca69b5c232f2c2bdb98d8b4dd06b67d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliderTypingSpeed: {fileID: 7410246339588220539}
+  dropdownLanguage: {fileID: 5677361482106859557}
+--- !u!114 &4623835367234651849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8166214525593037817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ee7d50c311df17e7a77745e56ac94ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliderSensibilityMouse: {fileID: 2736134793763414604}
+  sliderSensibilityController: {fileID: 4404452418563476662}
+  sliderFieldOfView: {fileID: 6492390916956289158}
+  toggleInverseXAxis: {fileID: 7855145408696110679}
+  toggleInverseYAxis: {fileID: 2999244259172147146}
+--- !u!114 &277447410824205301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8166214525593037817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be92c1c57de33b3e2bb7b8f2ebb08dce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropdownResolution: {fileID: 3308672460377825748}
+  dropdownFullscreen: {fileID: 8615614596684029606}
+  dropdownParticlesEffects: {fileID: 307578061278135029}
+  sliderFPSMax: {fileID: 7313204633011256400}
+  toggleVSync: {fileID: 9039900432972149101}
 --- !u!1 &8171089889548664276
 GameObject:
   m_ObjectHideFlags: 0
@@ -27081,7 +27164,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4623835367234651849}
         m_TargetAssemblyTypeName: S_CameraSettingsData, Assembly-CSharp
         m_MethodName: setCurrentFieldOfView
         m_Mode: 0
@@ -27334,10 +27417,10 @@ RectTransform:
   - {fileID: 6823884390694221751}
   m_Father: {fileID: 602239268840304953}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -232.4}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8542563849150571547
 GameObject:
@@ -28402,7 +28485,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4623835367234651849}
         m_TargetAssemblyTypeName: S_CameraSettingsData, Assembly-CSharp
         m_MethodName: setCurrentSensibilityMouse
         m_Mode: 0
