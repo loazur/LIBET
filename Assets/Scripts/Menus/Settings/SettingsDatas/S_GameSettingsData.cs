@@ -6,9 +6,9 @@ public class S_GameSettingsData : MonoBehaviour
 {
     public static S_GameSettingsData instance;
 
-    [Header("Elements d'UI")]
-    [SerializeField] private Slider sliderTypingSpeed;
-    [SerializeField] private TMPro.TMP_Dropdown dropdownLanguage;
+    [Header("Gestion de l'UI")]
+    [SerializeField] private TMPro.TMP_Dropdown dropdownLanguage; //! Dropdown du langage
+    [SerializeField] private Slider sliderTypingSpeed; //! Slider de la vitesse d'écriture
 
     public enum Languages
     {
