@@ -51,4 +51,31 @@ public class S_Quest
     {
         return currentQuestStepIndex < info.questStepsPrefabs.Length;
     }
+
+    public void InstantiateCurrentQuestStep(Transform parentTransform)
+    {
+        GameObject questStepPrefab = CurrentQuestStepPrefab();
+        if (questStepPrefab != null)
+        {
+            GameObject.Instantiate<GameObject>(questStepPrefab, parentTransform);
+        }
+        else
+        {
+            Debug.LogWarning("Cannot instantiate quest step: prefab is null for quest: " + info.id + " at index: " + currentQuestStepIndex);
+        }
+    }
+
+    private GameObject CurrentQuestStepPrefab()
+    {
+        GameObject questStepPrefab = null;
+        if (CurrentStepExists())
+        {
+            questStepPrefab = info.questStepsPrefabs[currentQuestStepIndex];
+        }
+        else
+        {
+            Debug.LogWarning("No current quest step exists for quest: " + info.id + " at index: " + currentQuestStepIndex);
+        }
+        return questStepPrefab;
+    }
 }
