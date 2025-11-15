@@ -1,17 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 
 public class S_DisplayMenus : MonoBehaviour
 {
     //~ Références vers d'autre classes
     [SerializeField] private S_PlayerController playerController;
+    [SerializeField] private S_PlayerCrouch playerCrouch;
     [SerializeField] private S_FirstPersonCamera playerCamera;
     [SerializeField] private S_PlayerInteract playerInteract;
 
     //~ Containers des menus / sous-menus
     [Header("Containers des différents menu")]
     [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject startingButtonMainMenu; //! Important: 1er objet selectionné dans la navigation MainMenu
+    [SerializeField] private GameObject startingButtonSettingsMenu; //! Important: 1er objet selectionné dans la navigation SettingMenu
     [SerializeField] private GameObject settingsMenu;
     [SerializeField] private GameObject gameSettingsMenu;
     [SerializeField] private GameObject audioSettingsMenu;
@@ -70,6 +74,7 @@ public class S_DisplayMenus : MonoBehaviour
             if (!isOpen) // Ouvrir MainMenu
             {
                 ShowMenu((int)MenuType.Main);
+                EventSystem.current.SetSelectedGameObject(startingButtonMainMenu); // On commence par le bouton continuer
             }
             else // Fermeture des menus en fonction de la hiérarchie
             {
@@ -86,6 +91,7 @@ public class S_DisplayMenus : MonoBehaviour
                     case MenuType.KeyboardSettings:
                     case MenuType.ControllerSettings:
                         ShowMenu((int) MenuType.Settings);
+                        EventSystem.current.SetSelectedGameObject(startingButtonSettingsMenu); // On commence par le bouton GameSettings 
                         break;
 
                     default:
@@ -113,6 +119,7 @@ public class S_DisplayMenus : MonoBehaviour
         playerCamera.setCursorEnabled(true);
         playerCamera.setRotationEnabled(false);
         playerInteract.setInteractionEnabled(false);
+        playerCrouch.setAbleToCrouch(false);
         volume.enabled = true;
         isOpen = true;
     }
@@ -127,6 +134,7 @@ public class S_DisplayMenus : MonoBehaviour
             playerCamera.setCursorEnabled(false);
             playerCamera.setRotationEnabled(true);
             playerInteract.setInteractionEnabled(true);
+            playerCrouch.setAbleToCrouch(true);
             volume.enabled = false;
             isOpen = false;
         }
@@ -143,6 +151,7 @@ public class S_DisplayMenus : MonoBehaviour
         playerCamera.setCursorEnabled(false);
         playerCamera.setRotationEnabled(true);
         playerInteract.setInteractionEnabled(true);
+        playerCrouch.setAbleToCrouch(true);
         volume.enabled = false;
         isOpen = false;
     }
