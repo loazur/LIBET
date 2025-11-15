@@ -27,14 +27,14 @@ public class S_VideoSettingsData : MonoBehaviour
     //! Valeurs par défauts
     private const int defaultResolutionIndex = 0; // Max Résolution
     private const int defaultParticlesEffectsIndex = (int)ParticlesEffects.Enabled; // Particules activés
-    private const float defaultFPSMax = 144f; // 144 fps max
+    private const int defaultFPSMax = 144; // 144 fps max
     private const bool defaultFullScreen = true; // Plein écran
     private const bool defaultVSync = false; // Désactivé
 
     //! Actuellement utilisé
     public int currentResolutionIndex {get; private set;}
     public int currentParticlesEffectsIndex {get; private set;}
-    public float currentFPSMax {get; private set;}
+    public int currentFPSMax {get; private set;}
     public bool currentFullScreen {get; private set;}
     public bool currentVSync {get; private set;}
 
@@ -92,8 +92,13 @@ public class S_VideoSettingsData : MonoBehaviour
         if (currentFPSMax == newFPSMax)
             return;
 
-        //! ne fais rien concretement
-        currentFPSMax = newFPSMax;
+    
+        if (newFPSMax == sliderFPSMax.maxValue)
+            Application.targetFrameRate = -1; // Illimité
+        else
+            Application.targetFrameRate = (int)newFPSMax; // Changement de la limite
+
+        currentFPSMax = (int)newFPSMax;
         sliderFPSMax.value = currentFPSMax;
     }
 
@@ -102,7 +107,7 @@ public class S_VideoSettingsData : MonoBehaviour
         if (currentVSync == enabled)
             return;
 
-        //! ne fais rien concretement
+        QualitySettings.vSyncCount = Convert.ToInt32(enabled);
         currentVSync = enabled;
         toggleVSync.isOn = currentVSync;
     }
@@ -144,7 +149,7 @@ public class S_VideoSettingsData : MonoBehaviour
         // Met à jour les préferences
         PlayerPrefs.SetInt("Resolution", currentResolutionIndex);
         PlayerPrefs.SetInt("ParticlesEffects", currentParticlesEffectsIndex);
-        PlayerPrefs.SetFloat("FPSMax", currentFPSMax);
+        PlayerPrefs.SetInt("FPSMax", currentFPSMax);
         PlayerPrefs.SetInt("FullScreen", Convert.ToInt32(currentFullScreen));
         PlayerPrefs.SetInt("VSync", Convert.ToInt32(currentVSync));
 
@@ -171,7 +176,7 @@ public class S_VideoSettingsData : MonoBehaviour
             setCurrentParticlesEffects(defaultParticlesEffectsIndex);
 
         if (PlayerPrefs.HasKey("FPSMax")) //~ FPSMax
-            setCurrentFPSMax(PlayerPrefs.GetFloat("FPSMax"));
+            setCurrentFPSMax(PlayerPrefs.GetInt("FPSMax"));
         else
             setCurrentFPSMax(defaultFPSMax);
 
