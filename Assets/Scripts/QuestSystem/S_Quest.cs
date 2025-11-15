@@ -1,16 +1,54 @@
 using UnityEngine;
 
-public class S_Quest : MonoBehaviour
+public class S_Quest
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public SO_QuestInfo info;
+
+    public E_QuestState state;
+
+    private int currentQuestStepIndex;
+
+    /**
+     * constructeur qui initialise les variables
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, November 15th, 2025.
+     * @param	so_questinfo	questInfo	
+     * @return	void
+     */
+    public S_Quest(SO_QuestInfo questInfo)
     {
-        
+        this.info = questInfo;
+        this.state = E_QuestState.REQUIREMENTS_NOT_MET;
+        this.currentQuestStepIndex = 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    /**
+     * permet de passer à l'étape suivante de la quête
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, November 15th, 2025.
+     * @access	public
+     * @return	void
+     */
+    public void MoveToNextStep()
     {
-        
+        currentQuestStepIndex++;
+    }
+
+    /**
+     * Vérifie si l'étape actuelle existe
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, November 15th, 2025.
+     * @access	public
+     * @return	mixed
+     */
+    public bool CurrentStepExists()
+    {
+        return currentQuestStepIndex < info.questStepsPrefabs.Length;
     }
 }

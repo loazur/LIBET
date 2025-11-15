@@ -86,7 +86,7 @@ public class S_TakeBallQuest : S_QuestStep
         {
             return obj.name.Contains(specificBallName);
         }
-
+        Debug.Log("Balle reconnue : " + obj.name); //! ASUP
         return true;
     }
 
