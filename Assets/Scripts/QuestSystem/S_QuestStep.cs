@@ -10,6 +10,7 @@ public abstract class S_QuestStep : MonoBehaviour
         if (!isFinished)
         {
             isFinished = true;
+            Destroy(this.gameObject); // Supprime la quête une fois l'étape terminée
         }
     }
 }
