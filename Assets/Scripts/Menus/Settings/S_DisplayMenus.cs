@@ -6,6 +6,7 @@ public class S_DisplayMenus : MonoBehaviour
 {
     //~ Références vers d'autre classes
     [SerializeField] private S_PlayerController playerController;
+    [SerializeField] private S_PlayerCrouch playerCrouch;
     [SerializeField] private S_FirstPersonCamera playerCamera;
     [SerializeField] private S_PlayerInteract playerInteract;
 
@@ -113,6 +114,7 @@ public class S_DisplayMenus : MonoBehaviour
         playerCamera.setCursorEnabled(true);
         playerCamera.setRotationEnabled(false);
         playerInteract.setInteractionEnabled(false);
+        playerCrouch.setAbleToCrouch(false);
         volume.enabled = true;
         isOpen = true;
     }
@@ -127,6 +129,7 @@ public class S_DisplayMenus : MonoBehaviour
             playerCamera.setCursorEnabled(false);
             playerCamera.setRotationEnabled(true);
             playerInteract.setInteractionEnabled(true);
+            playerCrouch.setAbleToCrouch(true);
             volume.enabled = false;
             isOpen = false;
         }
@@ -143,6 +146,7 @@ public class S_DisplayMenus : MonoBehaviour
         playerCamera.setCursorEnabled(false);
         playerCamera.setRotationEnabled(true);
         playerInteract.setInteractionEnabled(true);
+        playerCrouch.setAbleToCrouch(true);
         volume.enabled = false;
         isOpen = false;
     }
