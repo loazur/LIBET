@@ -14,8 +14,6 @@ public class S_DisplayMenus : MonoBehaviour
     //~ Containers des menus / sous-menus
     [Header("Containers des différents menu")]
     [SerializeField] private GameObject mainMenu;
-    [SerializeField] private GameObject startingButtonMainMenu; //! Important: 1er objet selectionné dans la navigation MainMenu
-    [SerializeField] private GameObject startingButtonSettingsMenu; //! Important: 1er objet selectionné dans la navigation SettingMenu
     [SerializeField] private GameObject settingsMenu;
     [SerializeField] private GameObject gameSettingsMenu;
     [SerializeField] private GameObject audioSettingsMenu;
@@ -23,6 +21,17 @@ public class S_DisplayMenus : MonoBehaviour
     [SerializeField] private GameObject cameraSettingsMenu;
     [SerializeField] private GameObject keyboardSettingsMenu;
     [SerializeField] private GameObject controllerSettingsMenu;
+
+    [Header("Gestion de la navigation")]
+    [SerializeField] private GameObject startingButtonMainMenu; //! Important: 1er objet selectionné dans la navigation MainMenu
+    [SerializeField] private GameObject settingButtonInMainMenu;
+    [SerializeField] private GameObject gameButtonInSettings; 
+    [SerializeField] private GameObject audioButtonInSettings; 
+    [SerializeField] private GameObject videoButtonInSettings; 
+    [SerializeField] private GameObject cameraButtonInSettings; 
+    [SerializeField] private GameObject keyboardButtonInSettings; 
+    [SerializeField] private GameObject controllerButtonInSettings; 
+
     public enum MenuType // Tout les types de menus
     {
         Main,
@@ -82,16 +91,33 @@ public class S_DisplayMenus : MonoBehaviour
                 {
                     case MenuType.Settings:
                         ShowMenu((int) MenuType.Main);
+                        EventSystem.current.SetSelectedGameObject(settingButtonInMainMenu); // On commence par le bouton continuer
                         break;
 
                     case MenuType.GameSettings:
-                    case MenuType.AudioSettings:
-                    case MenuType.VideoSettings:
-                    case MenuType.CameraSettings:
-                    case MenuType.KeyboardSettings:
-                    case MenuType.ControllerSettings:
+                        EventSystem.current.SetSelectedGameObject(gameButtonInSettings); // On commence par le bouton GameSettings 
                         ShowMenu((int) MenuType.Settings);
-                        EventSystem.current.SetSelectedGameObject(startingButtonSettingsMenu); // On commence par le bouton GameSettings 
+                        break;
+                        
+                    case MenuType.AudioSettings:
+                        EventSystem.current.SetSelectedGameObject(audioButtonInSettings); // On commence par le bouton GameSettings 
+                        ShowMenu((int) MenuType.Settings);
+                        break;
+                    case MenuType.VideoSettings:
+                        EventSystem.current.SetSelectedGameObject(videoButtonInSettings); // On commence par le bouton GameSettings 
+                        ShowMenu((int) MenuType.Settings);
+                        break;
+                    case MenuType.CameraSettings:
+                        EventSystem.current.SetSelectedGameObject(cameraButtonInSettings); // On commence par le bouton GameSettings 
+                        ShowMenu((int) MenuType.Settings);
+                        break;
+                    case MenuType.KeyboardSettings:
+                        EventSystem.current.SetSelectedGameObject(keyboardButtonInSettings); // On commence par le bouton GameSettings 
+                        ShowMenu((int) MenuType.Settings);
+                        break;
+                    case MenuType.ControllerSettings:
+                        EventSystem.current.SetSelectedGameObject(controllerButtonInSettings); // On commence par le bouton GameSettings 
+                        ShowMenu((int) MenuType.Settings);
                         break;
 
                     default:
