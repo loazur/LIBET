@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 
 public class S_DisplayMenus : MonoBehaviour
@@ -13,6 +14,8 @@ public class S_DisplayMenus : MonoBehaviour
     //~ Containers des menus / sous-menus
     [Header("Containers des différents menu")]
     [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject startingButtonMainMenu; //! Important: 1er objet selectionné dans la navigation MainMenu
+    [SerializeField] private GameObject startingButtonSettingsMenu; //! Important: 1er objet selectionné dans la navigation SettingMenu
     [SerializeField] private GameObject settingsMenu;
     [SerializeField] private GameObject gameSettingsMenu;
     [SerializeField] private GameObject audioSettingsMenu;
@@ -71,6 +74,7 @@ public class S_DisplayMenus : MonoBehaviour
             if (!isOpen) // Ouvrir MainMenu
             {
                 ShowMenu((int)MenuType.Main);
+                EventSystem.current.SetSelectedGameObject(startingButtonMainMenu); // On commence par le bouton continuer
             }
             else // Fermeture des menus en fonction de la hiérarchie
             {
@@ -87,6 +91,7 @@ public class S_DisplayMenus : MonoBehaviour
                     case MenuType.KeyboardSettings:
                     case MenuType.ControllerSettings:
                         ShowMenu((int) MenuType.Settings);
+                        EventSystem.current.SetSelectedGameObject(startingButtonSettingsMenu); // On commence par le bouton GameSettings 
                         break;
 
                     default:
