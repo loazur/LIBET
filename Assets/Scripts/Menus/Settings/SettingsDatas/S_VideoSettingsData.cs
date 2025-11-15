@@ -10,9 +10,9 @@ public class S_VideoSettingsData : MonoBehaviour
 
     [Header("Gestion de l'UI ")]
     [SerializeField] private TMPro.TMP_Dropdown dropdownResolution; //! Dropdown de la resolution
-    [SerializeField] private TMPro.TMP_Dropdown dropdownFullScreenMode;  //! Dropdown de fullscreen
     [SerializeField] private TMPro.TMP_Dropdown dropdownParticlesEffects; //! Dropdown des effets de particules
     [SerializeField] private Slider sliderFPSMax; //! Slider des FPS max
+    [SerializeField] private Toggle toggleFullScreen; //! Toggle du plein écran
     [SerializeField] private Toggle toggleVSync; //! Toggle du VSync
 
     Resolution[] availableResolutions; // Résolutions disponibles
@@ -26,16 +26,16 @@ public class S_VideoSettingsData : MonoBehaviour
     
     //! Valeurs par défauts
     private const int defaultResolutionIndex = 0; // Max Résolution
-    private const int defaultFullScreenModeIndex = (int)FullScreenMode.ExclusiveFullScreen; // Plein écran
     private const int defaultParticlesEffectsIndex = (int)ParticlesEffects.Enabled; // Particules activés
     private const float defaultFPSMax = 144f; // 144 fps max
+    private const bool defaultFullScreen = true; // Plein écran
     private const bool defaultVSync = false; // Désactivé
 
     //! Actuellement utilisé
     public int currentResolutionIndex {get; private set;}
-    public int currentFullScreenModeIndex {get; private set;}
     public int currentParticlesEffectsIndex {get; private set;}
     public float currentFPSMax {get; private set;}
+    public bool currentFullScreen {get; private set;}
     public bool currentVSync {get; private set;}
 
 
@@ -47,7 +47,6 @@ public class S_VideoSettingsData : MonoBehaviour
         }
 
         SetupResolutions();
-        SetupFullScreenModes();
         SetupParticlesEffects();
 
         LoadData();
@@ -63,20 +62,20 @@ public class S_VideoSettingsData : MonoBehaviour
         Resolution newResolution = availableResolutions[indexResolution];
 
         currentResolutionIndex = indexResolution;
-        Screen.SetResolution(newResolution.width, newResolution.height, Screen.fullScreenMode);
+        Screen.SetResolution(newResolution.width, newResolution.height, Screen.fullScreen);
 
         dropdownResolution.value = indexResolution;
     }
 
-    public void setCurrentFullScreenMode(int newFullScreenMode)
+    public void setCurrentFullScreen(bool enabled)
     {
-        if (currentFullScreenModeIndex == newFullScreenMode)
+        if (currentFullScreen == enabled)
             return;
 
-        Screen.fullScreenMode = (FullScreenMode)newFullScreenMode;
-        currentFullScreenModeIndex = newFullScreenMode;
+        Screen.fullScreen = enabled;
+        currentFullScreen = Screen.fullScreen;
 
-        dropdownFullScreenMode.value = currentFullScreenModeIndex;
+        toggleFullScreen.isOn = currentFullScreen;
     }
 
     public void setCurrentParticlesEffects(int newParticleEffects)
@@ -115,9 +114,9 @@ public class S_VideoSettingsData : MonoBehaviour
         setCurrentResolution(defaultResolutionIndex);
     }
 
-    public void resetFullScreenMode()
+    public void resetFullScreen()
     {
-        setCurrentFullScreenMode(defaultFullScreenModeIndex);
+        setCurrentFullScreen(defaultFullScreen);
     }
 
     public void resetParticlesEffects()
@@ -144,9 +143,9 @@ public class S_VideoSettingsData : MonoBehaviour
     {
         // Met à jour les préferences
         PlayerPrefs.SetInt("Resolution", currentResolutionIndex);
-        PlayerPrefs.SetInt("FullScreenMode", currentFullScreenModeIndex);
         PlayerPrefs.SetInt("ParticlesEffects", currentParticlesEffectsIndex);
         PlayerPrefs.SetFloat("FPSMax", currentFPSMax);
+        PlayerPrefs.SetInt("FullScreen", Convert.ToInt32(currentFullScreen));
         PlayerPrefs.SetInt("VSync", Convert.ToInt32(currentVSync));
 
         // Les sauvegarde dans PlayerPrefs
@@ -156,15 +155,15 @@ public class S_VideoSettingsData : MonoBehaviour
     public void LoadData() //& Charge les données
     {
         //Charge les données si elles sont présentes sinon charge les valeurs par défaut
+        if (PlayerPrefs.HasKey("FullScreen")) //~ FullScreen
+            setCurrentFullScreen(Convert.ToBoolean(PlayerPrefs.GetInt("FullScreen")));
+        else
+            setCurrentFullScreen(defaultFullScreen);
+
         if (PlayerPrefs.HasKey("Resolution")) //~ Resolution
             setCurrentResolution(PlayerPrefs.GetInt("Resolution"));
         else
             setCurrentResolution(defaultResolutionIndex);
-
-        if (PlayerPrefs.HasKey("FullScreenMode")) //~ FullScreenMode
-            setCurrentFullScreenMode(PlayerPrefs.GetInt("FullScreenMode"));
-        else
-            setCurrentFullScreenMode(defaultFullScreenModeIndex);
 
         if (PlayerPrefs.HasKey("ParticlesEffects")) //~ ParticlesEffects
             setCurrentParticlesEffects(PlayerPrefs.GetInt("ParticlesEffects"));
@@ -202,12 +201,6 @@ public class S_VideoSettingsData : MonoBehaviour
         }
 
         dropdownResolution.AddOptions(resolutionToString); // Ajoute les résolution au dropdown
-    }
-
-    private void SetupFullScreenModes() //& Charge les différent modes de plein écran
-    {
-        //! Probleme ducoup je choisi pas le texte sa se base sur l'enum
-        dropdownFullScreenMode.AddOptions(Enum.GetNames(typeof(FullScreenMode)).ToList());
     }
 
     private void SetupParticlesEffects() //& Charge les différent type d'effets de particules
