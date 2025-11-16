@@ -4,6 +4,7 @@ using UnityEngine;
 public class S_DoorInteractable : MonoBehaviour, SI_Interactable
 {
     //~ Gestion de la porte
+
     [Header("Type de porte")]
     [SerializeField] private bool isRotatingDoor = true;
     [SerializeField] private float speed = 1f; // Vitesse d'ouverture/fermeture
@@ -20,6 +21,10 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
     [Header("Gestion de la porte coulissante")]
     [SerializeField] private Vector3 slideDirection = Vector3.back;
     [SerializeField] private float slideAmount = 1.9f;
+
+    [Header("Gestion de l'audio")]
+    [SerializeField] private AudioClip audioOpening;
+    [SerializeField] private AudioClip audioClosing;
 
     private Vector3 startPositionVec;
     private Vector3 startRotationVec;
@@ -46,6 +51,7 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
         if (!isOpen)
         {
             Open(playerTransform.position);
+            S_SoundFXManager.instance.PlaySoundFXClip(audioOpening, gameObject.transform, 1f);
         }
         else
         {
