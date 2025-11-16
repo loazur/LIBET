@@ -52,6 +52,16 @@ public class S_Quest
         return currentQuestStepIndex < info.questStepsPrefabs.Length;
     }
 
+    /**
+     * Instancie l'étape actuelle de la quête dans le parent donné
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, November 16th, 2025.
+     * @access	public
+     * @param	transform	parentTransform	
+     * @return	void
+     */
     public void InstantiateCurrentQuestStep(Transform parentTransform)
     {
         GameObject questStepPrefab = CurrentQuestStepPrefab();
@@ -65,6 +75,15 @@ public class S_Quest
         }
     }
 
+    /**
+     * Récupère le prefab de l'étape actuelle de la quête
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, November 16th, 2025.
+     * @access	private
+     * @return	mixed
+     */
     private GameObject CurrentQuestStepPrefab()
     {
         GameObject questStepPrefab = null;
