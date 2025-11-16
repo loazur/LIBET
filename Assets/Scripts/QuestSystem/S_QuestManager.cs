@@ -27,7 +27,28 @@ public class S_QuestManager : MonoBehaviour
     private void Awake()
     {
         quesMap = CreateQuestMap();
+
+
     }
+
+    #region QUEST ADVANCEMENT
+
+    private void StartQuest(string questID)
+    {
+        
+    }
+
+    private void AdvanceQuest(string questID)
+    {
+        
+    }
+
+    private void FinishQuest(string questID)
+    {
+        
+    }
+
+    #endregion
 
     /**
      * Récupère toutes les quêtes et les stocke dans un dictionnaire pour un accès facile
