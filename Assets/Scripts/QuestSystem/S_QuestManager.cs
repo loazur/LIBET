@@ -28,6 +28,8 @@ public class S_QuestManager : MonoBehaviour
         quesMap = CreateQuestMap();
     }
 
+
+    //! BUG POTENTIEL ICI
     private void OnEnable()
     {
         ((S_GameManager)S_GameManager.instance).questEvent.OnStartQuest += StartQuest;
@@ -44,7 +46,10 @@ public class S_QuestManager : MonoBehaviour
 
     private void Start()
     {
-        
+        foreach(S_Quest quest in quesMap.Values)
+        {
+            ((S_GameManager)S_GameManager.instance).questEvent.QuestStateChange(quest);
+        }
     }
 
 
