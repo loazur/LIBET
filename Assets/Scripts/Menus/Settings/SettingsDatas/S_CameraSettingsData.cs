@@ -140,27 +140,27 @@ public class S_CameraSettingsData : MonoBehaviour
         if (PlayerPrefs.HasKey("MouseSensitivity"))  //~ MouseSensitivity
             setCurrentSensibilityMouse(PlayerPrefs.GetFloat("MouseSensitivity"));
         else
-            setCurrentSensibilityMouse(defaultSensibilityMouse);
+            resetCurrentSensibilityMouse();
 
         if (PlayerPrefs.HasKey("ControllerSensitivity")) //~ ControllerSensitivity
             setCurrentSensibilityController(PlayerPrefs.GetFloat("ControllerSensitivity"));
         else
-            setCurrentSensibilityController(defaultSensibilityController);
+            resetCurrentSensibilityController();
 
         if (PlayerPrefs.HasKey("FieldOfView")) //~ FieldOfView
             setCurrentFieldOfView(PlayerPrefs.GetFloat("FieldOfView"));
         else
-            setCurrentFieldOfView(defaultFieldOfView);
+            resetCurrentFieldOfView();
 
         if (PlayerPrefs.HasKey("InverseXAxis")) //~ InverseXAxis
             setCurrentInverseXAxis(Convert.ToBoolean(PlayerPrefs.GetInt("InverseXAxis")));
         else
-            setCurrentInverseXAxis(defaultInverseXAxis);
+            resetCurrentInverseXAxis();
 
         if (PlayerPrefs.HasKey("InverseYAxis")) //~ InverseYAxis
             setCurrentInverseYAxis(Convert.ToBoolean(PlayerPrefs.GetInt("InverseYAxis")));
         else
-            setCurrentInverseYAxis(defaultInverseYAxis);
+            resetCurrentInverseYAxis();
     }
 
 }

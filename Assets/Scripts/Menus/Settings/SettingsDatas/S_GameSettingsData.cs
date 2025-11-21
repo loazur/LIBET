@@ -144,22 +144,22 @@ public class S_GameSettingsData : MonoBehaviour
         if (PlayerPrefs.HasKey("GameLanguage"))  //~ Language
             setCurrentLanguage(PlayerPrefs.GetInt("GameLanguage"));
         else
-            setCurrentLanguage((int)defaultLanguage);
+            resetCurrentLanguage();
 
         if (PlayerPrefs.HasKey("CameraShake")) //~ CameraShake
             setCurrentCameraShake(PlayerPrefs.GetInt("CameraShake"));
         else
-            setCurrentLanguage((int)defaultCameraShake);
+            resetCurrentCameraShake();
 
         if (PlayerPrefs.HasKey("ATHSize")) //~ ATHSize
             setCurrentATHSize(PlayerPrefs.GetInt("ATHSize"));
         else
-            setCurrentATHSize((int)defaultATHSize);
+            resetCurrentATHSize();
 
         if (PlayerPrefs.HasKey("TypingSpeed")) //~ TypingSpeed
             setCurrentTypingSpeed(PlayerPrefs.GetFloat("TypingSpeed"));
         else
-            setCurrentTypingSpeed(defaultTypingSpeed);
+            resetCurrentTypingSpeed();
     }
 
     

@@ -50,8 +50,8 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
     {
         if (!isOpen)
         {
-            Open(playerTransform.position);
             S_SoundFXManager.instance.PlaySoundFXClip(audioOpening, gameObject.transform, 1f);
+            Open(playerTransform.position);
         }
         else
         {

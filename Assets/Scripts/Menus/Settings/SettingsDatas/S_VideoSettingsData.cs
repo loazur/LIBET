@@ -119,12 +119,12 @@ public class S_VideoSettingsData : MonoBehaviour
         setCurrentResolution(defaultResolutionIndex);
     }
 
-    public void resetFullScreen()
+    public void resetCurrentFullScreen()
     {
         setCurrentFullScreen(defaultFullScreen);
     }
 
-    public void resetParticlesEffects()
+    public void resetCurrentParticlesEffects()
     {
         setCurrentParticlesEffects(defaultParticlesEffectsIndex);
     }
@@ -163,27 +163,27 @@ public class S_VideoSettingsData : MonoBehaviour
         if (PlayerPrefs.HasKey("FullScreen")) //~ FullScreen
             setCurrentFullScreen(Convert.ToBoolean(PlayerPrefs.GetInt("FullScreen")));
         else
-            setCurrentFullScreen(defaultFullScreen);
+            resetCurrentFullScreen();
 
         if (PlayerPrefs.HasKey("Resolution")) //~ Resolution
             setCurrentResolution(PlayerPrefs.GetInt("Resolution"));
         else
-            setCurrentResolution(defaultResolutionIndex);
+            resetCurrentResolution();
 
         if (PlayerPrefs.HasKey("ParticlesEffects")) //~ ParticlesEffects
             setCurrentParticlesEffects(PlayerPrefs.GetInt("ParticlesEffects"));
         else
-            setCurrentParticlesEffects(defaultParticlesEffectsIndex);
+            resetCurrentParticlesEffects();
 
         if (PlayerPrefs.HasKey("FPSMax")) //~ FPSMax
             setCurrentFPSMax(PlayerPrefs.GetInt("FPSMax"));
         else
-            setCurrentFPSMax(defaultFPSMax);
+            resetCurrentFPSMax();
 
         if (PlayerPrefs.HasKey("VSync")) //~ VSync
             setCurrentVSync(Convert.ToBoolean(PlayerPrefs.GetInt("VSync")));
         else
-            setCurrentVSync(defaultVSync);
+            resetCurrentVSync();
     }
 
     private void SetupResolutions() //& Charge les résolutions
