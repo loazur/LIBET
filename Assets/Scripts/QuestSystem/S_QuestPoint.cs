@@ -26,7 +26,7 @@ public class S_QuestPoint : MonoBehaviour
     private E_QuestState currentQuestState; // Etat par défaut
     
     // Propriété helper pour éviter de répéter le cast partout
-    private S_GameManager GameManager => (S_GameManager)S_GameManager.instance;
+    private S_GameManager GameManager => (S_GameManager)S_GameManager.instance; //!
 
     private void Awake()
     {
@@ -35,14 +35,14 @@ public class S_QuestPoint : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.questEvent.onQuestStateChange += QuestStateChange;
-        ((S_InputEvent)GameManager.inputEvent).onSubmitPressed += SubmitPressed;
+        GameManager.questEvent.onQuestStateChange += QuestStateChange; //!
+        ((S_InputEvent)GameManager.inputEvent).onSubmitPressed += SubmitPressed;    //!
     }
 
     private void OnDisable()
     {
-        GameManager.questEvent.onQuestStateChange -= QuestStateChange;
-        ((S_InputEvent)GameManager.inputEvent).onSubmitPressed -= SubmitPressed; 
+        GameManager.questEvent.onQuestStateChange -= QuestStateChange;  //!
+        ((S_InputEvent)GameManager.inputEvent).onSubmitPressed -= SubmitPressed;    //!
     }
 
     private void SubmitPressed()
@@ -71,6 +71,7 @@ public class S_QuestPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsNear = true;
+            Debug.Log("Player entered quest point for quest: " + questID + ", current state: " + currentQuestState);
         }
     }
 
