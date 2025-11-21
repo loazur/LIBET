@@ -10,7 +10,7 @@ public class SliderTMPLink : MonoBehaviour
     void Start()
     {
         // Initialisation de l'input avec la valeur du slider
-        inputField.text = slider.value.ToString("0");
+        inputField.text = slider.value.ToString("0.#");
 
         // Quand le slider change, mettre à jour l'input
         slider.onValueChanged.AddListener(OnSliderChanged);
@@ -21,7 +21,7 @@ public class SliderTMPLink : MonoBehaviour
 
     void OnSliderChanged(float value)
     {
-        inputField.text = value.ToString("0"); // supprime les décimales si tu veux un int
+        inputField.text = value.ToString("0.#"); // supprime les décimales si tu veux un int
     }
 
     void OnInputChanged(string value)
@@ -31,12 +31,12 @@ public class SliderTMPLink : MonoBehaviour
             // Limiter la valeur au min/max du slider
             result = Mathf.Clamp(result, slider.minValue, slider.maxValue);
             slider.value = result;
-            inputField.text = result.ToString("0");
+            inputField.text = result.ToString("0.#");
         }
         else
         {
             // Si entrée invalide, remettre la valeur du slider
-            inputField.text = slider.value.ToString("0");
+            inputField.text = slider.value.ToString("0.#");
         }
     }
 }
