@@ -18,11 +18,8 @@ public class S_AudioSettingsData : MonoBehaviour
     private const float  defaultMusicVolume = 1f;
 
     //! Actuellement utilisé
-    /*
-    public float currentMasterVolume {get; private set;}
-    public float currentSoundFXVolume {get; private set;}
-    public float currentMusicVolume {get; private set;}
-    */
+    //! Voir S_SoundMixerManager
+    
 
     void Awake()
     {
@@ -30,32 +27,52 @@ public class S_AudioSettingsData : MonoBehaviour
         {
             instance = this;
         }
+    }
 
+    void Start()
+    {
         LoadData();
     }
 
     //?------------------------------------- SETS
 
-    //! Dans S_SoundMixerManager
+    public void setCurrentMasterVolume(float volume)
+    {
+        S_SoundMixerManager.instance.SetMasterVolume(volume);
+
+        masterVolumeSlider.value = volume;
+    }
+
+    public void setCurrentSoundFXVolume(float volume)
+    {
+        S_SoundMixerManager.instance.SetSoundFXVolume(volume);
+
+        soundFXVolumeSlider.value = volume;
+    }
+
+    public void setCurrentMusicVolume(float volume)
+    {
+        S_SoundMixerManager.instance.SetMusicVolume(volume);
+
+        musicVolumeSlider.value = volume;
+    }
 
     //?------------------------------------- RESETS
 
     public void resetMasterVolume()
-    {
-        S_SoundMixerManager.instance.SetMasterVolume(defaultMasterVolume);
+    {   
+        setCurrentMasterVolume(defaultMasterVolume);
     }
 
     public void resetSoundFXVolume()
     {
-        S_SoundMixerManager.instance.SetSoundFXVolume(defaultSoundFXVolume);
+        setCurrentSoundFXVolume(defaultSoundFXVolume);
     }
 
     public void resetMusicVolume()
     {
-        S_SoundMixerManager.instance.SetMusicVolume(defaultMusicVolume);
+        setCurrentMusicVolume(defaultMusicVolume);
     }
-
-   
 
     //?------------------------------------- EVENTS
 
@@ -74,9 +91,9 @@ public class S_AudioSettingsData : MonoBehaviour
         float musicVolume;
         S_SoundMixerManager.instance.audioMixer.GetFloat("musicVolume", out musicVolume);
 
-        PlayerPrefs.SetFloat("MasterVolume", masterVolume);
-        PlayerPrefs.SetFloat("SoundFXVolume", soundFXVolume);
-        PlayerPrefs.SetFloat("MusicVolume", musicVolume);
+        PlayerPrefs.SetFloat("MasterVolume", Mathf.Pow(10f, masterVolume / 20f));
+        PlayerPrefs.SetFloat("SoundFXVolume", Mathf.Pow(10f, soundFXVolume / 20f));
+        PlayerPrefs.SetFloat("MusicVolume", Mathf.Pow(10f, musicVolume / 20f));
 
         // Les sauvegarde dans PlayerPrefs
         PlayerPrefs.Save();
@@ -86,17 +103,17 @@ public class S_AudioSettingsData : MonoBehaviour
     {
         //Charge les données si elles sont présentes sinon charge les valeurs par défaut
         if (PlayerPrefs.HasKey("MasterVolume"))  //~ Language
-            S_SoundMixerManager.instance.SetMasterVolume(PlayerPrefs.GetFloat("MasterVolume"));
+            setCurrentMasterVolume(PlayerPrefs.GetFloat("MasterVolume"));
         else
             resetMasterVolume();
 
         if (PlayerPrefs.HasKey("SoundFXVolume")) //~ CameraShake
-            S_SoundMixerManager.instance.SetMasterVolume(PlayerPrefs.GetFloat("SoundFXVolume"));
+            setCurrentSoundFXVolume(PlayerPrefs.GetFloat("SoundFXVolume"));
         else
             resetSoundFXVolume();
 
         if (PlayerPrefs.HasKey("MusicVolume")) //~ ATHSize
-            S_SoundMixerManager.instance.SetMasterVolume(PlayerPrefs.GetFloat("MusicVolume"));
+            setCurrentMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
         else
             resetMusicVolume();
     }
