@@ -24,6 +24,9 @@ public class S_QuestPoint : MonoBehaviour
     private string questID;
 
     private E_QuestState currentQuestState; // Etat par défaut
+    
+    // Propriété helper pour éviter de répéter le cast partout
+    private S_GameManager GameManager => (S_GameManager)S_GameManager.instance;
 
     private void Awake()
     {
@@ -32,15 +35,14 @@ public class S_QuestPoint : MonoBehaviour
 
     private void OnEnable()
     {
-        ((S_GameManager)S_GameManager.instance).questEvent.onQuestStateChange += QuestStateChange; // !
-        // ((S_GameManager)S_GameManager.instance).inputEvent.onSubmitPressed += SubmitPressed;       // !
-        ((S_GameManager)S_GameManager.instance).inputEvent.onSubmitPressed += SubmitPressed;       // !
+        GameManager.questEvent.onQuestStateChange += QuestStateChange;
+        ((S_InputEvent)GameManager.inputEvent).onSubmitPressed += SubmitPressed;
     }
 
     private void OnDisable()
     {
-        ((S_GameManager)S_GameManager.instance).questEvent.onQuestStateChange -= QuestStateChange;  // !
-        ((S_GameManager)S_GameManager.instance).inputEvent.onSubmitPressed -= SubmitPressed; 
+        GameManager.questEvent.onQuestStateChange -= QuestStateChange;
+        ((S_InputEvent)GameManager.inputEvent).onSubmitPressed -= SubmitPressed; 
     }
 
     private void SubmitPressed()
@@ -50,9 +52,9 @@ public class S_QuestPoint : MonoBehaviour
             return;
         }
 
-        ((S_GameManager)S_GameManager.instance).questEvent.StartQuest(questID);    // !
-        ((S_GameManager)S_GameManager.instance).questEvent.AdvanceQuest(questID);  // !
-        ((S_GameManager)S_GameManager.instance).questEvent.FinishQuest(questID);   // !
+        GameManager.questEvent.StartQuest(questID);
+        GameManager.questEvent.AdvanceQuest(questID);
+        GameManager.questEvent.FinishQuest(questID);
         
     }
 

@@ -8,6 +8,8 @@ public class S_GameManager : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         questEvent = new S_QuestEvent();
+        inputEvent = new S_InputEvent();
     }
 }
