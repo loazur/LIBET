@@ -84,6 +84,7 @@ public class S_QuestPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsNear = true;
+            Debug.Log("Player is near quest point for quest: " + questId);
         }
     }
 
