@@ -2,14 +2,23 @@ using UnityEngine;
 
 public class S_GameManager : MonoBehaviour
 {
-    internal static object instance;
-    public S_QuestEvent questEvent;
-    internal object inputEvent;
+    public static S_GameManager instance { get; private set; }
+
+    public InputEvents inputEvents;
+
+    public S_QuestEvent questEvents;
+
 
     private void Awake()
     {
+        if (instance != null)
+        {
+            Debug.LogError("Found more than one Game Events Manager in the scene.");
+        }
         instance = this;
-        questEvent = new S_QuestEvent();
-        inputEvent = new S_InputEvent();
+
+        // initialize all events
+        inputEvents = new InputEvents();
+        questEvents = new S_QuestEvent();
     }
 }
