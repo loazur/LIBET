@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class S_DialogueManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class S_DialogueManager : MonoBehaviour
     //~ Gestion des éléments d'UI
     [Header("Gestion éléments d'UI")]
     [SerializeField] private GameObject uiContainer;
+    [SerializeField] private GameObject continueButton;
     public TextMeshProUGUI npcName;
     public TextMeshProUGUI dialogueText;
     private Queue<S_DialogueLine> lines;
@@ -46,6 +48,8 @@ public class S_DialogueManager : MonoBehaviour
         displayMenu.setAbleToOpenCloseMenu(false);
 
         uiContainer.SetActive(true); // Active le visuel
+
+        EventSystem.current.SetSelectedGameObject(continueButton);
 
         lines.Clear();
 
