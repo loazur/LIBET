@@ -40,12 +40,27 @@ public class S_QuestPoint : MonoBehaviour
 
     private void OnEnable()
     {
+        //* Vérifier que le GameManager est initialisé avant de s'abonner aux événements
+        if (S_GameManager.instance == null)
+        {
+            Debug.LogWarning("S_QuestPoint: GameManager instance is null. Make sure S_GameManager is in the scene and initialized first.");
+            return;
+        }
+
         S_GameManager.instance.questEvents.onQuestStateChange += QuestStateChange;
         S_GameManager.instance.inputEvents.onSubmitPressed += SubmitPressed;
     }
 
     private void OnDisable()
     {
+        //* Vérifier que le GameManager existe encore avant de se désabonner
+        if (S_GameManager.instance == null)
+        {
+            Debug.LogWarning("S_QuestPoint: GameManager instance est null on OnDisable. Skipping unsubscription.");
+            return;
+
+        } 
+
         S_GameManager.instance.questEvents.onQuestStateChange -= QuestStateChange;
         S_GameManager.instance.inputEvents.onSubmitPressed -= SubmitPressed;
     }
@@ -57,8 +72,8 @@ public class S_QuestPoint : MonoBehaviour
             return;
         }
 
-        // if we have a knot name defined, try to start dialogue with it
-        // start or finish a quest
+        //* si un nom de nœud de dialogue est défini, tenter de lancer le dialogue avec celui-ci
+        //* commencer ou terminer la quête
         if (currentQuestState.Equals(E_QuestState.CAN_START) && startPoint)
         {
             S_GameManager.instance.questEvents.StartQuest(questId);
@@ -84,7 +99,7 @@ public class S_QuestPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsNear = true;
-            Debug.Log("Player is near quest point for quest: " + questId);
+            Debug.Log("Player is near quest point for quest: " + questId + ", current state: " + currentQuestState);
         }
     }
 
@@ -93,6 +108,7 @@ public class S_QuestPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsNear = false;
+            Debug.Log("Player left quest point for quest: " + questId + ", current state: " + currentQuestState);
         }
     }
 }
