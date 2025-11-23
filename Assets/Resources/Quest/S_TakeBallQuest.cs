@@ -1,8 +1,13 @@
 using UnityEngine;
 
-/// <summary>
-/// Quête pour ramasser une balle. Détecte quand le joueur ramasse un objet avec le tag "Ball"
-/// </summary>
+/**
+ * Quête pour ramasser une balle. Détecte quand le joueur ramasse un objet avec le tag "Ball"
+ *
+ * @author	Lucas
+ * @since	v0.0.1
+ * @version	v1.0.0	Sunday, November 23rd, 2025.
+ * @global
+ */
 public class S_TakeBallQuest : S_QuestStep
 {
     [Header("Quest Settings")]
@@ -108,6 +113,40 @@ public class S_TakeBallQuest : S_QuestStep
         Debug.Log("Balle ramassée ! Quête terminée.");
 
         //& Marquer l'étape de la quête comme terminée
-        FinishStepQuest();
+        FinishQuestStep();
+    }
+
+    /**
+     * Implémentation requise de la classe abstraite S_QuestStep
+     *
+     * @var		override	voi
+     */
+    protected override void SetQuestStepState(string state)
+    {
+        if (string.IsNullOrEmpty(state)) return;
+
+        string s = state.ToLowerInvariant().Trim();
+
+        // Considérer plusieurs valeurs pour marquer l'étape comme complétée
+        if (s == "completed" || s == "finished" || s == "true")
+        {
+            if (!ballTaken)
+            {
+                ballTaken = true;
+                FinishQuestStep();
+                Debug.Log("SetQuestStepState: État défini sur complété.");
+            }
+        }
+        // Réinitialiser l'état de la quête si demandé
+        else if (s == "reset" || s == "false" || s == "incomplete")
+        {
+            ballTaken = false;
+            lastCheckedItem = null;
+            Debug.Log("SetQuestStepState: État réinitialisé.");
+        }
+        else
+        {
+            Debug.Log($"SetQuestStepState: État non reconnu '{state}'.");
+        }
     }
 }

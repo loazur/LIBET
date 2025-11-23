@@ -90,6 +90,7 @@ public class S_QuestManager : MonoBehaviour
         S_Quest quest = GetQuestByID(id);
         quest.state = state;
         S_GameManager.instance.questEvents.QuestStateChange(quest);
+        
     }
 
     /**
@@ -104,7 +105,11 @@ public class S_QuestManager : MonoBehaviour
      */
     private void StartQuest(string questID)
     {
-        Debug.Log("Starting quest: " + questID);
+        S_Quest quest = GetQuestByID(questID);
+        quest.InstantiateCurrentQuestStep(this.transform);
+        ChangeQuestState(questID, E_QuestState.IN_PROGRESS);
+
+        Debug.Log("Quest " + questID + " started " + " with first step: " + quest.state.ToString());
     }
 
     /**
@@ -119,7 +124,29 @@ public class S_QuestManager : MonoBehaviour
      */
     private void AdvanceQuest(string questID)
     {
-        Debug.Log("Advancing quest: " + questID);
+        S_Quest quest = GetQuestByID(questID);
+        
+        if (quest == null)
+        {
+            Debug.LogError("[S_QuestManager] Impossible de faire avancer la quête. Quest ID: " + questID);
+            return;
+        }
+
+        // move on to the next step
+        quest.MoveToNextStep();
+
+        // if there are more steps, instantiate the next one
+        if (quest.CurrentStepExists())
+        {
+            quest.InstantiateCurrentQuestStep(this.transform);
+        }
+        // if there are no more steps, then we've finished all of them for this quest
+        else
+        {
+            ChangeQuestState(quest.info.id, E_QuestState.CAN_FINISH);
+        }
+
+        Debug.Log("Quest " + questID + " advanced to step: " + quest.state.ToString());
     }
 
     /**
@@ -134,7 +161,27 @@ public class S_QuestManager : MonoBehaviour
      */
     private void FinishQuest(string questID)
     {
-        Debug.Log("Finishing quest: " + questID);}
+        S_Quest quest = GetQuestByID(questID);
+        ClaimRewards(quest);
+        ChangeQuestState(quest.info.id, E_QuestState.FINISHED);
+
+        Debug.Log("Quest " + questID + " finished. Rewards claimed.");
+    }
+
+    /**
+     * Demande les récompenses de la quête au PlayerEvents
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, November 23rd, 2025.
+     * @access	private
+     * @param	s_quest	quest	
+     * @return	void
+     */
+    private void ClaimRewards(S_Quest quest)
+    {
+        S_GameManager.instance.playerEvents.ExperienceGained(quest.info.experienceReward);
+    }
 
     #endregion
 
@@ -174,11 +221,19 @@ public class S_QuestManager : MonoBehaviour
      */
     private S_Quest GetQuestByID(string questID)
     {
-        S_Quest quest = quesMap[questID];
-        if (quest == null)
+        if (string.IsNullOrEmpty(questID))
+        {
+            Debug.LogError("[S_QuestManager] GetQuestByID appelé avec questID null ou vide!");
+            return null;
+        }
+
+        if (!quesMap.ContainsKey(questID))
         {
             Debug.LogWarning("[S_QuestManager] Quest not found for ID: " + questID);
+            return null;
         }
+
+        S_Quest quest = quesMap[questID];
         return quest;
     }
 

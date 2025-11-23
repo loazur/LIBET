@@ -39,12 +39,12 @@ public class S_QuestEvent
        }
    }
 
-    // public event Action<string, int, S_QuestStepState> onQuestStepStateChange;
-    // public void QuestStepStateChange(string id, int stepIndex, QuestStepState questStepState)
-    // {
-    //     if (onQuestStepStateChange != null)
-    //     {
-    //         onQuestStepStateChange(id, stepIndex, questStepState);
-    //     }
-    // }
+    public event Action<string, int, S_QuestStepState> onQuestStepStateChange;
+    public void QuestStepStateChange(string id, int stepIndex, S_QuestStepState questStepState)
+    {
+        if (onQuestStepStateChange != null)
+        {
+            onQuestStepStateChange(id, stepIndex, questStepState);
+        }
+    }
 }

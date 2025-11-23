@@ -67,7 +67,19 @@ public class S_Quest
         GameObject questStepPrefab = CurrentQuestStepPrefab();
         if (questStepPrefab != null)
         {
-            GameObject.Instantiate<GameObject>(questStepPrefab, parentTransform);
+            GameObject questStepInstance = GameObject.Instantiate<GameObject>(questStepPrefab, parentTransform);
+            S_QuestStep questStep = questStepInstance.GetComponent<S_QuestStep>();
+            
+            if (questStep != null)
+            {
+                // Initialiser l'étape de quête avec son ID, index et état
+                string questStepState = GetQuestStepState();
+                questStep.InitializeQuestStep(info.id, currentQuestStepIndex, questStepState);
+            }
+            else
+            {
+                Debug.LogError("InstantiateCurrentQuestStep: Le prefab ne contient pas de composant S_QuestStep!");
+            }
         }
         else
         {
@@ -96,5 +108,21 @@ public class S_Quest
             Debug.LogWarning("No current quest step exists for quest: " + info.id + " at index: " + currentQuestStepIndex);
         }
         return questStepPrefab;
+    }
+
+    /**
+     * Récupère l'état sauvegardé de l'étape actuelle (pour la persistence)
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, November 23rd, 2025.
+     * @access	private
+     * @return	string
+     */
+    private string GetQuestStepState()
+    {
+        // TODO: Implémenter la récupération de l'état depuis le système de sauvegarde
+        // Pour l'instant, retourner une chaîne vide
+        return "";
     }
 }
