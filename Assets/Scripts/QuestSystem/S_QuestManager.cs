@@ -15,7 +15,7 @@ public class S_QuestManager : MonoBehaviour
 
     private Dictionary<string, S_Quest> quesMap;
 
-
+    private int currentPlayerLevel;
 
     #region METHODS
     // *==========================================================================*
@@ -28,13 +28,26 @@ public class S_QuestManager : MonoBehaviour
         quesMap = CreateQuestMap();
     }
 
+    public void Update()
+    {
+        foreach (S_Quest quest in quesMap.Values)
+        {
+            if (quest.state == E_QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
+            {
+                ChangeQuestState(quest.info.id, E_QuestState.CAN_START);
+                // Debug.Log("Quest " + quest.info.id + " requirements met. State changed to CAN_START.");
+            }
+            // Debug.Log("Quest " + quest.info.id + " is in state " + quest.state.ToString() + "CheckRequirementsMet returned " + CheckRequirementsMet(quest).ToString() + ".");
+        }
+    }
 
-    //! BUG POTENTIEL ICI
     private void OnEnable()
     {
         S_GameManager.instance.questEvents.OnStartQuest += StartQuest;
         S_GameManager.instance.questEvents.OnAdvanceQuest += AdvanceQuest;
         S_GameManager.instance.questEvents.OnFinishQuest += FinishQuest;
+
+        S_GameManager.instance.playerEvents.onPlayerLevelChange += PlayerLevelChange;
     }
 
     private void OnDisable()
@@ -42,6 +55,8 @@ public class S_QuestManager : MonoBehaviour
         S_GameManager.instance.questEvents.OnStartQuest -= StartQuest;
         S_GameManager.instance.questEvents.OnAdvanceQuest -= AdvanceQuest;
         S_GameManager.instance.questEvents.OnFinishQuest -= FinishQuest;
+
+        S_GameManager.instance.playerEvents.onPlayerLevelChange -= PlayerLevelChange;
     }
 
     private void Start()
@@ -52,8 +67,12 @@ public class S_QuestManager : MonoBehaviour
         }
     }
 
+    
+
 
     #region QUEST ADVANCEMENT
+
+
 
     /**
      * Permet de changer l'état d'une quête
@@ -161,6 +180,56 @@ public class S_QuestManager : MonoBehaviour
             Debug.LogWarning("[S_QuestManager] Quest not found for ID: " + questID);
         }
         return quest;
+    }
+
+
+    /**
+     * Gère les événements de changement de niveau du joueur
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, November 23rd, 2025.
+     * @access	private
+     * @param	int	level	
+     * @return	void
+     */
+    private void PlayerLevelChange(int level)
+    {
+        currentPlayerLevel = level;
+    }
+
+
+    /**
+     * Vérifie si les conditions pour une quête sont remplies afin d'y accéder
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, November 23rd, 2025.
+     * @access	private
+     * @param	s_quest	quest	
+     * @return	mixed
+     */
+    private bool CheckRequirementsMet(S_Quest quest)
+    {
+        // start true and prove to be false
+        bool meetsRequirements = true;
+
+        // check player level requirements
+        if (currentPlayerLevel < quest.info.levelRequirement)
+        {
+            meetsRequirements = false;
+        }
+
+        // check quest prerequisites for completion
+        foreach (SO_QuestInfo prerequisiteQuestInfo in quest.info.prerequisiteQuests)
+        {
+            if (GetQuestByID(prerequisiteQuestInfo.id).state != E_QuestState.FINISHED)
+            {
+                meetsRequirements = false;
+            }
+        }
+
+        return meetsRequirements;
     }
 
     

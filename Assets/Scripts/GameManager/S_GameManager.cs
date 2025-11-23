@@ -8,6 +8,8 @@ public class S_GameManager : MonoBehaviour
 
     public S_QuestEvent questEvents;
 
+    public PlayerEvents playerEvents;
+
 
     private void Awake()
     {
@@ -21,5 +23,6 @@ public class S_GameManager : MonoBehaviour
         // initialize all events
         inputEvents = new InputEvents();
         questEvents = new S_QuestEvent();
+        playerEvents = new PlayerEvents();
     }
 }
