@@ -109,6 +109,13 @@ public class S_TakeBallQuest : S_QuestStep
     {
         if (ballTaken) return;
 
+        // Vérifier que la quête est bien initialisée (active)
+        if (!IsQuestStepInitialized())
+        {
+            Debug.Log("Balle ramassée mais la quête n'est pas encore active. En attente...");
+            return;
+        }
+
         ballTaken = true;
         Debug.Log("Balle ramassée ! Quête terminée.");
 

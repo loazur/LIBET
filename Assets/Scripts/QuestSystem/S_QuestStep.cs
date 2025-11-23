@@ -43,5 +43,13 @@ public abstract class S_QuestStep : MonoBehaviour
         );
     }
 
+    /// <summary>
+    /// Vérifie si la quest step a été correctement initialisée
+    /// </summary>
+    protected bool IsQuestStepInitialized()
+    {
+        return !string.IsNullOrEmpty(questId);
+    }
+
     protected abstract void SetQuestStepState(string state);
 }
