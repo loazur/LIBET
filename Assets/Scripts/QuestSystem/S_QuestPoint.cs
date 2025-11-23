@@ -26,11 +26,15 @@ public class S_QuestPoint : MonoBehaviour
     [SerializeField] private bool startPoint = true;
     [SerializeField] private bool finishPoint = true;
 
+    // *----------------------------------------------------------------*
+
     private bool playerIsNear = false;
     private string questId;
     private E_QuestState currentQuestState;
 
     // private QuestIcon questIcon;
+
+    // *----------------------------------------------------------------*
 
     private void Awake() 
     {
@@ -38,6 +42,16 @@ public class S_QuestPoint : MonoBehaviour
         // questIcon = GetComponentInChildren<QuestIcon>();
     }
 
+
+    /**
+     * Active les événements de quête
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, November 23rd, 2025.
+     * @access	private
+     * @return	void
+     */
     private void OnEnable()
     {
         //* Vérifier que le GameManager est initialisé avant de s'abonner aux événements
@@ -51,6 +65,15 @@ public class S_QuestPoint : MonoBehaviour
         S_GameManager.instance.inputEvents.onSubmitPressed += SubmitPressed;
     }
 
+    /**
+     * Désactive les événements de quête
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, November 23rd, 2025.
+     * @access	private
+     * @return	void
+     */
     private void OnDisable()
     {
         //* Vérifier que le GameManager existe encore avant de se désabonner
@@ -65,6 +88,17 @@ public class S_QuestPoint : MonoBehaviour
         S_GameManager.instance.inputEvents.onSubmitPressed -= SubmitPressed;
     }
 
+
+    /**
+     * Permet de gérer l'entrée  et la sortie de la zone d'interaction
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, November 23rd, 2025.
+     * @access	private
+     * @param	inputeventcontext	inputEventContext	
+     * @return	void
+     */
     private void SubmitPressed(InputEventContext inputEventContext)
     {
         if (!playerIsNear || !inputEventContext.Equals(InputEventContext.DEFAULT))
@@ -72,7 +106,6 @@ public class S_QuestPoint : MonoBehaviour
             return;
         }
 
-        //* si un nom de nœud de dialogue est défini, tenter de lancer le dialogue avec celui-ci
         //* commencer ou terminer la quête
         if (currentQuestState.Equals(E_QuestState.CAN_START) && startPoint)
         {
@@ -85,6 +118,17 @@ public class S_QuestPoint : MonoBehaviour
         
     }
 
+
+    /**
+     * permet de mettre à jour l'état de la quête associée à ce point de quête
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, November 23rd, 2025.
+     * @access	private
+     * @param	s_quest	quest	
+     * @return	void
+     */
     private void QuestStateChange(S_Quest quest)
     {
         // only update the quest state if this point has the corresponding quest
@@ -94,6 +138,17 @@ public class S_QuestPoint : MonoBehaviour
         }
     }
 
+
+    /**
+     * Détecte quand le joueur entre dans la zone du point de quête
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, November 23rd, 2025.
+     * @access	private
+     * @param	collider	other	
+     * @return	void
+     */
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -103,6 +158,16 @@ public class S_QuestPoint : MonoBehaviour
         }
     }
 
+    /**
+     * Détecte quand le joueur quitte la zone du point de quête
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, November 23rd, 2025.
+     * @access	private
+     * @param	collider	other	
+     * @return	void
+     */
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))

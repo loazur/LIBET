@@ -11,6 +11,7 @@ public class S_GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log("S_GameManager Awake called.");
         if (instance != null)
         {
             Debug.LogError("Found more than one Game Events Manager in the scene.");

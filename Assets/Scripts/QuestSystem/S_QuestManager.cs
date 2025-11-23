@@ -56,6 +56,24 @@ public class S_QuestManager : MonoBehaviour
     #region QUEST ADVANCEMENT
 
     /**
+     * Permet de changer l'état d'une quête
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, November 23rd, 2025.
+     * @access	private
+     * @param	string      	id   	
+     * @param	e_queststate	state	
+     * @return	void
+     */
+    private void ChangeQuestState(string id, E_QuestState state)
+    {
+        S_Quest quest = GetQuestByID(id);
+        quest.state = state;
+        S_GameManager.instance.questEvents.QuestStateChange(quest);
+    }
+
+    /**
      * Débute une quête donnée par son ID
      *
      * @author	Lucas
