@@ -69,6 +69,7 @@ public class S_PlayerNoClip : MonoBehaviour
         if (isEnabled)
         {
             isNoClipping = true;
+            Debug.LogWarning("'NoClip' activé.");
 
             playerController.playerRigidbody.isKinematic = true; // Désactive collisions
             playerController.playerRigidbody.useGravity = false; // Désactive gravité
@@ -76,6 +77,7 @@ public class S_PlayerNoClip : MonoBehaviour
         else
         {
             isNoClipping = false;
+            Debug.LogWarning("'NoClip' désactivé.");
 
             playerController.playerRigidbody.isKinematic = false;
             playerController.playerRigidbody.useGravity = true;

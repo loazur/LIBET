@@ -8,9 +8,16 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
     [SerializeField] private float offLightIntensity = 0f; // Intensité de la lumière eteinte
     [SerializeField] private float onLightIntensity; // Intensité de la lumière allumé
 
-    private string interactText = "Allumer";
+    private string interactText = "not_set";
     private bool isOn = false; // Allumé ou non
-    
+
+    void Start()
+    {
+        UpdateInteractText(); // Setup
+        
+        S_GameSettingsData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
+    }
+
     //! Méthodes provenant de l'interface SI_Interactable
 
     public void Interact(Transform playerTransform)
@@ -23,6 +30,10 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
         {
             SwitchOnOff(true);
         }
+
+
+        UpdateInteractText();
+
     }
 
     public string getInteractText() //& Texte affiché sur l'UI
@@ -44,7 +55,6 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
         {
             // Changement des valeurs
             isOn = true;
-            interactText = "Eteindre";
 
             lightObject.intensity = onLightIntensity;
         }
@@ -52,9 +62,34 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
         {
             // Changement des valeurs
             isOn = false;
-            interactText = "Allumer";
 
             lightObject.intensity = offLightIntensity;
+        }
+    }
+
+    private void UpdateInteractText() //& Gestion du texte en fonction de la langue
+    {
+        if (!isOn) // Si éteint
+        {
+            if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+            {
+                interactText = "Allumer";
+            }
+            else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+            {
+                interactText = "Turn on";
+            }
+        }
+        else // Si allumer
+        {
+            if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+            {
+                interactText = "Eteindre";
+            }
+            else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+            {
+                interactText = "Turn off";
+            }
         }
     }
 }

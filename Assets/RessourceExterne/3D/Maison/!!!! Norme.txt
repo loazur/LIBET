@@ -1,0 +1,33 @@
+Nommer chaque objet ainsi :
+
+ 	- Mesh : PièceDeLObject_NomDeLobjet_M
+
+	- Texture : PièceDeLObject_NomDeLobjet_T_DescriptifTexture
+
+Pour nommer la collection d’un objet, le fichier Blender et son dossier : PièceDeLObject_NomDeLobjet
+
+
+1. Créer une nouvelle branche à partir de dev nommée object/PièceDeLObject_NomDeLobjet.
+
+2. Créer un nouveau dossier portant le nom de l’objet dans le dossier correspondant à la pièce, et y créer un dossier Textures, ainsi que d’autres dossiers selon vos besoins (par exemple : Références, etc.).
+
+3. Copier le mesh d’un objet de base (ceux présents dans LD_Map et qui ne sont pas déjà faits, ou celui qui vous est assigné).
+
+4. Créer un nouveau projet Blender portant le nom de l’objet, l’enregistrer dans le dossier que vous avez précédemment créé, puis y coller l’objet que vous aviez copié. Mettez aussi l'object au centre du monde avec un clic droit > Set Origine > Set geometry to Origine (En veillant a ce que l'origine soit bien au centre du monde)
+
+5. Renommer la collection de l’objet que vous allez créer.
+
+6. Modéliser le mesh de l’objet proprement, en respectant les dimensions de l’objet de base récupéré dans LD_Map.
+Attention aux n-gones (faces de plus de 4 côtés). Idéalement, ne faire que des faces à 4 côtés.
+
+7. Faire le dépliage UV manuellement, sans dépliage automatique.
+Le dépliage doit être pensé pour faciliter la peinture de la texture par la suite.
+
+8. Faire les textures (à suivre…).
+
+9. Une fois l’objet terminé, retourner dans LD_Map, puis faire :
+File > Link, aller dans le dossier de votre objet, puis dans le dossier Collection, et sélectionner sa collection.
+
+Normalement, votre objet sera importé dans LD_Map. Il faudra ensuite le replacer exactement à sa position d’origine.
+
+10. Pour finir, aller dans le jeu sous Unity et créer un collider pour les différentes parties de l’objet (par exemple : un pour le meuble général, un pour chaque tiroir, ou toute partie mobile, etc.).

@@ -4,10 +4,8 @@ public class S_FirstPersonCamera : MonoBehaviour
 {
     //~ Gestion de la camera
     [Header("Gestion de la caméra")]
-    [SerializeField] private S_ControllerChecker controllerChecker;
     [SerializeField] private Transform player;
-    [SerializeField] private float mouseSensitivityMouse = 100f; // Sensibilité Souris
-    [SerializeField] private float mouseSensitivityController = 900f; // Sensibilité Manette
+    private Camera playerCamera;
     private float limitYup = 90f; //Limite quand on regarde en haut
     private float limitYdown = -90f; //Limite quand on regarde en bas
     
@@ -18,7 +16,12 @@ public class S_FirstPersonCamera : MonoBehaviour
 
     void Start() //& INITIALISATION VARIABLES
     {
+        playerCamera = GetComponent<Camera>();
+
+        UpdateFieldOfView();
         setCursorEnabled(false);
+
+        S_CameraSettingsData.instance.OnFieldOfViewChanged += UpdateFieldOfView; // Lance cet fonction à chaque fois que le FOV change
     }
 
     void Update() //& PAS PHYSICS
@@ -36,14 +39,20 @@ public class S_FirstPersonCamera : MonoBehaviour
         }
 
         // Ajuste la vitesse de la camera en fonction du controller utilisé
-        if (!controllerChecker.isUsingController()) // Souris
+        if (!S_UserInput.instance.isUsingController()) // Clavier & Souris
         {
-            lookValue = S_UserInput.instance.LookInput * (mouseSensitivityMouse / 1000); // divise par 1000 (car plus précis pour régler)
+            lookValue = S_UserInput.instance.LookInput * (S_CameraSettingsData.instance.currentSensibilityMouse / 10); // divise par 100 (car plus précis pour régler)
         }
         else // Manettes
         {
-            lookValue = S_UserInput.instance.LookInput * (mouseSensitivityController / 1000); // divise par 1000 (car plus précis pour régler)
+            lookValue = S_UserInput.instance.LookInput * S_CameraSettingsData.instance.currentSensibilityController; // divise par 100 (car plus précis pour régler)
         }
+
+        // Inversion de X,Y
+        if (S_CameraSettingsData.instance.currentInverseXAxis) lookValue.x *= -1f;
+        if (S_CameraSettingsData.instance.currentInverseYAxis) lookValue.y *= -1f;
+        
+        lookValue *= Time.deltaTime; // Pour que la sensibilité s'ajuste au framerate
 
         // Rotation vertical
         cameraVerticalRotation -= lookValue.y;
@@ -79,6 +88,14 @@ public class S_FirstPersonCamera : MonoBehaviour
     public void setRotationEnabled(bool isEnabled) //& Active/Désactive la rotation
     {
         isRotationActive = isEnabled;
+    }
+
+
+    //? ------------------------------------------------
+
+    private void UpdateFieldOfView()
+    {
+        playerCamera.fieldOfView = S_CameraSettingsData.instance.currentFieldOfView;
     }
     
 }

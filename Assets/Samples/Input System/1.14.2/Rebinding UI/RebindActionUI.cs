@@ -491,7 +491,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
         [Tooltip("Your own text")]
         [SerializeField]
-        private string m_ActionLabelString;
+        public string m_ActionLabelString;
 
         [Tooltip("Optional reference to default input actions containing the UI action map. The UI action map is "
             + "disabled when rebinding is in progress.")]
