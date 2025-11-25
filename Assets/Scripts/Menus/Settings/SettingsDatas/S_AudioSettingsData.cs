@@ -15,12 +15,11 @@ public class S_AudioSettingsData : MonoBehaviour
     //! Valeurs par défauts
     private const float  defaultMasterVolume = 1f;
     private const float  defaultSoundFXVolume = 1f;
-    private const float  defaultMusicVolume = 1f;
+    private const float  defaultMusicVolume = 0.15f;
 
     //! Actuellement utilisé
     //! Voir S_SoundMixerManager
     
-
     void Awake()
     {
         if (instance == null)
