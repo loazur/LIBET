@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 372763059792670372}
   - component: {fileID: 8723186373151726093}
   - component: {fileID: 2226840105589485425}
+  - component: {fileID: 8035574168109868063}
   m_Layer: 0
   m_Name: Item_Example
   m_TagString: Untagged
@@ -128,11 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0043f02216d812610a499232250aacc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInteract: {fileID: 0}
-  playerCamera: {fileID: 0}
   interactText: Item_Example
   distanceMultiplier: 1.45
-  offsetY: 0.5
   throwForce: 850
   holdThrow: 0.4
 --- !u!135 &2226840105589485425
@@ -156,3 +154,15 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8035574168109868063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178720478621272570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962cdf264e21b73199b691388284e053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
