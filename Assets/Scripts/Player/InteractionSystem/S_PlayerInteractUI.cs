@@ -10,8 +10,11 @@ public class S_PlayerInteractUI : MonoBehaviour
     [SerializeField] private S_PlayerInteract playerInteract;
     [SerializeField] private TextMeshProUGUI keybind;
     [SerializeField] private TextMeshProUGUI interactText;
-
     private string lastBinding; // Dernière touche
+
+    //~ Gestion de l'outline de l'interaction
+    private SI_Interactable lastInteractable;
+    private S_InteractableOutline lastInteractableOutline;
 
     void Start() //& Change le texte pour que soit de la bonne touche
     {
@@ -23,6 +26,7 @@ public class S_PlayerInteractUI : MonoBehaviour
     {
         // Vérifie si la touche n'a pas changé
         string currentBinding = S_UserInput.instance._interactAction.GetBindingDisplayString();
+
         if (currentBinding != lastBinding)
         {
             lastBinding = currentBinding;
@@ -44,6 +48,20 @@ public class S_PlayerInteractUI : MonoBehaviour
 
     private void Show(SI_Interactable interactable) //& Affiche l'UI et change le texte en fonction de interactText
     {
+        // Si il s'agit d'un nouvel objet
+        if (interactable != lastInteractable)
+        {
+            if (lastInteractableOutline)
+                lastInteractableOutline.Disable();
+
+            // Remplace l'objet
+            lastInteractable = interactable;
+
+            // Récupère l'outline du nouveau
+            lastInteractableOutline = interactable.getTransform().GetComponent<S_InteractableOutline>();
+            lastInteractableOutline.Enable();
+        }
+
         uiContainer.SetActive(true); // Active le visuel
         interactText.text = interactable.getInteractText();
     }
@@ -51,6 +69,12 @@ public class S_PlayerInteractUI : MonoBehaviour
     private void Hide() //& Cache l'UI
     {
         uiContainer.SetActive(false); // Désactive le visuel
+
+        if (lastInteractableOutline) // Si possède une outline la désactive
+            lastInteractableOutline.Disable();
+
+        lastInteractable = null;
+        lastInteractableOutline = null;
     }
 
     //? ------------------------------------------------

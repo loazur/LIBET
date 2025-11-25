@@ -8,6 +8,7 @@ public class S_PlayerInteract : MonoBehaviour
     [SerializeField] private float interactRange = 2f;
     private bool areInteractionsEnabled = true;
     private S_ItemInteraction holdingItem = null;
+    
 
 
     void Update() //& PAS PHYSICS

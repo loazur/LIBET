@@ -11,6 +11,8 @@ public class S_PlayerCrouch : MonoBehaviour
     private float originalHeight;
     private float crouchHeight = 0.5f;
 
+    private bool canCrouch = true;
+
     void Start() //& INITIALISATION VARIABLES
     {
         playerController = GetComponent<S_PlayerController>();
@@ -20,7 +22,7 @@ public class S_PlayerCrouch : MonoBehaviour
 
     void Update()
     {
-        if (S_UserInput.instance.CrouchInput)
+        if (S_UserInput.instance.CrouchInput && isAbleToCrouch())
         {
             OnCrouch();
         }
@@ -62,4 +64,19 @@ public class S_PlayerCrouch : MonoBehaviour
         // On vérifie si une sphère touche un Layer ou "Default"
         return !Physics.CheckSphere(checkPos, radius, LayerMask.GetMask("Default"));
     }
+
+    //? ------------------------------------------------    
+
+    public void setAbleToCrouch(bool enabled)
+    {
+        canCrouch = enabled;
+    } 
+
+    private bool isAbleToCrouch()
+    {
+        return canCrouch;
+    }
+
+
+
 }
