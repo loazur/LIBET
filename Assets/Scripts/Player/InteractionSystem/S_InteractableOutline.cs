@@ -13,9 +13,11 @@ public class S_InteractableOutline : MonoBehaviour
             outline = gameObject.AddComponent<Outline>();
 
         outline.enabled = false;
-        outline.OutlineMode = Outline.Mode.OutlineAll;
-        outline.OutlineColor = Color.white;
-        outline.OutlineWidth = 6f;
+
+        // Informations de l'outline
+        outline.OutlineMode = Outline.Mode.OutlineAll; // -> à travers les murs
+        outline.OutlineColor = new Color(1f, 1f, 1f, 0.9f); // Blanc avec un peu de glow
+        outline.OutlineWidth = 5f;
     }
 
     public void Enable()  => outline.enabled = true;
