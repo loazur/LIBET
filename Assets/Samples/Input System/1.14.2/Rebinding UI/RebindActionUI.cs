@@ -215,48 +215,75 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         public void ResetToDefault()
         {
             if (!ResolveActionAndBinding(out var action, out var bindingIndex))
+
                 return;
 
-
             ResetBinding(action, bindingIndex);
-            /*
+
             if (action.bindings[bindingIndex].isComposite)
             {
                 // It's a composite. Remove overrides from part bindings.
                 for (var i = bindingIndex + 1; i < action.bindings.Count && action.bindings[i].isPartOfComposite; ++i)
+
                     action.RemoveBindingOverride(i);
             }
             else
             {
+
                 action.RemoveBindingOverride(bindingIndex);
             }
-            */
+
             UpdateBindingDisplay();
+
         }
 
-        private void ResetBinding(InputAction inputAction, int bindingIndex)
+        private void ResetBinding(InputAction action, int bindingIndex)
+
         {
-            InputBinding newBinding = inputAction.bindings[bindingIndex];
+
+            InputBinding newBinding = action.bindings[bindingIndex];
             string oldOverridePath = newBinding.overridePath;
 
-            inputAction.RemoveBindingOverride(bindingIndex);
+            action.RemoveBindingOverride(bindingIndex);
 
-            foreach (InputAction otherAction in inputAction.actionMap.actions)
+            int currentIndex = -1;
+
+            foreach (InputAction otherAction in action.actionMap.actions)
             {
-                if (otherAction == inputAction)
+                currentIndex++;
+
+                InputBinding currentBinding = action.actionMap.bindings[currentIndex];
+
+                if (otherAction == action)
                 {
-                    continue;
+                    if (newBinding.isPartOfComposite)
+                    {
+                        if (currentBinding.overridePath == newBinding.path)
+
+                        {
+                            otherAction.ApplyBindingOverride(currentIndex, oldOverridePath);
+                        }
+                    }
+                    else
+                    {
+                        continue;
+
+                    }
                 }
 
                 for (int i = 0; i < otherAction.bindings.Count; i++)
                 {
                     InputBinding binding = otherAction.bindings[i];
-                    if (binding.path == newBinding.path)
+
+                    if (binding.overridePath == newBinding.path)
                     {
                         otherAction.ApplyBindingOverride(i, oldOverridePath);
                     }
+
                 }
+
             }
+
         }
 
         /// <summary>
@@ -327,7 +354,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                             m_RebindOverlay.SetActive(false);
                         m_RebindStopEvent?.Invoke(this, operation);
 
-                        if (CheckDuplicatedKeybinds(action, bindingIndex, allCompositeParts))
+                        if (CheckDuplicateBindings(action, bindingIndex, allCompositeParts))
                         {
                             action.RemoveBindingOverride(bindingIndex);
                             CleanUp();
@@ -376,36 +403,61 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             m_RebindOperation.Start();
         }
 
-        private bool CheckDuplicatedKeybinds(InputAction inputAction, int bindingIndex, bool allCompositeParts = false)
+        private bool CheckDuplicateBindings(InputAction action, int bindingIndex, bool allCompositeParts = false)
         {
-            InputBinding newBinding = inputAction.bindings[bindingIndex];
+            InputBinding newBinding = action.bindings[bindingIndex];
 
-            foreach (InputBinding binding in inputAction.actionMap.bindings)
+            int currentIndex = -1;
+
+            foreach (InputBinding binding in action.actionMap.bindings)
             {
                 if (binding.action == newBinding.action)
                 {
-                    continue;
+                    currentIndex++;
+
+                    if (binding.isPartOfComposite && currentIndex != bindingIndex)
+                    {
+                        if (binding.effectivePath == newBinding.effectivePath)
+                        {
+                            Debug.Log("Duplicate binding found in composite: " + newBinding.effectivePath);
+
+                            return true;
+                        }
+
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
 
                 if (binding.effectivePath == newBinding.effectivePath)
                 {
+                    Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+
                     return true;
-                }
+                }               
+
             }
 
             if (allCompositeParts)
             {
-                for (int i = 0; 1 < bindingIndex; i++)
+                for (int i = 1; i < bindingIndex; i++)
                 {
-                    if (inputAction.bindings[i].effectivePath == newBinding.effectivePath)
+                    if (action.bindings[i].effectivePath == newBinding.overridePath)
                     {
+                        //Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+
                         return true;
                     }
                 }
             }
 
             return false;
+
         }
+
+
 
         protected void OnEnable()
         {
