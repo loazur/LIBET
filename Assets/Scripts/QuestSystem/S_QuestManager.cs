@@ -3,7 +3,9 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class S_QuestManager : MonoBehaviour
 {
@@ -13,7 +15,9 @@ public class S_QuestManager : MonoBehaviour
     // *==========================================================================*
     #endregion
 
-
+    [Header("Interface pour les quêtes")]
+    [SerializeField] private GameObject questCanvas; // Canvas pour les quêtes
+    [SerializeField]private Text QuestDispalyTitle;
     private Dictionary<string, S_Quest> quesMap;
 
     private int currentPlayerLevel;
@@ -33,6 +37,19 @@ public class S_QuestManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(InitializeWhenReady());
+    }
+
+    public void Update()
+    {
+        foreach (S_Quest quest in quesMap.Values)
+        {
+            if (quest.state == E_QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
+            {
+                ChangeQuestState(quest.info.id, E_QuestState.CAN_START);
+                // Debug.Log("Quest " + quest.info.id + " requirements met. State changed to CAN_START.");
+            }
+            // Debug.Log("Quest " + quest.info.id + " is in state " + quest.state.ToString() + "CheckRequirementsMet returned " + CheckRequirementsMet(quest).ToString() + ".");
+        }
     }
 
     private IEnumerator InitializeWhenReady()
@@ -90,18 +107,7 @@ public class S_QuestManager : MonoBehaviour
         isSubscribed = false;
     }
 
-    public void Update()
-    {
-        foreach (S_Quest quest in quesMap.Values)
-        {
-            if (quest.state == E_QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
-            {
-                ChangeQuestState(quest.info.id, E_QuestState.CAN_START);
-                // Debug.Log("Quest " + quest.info.id + " requirements met. State changed to CAN_START.");
-            }
-            // Debug.Log("Quest " + quest.info.id + " is in state " + quest.state.ToString() + "CheckRequirementsMet returned " + CheckRequirementsMet(quest).ToString() + ".");
-        }
-    }
+    
 
     private void OnEnable()
     {
@@ -353,5 +359,78 @@ public class S_QuestManager : MonoBehaviour
         return meetsRequirements;
     }
 
+    #region Interfaces
+
+    private void HideQuestCanvas()
+    {
+        questCanvas.SetActive(false);
+    }
+
+    private void ShowQuestCanvas()
+    {
+        questCanvas.SetActive(true);
+    }
+
+    private void SetTitle()
+    {
+        S_Quest quest = GetFirstQuest();
+        
+        if (quest == null)
+        {
+            HideQuestCanvas();
+            return;
+        }
+        else
+        {
+            if (quest.state == E_QuestState.REQUIREMENTS_NOT_MET)
+            {
+                ShowQuestCanvas();
+                QuestDispalyTitle.text = quest.info.displayName;
+            }
+            else
+            {
+                HideQuestCanvas();
+            }
+            
+        }
+        
+    }
+
+
+    #endregion
+
+
+
+    #region Quest Access
+
+    /**
+     * Obtenir la première quête du dictionnaire
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, November 26th, 2025.
+     * @access	public
+     * @return	mixed
+     */
+    public S_Quest GetFirstQuest()
+    {
+        return quesMap.Values.FirstOrDefault();
+    }
+    
+    /**
+     * Obtenir la première entrée du dictionnaire
+     *
+     * @var		mixed	<string
+     *//**
+     * Obtenir la première entrée du dictionnaire
+     *
+     * @var		mixed	GetFirstElement()
+     */
+    public KeyValuePair<string, S_Quest> GetFirstElement()
+    {
+        return quesMap.FirstOrDefault();
+    }
+
+    #endregion
     
 }

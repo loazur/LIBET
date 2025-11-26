@@ -8,6 +8,8 @@ public class S_Quest
 
     private int currentQuestStepIndex;
 
+    private S_QuestStepState[] questStepStates;
+
     /**
      * constructeur qui initialise les variables
      *
@@ -22,6 +24,11 @@ public class S_Quest
         this.info = questInfo;
         this.state = E_QuestState.REQUIREMENTS_NOT_MET;
         this.currentQuestStepIndex = 0;
+        this.questStepStates = new S_QuestStepState[questInfo.questStepsPrefabs.Length];
+        for (int i = 0; i < questStepStates.Length; i++)
+        {
+            questStepStates[i] = new S_QuestStepState();
+        }
     }
 
     /**
@@ -124,5 +131,23 @@ public class S_Quest
         // TODO: Implémenter la récupération de l'état depuis le système de sauvegarde
         // Pour l'instant, retourner une chaîne vide
         return "";
+    }
+
+    public void StoreQuestStepState(int stepIndex, string state)
+    {
+        if (questStepStates == null)
+        {
+            Debug.LogWarning("StoreQuestStepState: questStepStates is null for quest: " + (info != null ? info.id : "unknown"));
+            return;
+        }
+
+        if (stepIndex >= 0 && stepIndex < questStepStates.Length)
+        {
+            questStepStates[stepIndex].state = state;
+        }
+        else
+        {
+            Debug.LogWarning("StoreQuestStepState: stepIndex out of bounds for quest: " + (info != null ? info.id : "unknown") + ", index: " + stepIndex);
+        }
     }
 }
