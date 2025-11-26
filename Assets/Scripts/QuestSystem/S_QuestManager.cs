@@ -114,7 +114,26 @@ public class S_QuestManager : MonoBehaviour
         UnsubscribeFromEvents();
     }
 
-    
+    /**
+     * Reset les quêtes en cours si l'application se ferme brusquement
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, November 26th, 2025.
+     * @access	private
+     * @return	void
+     */
+    private void OnApplicationQuit()
+    {
+        foreach (S_Quest quest in quesMap.Values)
+        {
+            if (quest.state == E_QuestState.IN_PROGRESS)
+            {
+                ChangeQuestState(quest.info.id, E_QuestState.REQUIREMENTS_NOT_MET);
+                Debug.Log("[S_QuestManager] Application quittée. Quest " + quest.info.id + " state reset to REQUIREMENTS_NOT_MET.");
+            }
+        }
+    }
 
 
     #region QUEST ADVANCEMENT
