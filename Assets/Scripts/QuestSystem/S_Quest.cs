@@ -133,21 +133,19 @@ public class S_Quest
         return "";
     }
 
-    public void StoreQuestStepState(int stepIndex, string state)
-    {
-        if (questStepStates == null)
-        {
-            Debug.LogWarning("StoreQuestStepState: questStepStates is null for quest: " + (info != null ? info.id : "unknown"));
-            return;
-        }
+    
 
-        if (stepIndex >= 0 && stepIndex < questStepStates.Length)
+    public void StoreQuestStepState(S_QuestStepState questStepState, int stepIndex)
+    {
+        if (stepIndex < questStepStates.Length)
         {
-            questStepStates[stepIndex].state = state;
+            questStepStates[stepIndex].state = questStepState.state;
+            questStepStates[stepIndex].status = questStepState.status;
         }
-        else
+        else 
         {
-            Debug.LogWarning("StoreQuestStepState: stepIndex out of bounds for quest: " + (info != null ? info.id : "unknown") + ", index: " + stepIndex);
+            Debug.LogWarning("Tried to access quest step data, but stepIndex was out of range: "
+                + "Quest Id = " + info.id + ", Step Index = " + stepIndex);
         }
     }
 }

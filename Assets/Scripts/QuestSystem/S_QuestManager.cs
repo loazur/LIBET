@@ -52,6 +52,15 @@ public class S_QuestManager : MonoBehaviour
         }
     }
 
+    /**
+     * Gère l'initialisation une fois que S_GameManager est prêt
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, November 26th, 2025.
+     * @access	private
+     * @return	void
+     */
     private IEnumerator InitializeWhenReady()
     {
         // Attendre que S_GameManager soit initialisé
@@ -74,6 +83,15 @@ public class S_QuestManager : MonoBehaviour
         }
     }
 
+    /**
+     * Abonnement aux événements du GameManager
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, November 26th, 2025.
+     * @access	private
+     * @return	void
+     */
     private void SubscribeToEvents()
     {
         if (S_GameManager.instance == null || isSubscribed)
@@ -86,11 +104,22 @@ public class S_QuestManager : MonoBehaviour
         S_GameManager.instance.questEvents.OnAdvanceQuest += AdvanceQuest;
         S_GameManager.instance.questEvents.OnFinishQuest += FinishQuest;
         S_GameManager.instance.playerEvents.onPlayerLevelChange += PlayerLevelChange;
+
+        S_GameManager.instance.questEvents.onQuestStepStateChange += QuestStepStateChange;
         
         isSubscribed = true;
         Debug.Log("[S_QuestManager] Abonné aux événements du GameManager.");
     }
 
+    /**
+     * Désabonnement des événements
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, November 26th, 2025.
+     * @access	private
+     * @return	void
+     */
     private void UnsubscribeFromEvents()
     {
         if (S_GameManager.instance == null || !isSubscribed)
@@ -103,6 +132,8 @@ public class S_QuestManager : MonoBehaviour
         S_GameManager.instance.questEvents.OnAdvanceQuest -= AdvanceQuest;
         S_GameManager.instance.questEvents.OnFinishQuest -= FinishQuest;
         S_GameManager.instance.playerEvents.onPlayerLevelChange -= PlayerLevelChange;
+
+        S_GameManager.instance.questEvents.onQuestStepStateChange -= QuestStepStateChange;
         
         isSubscribed = false;
     }
@@ -145,6 +176,13 @@ public class S_QuestManager : MonoBehaviour
     #region QUEST ADVANCEMENT
 
 
+
+    private void QuestStepStateChange(string id, int stepIndex, S_QuestStepState questStepState)
+    {
+        S_Quest quest = GetQuestByID(id);
+        quest.StoreQuestStepState(questStepState, stepIndex);
+        ChangeQuestState(id, quest.state);
+    }
 
     /**
      * Permet de changer l'état d'une quête
