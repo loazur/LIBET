@@ -1,6 +1,7 @@
 // S_QuestManager.cs
 // Gère les quêtes dans le jeu
 
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ public class S_QuestManager : MonoBehaviour
     private Dictionary<string, S_Quest> quesMap;
 
     private int currentPlayerLevel;
+    private bool isSubscribed = false;
 
     #region METHODS
     // *==========================================================================*
@@ -26,6 +28,66 @@ public class S_QuestManager : MonoBehaviour
     private void Awake()
     {
         quesMap = CreateQuestMap();
+    }
+
+    private void Start()
+    {
+        StartCoroutine(InitializeWhenReady());
+    }
+
+    private IEnumerator InitializeWhenReady()
+    {
+        // Attendre que S_GameManager soit initialisé
+        while (S_GameManager.instance == null)
+        {
+            Debug.Log("[S_QuestManager] En attente de l'initialisation de S_GameManager...");
+            yield return null;
+        }
+
+        // S'abonner aux événements si pas encore fait
+        if (!isSubscribed)
+        {
+            SubscribeToEvents();
+        }
+
+        // Notifier l'état initial de toutes les quêtes
+        foreach(S_Quest quest in quesMap.Values)
+        {
+            S_GameManager.instance.questEvents.QuestStateChange(quest);
+        }
+    }
+
+    private void SubscribeToEvents()
+    {
+        if (S_GameManager.instance == null || isSubscribed)
+        {
+            Debug.LogWarning("[S_QuestManager] Impossible de s'abonner : S_GameManager est null ou déjà abonné.");
+            return;
+        } 
+
+        S_GameManager.instance.questEvents.OnStartQuest += StartQuest;
+        S_GameManager.instance.questEvents.OnAdvanceQuest += AdvanceQuest;
+        S_GameManager.instance.questEvents.OnFinishQuest += FinishQuest;
+        S_GameManager.instance.playerEvents.onPlayerLevelChange += PlayerLevelChange;
+        
+        isSubscribed = true;
+        Debug.Log("[S_QuestManager] Abonné aux événements du GameManager.");
+    }
+
+    private void UnsubscribeFromEvents()
+    {
+        if (S_GameManager.instance == null || !isSubscribed)
+        {
+            Debug.LogWarning("[S_QuestManager] Impossible de se désabonner : S_GameManager est null ou déjà désabonné.");
+            return;
+        } 
+
+        S_GameManager.instance.questEvents.OnStartQuest -= StartQuest;
+        S_GameManager.instance.questEvents.OnAdvanceQuest -= AdvanceQuest;
+        S_GameManager.instance.questEvents.OnFinishQuest -= FinishQuest;
+        S_GameManager.instance.playerEvents.onPlayerLevelChange -= PlayerLevelChange;
+        
+        isSubscribed = false;
     }
 
     public void Update()
@@ -43,28 +105,13 @@ public class S_QuestManager : MonoBehaviour
 
     private void OnEnable()
     {
-        S_GameManager.instance.questEvents.OnStartQuest += StartQuest;
-        S_GameManager.instance.questEvents.OnAdvanceQuest += AdvanceQuest;
-        S_GameManager.instance.questEvents.OnFinishQuest += FinishQuest;
-
-        S_GameManager.instance.playerEvents.onPlayerLevelChange += PlayerLevelChange;
+        // L'abonnement sera géré par InitializeWhenReady() dans Start()
+        // pour garantir que S_GameManager est prêt
     }
 
     private void OnDisable()
     {
-        S_GameManager.instance.questEvents.OnStartQuest -= StartQuest;
-        S_GameManager.instance.questEvents.OnAdvanceQuest -= AdvanceQuest;
-        S_GameManager.instance.questEvents.OnFinishQuest -= FinishQuest;
-
-        S_GameManager.instance.playerEvents.onPlayerLevelChange -= PlayerLevelChange;
-    }
-
-    private void Start()
-    {
-        foreach(S_Quest quest in quesMap.Values)
-        {
-            S_GameManager.instance.questEvents.QuestStateChange(quest);
-        }
+        UnsubscribeFromEvents();
     }
 
     
