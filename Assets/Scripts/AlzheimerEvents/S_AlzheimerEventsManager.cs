@@ -14,8 +14,13 @@ public class S_AlzheimerEventsManager : MonoBehaviour
     [Tooltip("Si la boucle d'event aléatoire est active")]
     [SerializeField] private bool eventLoopActivated = true;
 
+    //TODO Gérer le oneshot
+    //TODO Gérer le type d'activation de l'event
+
     void Start()
     {   
+        TriggerSpecificEvent(alzheimerEvents[0]);
+
         if (eventLoopActivated)
             StartCoroutine(EventLoop());
     }

@@ -39,5 +39,8 @@ public class SO_AlzheimerEvent : ScriptableObject
     public void Trigger() //& Fonction qui active l'event
     {
         GameObject instance = Instantiate(eventPrefab); //TODO gérer le parent pour que sa soit mieux ranger lors de l'instantiation
+
+        if (eventDuration != 0) // Destruction du prefab après une certaine durée
+            Destroy(instance, eventDuration);
     }
 }
