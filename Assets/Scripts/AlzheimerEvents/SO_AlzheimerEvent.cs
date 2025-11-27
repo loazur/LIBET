@@ -3,6 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Alzheimer/Event")]
 public class SO_AlzheimerEvent : ScriptableObject
 {
+    //TODO Gestion Conditional ActivationType event
+
     //~ Informations d'un event
     [Header("Information de l'event")]
     [Tooltip("Nom de l'event unique")]
@@ -38,6 +40,13 @@ public class SO_AlzheimerEvent : ScriptableObject
 
     public void Trigger() //& Fonction qui active l'event
     {
-        GameObject instance = Instantiate(eventPrefab); //TODO gérer le parent pour que sa soit mieux ranger lors de l'instantiation
+        // Pour mieux ranger l'event lors de l'instantiation
+        Transform parent = GameObject.Find("AlzheimerEventsManager").transform ?? new GameObject("AlzheimerEventsManager").transform;
+        GameObject instance = Instantiate(eventPrefab, parent); 
+
+        eventHasTriggered = true;
+
+        if (eventDuration != 0) // Destruction du prefab après une certaine durée
+            Destroy(instance, eventDuration);
     }
 }

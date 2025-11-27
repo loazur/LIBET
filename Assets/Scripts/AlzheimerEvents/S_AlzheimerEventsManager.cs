@@ -12,11 +12,11 @@ public class S_AlzheimerEventsManager : MonoBehaviour
     [SerializeField] private float activationInterval = 180f;
 
     [Tooltip("Si la boucle d'event aléatoire est active")]
-    [SerializeField] private bool eventLoopActivated = true;
+    [SerializeField] private bool eventLoopActive = true;
 
     void Start()
     {   
-        if (eventLoopActivated)
+        if (eventLoopActive) // Lancement de la boucle
             StartCoroutine(EventLoop());
     }
 
@@ -37,11 +37,11 @@ public class S_AlzheimerEventsManager : MonoBehaviour
         float totalWeight = 0;
         foreach (var alzheimerEvent in alzheimerEvents)
         {
-            if (!(alzheimerEvent.eventIsOneShot && alzheimerEvent.eventHasTriggered))
-                totalWeight += alzheimerEvent.eventBaseWeight;
+            if (!(alzheimerEvent.eventIsOneShot && alzheimerEvent.eventHasTriggered && alzheimerEvent.eventActivationType == SO_AlzheimerEvent.ActivationType.Randomly))
+                totalWeight += alzheimerEvent.eventBaseWeight; // Ajoute au poids total, si non oneshot/déja lancé et si bien Randomly
         }
 
-        if (totalWeight == 0) return; // plus rien à tirer
+        if (totalWeight == 0) return; // Aucun events
 
         // Gére l'event en fonction du poits
         float randomValue = Random.Range(0, totalWeight);
@@ -49,14 +49,17 @@ public class S_AlzheimerEventsManager : MonoBehaviour
 
         foreach (var alzheimerEvent in alzheimerEvents)
         {
-            if (alzheimerEvent.eventIsOneShot && alzheimerEvent.eventHasTriggered)
+            if (alzheimerEvent.eventIsOneShot && alzheimerEvent.eventHasTriggered) // Gestion OneShot
+                continue;
+
+            if (alzheimerEvent.eventActivationType != SO_AlzheimerEvent.ActivationType.Randomly) // Gestion ActivationType
                 continue;
 
             currentSum += alzheimerEvent.eventBaseWeight;
 
-            if (randomValue < currentSum)
+            if (randomValue < currentSum) // Lance l'event aléatoire
             {
-                alzheimerEvent.Trigger();
+                alzheimerEvent.Trigger(); 
                 return;
             }
         }
