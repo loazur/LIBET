@@ -27,7 +27,7 @@ public class S_TextTranslator : MonoBehaviour
 
     //! --------------- Fonctions principales ---------------
 
-    private void UpdateText()
+    private void UpdateText() //& Met à jour le texte du l'objet courant dans la bonne langue
     {
         if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
         {

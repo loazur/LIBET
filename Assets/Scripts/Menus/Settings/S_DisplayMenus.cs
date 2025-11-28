@@ -5,6 +5,8 @@ using UnityEngine.Rendering;
 
 public class S_DisplayMenus : MonoBehaviour
 {
+    //! S_DisplayMenus gère l'affichage des différents menus et la liaison entre eux.
+
     //~ Références vers d'autre classes
     [SerializeField] private S_PlayerController playerController;
     [SerializeField] private S_PlayerCrouch playerCrouch;
