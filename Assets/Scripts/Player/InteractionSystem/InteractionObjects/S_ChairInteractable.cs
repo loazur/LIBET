@@ -1,10 +1,3 @@
-// ! Info sur le script : 
-// ! appliquer le script sur l'objet où on veut s'asseoir
-
-
-// TODO : faire une animation
-
-
 using UnityEngine;
 
 public class S_ChairInteractable : MonoBehaviour, SI_Interactable
@@ -35,9 +28,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         }
     }
 
-    // * ===================================================================================
-    // * Ne pas retirer ce qui est en dessous, nécessaire pour l'interface SI_Interactable
-    // * ===================================================================================
+    //! Méthodes provenant de l'interface SI_Interactable
 
     // ~ Méthode qui est activer quand on interagit avec l'objet
     public void Interact(Transform playerTransform)
@@ -63,9 +54,8 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         return gameObject.transform;
     }
 
-    // * ===================================================================================
+    //! -------------------------------------------------------
 
-    // Teleporte le joueur à la position assise
     private void Sit() //& S'assoir
     {
         // milieu de la chaise

@@ -3,8 +3,10 @@ using UnityEngine.UI;
 using TMPro;
 using System.Globalization;
 
-public class SliderTMPLink : MonoBehaviour
+public class S_SliderTMPLink : MonoBehaviour
 {
+    //! S_SliderTMPLink gère la liaison entre un slider et un input field dans un options choisi.
+
     public Slider slider;
     public TMP_InputField inputField;
 
@@ -16,12 +18,12 @@ public class SliderTMPLink : MonoBehaviour
         inputField.onEndEdit.AddListener(OnInputChanged);
     }
 
-    void OnSliderChanged(float value)
+    void OnSliderChanged(float value) //& Met à jour le input field en fonction du slider
     {
         inputField.text = value.ToString("0.##", CultureInfo.InvariantCulture);
     }
 
-    void OnInputChanged(string value)
+    void OnInputChanged(string value) //& Met à jour le slider en fonction du input field
     {
         if (float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out float result))
         {

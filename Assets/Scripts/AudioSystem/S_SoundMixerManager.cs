@@ -3,8 +3,9 @@ using UnityEngine.Audio;
 
 public class S_SoundMixerManager : MonoBehaviour
 {
-    [Header("Gestion de l'audio mixer")]
     public static S_SoundMixerManager instance;
+    [Header("Gestion de l'audio mixer")]
+    [Tooltip("Il s'agit de l'AudioMixer contenant les mixeur audios")]
     public AudioMixer audioMixer;
 
     void Awake()
@@ -14,6 +15,8 @@ public class S_SoundMixerManager : MonoBehaviour
             instance = this;
         }
     }
+
+    //!--------------------------------------------------------
 
     public void SetMasterVolume(float volume) //& Change le volume général
     {
