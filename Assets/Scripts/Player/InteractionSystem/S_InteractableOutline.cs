@@ -5,7 +5,7 @@ public class S_InteractableOutline : MonoBehaviour
     //~ Gère l'outline de CHAQUE intéraction
     private Outline outline;
 
-    void Awake() //& Création de l'outline et propriétés
+    void Awake() //& Création de l'outline et ses propriétés
     {
         outline = GetComponent<Outline>();
         
@@ -20,6 +20,6 @@ public class S_InteractableOutline : MonoBehaviour
         outline.OutlineWidth = 5f;
     }
 
-    public void Enable()  => outline.enabled = true;
-    public void Disable() => outline.enabled = false;
+    public void Enable()  => outline.enabled = true; //& Pour l'activé l'outline
+    public void Disable() => outline.enabled = false; //& Pour désactivé l'outline
 }

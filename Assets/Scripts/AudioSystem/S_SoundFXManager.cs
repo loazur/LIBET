@@ -3,6 +3,9 @@ using UnityEngine;
 public class S_SoundFXManager : MonoBehaviour
 {
     public static S_SoundFXManager instance;
+
+    [Header("Gestion des effets sonores")]
+    [Tooltip("AudioSource lié à une préfabs qui sera instancié à chaque soundFX")]
     [SerializeField] private AudioSource soundFXObject;
 
     void Awake()
@@ -12,6 +15,8 @@ public class S_SoundFXManager : MonoBehaviour
             instance = this;
         }
     }
+
+    //!--------------------------------------------------------
 
     public void PlaySoundFXClip(AudioClip audioClip, Transform spawnTransform, float volume) //& Fait jouer un sound effect
     {
