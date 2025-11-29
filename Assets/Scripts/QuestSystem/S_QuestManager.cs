@@ -71,7 +71,7 @@ public class S_QuestManager : MonoBehaviour
         // Attendre que S_GameManager soit initialisé
         while (S_GameManager.instance == null)
         {
-            Debug.Log("[S_QuestManager] En attente de l'initialisation de S_GameManager...");
+            // Debug.Log("[S_QuestManager] En attente de l'initialisation de S_GameManager...");
             yield return null;
         }
 
@@ -87,7 +87,7 @@ public class S_QuestManager : MonoBehaviour
         // Notifier l'état initial de toutes les quêtes
         foreach(S_Quest quest in quesMap.Values)
         {
-            Debug.Log($"[S_QuestManager] Quête '{quest.info.displayName}' (ID: {quest.info.id}) - État: {quest.state}");
+            // Debug.Log($"[S_QuestManager] Quête '{quest.info.displayName}' (ID: {quest.info.id}) - État: {quest.state}");
             
             if (quest.state  ==  E_QuestState.IN_PROGRESS)
             {
@@ -97,7 +97,7 @@ public class S_QuestManager : MonoBehaviour
         }
 
         // Initialiser l'UI avec la quête active
-        Debug.Log("[S_QuestManager] Initialisation de l'UI...");
+        // Debug.Log("[S_QuestManager] Initialisation de l'UI...");
         UpdateQuestUI();
     }
 
@@ -127,7 +127,7 @@ public class S_QuestManager : MonoBehaviour
         S_GameManager.instance.questEvents.onQuestStateChange += OnQuestStateChanged;
         
         isSubscribed = true;
-        Debug.Log("[S_QuestManager] Abonné aux événements du GameManager.");
+        // Debug.Log("[S_QuestManager] Abonné aux événements du GameManager.");
     }
 
     /**
@@ -280,7 +280,7 @@ public class S_QuestManager : MonoBehaviour
         quest.InstantiateCurrentQuestStep(this.transform);
         ChangeQuestState(questID, E_QuestState.IN_PROGRESS);
 
-        Debug.Log("Quest " + questID + " started " + " with first step: " + quest.state.ToString());
+        // Debug.Log("Quest " + questID + " started " + " with first step: " + quest.state.ToString());
     }
 
     /**
@@ -317,7 +317,7 @@ public class S_QuestManager : MonoBehaviour
             ChangeQuestState(quest.info.id, E_QuestState.CAN_FINISH);
         }
 
-        Debug.Log("Quest " + questID + " advanced to step: " + quest.state.ToString());
+        // Debug.Log("Quest " + questID + " advanced to step: " + quest.state.ToString());
     }
 
     /**
@@ -336,7 +336,7 @@ public class S_QuestManager : MonoBehaviour
         ClaimRewards(quest);
         ChangeQuestState(quest.info.id, E_QuestState.FINISHED);
 
-        Debug.Log("Quest " + questID + " finished. Rewards claimed.");
+        // Debug.Log("Quest " + questID + " finished. Rewards claimed.");
     }
 
     /**
@@ -556,7 +556,7 @@ public class S_QuestManager : MonoBehaviour
         if (questCanvas != null)
         {
             questCanvas.SetActive(true);
-            Debug.Log($"[S_QuestManager] Canvas activé. IsActive: {questCanvas.activeSelf}");
+            // Debug.Log($"[S_QuestManager] Canvas activé. IsActive: {questCanvas.activeSelf}");
         }
     }
 
@@ -587,14 +587,14 @@ public class S_QuestManager : MonoBehaviour
         
         if (activeQuest != null)
         {
-            Debug.Log($"[S_QuestManager] Quête active trouvée: {activeQuest.info.displayName} (État: {activeQuest.state})");
+            // Debug.Log($"[S_QuestManager] Quête active trouvée: {activeQuest.info.displayName} (État: {activeQuest.state})");
             ShowQuestCanvas();
             QuestDispalyTitle.text = activeQuest.info.displayName;
-            Debug.Log($"[S_QuestManager] UI mise à jour avec le titre: {QuestDispalyTitle.text}");
+            // Debug.Log($"[S_QuestManager] UI mise à jour avec le titre: {QuestDispalyTitle.text}");
         }
         else
         {
-            Debug.Log("[S_QuestManager] Aucune quête active (IN_PROGRESS) trouvée.");
+            // Debug.Log("[S_QuestManager] Aucune quête active (IN_PROGRESS) trouvée.");
             HideQuestCanvas();
         }
     }
@@ -651,6 +651,11 @@ public class S_QuestManager : MonoBehaviour
     /**
      * Méthode de debug pour afficher l'état de toutes les quêtes
      * Utile pour diagnostiquer les problèmes d'affichage
+     *
+     * ! Comment ça Marche ?
+     * ! Quand le jeu est lancer, faire un clic droit sur le composant S_QuestManager
+     * ! dans l'Inspector et dans les 3 points du script, sélectionner "Debug - Afficher toutes les quêtes".
+
      */
     [ContextMenu("Debug - Afficher toutes les quêtes")]
     public void DebugShowAllQuests()

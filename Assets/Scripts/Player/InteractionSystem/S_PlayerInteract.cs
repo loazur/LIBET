@@ -109,4 +109,18 @@ public class S_PlayerInteract : MonoBehaviour
         holdingItem = itemHolded;
     }
 
+    /**
+     * Récupère l'item actuellement tenu par le joueur
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, November 29th, 2025.
+     * @access	public
+     * @return	mixed
+     */
+    public S_ItemInteraction GetHoldingItem()
+    {
+        return holdingItem;
+    }
+
 }

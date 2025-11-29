@@ -74,7 +74,6 @@ public class S_QuestPoint : MonoBehaviour
         S_GameManager.instance.inputEvents.onSubmitPressed += SubmitPressed;
         isSubscribed = true;
 
-        Debug.Log($"[S_QuestPoint] Abonné aux événements pour la quête: {questId}");
     }
 
     private void UnsubscribeFromEvents()
@@ -136,27 +135,27 @@ public class S_QuestPoint : MonoBehaviour
 
         if (!inputEventContext.Equals(InputEventContext.DEFAULT))
         {
-            Debug.Log($"[S_QuestPoint] Input context is {inputEventContext}, not DEFAULT. Ignoring.");
+            // Debug.Log($"[S_QuestPoint] Input context is {inputEventContext}, not DEFAULT. Ignoring.");
             return;
         }
 
-        Debug.Log($"[S_QuestPoint] Submit pressé pour quête {questId}, état actuel: {currentQuestState}");
+        // Debug.Log($"[S_QuestPoint] Submit pressé pour quête {questId}, état actuel: {currentQuestState}");
 
         // Démarrage manuel de la quête (si autoStartQuest est false)
         if (!autoStartQuest && currentQuestState.Equals(E_QuestState.CAN_START) && startPoint)
         {
-            Debug.Log($"[S_QuestPoint] Démarrage manuel de la quête {questId}");
+            // Debug.Log($"[S_QuestPoint] Démarrage manuel de la quête {questId}");
             S_GameManager.instance.questEvents.StartQuest(questId);
         }
         // Finalisation manuelle de la quête (si autoFinishQuest est false)
         else if (!autoFinishQuest && currentQuestState.Equals(E_QuestState.CAN_FINISH) && finishPoint)
         {
-            Debug.Log($"[S_QuestPoint] Finalisation manuelle de la quête {questId}");
+            // Debug.Log($"[S_QuestPoint] Finalisation manuelle de la quête {questId}");
             S_GameManager.instance.questEvents.FinishQuest(questId);
         }
         else
         {
-            Debug.Log($"[S_QuestPoint] Conditions non remplies: currentState={currentQuestState}, autoStart={autoStartQuest}, autoFinish={autoFinishQuest}, startPoint={startPoint}, finishPoint={finishPoint}");
+            // Debug.Log($"[S_QuestPoint] Conditions non remplies: currentState={currentQuestState}, autoStart={autoStartQuest}, autoFinish={autoFinishQuest}, startPoint={startPoint}, finishPoint={finishPoint}");
         }
     }
 
@@ -177,7 +176,7 @@ public class S_QuestPoint : MonoBehaviour
         if (quest.info.id.Equals(questId))
         {
             currentQuestState = quest.state;
-            Debug.Log($"[S_QuestPoint] État de la quête {questId} mis à jour: {currentQuestState}");
+            // Debug.Log($"[S_QuestPoint] État de la quête {questId} mis à jour: {currentQuestState}");
         }
     }
 
@@ -197,19 +196,19 @@ public class S_QuestPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsNear = true;
-            Debug.Log($"[S_QuestPoint] Joueur proche du point de quête '{questId}', état: {currentQuestState}");
+            // Debug.Log($"[S_QuestPoint] Joueur proche du point de quête '{questId}', état: {currentQuestState}");
 
             // Démarrage automatique de la quête si configuré
             if (autoStartQuest && currentQuestState == E_QuestState.CAN_START && startPoint)
             {
-                Debug.Log($"[S_QuestPoint] Démarrage automatique de la quête {questId}");
+                // Debug.Log($"[S_QuestPoint] Démarrage automatique de la quête {questId}");
                 S_GameManager.instance.questEvents.StartQuest(questId);
             }
             
             // Finalisation automatique de la quête si configuré
             if (autoFinishQuest && currentQuestState == E_QuestState.CAN_FINISH && finishPoint)
             {
-                Debug.Log($"[S_QuestPoint] Finalisation automatique de la quête {questId}");
+                // Debug.Log($"[S_QuestPoint] Finalisation automatique de la quête {questId}");
                 S_GameManager.instance.questEvents.FinishQuest(questId);
             }
         }
@@ -230,7 +229,7 @@ public class S_QuestPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsNear = false;
-            Debug.Log("Player left quest point for quest: " + questId + ", current state: " + currentQuestState);
+            // Debug.Log("Player left quest point for quest: " + questId + ", current state: " + currentQuestState);
         }
     }
 }

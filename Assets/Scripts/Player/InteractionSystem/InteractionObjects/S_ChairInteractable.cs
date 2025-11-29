@@ -82,6 +82,12 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
 
         isPlayerSitting = true;
 
+        // Notifier le système de quêtes
+        if (S_GameManager.instance != null)
+        {
+            S_GameManager.instance.playerEvents.PlayerSat(gameObject);
+        }
+
         UpdateInteractText();
     }
 
