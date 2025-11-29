@@ -155,6 +155,11 @@ public class S_QuestPoint : MonoBehaviour
         {
             playerIsNear = true;
             Debug.Log("Player is near quest point for quest: " + questId + ", current state: " + currentQuestState);
+            Debug.Log("Change quest state to: In_Progress" );
+            
+            // Modifier l'état de la quête pour indiquer qu'elle est en cours
+            currentQuestState = E_QuestState.IN_PROGRESS;
+            Debug.Log("Quest state changed to: " + currentQuestState);
         }
     }
 

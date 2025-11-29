@@ -164,18 +164,14 @@ public class S_QuestManager : MonoBehaviour
     {
         foreach (S_Quest quest in quesMap.Values)
         {
-            if (quest.state == E_QuestState.IN_PROGRESS)
-            {
-                ChangeQuestState(quest.info.id, E_QuestState.REQUIREMENTS_NOT_MET);
-                Debug.Log("[S_QuestManager] Application quittée. Quest " + quest.info.id + " state reset to REQUIREMENTS_NOT_MET.");
-            }
+            SaveQuest(quest);
         }
     }
 
 
     #region QUEST ADVANCEMENT
 
-
+    
 
     private void QuestStepStateChange(string id, int stepIndex, S_QuestStepState questStepState)
     {
@@ -396,6 +392,24 @@ public class S_QuestManager : MonoBehaviour
 
         return meetsRequirements;
     }
+
+    #region Save & Load
+
+    private void SaveQuest(S_Quest quest)
+    {
+        try
+        {
+            S_QuestData questData = quest.GetQuestData();
+            string serializedData = JsonUtility.ToJson(questData);
+            PlayerPrefs.SetString("Quest_" + quest.info.id, serializedData);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("[S_QuestManager] Error saving quest " + quest.info.id + ": " + e.Message);
+        }
+    }
+
+    #endregion
 
     #region Interfaces
 

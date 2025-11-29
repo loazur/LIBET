@@ -31,6 +31,25 @@ public class S_Quest
         }
     }
 
+
+    public S_Quest(SO_QuestInfo questInfo, E_QuestState questState, int currentQuestStepIndex, S_QuestStepState[] questStepStates)
+    {
+        this.info = questInfo;
+        this.state = questState;
+        this.currentQuestStepIndex = currentQuestStepIndex;
+        this.questStepStates = questStepStates;
+
+        // if the quest step states and prefabs are different lengths,
+        // something has changed during development and the saved data is out of sync.
+        if (this.questStepStates.Length != this.info.questStepsPrefabs.Length)
+        {
+            Debug.LogWarning("Quest Step Prefabs and Quest Step States are "
+                + "of different lengths. This indicates something changed "
+                + "with the QuestInfo and the saved data is now out of sync. "
+                + "Reset your data - as this might cause issues. QuestId: " + this.info.id);
+        }
+    }
+
     /**
      * permet de passer à l'étape suivante de la quête
      *
@@ -147,5 +166,10 @@ public class S_Quest
             Debug.LogWarning("Tried to access quest step data, but stepIndex was out of range: "
                 + "Quest Id = " + info.id + ", Step Index = " + stepIndex);
         }
+    }
+
+    public S_QuestData GetQuestData()
+    {
+        return new S_QuestData(state, currentQuestStepIndex, questStepStates);
     }
 }
