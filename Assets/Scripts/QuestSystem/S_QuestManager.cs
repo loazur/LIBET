@@ -52,8 +52,10 @@ public class S_QuestManager : MonoBehaviour
                 ChangeQuestState(quest.info.id, E_QuestState.CAN_START);
                 // Debug.Log("Quest " + quest.info.id + " requirements met. State changed to CAN_START.");
             }
-            // Debug.Log("Quest " + quest.info.id + " is in state " + quest.state.ToString() + "CheckRequirementsMet returned " + CheckRequirementsMet(quest).ToString() + ".");
+            Debug.Log("Quest " + quest.info.id + " is in state " + quest.state.ToString() + "CheckRequirementsMet returned " + CheckRequirementsMet(quest).ToString() + ".");
         }
+
+        SetTitle();
     }
 
     #region Event Subscription
@@ -547,7 +549,7 @@ public class S_QuestManager : MonoBehaviour
         }
         else
         {
-            if (quest.state == E_QuestState.REQUIREMENTS_NOT_MET)
+            if (quest.state == E_QuestState.IN_PROGRESS)
             {
                 ShowQuestCanvas();
                 QuestDispalyTitle.text = quest.info.displayName;
