@@ -24,7 +24,7 @@ public class S_QuestManager : MonoBehaviour
     [SerializeField]private Text QuestDispalyTitle;
     private Dictionary<string, S_Quest> quesMap;
 
-    private int currentPlayerLevel;
+    private int currentPlayerLevel = 1; // Niveau par défaut (sera mis à jour par PlayerLevelChange)
     private bool isSubscribed = false;
 
     #region METHODS MonoBehaviour
@@ -45,17 +45,15 @@ public class S_QuestManager : MonoBehaviour
 
     public void Update()
     {
+        // Vérifier si des quêtes peuvent passer de REQUIREMENTS_NOT_MET à CAN_START
+        // TODO: Optimiser en utilisant un système d'événements plutôt que Update()
         foreach (S_Quest quest in quesMap.Values)
         {
             if (quest.state == E_QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
             {
                 ChangeQuestState(quest.info.id, E_QuestState.CAN_START);
-                // Debug.Log("Quest " + quest.info.id + " requirements met. State changed to CAN_START.");
             }
-            Debug.Log("Quest " + quest.info.id + " is in state " + quest.state.ToString() + "CheckRequirementsMet returned " + CheckRequirementsMet(quest).ToString() + ".");
         }
-
-        SetTitle();
     }
 
     #region Event Subscription
@@ -83,15 +81,24 @@ public class S_QuestManager : MonoBehaviour
             SubscribeToEvents();
         }
 
+        // Attendre que PlayerLevelManager initialise le niveau du joueur
+        yield return new WaitForSeconds(0.1f);
+
         // Notifier l'état initial de toutes les quêtes
         foreach(S_Quest quest in quesMap.Values)
         {
+            Debug.Log($"[S_QuestManager] Quête '{quest.info.displayName}' (ID: {quest.info.id}) - État: {quest.state}");
+            
             if (quest.state  ==  E_QuestState.IN_PROGRESS)
             {
                 quest.InstantiateCurrentQuestStep(this.transform);
             }
             S_GameManager.instance.questEvents.QuestStateChange(quest);
         }
+
+        // Initialiser l'UI avec la quête active
+        Debug.Log("[S_QuestManager] Initialisation de l'UI...");
+        UpdateQuestUI();
     }
 
     /**
@@ -117,6 +124,7 @@ public class S_QuestManager : MonoBehaviour
         S_GameManager.instance.playerEvents.onPlayerLevelChange += PlayerLevelChange;
 
         S_GameManager.instance.questEvents.onQuestStepStateChange += QuestStepStateChange;
+        S_GameManager.instance.questEvents.onQuestStateChange += OnQuestStateChanged;
         
         isSubscribed = true;
         Debug.Log("[S_QuestManager] Abonné aux événements du GameManager.");
@@ -145,6 +153,7 @@ public class S_QuestManager : MonoBehaviour
         S_GameManager.instance.playerEvents.onPlayerLevelChange -= PlayerLevelChange;
 
         S_GameManager.instance.questEvents.onQuestStepStateChange -= QuestStepStateChange;
+        S_GameManager.instance.questEvents.onQuestStateChange -= OnQuestStateChanged;
         
         isSubscribed = false;
     }
@@ -200,6 +209,21 @@ public class S_QuestManager : MonoBehaviour
 
 
     #region QUEST ADVANCEMENT
+
+    /**
+     * Gère les changements d'état de quête pour mettre à jour l'UI
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Friday, November 29th, 2025.
+     * @access	private
+     * @param	s_quest	quest	
+     * @return	void
+     */
+    private void OnQuestStateChanged(S_Quest quest)
+    {
+        UpdateQuestUI();
+    }
 
     
     /**
@@ -512,11 +536,14 @@ public class S_QuestManager : MonoBehaviour
      */
     private void HideQuestCanvas()
     {
-        questCanvas.SetActive(false);
+        if (questCanvas != null)
+        {
+            questCanvas.SetActive(false);
+        }
     }
 
     /**
-     * ShowQuestCanvas.
+     * Affiche l'interface de quête
      *
      * @author	Lucas
      * @since	v0.0.1
@@ -526,41 +553,50 @@ public class S_QuestManager : MonoBehaviour
      */
     private void ShowQuestCanvas()
     {
-        questCanvas.SetActive(true);
+        if (questCanvas != null)
+        {
+            questCanvas.SetActive(true);
+            Debug.Log($"[S_QuestManager] Canvas activé. IsActive: {questCanvas.activeSelf}");
+        }
     }
 
     /**
-     * Met un titre à l'interface de quête
+     * Met à jour l'interface de quête en fonction de la quête active
      *
      * @author	Lucas
      * @since	v0.0.1
-     * @version	v1.0.0	Saturday, November 29th, 2025.
+     * @version	v1.0.0	Friday, November 29th, 2025.
      * @access	private
      * @return	void
      */
-    private void SetTitle()
+    private void UpdateQuestUI()
     {
-        S_Quest quest = GetFirstQuest();
-        
-        if (quest == null)
+        if (questCanvas == null)
         {
-            HideQuestCanvas();
+            Debug.LogWarning("[S_QuestManager] questCanvas n'est pas assigné dans l'Inspector!");
             return;
+        }
+
+        if (QuestDispalyTitle == null)
+        {
+            Debug.LogWarning("[S_QuestManager] QuestDispalyTitle n'est pas assigné dans l'Inspector!");
+            return;
+        }
+
+        S_Quest activeQuest = GetActiveQuest();
+        
+        if (activeQuest != null)
+        {
+            Debug.Log($"[S_QuestManager] Quête active trouvée: {activeQuest.info.displayName} (État: {activeQuest.state})");
+            ShowQuestCanvas();
+            QuestDispalyTitle.text = activeQuest.info.displayName;
+            Debug.Log($"[S_QuestManager] UI mise à jour avec le titre: {QuestDispalyTitle.text}");
         }
         else
         {
-            if (quest.state == E_QuestState.IN_PROGRESS)
-            {
-                ShowQuestCanvas();
-                QuestDispalyTitle.text = quest.info.displayName;
-            }
-            else
-            {
-                HideQuestCanvas();
-            }
-            
+            Debug.Log("[S_QuestManager] Aucune quête active (IN_PROGRESS) trouvée.");
+            HideQuestCanvas();
         }
-        
     }
 
 
@@ -571,17 +607,31 @@ public class S_QuestManager : MonoBehaviour
     #region Quest Access
 
     /**
-     * Obtenir la première quête du dictionnaire
+     * Obtenir la quête actuellement active (IN_PROGRESS)
      *
      * @author	Lucas
      * @since	v0.0.1
-     * @version	v1.0.0	Wednesday, November 26th, 2025.
+     * @version	v1.0.0	Friday, November 29th, 2025.
      * @access	public
-     * @return	mixed
+     * @return	mixed	La première quête en cours, ou null si aucune
      */
-    public S_Quest GetFirstQuest()
+    public S_Quest GetActiveQuest()
     {
-        return quesMap.Values.FirstOrDefault();
+        return quesMap.Values.FirstOrDefault(q => q.state == E_QuestState.IN_PROGRESS);
+    }
+    
+    /**
+     * Obtenir toutes les quêtes actives (IN_PROGRESS)
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Friday, November 29th, 2025.
+     * @access	public
+     * @return	mixed	Liste des quêtes en cours
+     */
+    public IEnumerable<S_Quest> GetActiveQuests()
+    {
+        return quesMap.Values.Where(q => q.state == E_QuestState.IN_PROGRESS);
     }
     
     /**
@@ -596,6 +646,40 @@ public class S_QuestManager : MonoBehaviour
     public KeyValuePair<string, S_Quest> GetFirstElement()
     {
         return quesMap.FirstOrDefault();
+    }
+
+    /**
+     * Méthode de debug pour afficher l'état de toutes les quêtes
+     * Utile pour diagnostiquer les problèmes d'affichage
+     */
+    [ContextMenu("Debug - Afficher toutes les quêtes")]
+    public void DebugShowAllQuests()
+    {
+        Debug.Log("=== DEBUG QUÊTES ===");
+        Debug.Log($"Nombre total de quêtes: {quesMap.Count}");
+        
+        foreach (var quest in quesMap.Values)
+        {
+            Debug.Log($"Quête: '{quest.info.displayName}' (ID: {quest.info.id}) - État: {quest.state}");
+        }
+
+        S_Quest activeQuest = GetActiveQuest();
+        if (activeQuest != null)
+        {
+            Debug.Log($"<color=green>Quête active: {activeQuest.info.displayName}</color>");
+        }
+        else
+        {
+            Debug.Log("<color=red>Aucune quête IN_PROGRESS trouvée!</color>");
+        }
+
+        Debug.Log($"Canvas assigné: {questCanvas != null}");
+        Debug.Log($"QuestDispalyTitle assigné: {QuestDispalyTitle != null}");
+        if (questCanvas != null)
+        {
+            Debug.Log($"Canvas actif: {questCanvas.activeSelf}");
+        }
+        Debug.Log("===================");
     }
 
     #endregion

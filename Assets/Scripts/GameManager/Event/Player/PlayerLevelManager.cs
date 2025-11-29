@@ -10,6 +10,7 @@ public class PlayerLevelManager : MonoBehaviour
 
     private int currentLevel;
     private int currentExperience;
+    private bool isSubscribed = false;
 
     private void Awake()
     {
@@ -17,20 +18,46 @@ public class PlayerLevelManager : MonoBehaviour
         currentExperience = startingExperience;
     }
 
-    private void OnEnable()
+    private void Start()
     {
+        StartCoroutine(InitializeWhenReady());
+    }
+
+    private IEnumerator InitializeWhenReady()
+    {
+        // Attendre que S_GameManager soit initialisé
+        while (S_GameManager.instance == null)
+        {
+            yield return null;
+        }
+
+        // S'abonner aux événements
+        SubscribeToEvents();
+
+        // Notifier le niveau et l'expérience initiaux
+        S_GameManager.instance.playerEvents.PlayerLevelChange(currentLevel);
+        S_GameManager.instance.playerEvents.PlayerExperienceChange(currentExperience);
+    }
+
+    private void SubscribeToEvents()
+    {
+        if (S_GameManager.instance == null || isSubscribed) return;
+
         S_GameManager.instance.playerEvents.onExperienceGained += ExperienceGained;
+        isSubscribed = true;
+    }
+
+    private void UnsubscribeFromEvents()
+    {
+        if (S_GameManager.instance == null || !isSubscribed) return;
+
+        S_GameManager.instance.playerEvents.onExperienceGained -= ExperienceGained;
+        isSubscribed = false;
     }
 
     private void OnDisable() 
     {
-        S_GameManager.instance.playerEvents.onExperienceGained -= ExperienceGained;
-    }
-
-    private void Start()
-    {
-        S_GameManager.instance.playerEvents.PlayerLevelChange(currentLevel);
-        S_GameManager.instance.playerEvents.PlayerExperienceChange(currentExperience);
+        UnsubscribeFromEvents();
     }
 
     private void ExperienceGained(int experience) 

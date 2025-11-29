@@ -147,8 +147,10 @@ public class S_Quest
      */
     private string GetQuestStepState()
     {
-        // TODO: Implémenter la récupération de l'état depuis le système de sauvegarde
-        // Pour l'instant, retourner une chaîne vide
+        if (currentQuestStepIndex < questStepStates.Length)
+        {
+            return questStepStates[currentQuestStepIndex].state;
+        }
         return "";
     }
 
