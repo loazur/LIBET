@@ -4,6 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,9 @@ public class S_QuestManager : MonoBehaviour
     // *==========================================================================*
     #endregion
 
+    [Header("Config")]
+    [SerializeField] private bool loadQuestState = true;
+
     [Header("Interface pour les quêtes")]
     [SerializeField] private GameObject questCanvas; // Canvas pour les quêtes
     [SerializeField]private Text QuestDispalyTitle;
@@ -23,7 +27,7 @@ public class S_QuestManager : MonoBehaviour
     private int currentPlayerLevel;
     private bool isSubscribed = false;
 
-    #region METHODS
+    #region METHODS MonoBehaviour
     // *==========================================================================*
     // *                                 METHODS                                  *
     // *==========================================================================*
@@ -52,6 +56,7 @@ public class S_QuestManager : MonoBehaviour
         }
     }
 
+    #region Event Subscription
     /**
      * Gère l'initialisation une fois que S_GameManager est prêt
      *
@@ -79,6 +84,10 @@ public class S_QuestManager : MonoBehaviour
         // Notifier l'état initial de toutes les quêtes
         foreach(S_Quest quest in quesMap.Values)
         {
+            if (quest.state  ==  E_QuestState.IN_PROGRESS)
+            {
+                quest.InstantiateCurrentQuestStep(this.transform);
+            }
             S_GameManager.instance.questEvents.QuestStateChange(quest);
         }
     }
@@ -139,13 +148,30 @@ public class S_QuestManager : MonoBehaviour
     }
 
     
-
+    /**
+     * Active l'abonnement lors de l'activation
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, November 29th, 2025.
+     * @access	private
+     * @return	void
+     */
     private void OnEnable()
     {
         // L'abonnement sera géré par InitializeWhenReady() dans Start()
         // pour garantir que S_GameManager est prêt
     }
 
+    /**
+     * Désabonnement lors de la désactivation
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, November 29th, 2025.
+     * @access	private
+     * @return	void
+     */
     private void OnDisable()
     {
         UnsubscribeFromEvents();
@@ -168,11 +194,24 @@ public class S_QuestManager : MonoBehaviour
         }
     }
 
+    #endregion
+
 
     #region QUEST ADVANCEMENT
 
     
-
+    /**
+     * Change l'état de l'étape d'une quête passée par son ID et son index
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, November 29th, 2025.
+     * @access	private
+     * @param	string          	id            	
+     * @param	int             	stepIndex     	
+     * @param	s_queststepstate	questStepState	
+     * @return	void
+     */
     private void QuestStepStateChange(string id, int stepIndex, S_QuestStepState questStepState)
     {
         S_Quest quest = GetQuestByID(id);
@@ -395,6 +434,17 @@ public class S_QuestManager : MonoBehaviour
 
     #region Save & Load
 
+
+    /**
+     * Sauvegarde une quête dans les PlayerPrefs
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, November 29th, 2025.
+     * @access	private
+     * @param	s_quest	quest	
+     * @return	void
+     */
     private void SaveQuest(S_Quest quest)
     {
         try
@@ -409,20 +459,83 @@ public class S_QuestManager : MonoBehaviour
         }
     }
 
+    /**
+     * Charge une quête depuis les données sauvegardées
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, November 29th, 2025.
+     * @access	private
+     * @param	so_questinfo	questInfo	
+     * @return	mixed
+     */
+    private S_Quest LoadQuest(SO_QuestInfo questInfo)
+    {
+        S_Quest quest = null;
+        try 
+        {
+            // load quest from saved data
+            if (PlayerPrefs.HasKey(questInfo.id) && loadQuestState)
+            {
+                string serializedData = PlayerPrefs.GetString(questInfo.id);
+                S_QuestData questData = JsonUtility.FromJson<S_QuestData>(serializedData);
+                quest = new S_Quest(questInfo, questData.state, questData.index, questData.questStepStates);
+            }
+            // otherwise, initialize a new quest
+            else 
+            {
+                quest = new S_Quest(questInfo);
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Failed to load quest with id " + quest.info.id + ": " + e);
+        }
+        return quest;
+    }
+    
+
     #endregion
 
     #region Interfaces
 
+    /**
+     * Cache l'interface de quête
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, November 29th, 2025.
+     * @access	private
+     * @return	void
+     */
     private void HideQuestCanvas()
     {
         questCanvas.SetActive(false);
     }
 
+    /**
+     * ShowQuestCanvas.
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, November 29th, 2025.
+     * @access	private
+     * @return	void
+     */
     private void ShowQuestCanvas()
     {
         questCanvas.SetActive(true);
     }
 
+    /**
+     * Met un titre à l'interface de quête
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, November 29th, 2025.
+     * @access	private
+     * @return	void
+     */
     private void SetTitle()
     {
         S_Quest quest = GetFirstQuest();
