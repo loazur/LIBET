@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class S_PlayerInteractUI : MonoBehaviour
 {
+    //! S_PlayerInteractUI gère l'affichage de l'UI lié à l'interaction mais aussi l'activation de l'outline de l'objet.
+
     //~ Gestion de l'UI
     [Header("Gestion de l'UI")]
     [SerializeField] private GameObject uiContainer;
@@ -22,7 +24,7 @@ public class S_PlayerInteractUI : MonoBehaviour
         UpdateKeybindText();
     }
 
-    void Update() //& PAS PHYSICS
+    void Update() //& Met à jour l'affichage de la touche d'interaction + Affiche l'UI ou non
     {
         // Vérifie si la touche n'a pas changé
         string currentBinding = S_UserInput.instance._interactAction.GetBindingDisplayString();

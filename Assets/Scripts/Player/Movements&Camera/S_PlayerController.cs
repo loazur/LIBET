@@ -18,7 +18,6 @@ public class S_PlayerController : MonoBehaviour
     //~ Variables de mouvements
     public float movementSpeed = 3.5f; 
     private float gravity = 10f;
-
     private bool isMovingEnabled = true;
 
 

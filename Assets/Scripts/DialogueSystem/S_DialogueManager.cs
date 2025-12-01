@@ -11,8 +11,12 @@ public class S_DialogueManager : MonoBehaviour
 
     //~ Gestion des éléments d'UI
     [Header("Gestion éléments d'UI")]
+    [Tooltip("Element de l'UI contenant les visuels du dialogues, variable utile pour le cacher/montrer")]
     [SerializeField] private GameObject uiContainer;
+
+    [Tooltip("Bouton continuer du menu de dialogue")]
     [SerializeField] private GameObject continueButton;
+
     public TextMeshProUGUI npcName;
     public TextMeshProUGUI dialogueText;
     private Queue<S_DialogueLine> lines;

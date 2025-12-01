@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class S_PlayerInteract : MonoBehaviour
 {
+    //! S_PlayerInteract gère la détection des interactions et l'activation de cet meme interaction
+
     //~ Gestion des interactions
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float interactRange = 2f;

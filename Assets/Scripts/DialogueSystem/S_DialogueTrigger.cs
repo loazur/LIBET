@@ -22,15 +22,18 @@ public class S_Dialogue //& Contient les lignes de dialogues
 
 public class S_DialogueTrigger : MonoBehaviour //& Permet de lancer le dialogue et contient le dialogue
 {
+    [Tooltip("Dialogue en français")]
     public S_Dialogue dialogueFrench;
+
+    [Tooltip("Dialogue en anglais")]
     public S_Dialogue dialogueEnglish;
 
-    public void TriggerDialogueFrench()
+    public void TriggerDialogueFrench() //& Lance le dialogue en français
     {
         S_DialogueManager.instance.StartDialogue(dialogueFrench);
     }
 
-    public void TriggerDialogueEnglish()
+    public void TriggerDialogueEnglish() //& Lance le dialogue en anglais
     {
         S_DialogueManager.instance.StartDialogue(dialogueEnglish);
     }

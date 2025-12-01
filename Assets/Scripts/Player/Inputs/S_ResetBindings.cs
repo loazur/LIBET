@@ -7,7 +7,7 @@ public class S_ResetBindings : MonoBehaviour
     [SerializeField] private InputActionAsset _inputActions; // InputSystem
     [SerializeField] private string _targetControlScheme; // Le nom du device qu'on veut reset
 
-    public void ResetAllBindings() //& Reset tout d'un coup
+    public void ResetAllBindings() //& Reset tout les bindings peut importe le scheme
     {
         foreach (InputActionMap map in _inputActions.actionMaps)
         {
@@ -15,7 +15,7 @@ public class S_ResetBindings : MonoBehaviour
         }
     }
 
-    public void ResetControlSchemeBinding() //& Reset le keyboard/controller séparement
+    public void ResetControlSchemeBinding() //& Reset le scheme choisi
     {
         foreach(InputActionMap map in _inputActions.actionMaps)
         {
