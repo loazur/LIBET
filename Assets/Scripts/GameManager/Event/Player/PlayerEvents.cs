@@ -109,4 +109,32 @@ public class PlayerEvents
             onDoorClosed(door);
         }
     }
+
+    /**
+     * Événement déclenché quand le menu s'ouvre (pour cacher l'UI des quêtes)
+     *
+     * @var		mixed	onMenuOpened
+     */
+    public event Action onMenuOpened;
+    public void MenuOpened()
+    {
+        if (onMenuOpened != null)
+        {
+            onMenuOpened();
+        }
+    }
+
+    /**
+     * Événement déclenché quand le menu se ferme (pour afficher l'UI des quêtes)
+     *
+     * @var		mixed	onMenuClosed
+     */
+    public event Action onMenuClosed;
+    public void MenuClosed()
+    {
+        if (onMenuClosed != null)
+        {
+            onMenuClosed();
+        }
+    }
 }
