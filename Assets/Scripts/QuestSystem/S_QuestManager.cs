@@ -126,6 +126,10 @@ public class S_QuestManager : MonoBehaviour
         S_GameManager.instance.questEvents.onQuestStepStateChange += QuestStepStateChange;
         S_GameManager.instance.questEvents.onQuestStateChange += OnQuestStateChanged;
         
+        // S'abonner aux événements de menu pour gérer l'affichage du canvas
+        S_GameManager.instance.playerEvents.onMenuOpened += HideQuestCanvas;
+        S_GameManager.instance.playerEvents.onMenuClosed += ShowQuestCanvas;
+        
         isSubscribed = true;
         // Debug.Log("[S_QuestManager] Abonné aux événements du GameManager.");
     }
@@ -154,6 +158,10 @@ public class S_QuestManager : MonoBehaviour
 
         S_GameManager.instance.questEvents.onQuestStepStateChange -= QuestStepStateChange;
         S_GameManager.instance.questEvents.onQuestStateChange -= OnQuestStateChanged;
+        
+        // Se désabonner des événements de menu
+        S_GameManager.instance.playerEvents.onMenuOpened -= HideQuestCanvas;
+        S_GameManager.instance.playerEvents.onMenuClosed -= ShowQuestCanvas;
         
         isSubscribed = false;
     }
@@ -534,7 +542,7 @@ public class S_QuestManager : MonoBehaviour
      * @access	private
      * @return	void
      */
-    private void HideQuestCanvas()
+    public void HideQuestCanvas()
     {
         if (questCanvas != null)
         {
@@ -551,7 +559,7 @@ public class S_QuestManager : MonoBehaviour
      * @access	private
      * @return	void
      */
-    private void ShowQuestCanvas()
+    public void ShowQuestCanvas()
     {
         if (questCanvas != null)
         {
