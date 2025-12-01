@@ -8,6 +8,8 @@ public class S_Quest
 
     private int currentQuestStepIndex;
 
+    private S_QuestStepState[] questStepStates;
+
     /**
      * constructeur qui initialise les variables
      *
@@ -22,6 +24,30 @@ public class S_Quest
         this.info = questInfo;
         this.state = E_QuestState.REQUIREMENTS_NOT_MET;
         this.currentQuestStepIndex = 0;
+        this.questStepStates = new S_QuestStepState[questInfo.questStepsPrefabs.Length];
+        for (int i = 0; i < questStepStates.Length; i++)
+        {
+            questStepStates[i] = new S_QuestStepState();
+        }
+    }
+
+
+    public S_Quest(SO_QuestInfo questInfo, E_QuestState questState, int currentQuestStepIndex, S_QuestStepState[] questStepStates)
+    {
+        this.info = questInfo;
+        this.state = questState;
+        this.currentQuestStepIndex = currentQuestStepIndex;
+        this.questStepStates = questStepStates;
+
+        // if the quest step states and prefabs are different lengths,
+        // something has changed during development and the saved data is out of sync.
+        if (this.questStepStates.Length != this.info.questStepsPrefabs.Length)
+        {
+            Debug.LogWarning("Quest Step Prefabs and Quest Step States are "
+                + "of different lengths. This indicates something changed "
+                + "with the QuestInfo and the saved data is now out of sync. "
+                + "Reset your data - as this might cause issues. QuestId: " + this.info.id);
+        }
     }
 
     /**
@@ -121,8 +147,31 @@ public class S_Quest
      */
     private string GetQuestStepState()
     {
-        // TODO: Implémenter la récupération de l'état depuis le système de sauvegarde
-        // Pour l'instant, retourner une chaîne vide
+        if (currentQuestStepIndex < questStepStates.Length)
+        {
+            return questStepStates[currentQuestStepIndex].state;
+        }
         return "";
+    }
+
+    
+
+    public void StoreQuestStepState(S_QuestStepState questStepState, int stepIndex)
+    {
+        if (stepIndex < questStepStates.Length)
+        {
+            questStepStates[stepIndex].state = questStepState.state;
+            questStepStates[stepIndex].status = questStepState.status;
+        }
+        else 
+        {
+            Debug.LogWarning("Tried to access quest step data, but stepIndex was out of range: "
+                + "Quest Id = " + info.id + ", Step Index = " + stepIndex);
+        }
+    }
+
+    public S_QuestData GetQuestData()
+    {
+        return new S_QuestData(state, currentQuestStepIndex, questStepStates);
     }
 }

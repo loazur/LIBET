@@ -150,6 +150,10 @@ public class S_DisplayMenus : MonoBehaviour
         playerCrouch.setAbleToCrouch(false);
         volume.enabled = true;
         isOpen = true;
+
+        // Notifier que le menu est ouvert (pour cacher le canvas de quêtes)
+            S_GameManager.instance?.playerEvents.MenuOpened();
+        
     }
 
     public void HideCurrent(bool closingMenu) //& Fermeture du menu actuel
@@ -165,6 +169,11 @@ public class S_DisplayMenus : MonoBehaviour
             playerCrouch.setAbleToCrouch(true);
             volume.enabled = false;
             isOpen = false;
+
+            // Notifier que le menu est fermé (pour afficher le canvas de quêtes)
+            
+            S_GameManager.instance?.playerEvents.MenuClosed();
+            
         }
     }
 
@@ -182,6 +191,10 @@ public class S_DisplayMenus : MonoBehaviour
         playerCrouch.setAbleToCrouch(true);
         volume.enabled = false;
         isOpen = false;
+
+        // Notifier que le menu est fermé (pour afficher le canvas de quêtes)
+        
+            S_GameManager.instance?.playerEvents.MenuClosed();
     }
 
     //? ------------------------------------------------    
