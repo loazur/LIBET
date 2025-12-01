@@ -25,12 +25,19 @@ public class S_QuestPoint : MonoBehaviour
     [Header("Config")]
     [SerializeField] private bool startPoint = true;
     [SerializeField] private bool finishPoint = true;
+    
+    [Header("Interaction Mode")]
+    [Tooltip("Si true, la quête démarre automatiquement quand le joueur entre dans le trigger. Si false, il faut appuyer sur Submit.")]
+    [SerializeField] private bool autoStartQuest = true;
+    [Tooltip("Si true, la quête se termine automatiquement quand le joueur entre dans le trigger. Si false, il faut appuyer sur Submit.")]
+    [SerializeField] private bool autoFinishQuest = false;
 
     // *----------------------------------------------------------------*
 
     private bool playerIsNear = false;
     private string questId;
     private E_QuestState currentQuestState;
+    private bool isSubscribed = false;
 
     // private QuestIcon questIcon;
 
@@ -40,6 +47,42 @@ public class S_QuestPoint : MonoBehaviour
     {
         questId = questInfoForPoint.id;
         // questIcon = GetComponentInChildren<QuestIcon>();
+    }
+
+    private void Start()
+    {
+        StartCoroutine(InitializeWhenReady());
+    }
+
+    private IEnumerator InitializeWhenReady()
+    {
+        // Attendre que S_GameManager soit initialisé
+        while (S_GameManager.instance == null)
+        {
+            yield return null;
+        }
+
+        // S'abonner aux événements
+        SubscribeToEvents();
+    }
+
+    private void SubscribeToEvents()
+    {
+        if (S_GameManager.instance == null || isSubscribed) return;
+
+        S_GameManager.instance.questEvents.onQuestStateChange += QuestStateChange;
+        S_GameManager.instance.inputEvents.onSubmitPressed += SubmitPressed;
+        isSubscribed = true;
+
+    }
+
+    private void UnsubscribeFromEvents()
+    {
+        if (S_GameManager.instance == null || !isSubscribed) return;
+
+        S_GameManager.instance.questEvents.onQuestStateChange -= QuestStateChange;
+        S_GameManager.instance.inputEvents.onSubmitPressed -= SubmitPressed;
+        isSubscribed = false;
     }
 
 
@@ -54,15 +97,7 @@ public class S_QuestPoint : MonoBehaviour
      */
     private void OnEnable()
     {
-        //* Vérifier que le GameManager est initialisé avant de s'abonner aux événements
-        if (S_GameManager.instance == null)
-        {
-            Debug.LogWarning("S_QuestPoint: GameManager instance is null. Make sure S_GameManager is in the scene and initialized first.");
-            return;
-        }
-
-        S_GameManager.instance.questEvents.onQuestStateChange += QuestStateChange;
-        S_GameManager.instance.inputEvents.onSubmitPressed += SubmitPressed;
+        // L'abonnement est géré par InitializeWhenReady() dans Start()
     }
 
     /**
@@ -76,21 +111,13 @@ public class S_QuestPoint : MonoBehaviour
      */
     private void OnDisable()
     {
-        //* Vérifier que le GameManager existe encore avant de se désabonner
-        if (S_GameManager.instance == null)
-        {
-            Debug.LogWarning("S_QuestPoint: GameManager instance est null on OnDisable. Skipping unsubscription.");
-            return;
-
-        } 
-
-        S_GameManager.instance.questEvents.onQuestStateChange -= QuestStateChange;
-        S_GameManager.instance.inputEvents.onSubmitPressed -= SubmitPressed;
+        UnsubscribeFromEvents();
     }
 
 
     /**
-     * Permet de gérer l'entrée  et la sortie de la zone d'interaction
+     * Permet de gérer l'entrée et la sortie de la zone d'interaction
+     * Appelé quand le joueur appuie sur Submit (mode manuel uniquement)
      *
      * @author	Lucas
      * @since	v0.0.1
@@ -101,21 +128,35 @@ public class S_QuestPoint : MonoBehaviour
      */
     private void SubmitPressed(InputEventContext inputEventContext)
     {
-        if (!playerIsNear || !inputEventContext.Equals(InputEventContext.DEFAULT))
+        if (!playerIsNear)
         {
             return;
         }
 
-        //* commencer ou terminer la quête
-        if (currentQuestState.Equals(E_QuestState.CAN_START) && startPoint)
+        if (!inputEventContext.Equals(InputEventContext.DEFAULT))
         {
+            // Debug.Log($"[S_QuestPoint] Input context is {inputEventContext}, not DEFAULT. Ignoring.");
+            return;
+        }
+
+        // Debug.Log($"[S_QuestPoint] Submit pressé pour quête {questId}, état actuel: {currentQuestState}");
+
+        // Démarrage manuel de la quête (si autoStartQuest est false)
+        if (!autoStartQuest && currentQuestState.Equals(E_QuestState.CAN_START) && startPoint)
+        {
+            // Debug.Log($"[S_QuestPoint] Démarrage manuel de la quête {questId}");
             S_GameManager.instance.questEvents.StartQuest(questId);
         }
-        else if (currentQuestState.Equals(E_QuestState.CAN_FINISH) && finishPoint)
+        // Finalisation manuelle de la quête (si autoFinishQuest est false)
+        else if (!autoFinishQuest && currentQuestState.Equals(E_QuestState.CAN_FINISH) && finishPoint)
         {
+            // Debug.Log($"[S_QuestPoint] Finalisation manuelle de la quête {questId}");
             S_GameManager.instance.questEvents.FinishQuest(questId);
         }
-        
+        else
+        {
+            // Debug.Log($"[S_QuestPoint] Conditions non remplies: currentState={currentQuestState}, autoStart={autoStartQuest}, autoFinish={autoFinishQuest}, startPoint={startPoint}, finishPoint={finishPoint}");
+        }
     }
 
 
@@ -135,6 +176,7 @@ public class S_QuestPoint : MonoBehaviour
         if (quest.info.id.Equals(questId))
         {
             currentQuestState = quest.state;
+            // Debug.Log($"[S_QuestPoint] État de la quête {questId} mis à jour: {currentQuestState}");
         }
     }
 
@@ -154,7 +196,21 @@ public class S_QuestPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsNear = true;
-            Debug.Log("Player is near quest point for quest: " + questId + ", current state: " + currentQuestState);
+            // Debug.Log($"[S_QuestPoint] Joueur proche du point de quête '{questId}', état: {currentQuestState}");
+
+            // Démarrage automatique de la quête si configuré
+            if (autoStartQuest && currentQuestState == E_QuestState.CAN_START && startPoint)
+            {
+                // Debug.Log($"[S_QuestPoint] Démarrage automatique de la quête {questId}");
+                S_GameManager.instance.questEvents.StartQuest(questId);
+            }
+            
+            // Finalisation automatique de la quête si configuré
+            if (autoFinishQuest && currentQuestState == E_QuestState.CAN_FINISH && finishPoint)
+            {
+                // Debug.Log($"[S_QuestPoint] Finalisation automatique de la quête {questId}");
+                S_GameManager.instance.questEvents.FinishQuest(questId);
+            }
         }
     }
 
@@ -173,7 +229,7 @@ public class S_QuestPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsNear = false;
-            Debug.Log("Player left quest point for quest: " + questId + ", current state: " + currentQuestState);
+            // Debug.Log("Player left quest point for quest: " + questId + ", current state: " + currentQuestState);
         }
     }
 }

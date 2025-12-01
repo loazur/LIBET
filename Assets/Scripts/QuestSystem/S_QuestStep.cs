@@ -7,6 +7,20 @@ public abstract class S_QuestStep : MonoBehaviour
     private string questId;
     private int stepIndex;
 
+    //& --------------- Fonctions publics ---------------
+
+    /**
+     * Initialisation de la quest step
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, November 26th, 2025.
+     * @access	public
+     * @param	string	questId       	
+     * @param	int   	stepIndex     	
+     * @param	string	questStepState	
+     * @return	void
+     */
     public void InitializeQuestStep(string questId, int stepIndex, string questStepState)
     {
         this.questId = questId;
@@ -17,6 +31,15 @@ public abstract class S_QuestStep : MonoBehaviour
         }
     }
 
+    /**
+     * Permet de terminer la quest step et d'avancer dans la quête
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, November 26th, 2025.
+     * @access	protected
+     * @return	void
+     */
     protected void FinishQuestStep()
     {
         if (!isFinished)
@@ -34,6 +57,17 @@ public abstract class S_QuestStep : MonoBehaviour
         }
     }
 
+    /**
+     * Changement de l'état de la quest step
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, November 26th, 2025.
+     * @access	protected
+     * @param	string	newState 	
+     * @param	string	newStatus	
+     * @return	void
+     */
     protected void ChangeState(string newState, string newStatus)
     {
         S_GameManager.instance.questEvents.QuestStepStateChange(
@@ -51,5 +85,6 @@ public abstract class S_QuestStep : MonoBehaviour
         return !string.IsNullOrEmpty(questId);
     }
 
-    protected abstract void SetQuestStepState(string state);
+
+    protected abstract void SetQuestStepState(string state); // Méthode abstraite à implémenter dans les classes dérivées
 }

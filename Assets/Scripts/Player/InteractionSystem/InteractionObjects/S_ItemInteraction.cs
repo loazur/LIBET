@@ -70,6 +70,12 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 
         playerInteract.setInteractionEnabled(false);
         playerInteract.setHoldingItem(this);
+
+        // Notifier l'événement global que le joueur a ramassé un item
+        if (S_GameManager.instance != null)
+        {
+            S_GameManager.instance.playerEvents.ItemPickedUp(gameObject);
+        }
     }
 
     private void HoldingItem() //& Gestion lorsqu'on tient un item

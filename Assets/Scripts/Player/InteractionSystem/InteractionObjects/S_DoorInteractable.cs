@@ -112,6 +112,12 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
 
         isOpen = true;
 
+        // Notifier le système de quêtes
+        if (S_GameManager.instance != null)
+        {
+            S_GameManager.instance.playerEvents.DoorOpened(gameObject);
+        }
+
         float time = 0;
         while (time < 1)
         {
@@ -128,6 +134,12 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
         
         float time = 0;
         isOpen = true;
+
+        // Notifier le système de quêtes
+        if (S_GameManager.instance != null)
+        {
+            S_GameManager.instance.playerEvents.DoorOpened(gameObject);
+        }
         
         while (time < 1)
         {
@@ -164,6 +176,12 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
 
         isOpen = false;
 
+        // Notifier le système de quêtes
+        if (S_GameManager.instance != null)
+        {
+            S_GameManager.instance.playerEvents.DoorClosed(gameObject);
+        }
+
         float time = 0;
         while (time < 1)
         {
@@ -181,6 +199,12 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
 
         float time = 0;
         isOpen = false;
+
+        // Notifier le système de quêtes
+        if (S_GameManager.instance != null)
+        {
+            S_GameManager.instance.playerEvents.DoorClosed(gameObject);
+        }
 
         while (time < 1)
         {
