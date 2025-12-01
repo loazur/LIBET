@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public class PlayerEvents
 {
@@ -44,6 +45,68 @@ public class PlayerEvents
         if (onPlayerExperienceChange != null) 
         {
             onPlayerExperienceChange(experience);
+        }
+    }
+    
+    // ! ======================================================================================
+    // ! ======================================================================================
+    // ! ICI ON CONFIGURE LES ÉVÉNEMENTS LIÉS AUX ACTIONS DU JOUEUR POUR LE SYSTÈME DE QUÊTES !
+    // ! ======================================================================================
+    // ! ======================================================================================
+
+    /**
+     * Événement déclenché quand le joueur ramasse un item
+     *
+     * @var		mixed	onItemPickedUp
+     */
+    public event Action<GameObject> onItemPickedUp;
+    public void ItemPickedUp(GameObject item)
+    {
+        if (onItemPickedUp != null)
+        {
+            onItemPickedUp(item);
+        }
+    }
+
+    /**
+     * Événement déclenché quand le joueur s'assoit sur une chaise
+     *
+     * @var		mixed	onPlayerSat
+     */
+    public event Action<GameObject> onPlayerSat;
+    public void PlayerSat(GameObject chair)
+    {
+        if (onPlayerSat != null)
+        {
+            onPlayerSat(chair);
+        }
+    }
+
+    /**
+     * Événement déclenché quand le joueur ouvre une porte
+     *
+     * @var		mixed	onDoorOpened
+     */
+    public event Action<GameObject> onDoorOpened;
+    public void DoorOpened(GameObject door)
+    {
+        if (onDoorOpened != null)
+        {
+            onDoorOpened(door);
+        }
+    }
+
+    /**
+     * Événement déclenché quand le joueur ferme une porte
+     *
+     * @var		mixed	onDoorClosed
+     */
+    public event Action<GameObject> onDoorClosed;
+    public void DoorClosed(GameObject door)
+    {
+        if (onDoorClosed != null)
+        {
+            onDoorClosed(door);
         }
     }
 }
