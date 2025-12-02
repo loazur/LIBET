@@ -609,8 +609,8 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: Assets/Sounds/FMOD/LIBET/LIBET.fspro
-  sourceBankPath: Assets/Sounds/FMOD/LIBET/Build
+  sourceProjectPath: Assets/FMOD Project/LIBET/LIBET.fspro
+  sourceBankPath: Assets/FMOD Project/LIBET/Build
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
@@ -633,9 +633,11 @@ MonoBehaviour:
   RealChannelSettings: []
   Plugins: []
   MasterBanks:
-  - Master
+  - MasterBank
   Banks:
   - Music
+  - SFX
+  - UI
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
