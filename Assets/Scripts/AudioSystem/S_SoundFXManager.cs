@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class S_SoundFXManager : MonoBehaviour
 {
+    //TODO pas gérer avec FMOD (à refaire)
+
     public static S_SoundFXManager instance;
 
     [Header("Gestion des effets sonores")]

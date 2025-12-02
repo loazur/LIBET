@@ -22,10 +22,6 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
     [SerializeField] private Vector3 slideDirection = Vector3.back;
     [SerializeField] private float slideAmount = 1.9f;
 
-    [Header("Gestion de l'audio")]
-    [SerializeField] private AudioClip audioOpening;
-    [SerializeField] private AudioClip audioClosing;
-
     private Vector3 startPositionVec;
     private Vector3 startRotationVec;
     private Vector3 forward;
@@ -50,7 +46,6 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
     {
         if (!isOpen)
         {
-            S_SoundFXManager.instance.PlaySoundFXClip(audioOpening, gameObject.transform, 1f);
             Open(playerTransform.position);
         }
         else
