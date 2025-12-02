@@ -13,9 +13,9 @@ public class S_AudioSettingsData : MonoBehaviour
 
 
     //! Valeurs par défauts
-    private const float  defaultMasterVolume = 1f;
-    private const float  defaultSoundFXVolume = 1f;
-    private const float  defaultMusicVolume = 0.15f;
+    private const float defaultMasterVolume = 1f;
+    private const float defaultSoundFXVolume = 1f;
+    private const float defaultMusicVolume = 0.15f;
 
     //! Actuellement utilisé
     //! Voir S_SoundMixerManager
@@ -51,7 +51,7 @@ public class S_AudioSettingsData : MonoBehaviour
 
     public void setCurrentMusicVolume(float volume)
     {
-        S_SoundMixerManager.instance.SetMusicVolume(volume);
+        S_MusicManager.instance.SetMusicVolume(volume);
 
         musicVolumeSlider.value = volume;
     }
@@ -81,18 +81,22 @@ public class S_AudioSettingsData : MonoBehaviour
     public void SaveData() //& Sauvegarde des données
     {
         // Met à jour les préferences*
+        /*
         float masterVolume;
         S_SoundMixerManager.instance.audioMixer.GetFloat("masterVolume", out masterVolume);
 
         float soundFXVolume;
         S_SoundMixerManager.instance.audioMixer.GetFloat("soundFXVolume", out soundFXVolume);
 
+        
         float musicVolume;
         S_SoundMixerManager.instance.audioMixer.GetFloat("musicVolume", out musicVolume);
+        */
 
-        PlayerPrefs.SetFloat("MasterVolume", Mathf.Pow(10f, masterVolume / 20f));
-        PlayerPrefs.SetFloat("SoundFXVolume", Mathf.Pow(10f, soundFXVolume / 20f));
-        PlayerPrefs.SetFloat("MusicVolume", Mathf.Pow(10f, musicVolume / 20f));
+        //PlayerPrefs.SetFloat("MasterVolume", Mathf.Pow(10f, masterVolume / 20f));
+        //PlayerPrefs.SetFloat("SoundFXVolume", Mathf.Pow(10f, soundFXVolume / 20f));
+        //PlayerPrefs.SetFloat("MusicVolume", Mathf.Pow(10f, musicVolume / 20f));
+        PlayerPrefs.SetFloat("MusicVolume", S_MusicManager.instance.GetMusicVolume());
 
         // Les sauvegarde dans PlayerPrefs
         PlayerPrefs.Save();
