@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.strings.bank
   Name: MasterBank.strings
   StudioPath: bank:/MasterBank.strings
-  lastModified: 639003060671627342
+  lastModified: 639005298420305113
   FileSizes:
   - Name: Desktop
-    Value: 942
+    Value: 1110
   Exists: 1
 --- !u!114 &-4879950765789460795
 MonoBehaviour:
@@ -75,10 +75,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639003055783013630
+  lastModified: 639005310245749302
   FileSizes:
   - Name: Desktop
-    Value: 506
+    Value: 42944
   Exists: 1
 --- !u!114 &-1959244894002901623
 MonoBehaviour:
@@ -122,10 +122,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.bank
   Name: MasterBank
   StudioPath: bank:/MasterBank
-  lastModified: 639003060671623883
+  lastModified: 639005298420298724
   FileSizes:
   - Name: Desktop
-    Value: 1232
+    Value: 1378
   Exists: 1
 --- !u!114 &-472069292448956894
 MonoBehaviour:
@@ -167,16 +167,22 @@ MonoBehaviour:
   - {fileID: 3147679199114522821}
   EditorEvents:
   - {fileID: -1959244894002901623}
+  - {fileID: 3028925095391326604}
+  - {fileID: 4260354125169616766}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1213349340232323376}
   StringsBanks:
   - {fileID: -6601238760623468385}
   cacheVersion: 131857
-  cacheTime: 639003060708247824
+  cacheTime: 639005310245749302
   SerializableEventsDict:
   - key: event:/Music/musicTest
     index: 0
+  - key: event:/Environment/Door/openingDoorTest
+    index: 1
+  - key: event:/Environment/Door/closingDoorTest
+    index: 2
 --- !u!114 &288864750921028004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +210,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 278742
+--- !u!114 &3028925095391326604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Environment/Door/openingDoorTest
+  m_EditorClassIdentifier: 
+  Path: event:/Environment/Door/openingDoorTest
+  Guid:
+    Data1: -1754784421
+    Data2: 1195967063
+    Data3: 121161402
+    Data4: -1057628431
+  Banks:
+  - {fileID: -2107025304474999292}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &3147679199114522821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +277,33 @@ MonoBehaviour:
   - Name: Desktop
     Value: 942
   Exists: 1
+--- !u!114 &4260354125169616766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Environment/Door/closingDoorTest
+  m_EditorClassIdentifier: 
+  Path: event:/Environment/Door/closingDoorTest
+  Guid:
+    Data1: 137630662
+    Data2: 1275951078
+    Data3: -908867957
+    Data4: -1955486974
+  Banks:
+  - {fileID: -2107025304474999292}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &4815237683914909094
 MonoBehaviour:
   m_ObjectHideFlags: 0

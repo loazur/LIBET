@@ -35,21 +35,21 @@ public class S_AudioSettingsData : MonoBehaviour
 
     public void setCurrentMasterVolume(float volume)
     {
-        S_SoundsBusManager.instance.SetMasterVolume(volume);
+        S_AudioManager.instance.SetMasterVolume(volume);
 
         masterVolumeSlider.value = volume;
     }
 
     public void setCurrentSoundEffectsVolume(float volume)
     {
-        S_SoundsBusManager.instance.SetSoundEffectsVolume(volume);
+        S_AudioManager.instance.SetSoundEffectsVolume(volume);
 
         soundEffectsVolumeSlider.value = volume;
     }
 
     public void setCurrentMusicVolume(float volume)
     {
-        S_SoundsBusManager.instance.SetMusicVolume(volume);
+        S_AudioManager.instance.SetMusicVolume(volume);
 
         musicVolumeSlider.value = volume;
     }
@@ -78,9 +78,9 @@ public class S_AudioSettingsData : MonoBehaviour
 
     public void SaveData() //& Sauvegarde des données
     {
-        PlayerPrefs.SetFloat("MasterVolume", S_SoundsBusManager.instance.GetMasterVolume());
-        PlayerPrefs.SetFloat("SFXVolume", S_SoundsBusManager.instance.GetSoundEffectsVolume());
-        PlayerPrefs.SetFloat("MusicVolume", S_SoundsBusManager.instance.GetMusicVolume());
+        PlayerPrefs.SetFloat("MasterVolume", S_AudioManager.instance.GetMasterVolume());
+        PlayerPrefs.SetFloat("SFXVolume", S_AudioManager.instance.GetSoundEffectsVolume());
+        PlayerPrefs.SetFloat("MusicVolume", S_AudioManager.instance.GetMusicVolume());
 
         // Les sauvegarde dans PlayerPrefs
         PlayerPrefs.Save();

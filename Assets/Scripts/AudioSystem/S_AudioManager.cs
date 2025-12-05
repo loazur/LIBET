@@ -1,12 +1,13 @@
 using FMOD.Studio;
 using UnityEngine;
+using FMODUnity;
 
 
-public class S_SoundsBusManager : MonoBehaviour
+public class S_AudioManager : MonoBehaviour
 {
-    //! S_SoundsBugManager contient tout les bus lié au sons du jeu, pour les réglés séparement
+    //! S_AudioManager contient tout les bus lié au sons du jeu, pour les réglés séparement
 
-    public static S_SoundsBusManager instance;
+    public static S_AudioManager instance { get; private set; }
 
     //~ Les différents bus
     private Bus masterBus;
@@ -19,13 +20,13 @@ public class S_SoundsBusManager : MonoBehaviour
         {
             instance = this;
 
-            masterBus = FMODUnity.RuntimeManager.GetBus("bus:/");
-            musicBus = FMODUnity.RuntimeManager.GetBus("bus:/Music");
-            //sfxBus = FMODUnity.RuntimeManager.GetBus("bus:/SFX");
+            masterBus = RuntimeManager.GetBus("bus:/");
+            musicBus = RuntimeManager.GetBus("bus:/Music");
+            sfxBus = RuntimeManager.GetBus("bus:/SFX");
         }
     }
 
-    //!--------------------------------------------------
+    //!---------Gestion des volumes des bus---------
 
     public void SetMasterVolume(float volume)
     {
@@ -62,5 +63,13 @@ public class S_SoundsBusManager : MonoBehaviour
         sfxBus.getVolume(out float volume);
         return volume;
     }
+
+    //! -------- Jouer des sons -------
+
+    public void PlayOneShot(EventReference sound, Vector3 worldPos) //& Joue un son une fois
+    {
+        RuntimeManager.PlayOneShot(sound, worldPos);
+    }
+    
 
 }
