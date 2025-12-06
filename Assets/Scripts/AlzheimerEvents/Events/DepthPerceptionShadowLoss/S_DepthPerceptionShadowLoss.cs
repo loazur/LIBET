@@ -32,7 +32,14 @@ class S_DepthPerceptionShadowLoss : MonoBehaviour
 
     }
 
-
+    /**
+     * Active toutes les ombres dans la scène
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Saturday, December 6th, 2025.
+     * @return	void
+     */
     void EnableAllShadows()
     {
         foreach (var light in Object.FindObjectsByType<Light>(FindObjectsInactive.Include, FindObjectsSortMode.None))
