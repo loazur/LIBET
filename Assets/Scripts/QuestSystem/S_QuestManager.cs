@@ -561,11 +561,14 @@ public class S_QuestManager : MonoBehaviour
      */
     public void ShowQuestCanvas()
     {
-        if (questCanvas != null)
+        if (questCanvas == null)
         {
-            questCanvas.SetActive(true);
-            // Debug.Log($"[S_QuestManager] Canvas activé. IsActive: {questCanvas.activeSelf}");
+            return;
         }
+
+        bool hasActiveQuest = GetActiveQuest() != null;
+        questCanvas.SetActive(hasActiveQuest);
+        // Debug.Log($"[S_QuestManager] Canvas actif: {questCanvas.activeSelf} (has active quest: {hasActiveQuest})");
     }
 
     /**
