@@ -9,6 +9,8 @@ public class S_GameData
     // Joueur
     public Vector3 playerPosition;
     public Quaternion playerRotation;
+    public Vector3 cameraRotation;
+    public bool isCrouching;
 
     // Items
     public SerializedDictionary<string, Vector3> itemsPosition;
@@ -21,6 +23,7 @@ public class S_GameData
         // Joueur
         playerPosition = Vector3.zero;
         playerRotation = Quaternion.identity;
+        isCrouching = false;
 
         // Items
         itemsPosition = new SerializedDictionary<string, Vector3>();
