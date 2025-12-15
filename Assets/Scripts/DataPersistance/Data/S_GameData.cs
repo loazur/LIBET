@@ -14,7 +14,7 @@ public class S_GameData
 
     // Items
     public SerializedDictionary<string, Vector3> itemsPosition;
-    public Dictionary<string, Quaternion> itemsRotation;
+    public SerializedDictionary<string, Quaternion> itemsRotation;
 
 
     //& Constructeurs -> Contient les valeurs initiales
@@ -24,6 +24,7 @@ public class S_GameData
         playerPosition = Vector3.zero;
         playerRotation = Quaternion.identity;
         isCrouching = false;
+        cameraRotation = Vector3.zero;
 
         // Items
         itemsPosition = new SerializedDictionary<string, Vector3>();

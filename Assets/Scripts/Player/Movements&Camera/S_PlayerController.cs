@@ -80,8 +80,11 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
 
     public void LoadData(S_GameData gameData)
     {
-        transform.position = gameData.playerPosition;
-        transform.rotation = gameData.playerRotation;
+        if (gameData.playerPosition != Vector3.zero && gameData.playerRotation != Quaternion.identity)
+        {
+            transform.position = gameData.playerPosition;
+            transform.rotation = gameData.playerRotation;
+        }
     }
 
     public void SaveData(ref S_GameData gameData)
