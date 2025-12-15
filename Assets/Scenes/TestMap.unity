@@ -3016,7 +3016,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   alzheimerEvents:
   - {fileID: 11400000, guid: 897b0842096e7b2b0ad73043a1122b8b, type: 2}
-  activationInterval: 10
+  - {fileID: 11400000, guid: adb483b6b93405e1aafad97d9ae2907a, type: 2}
+  activationInterval: 5
   eventLoopActive: 0
 --- !u!4 &879898548
 Transform:
@@ -6181,50 +6182,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &1689592674
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1689592675}
-  - component: {fileID: 1689592676}
-  m_Layer: 0
-  m_Name: DeleteShadow
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1689592675
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1689592674}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 168.37404, y: -59.320213, z: 243.85}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1689592676
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1689592674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f95bd09ee44dd1c4dbc95dd556455f41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!43 &1723359743
 Mesh:
   m_ObjectHideFlags: 0
@@ -9654,4 +9611,3 @@ SceneRoots:
   - {fileID: 1007098598}
   - {fileID: 1388902289}
   - {fileID: 418057742}
-  - {fileID: 1689592675}
