@@ -90,6 +90,28 @@ public class S_FileDataHandler
         }
     }
 
+    public void Delete()
+    {
+        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        
+        if (File.Exists(fullPath))
+        {
+            try
+            {
+                File.Delete(fullPath);
+                Debug.Log("Fichier de sauvegarde supprimé : " + fullPath);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("Erreur lors de la suppression du fichier : " + fullPath + "\n" + e);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Aucun fichier à supprimer : " + fullPath);
+        }
+    }
+
     private string EncryptDecrypt(string data)
     {
         string modifiedData = "";

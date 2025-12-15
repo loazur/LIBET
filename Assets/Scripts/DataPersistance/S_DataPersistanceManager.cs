@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class S_DataPersistanceManager : MonoBehaviour
 {
@@ -17,18 +18,36 @@ public class S_DataPersistanceManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance == null)
+        if (instance == null) // Si aucune instance
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            dataHandler = new S_FileDataHandler(Application.persistentDataPath, fileName, useEncryption); 
+        }
+        else // Si une instance est déjà présente
+        {
+            Destroy(gameObject);
+            return;
         }
     }
 
-    void Start()
+    private void OnEnable()
     {
-        dataHandler = new S_FileDataHandler(Application.persistentDataPath, fileName, useEncryption); 
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
+    {
         dataPersistanceObjects = FindAllPersistanceObjects();
         LoadGame(); // Charge la partie au démarrage
     }
+
 
     private void OnApplicationQuit() //& Ce lance lorsque l'application s'arrète
     {
@@ -55,8 +74,7 @@ public class S_DataPersistanceManager : MonoBehaviour
         // Load any data using the data handler
         gameData = dataHandler.Load();
 
-
-        // if no data load a new game
+        // if no data load do nothing
         if (gameData == null)
         {
             NewGame();
@@ -73,18 +91,28 @@ public class S_DataPersistanceManager : MonoBehaviour
 
     public void SaveGame()
     {
+        // no data to save
+        if (gameData == null)
+        {
+            return;
+        }
+
         // pass the data to other scripts so they can use it
         foreach(SI_DataPersistance dataPersistanceObject in dataPersistanceObjects)
         {
             dataPersistanceObject.SaveData(ref gameData);
         }
         
-
         // Save that data to a file using the data handler
         dataHandler.Save(gameData);
     }
 
-
+     public void DeleteSaveData()
+    {
+        dataHandler.Delete();
+        gameData = null;
+        Debug.Log("Sauvegarde supprimée");
+    }
 
     private List<SI_DataPersistance> FindAllPersistanceObjects()
     {
@@ -94,6 +122,12 @@ public class S_DataPersistanceManager : MonoBehaviour
             .ToArray();
 
         return new List<SI_DataPersistance>(dataPersistanceObjects);
+    }
+
+    
+    public bool HasGameData()
+    {
+        return gameData != null;
     }
 
 
