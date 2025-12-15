@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.strings.bank
   Name: MasterBank.strings
   StudioPath: bank:/MasterBank.strings
-  lastModified: 639006285074039853
+  lastModified: 639013959893266721
   FileSizes:
   - Name: Desktop
-    Value: 1110
+    Value: 1160
   Exists: 1
 --- !u!114 &-4879950765789460795
 MonoBehaviour:
@@ -75,38 +75,11 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639006285074142922
+  lastModified: 639013952316721640
   FileSizes:
   - Name: Desktop
     Value: 42944
   Exists: 1
---- !u!114 &-1959244894002901623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Music/musicTest
-  m_EditorClassIdentifier: 
-  Path: event:/Music/musicTest
-  Guid:
-    Data1: 444086162
-    Data2: 1232350954
-    Data3: -941707871
-    Data4: -631532780
-  Banks:
-  - {fileID: 5031765468959206189}
-  IsStream: 1
-  Is3D: 0
-  IsOneShot: 0
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 278742
 --- !u!114 &-1213349340232323376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,7 +95,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.bank
   Name: MasterBank
   StudioPath: bank:/MasterBank
-  lastModified: 639006285074015381
+  lastModified: 639013959893264248
   FileSizes:
   - Name: Desktop
     Value: 1378
@@ -166,22 +139,22 @@ MonoBehaviour:
   - {fileID: -2107025304474999292}
   - {fileID: 3147679199114522821}
   EditorEvents:
-  - {fileID: -1959244894002901623}
   - {fileID: 3028925095391326604}
   - {fileID: 4260354125169616766}
+  - {fileID: 1436086224235586392}
   EditorParameters: []
   MasterBanks:
   - {fileID: -1213349340232323376}
   StringsBanks:
   - {fileID: -6601238760623468385}
   cacheVersion: 131857
-  cacheTime: 639006285074152908
+  cacheTime: 639013965431794857
   SerializableEventsDict:
-  - key: event:/Music/musicTest
-    index: 0
   - key: event:/Environment/Door/openingDoorTest
-    index: 1
+    index: 0
   - key: event:/Environment/Door/closingDoorTest
+    index: 1
+  - key: event:/Music/musicTest
     index: 2
 --- !u!114 &288864750921028004
 MonoBehaviour:
@@ -210,6 +183,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 278742
+--- !u!114 &1436086224235586392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/musicTest
+  m_EditorClassIdentifier: 
+  Path: event:/Music/musicTest
+  Guid:
+    Data1: 444086162
+    Data2: 1232350954
+    Data3: -941707871
+    Data4: -631532780
+  Banks:
+  - {fileID: 5031765468959206189}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 293564
 --- !u!114 &3028925095391326604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +252,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639006285074152908
+  lastModified: 639003055783017319
   FileSizes:
   - Name: Desktop
     Value: 506
@@ -339,8 +339,8 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639006285074142922
+  lastModified: 639013965431794857
   FileSizes:
   - Name: Desktop
-    Value: 3204384
+    Value: 6964768
   Exists: 1
