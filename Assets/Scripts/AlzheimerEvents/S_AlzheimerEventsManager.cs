@@ -6,7 +6,7 @@ public class S_AlzheimerEventsManager : MonoBehaviour
 {
     [Header("Gestion des events du jeu")]
     [Tooltip("Liste des events activable")]
-    [SerializeField] private List<SO_AlzheimerEvent> alzheimerEvents = new List<SO_AlzheimerEvent>();
+    [SerializeField] public List<SO_AlzheimerEvent> alzheimerEvents = new List<SO_AlzheimerEvent>();
 
     [Tooltip("Tout les combiens de temps un event s'active en secondes")]
     [SerializeField] private float activationInterval = 180f;
