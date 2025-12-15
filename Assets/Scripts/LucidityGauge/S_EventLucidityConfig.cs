@@ -217,6 +217,66 @@ public class S_EventLucidityConfig
     public float GetBaseWeight() => baseWeight;
     public float GetBaseDuration() => baseDuration;
     public float GetBaseIntensity() => baseIntensity;
+    
+    /**
+     * Met à jour les valeurs de l'event en fonction du niveau de lucidité
+     * Utilisé par le nouveau système avec paliers
+     *
+     * @param	LucidityLevel	level	Niveau de lucidité actuel
+     * @param	float	gaugeValue	Valeur brute de la jauge (0-100)
+     * @param	float	intensityMult	Multiplicateur d'intensité pour ce niveau
+     * @param	float	durationMult	Multiplicateur de durée pour ce niveau
+     */
+    public void UpdateFromLucidityLevel(S_LucidityGauge.LucidityLevel level, float gaugeValue, float intensityMult, float durationMult)
+    {
+        if (alzheimerEvent == null) return;
+        
+        if (!isInitialized)
+        {
+            Initialize();
+        }
+        
+        if (ignoreGaugeModifications)
+        {
+            currentWeight = baseWeight;
+            currentDuration = baseDuration;
+            currentIntensity = baseIntensity;
+            ApplyToEvent();
+            return;
+        }
+        
+        // Si Safe, on n'applique rien (les events sont désactivés)
+        if (level == S_LucidityGauge.LucidityLevel.Safe)
+        {
+            currentWeight = 0; // Poids à 0 pour éviter le déclenchement
+            currentDuration = baseDuration;
+            currentIntensity = baseIntensity;
+            ApplyToEvent();
+            return;
+        }
+        
+        // Calculer le poids en fonction du niveau
+        // Plus le niveau est sévère, plus le poids augmente
+        float weightMultiplier = 1f;
+        switch (level)
+        {
+            case S_LucidityGauge.LucidityLevel.Mild:
+                weightMultiplier = 1f;
+                break;
+            case S_LucidityGauge.LucidityLevel.Moderate:
+                weightMultiplier = 1.5f;
+                break;
+            case S_LucidityGauge.LucidityLevel.Severe:
+                weightMultiplier = 2f;
+                break;
+        }
+        
+        currentWeight = baseWeight * weightMultiplier;
+        currentDuration = baseDuration * durationMult;
+        currentIntensity = baseIntensity * intensityMult;
+        
+        ApplyToEvent();
+    }
 
     #endregion Methods
 }
