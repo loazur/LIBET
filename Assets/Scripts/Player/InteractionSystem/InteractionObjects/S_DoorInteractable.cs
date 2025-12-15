@@ -1,10 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using FMODUnity;
 
 public class S_DoorInteractable : MonoBehaviour, SI_Interactable
 {
     //~ Gestion de la porte
-
     [Header("Type de porte")]
     [SerializeField] private bool isRotatingDoor = true;
     [SerializeField] private float speed = 1f; // Vitesse d'ouverture/fermeture
@@ -21,10 +21,6 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
     [Header("Gestion de la porte coulissante")]
     [SerializeField] private Vector3 slideDirection = Vector3.back;
     [SerializeField] private float slideAmount = 1.9f;
-
-    [Header("Gestion de l'audio")]
-    [SerializeField] private AudioClip audioOpening;
-    [SerializeField] private AudioClip audioClosing;
 
     private Vector3 startPositionVec;
     private Vector3 startRotationVec;
@@ -50,7 +46,6 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
     {
         if (!isOpen)
         {
-            S_SoundFXManager.instance.PlaySoundFXClip(audioOpening, gameObject.transform, 1f);
             Open(playerTransform.position);
         }
         else
@@ -93,6 +88,9 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
             {
                 animationCoroutine = StartCoroutine(DoSlidingOpen());
             }
+
+            // Son d'ouverture
+            S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.doorOpening, transform.position);
         }
     }
 
@@ -166,6 +164,9 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
             {
                 animationCoroutine = StartCoroutine(DoSlidingClose());
             }
+
+            // Son de fermeture
+            S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.doorClosing, transform.position);
         }
     }
 
