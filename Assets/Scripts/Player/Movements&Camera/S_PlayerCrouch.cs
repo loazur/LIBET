@@ -1,23 +1,26 @@
 using UnityEngine;
 
-public class S_PlayerCrouch : MonoBehaviour
+public class S_PlayerCrouch : MonoBehaviour, SI_DataPersistance
 {
     //~ Références
     private S_PlayerController playerController;
 
     //~ Gestion du crouch
     [HideInInspector] public float speedDecreaser = 1.2f;
-    [HideInInspector] public bool isCrouching = false; // Sprint / Accroupissement / EssayeSauter (utile surtout sur un slope)
+    [HideInInspector] public bool isCrouching = false;
     private float originalHeight;
     private float crouchHeight = 0.5f;
 
     private bool canCrouch = true;
 
-    void Start() //& INITIALISATION VARIABLES
+    void Awake() //& INITIALISATION VARIABLES
     {
         playerController = GetComponent<S_PlayerController>();
-
-        originalHeight = playerController.capsuleCollider.height; // Taille originale du personnage
+        
+        if (playerController != null && playerController.capsuleCollider != null) // Vérification
+        {
+            originalHeight = playerController.capsuleCollider.height;
+        }
     }
 
     void Update()
@@ -28,40 +31,67 @@ public class S_PlayerCrouch : MonoBehaviour
         }
     }
 
+
+    //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde de l'état du joueur (accroupi ou non)
+
+    public void LoadData(S_GameData gameData)
+    {
+        isCrouching = gameData.isCrouching;
+
+        // Appliquer l'état de crouch seulement si nécessaire
+        if (isCrouching && playerController != null && playerController.capsuleCollider != null)
+        {
+            // Appliquer directement sans appeler OnCrouch() pour éviter les vérifications isGrounded
+            playerController.capsuleCollider.height = crouchHeight;
+            transform.localScale = new Vector3(1, crouchHeight, 1);
+            
+            if (playerController.overheadCheck != null)
+            {
+                playerController.overheadCheck.SetActive(true);
+            }
+        }
+    }
+
+    public void SaveData(ref S_GameData gameData)
+    {
+        gameData.isCrouching = isCrouching;
+    }
+
     //! --------------- Fonctions privés ---------------
 
     private void OnCrouch() //& Gestion de l'accroupissement
     {
+        if (playerController == null) return;
+
         //  Se lever
-        if (playerController.isGrounded() && isCrouching && canRaise()) // AU SOL / ACCROUPI / PEUT SE LEVER
+        if (playerController.isGrounded() && isCrouching && canRaise())
         {
             playerController.capsuleCollider.height = originalHeight;
-                
-            transform.localScale = new Vector3(1, 1, 1); // Reset scale 
-
+            transform.localScale = new Vector3(1, 1, 1);
             isCrouching = false;
-            playerController.overheadCheck.SetActive(false); // On désactive overheadCheck
-        } // S'accroupir 
-        else if (playerController.isGrounded()) // AU SOL
+            playerController.overheadCheck.SetActive(false);
+        } 
+        // S'accroupir 
+        else if (playerController.isGrounded())
         {
             playerController.capsuleCollider.height = crouchHeight;
-            
-            transform.localScale = new Vector3(1, crouchHeight, 1); // Change le scale pour etre pareil que le collider
-
-            playerController.playerRigidbody.AddForce(Vector3.down * 10f, ForceMode.Impulse); // Pour le coller au sol direct et qu'il vole pas
-
+            transform.localScale = new Vector3(1, crouchHeight, 1);
+            playerController.playerRigidbody.AddForce(Vector3.down * 10f, ForceMode.Impulse);
             isCrouching = true;
-            playerController.overheadCheck.SetActive(true); // On active overheadCheck
+            playerController.overheadCheck.SetActive(true);
         }
     }
 
     public bool canRaise() //& Vérifie si le joueur peut se relever
     {
-        // Position du centre du SphereCollider Overhead
+        if (playerController == null || playerController.overheadCheck == null || playerController.colliderOverhead == null)
+            return false;
+
         Vector3 checkPos = playerController.overheadCheck.transform.position;
         float radius = playerController.colliderOverhead.radius * playerController.overheadCheck.transform.lossyScale.x;
 
-        // On vérifie si une sphère touche un Layer ou "Default"
         return !Physics.CheckSphere(checkPos, radius, LayerMask.GetMask("Default"));
     }
 
@@ -76,7 +106,4 @@ public class S_PlayerCrouch : MonoBehaviour
     {
         return canCrouch;
     }
-
-
-
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class S_DisplayMenus : MonoBehaviour
 {
@@ -77,6 +78,7 @@ public class S_DisplayMenus : MonoBehaviour
     {
         HideAll();
     }
+
 
     void Update()
     {
@@ -195,6 +197,15 @@ public class S_DisplayMenus : MonoBehaviour
         // Notifier que le menu est fermé (pour afficher le canvas de quêtes)
         
             S_GameManager.instance?.playerEvents.MenuClosed();
+    }
+
+    public void QuitButton()
+    {   
+        // Sauvegarde quand on quitte
+        S_DataPersistanceManager.instance.SaveGame();
+        
+        // Changement de scene
+        SceneManager.LoadSceneAsync("MainMenu");
     }
 
     //? ------------------------------------------------    
