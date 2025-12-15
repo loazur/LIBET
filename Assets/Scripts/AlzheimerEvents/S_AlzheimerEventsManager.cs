@@ -14,10 +14,57 @@ public class S_AlzheimerEventsManager : MonoBehaviour
     [Tooltip("Si la boucle d'event aléatoire est active")]
     [SerializeField] private bool eventLoopActive = true;
 
+    private Coroutine eventLoopCoroutine;
+
     void Start()
     {   
-        if (eventLoopActive) // Lancement de la boucle
-            StartCoroutine(EventLoop());
+        if (eventLoopActive)
+            StartEventLoop();
+    }
+
+    /**
+     * Démarre la boucle d'events
+     */
+    public void StartEventLoop()
+    {
+        if (eventLoopCoroutine != null)
+            StopCoroutine(eventLoopCoroutine);
+            
+        eventLoopActive = true;
+        eventLoopCoroutine = StartCoroutine(EventLoop());
+    }
+    
+    /**
+     * Arrête la boucle d'events
+     */
+    public void StopEventLoop()
+    {
+        eventLoopActive = false;
+        if (eventLoopCoroutine != null)
+        {
+            StopCoroutine(eventLoopCoroutine);
+            eventLoopCoroutine = null;
+        }
+    }
+    
+    /**
+     * Modifie l'intervalle d'activation des events
+     *
+     * @param	float	newInterval	Nouvel intervalle en secondes
+     */
+    public void SetActivationInterval(float newInterval)
+    {
+        activationInterval = Mathf.Max(1f, newInterval);
+    }
+    
+    /**
+     * Récupère l'intervalle actuel
+     *
+     * @return	float	Intervalle en secondes
+     */
+    public float GetActivationInterval()
+    {
+        return activationInterval;
     }
 
     private IEnumerator EventLoop() //& Boucle des events aléatoire
