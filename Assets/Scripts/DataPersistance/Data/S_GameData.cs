@@ -19,8 +19,8 @@ public class S_GameData
     public S_GameData()
     {
         // Joueur
-        //playerPosition = Vector3.zero;
-        //playerRotation = Quaternion.identity;
+        playerPosition = Vector3.zero;
+        playerRotation = Quaternion.identity;
 
         // Items
         itemsPosition = new SerializedDictionary<string, Vector3>();

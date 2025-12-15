@@ -39,9 +39,15 @@ public class S_DataPersistanceManager : MonoBehaviour
 
     public void NewGame()
     {
+        // Charger les position/rotation par défaut
         gameData = new S_GameData();
 
-        //TODO - Charger les position/rotation par défaut en fonction de l'éditeur
+        // Sauvegarder les positions/rotations actuelles de TOUS les objets persistants de la scène
+        foreach(SI_DataPersistance dataPersistanceObject in dataPersistanceObjects)
+        {
+            dataPersistanceObject.SaveData(ref gameData);
+        }
+
     }
 
     public void LoadGame()
@@ -54,6 +60,7 @@ public class S_DataPersistanceManager : MonoBehaviour
         if (gameData == null)
         {
             NewGame();
+            return;
         }
 
         // push the loaded data to all other scripts that need it

@@ -47,14 +47,12 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
 
     public void LoadData(S_GameData gameData)
     {
-        gameData.itemsPosition.TryGetValue(id, out Vector3 itemPosition);
-        if (itemPosition != null)
+        if (gameData.itemsPosition.TryGetValue(id, out Vector3 itemPosition))
         {
             transform.position = itemPosition;
         }
 
-        gameData.itemsRotation.TryGetValue(id, out Quaternion itemRotation);
-        if (itemRotation != null)
+        if (gameData.itemsRotation.TryGetValue(id, out Quaternion itemRotation))
         {
             transform.rotation = itemRotation;
         }
