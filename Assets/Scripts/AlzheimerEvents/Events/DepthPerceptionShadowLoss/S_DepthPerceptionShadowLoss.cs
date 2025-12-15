@@ -14,6 +14,19 @@ using UnityEngine;
  */
 class S_DepthPerceptionShadowLoss : MonoBehaviour
 {
+    //~ DepthPerceptionShadowLoss -> Désactive les ombres
+
+     void OnEnable() //& Activation de l'event
+    {   
+        EnableAllShadows();
+    }
+
+    void OnDisable() //& Désactivation de l'event
+    {
+        DisableAllShadows();
+    }
+
+    //!---------------------------------------------------------------
 
     /**
      * désactive toutes les ombres dans la scène
