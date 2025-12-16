@@ -75,7 +75,7 @@ public class S_DataPersistanceManager : MonoBehaviour
         // Sauvegarder les positions/rotations actuelles de TOUS les objets persistants de la scène
         foreach(SI_DataPersistance dataPersistanceObject in dataPersistanceObjects)
         {
-            dataPersistanceObject.SaveData(ref gameData);
+            dataPersistanceObject.SaveData(gameData);
         }
 
         // Crée un timestamp pour savoir quand ça a été sauvegardé pour la derniere fois
@@ -114,24 +114,26 @@ public class S_DataPersistanceManager : MonoBehaviour
         // pass the data to other scripts so they can use it
         foreach(SI_DataPersistance dataPersistanceObject in dataPersistanceObjects)
         {
-            dataPersistanceObject.SaveData(ref gameData);
+            dataPersistanceObject.SaveData(gameData);
         }
         
         // Save that data to a file using the data handler
         dataHandler.Save(gameData, selectedProfileId);
     }
 
-     public void DeleteSaveData()
+     public void DeleteProfileData(string profileId)
     {
-        dataHandler.Delete(selectedProfileId);
+        dataHandler.Delete(profileId);
         gameData = null;
-        Debug.Log("Sauvegarde supprimée");
+        Debug.Log("Sauvegarde supprimée du profil: " + profileId);
+
+        LoadGame();
     }
 
     private List<SI_DataPersistance> FindAllPersistanceObjects()
     {
         SI_DataPersistance[] dataPersistanceObjects =
-            FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
+            FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None)
             .OfType<SI_DataPersistance>()
             .ToArray();
 

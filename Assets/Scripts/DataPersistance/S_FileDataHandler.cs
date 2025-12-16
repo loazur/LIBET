@@ -137,23 +137,29 @@ public class S_FileDataHandler
 
     public void Delete(string profileId)
     {
+        // Si profileId = null
+        if (profileId == null)
+        {
+            return; 
+        }
+
         string fullPath = Path.Combine(dataDirPath, profileId, dataFileName);
         
         if (File.Exists(fullPath))
         {
             try
             {
-                File.Delete(fullPath);
-                Debug.Log("Fichier de sauvegarde supprimé : " + fullPath);
+                Directory.Delete(Path.GetDirectoryName(fullPath), true); // Supprime le dossier recursivement
+                Debug.Log("Dossier de sauvegarde supprimé : " + fullPath);
             }
             catch (System.Exception e)
             {
-                Debug.LogError("Erreur lors de la suppression du fichier : " + fullPath + "\n" + e);
+                Debug.LogError("Erreur lors de la suppression du dossier : " + fullPath + "\n" + e);
             }
         }
         else
         {
-            Debug.LogWarning("Aucun fichier à supprimer : " + fullPath);
+            Debug.LogWarning("Aucun dossier à supprimer : " + fullPath);
         }
     }
 

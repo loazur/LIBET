@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class S_SaveSlot : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class S_SaveSlot : MonoBehaviour
     [SerializeField] private GameObject hasDataContent;
     [SerializeField] private TextMeshProUGUI percentageCompleteText; //TODO - Trouver quelque chose a afficher sur le slot: Location? Nombre de clés? Temps de jeu?
 
+    [SerializeField] private Button clearButton;
+
     private bool hasData = false;
 
     public void SetData(S_GameData data)
@@ -20,6 +23,7 @@ public class S_SaveSlot : MonoBehaviour
         {
             noDataContent.SetActive(true);
             hasDataContent.SetActive(false);
+            clearButton.gameObject.SetActive(false);
 
             hasData = false;
         }
@@ -27,6 +31,7 @@ public class S_SaveSlot : MonoBehaviour
         {
             noDataContent.SetActive(false);
             hasDataContent.SetActive(true);
+            clearButton.gameObject.SetActive(true);
 
             hasData = true;
 

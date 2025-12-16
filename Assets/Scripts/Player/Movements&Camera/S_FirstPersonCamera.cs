@@ -48,7 +48,7 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
         }
     }
 
-    public void SaveData(ref S_GameData gameData)
+    public void SaveData(S_GameData gameData)
     {
         // Sauvegarder la rotation locale de la caméra (ce script est sur la caméra)
         gameData.cameraRotation = transform.localEulerAngles;

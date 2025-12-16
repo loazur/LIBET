@@ -25,8 +25,7 @@ public class S_SaveSlotsMenu : S_Menu
         // Boucle dans tout les SaveSlot pour changer le contenu
         foreach (S_SaveSlot saveSlot in saveSlots)
         {
-            S_GameData profileData = null;
-            profilesGameData.TryGetValue(saveSlot.GetProfileId(), out profileData);
+            profilesGameData.TryGetValue(saveSlot.GetProfileId(), out S_GameData profileData);
             saveSlot.SetData(profileData);
         }
     }
@@ -44,10 +43,16 @@ public class S_SaveSlotsMenu : S_Menu
         // Création d'une nouvelle partie
 
         if (!saveSlot.HasDataInSlot()) //~ Si nouvelle partie
-            S_DataPersistanceManager.instance.DeleteSaveData();
+            S_DataPersistanceManager.instance.DeleteProfileData(saveSlot.GetProfileId());
 
         // Charge la scène du jeu
         SceneManager.LoadSceneAsync("TestMap"); 
+    }
+
+    public void OnClearClicked(S_SaveSlot saveSlot)
+    {
+        S_DataPersistanceManager.instance.DeleteProfileData(saveSlot.GetProfileId());
+        ActivateMenu(); // Rafraichit le menu
     }
 
     public void OnBackClicked()
