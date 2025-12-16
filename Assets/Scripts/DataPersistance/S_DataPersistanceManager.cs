@@ -16,6 +16,8 @@ public class S_DataPersistanceManager : MonoBehaviour
     private List<SI_DataPersistance> dataPersistanceObjects;
     private S_FileDataHandler dataHandler;
 
+    private string selectedProfileId = "";
+
     void Awake()
     {
         if (instance == null) // Si aucune instance
@@ -24,6 +26,7 @@ public class S_DataPersistanceManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             dataHandler = new S_FileDataHandler(Application.persistentDataPath, fileName, useEncryption); 
+            selectedProfileId = dataHandler.GetMostRecentlyUpdatedProfileId();
         }
         else // Si une instance est déjà présente
         {
@@ -51,10 +54,24 @@ public class S_DataPersistanceManager : MonoBehaviour
 
     private void OnApplicationQuit() //& Ce lance lorsque l'application s'arrète
     {
-        SaveGame();
+        // Ne sauvegarder que si on n'est PAS dans le MainMenu
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        
+        if (currentSceneName != "MainMenu")
+        {
+            SaveGame();
+        }
     }
 
     //!-----------------------------------------
+
+    public void ChangeSelectedProfileId(string newProfileId)
+    {
+        // Met à jour le profile id à utilisé pour la sauvegarde et le chargement
+        selectedProfileId = newProfileId;
+
+        LoadGame();
+    }
 
     public void NewGame()
     {
@@ -64,15 +81,18 @@ public class S_DataPersistanceManager : MonoBehaviour
         // Sauvegarder les positions/rotations actuelles de TOUS les objets persistants de la scène
         foreach(SI_DataPersistance dataPersistanceObject in dataPersistanceObjects)
         {
-            dataPersistanceObject.SaveData(ref gameData);
+            dataPersistanceObject.SaveData(gameData);
         }
+
+        // Crée un timestamp pour savoir quand ça a été sauvegardé pour la derniere fois
+        gameData.lastUpdated = System.DateTime.Now.ToBinary();
 
     }
 
     public void LoadGame()
     {
         // Load any data using the data handler
-        gameData = dataHandler.Load();
+        gameData = dataHandler.Load(selectedProfileId);
 
         // if no data load do nothing
         if (gameData == null)
@@ -100,24 +120,26 @@ public class S_DataPersistanceManager : MonoBehaviour
         // pass the data to other scripts so they can use it
         foreach(SI_DataPersistance dataPersistanceObject in dataPersistanceObjects)
         {
-            dataPersistanceObject.SaveData(ref gameData);
+            dataPersistanceObject.SaveData(gameData);
         }
         
         // Save that data to a file using the data handler
-        dataHandler.Save(gameData);
+        dataHandler.Save(gameData, selectedProfileId);
     }
 
-     public void DeleteSaveData()
+     public void DeleteProfileData(string profileId)
     {
-        dataHandler.Delete();
+        dataHandler.Delete(profileId);
         gameData = null;
-        Debug.Log("Sauvegarde supprimée");
+        Debug.Log("Sauvegarde supprimée du profil: " + profileId);
+
+        LoadGame();
     }
 
     private List<SI_DataPersistance> FindAllPersistanceObjects()
     {
         SI_DataPersistance[] dataPersistanceObjects =
-            FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
+            FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None)
             .OfType<SI_DataPersistance>()
             .ToArray();
 
@@ -127,9 +149,12 @@ public class S_DataPersistanceManager : MonoBehaviour
     
     public bool HasGameData()
     {
-        return gameData != null;
+        return dataHandler.Load(selectedProfileId) != null;
     }
 
-
+    public Dictionary<string, S_GameData> GetAllProfilesGameData()
+    {
+        return dataHandler.LoadAllProfiles();
+    }
     
 }

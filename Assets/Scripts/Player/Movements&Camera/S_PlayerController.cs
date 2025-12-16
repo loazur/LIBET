@@ -87,7 +87,7 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
         }
     }
 
-    public void SaveData(ref S_GameData gameData)
+    public void SaveData(S_GameData gameData)
     {
         gameData.playerPosition = transform.position;
         gameData.playerRotation = transform.rotation;

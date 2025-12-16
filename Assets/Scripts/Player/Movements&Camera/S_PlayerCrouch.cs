@@ -54,7 +54,7 @@ public class S_PlayerCrouch : MonoBehaviour, SI_DataPersistance
         }
     }
 
-    public void SaveData(ref S_GameData gameData)
+    public void SaveData(S_GameData gameData)
     {
         gameData.isCrouching = isCrouching;
     }

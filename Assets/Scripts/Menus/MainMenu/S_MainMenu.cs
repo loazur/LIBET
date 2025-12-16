@@ -2,38 +2,41 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class S_MainMenu : MonoBehaviour
+public class S_MainMenu : S_Menu
 {
+    [Header("Menu Navigation")]
+    [SerializeField] private S_SaveSlotsMenu saveSlotsMenu;
+
     [Header("Boutons Main Menu")]
-    [SerializeField] private Button newGameButton;
-    [SerializeField] private Button continueButton;
+    [SerializeField] private Button playGameButton;
+    [SerializeField] private Button settingsButton;
+    [SerializeField] private Button leaveButton;
 
-    void Start()
+    public void OnPlayGameClicked()
     {
-        if (!S_DataPersistanceManager.instance.HasGameData())
-        {
-            continueButton.interactable = false;
-        }
-
+        saveSlotsMenu.ActivateMenu();
+        DeactivateMenu();
     }
 
-    //!----------------------------------------
-
-    public void OnNewGameClicked()
+    public void OnSettingsClicked()
     {
-        // Création d'une nouvelle partie
-        S_DataPersistanceManager.instance.DeleteSaveData();
-
-        // Charge la scène du jeu
-        SceneManager.LoadSceneAsync("TestMap");
+        
     }
 
-    public void OnContinueGameClicked()
+    public void OnLeaveClicked()
     {
-        // Charge la scène du jeu
-        SceneManager.LoadSceneAsync("TestMap");
+        
     }
 
+    public void ActivateMenu()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void DeactivateMenu()
+    {
+        gameObject.SetActive(false);
+    }
 
     
 }
