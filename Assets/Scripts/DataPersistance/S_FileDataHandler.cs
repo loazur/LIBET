@@ -9,6 +9,7 @@ public class S_FileDataHandler
     private string dataFileName = "";
     private bool useEncryption = false; // Cryptée les données ou non
     private readonly string encryptionCodeWord = "libetKey!"; // Clé
+    private readonly string backupExtension = ".bak";
 
     //& Constructeur
     public S_FileDataHandler(string dataDirPath, string dataFileName, bool useEncryption)
@@ -20,7 +21,7 @@ public class S_FileDataHandler
 
     //!-----------------------------------------
 
-    public S_GameData Load(string profileId)
+    public S_GameData Load(string profileId, bool allowRestoreFromBackup = true)
     {
         // Si profileId = null
         if (profileId == null)
@@ -54,10 +55,23 @@ public class S_FileDataHandler
                 // Deserialization des données du JSON vers un objet C#
                 loadedGameData = JsonUtility.FromJson<S_GameData>(dataToLoad);
             }
-            catch(System.Exception e)
+            catch(Exception e)
             {
-                Debug.LogError("Erreur lors du chargement des données dans le fichier: " + fullPath + "\n" + e);
-                throw;
+                if (allowRestoreFromBackup)
+                {
+                    Debug.LogWarning("Erreur lors du chargement des données dans le fichier: " + fullPath + "\n" + e + " Debut d'une backup.");
+
+                    bool rollbackSuccess = AttemptRollback(fullPath);
+                    if (rollbackSuccess)
+                    {
+                        loadedGameData = Load(profileId, false);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Erreur lors du chargement des données dans le fichier: " + fullPath + "\n" + e + " La backup n'a pas marché.");
+
+                }
             }
         }
 
@@ -73,6 +87,7 @@ public class S_FileDataHandler
         }
         
         string fullPath = Path.Combine(dataDirPath, profileId, dataFileName);
+        string backupFilePath = fullPath + backupExtension;
 
         try
         {
@@ -94,6 +109,14 @@ public class S_FileDataHandler
                 using (StreamWriter writer = new StreamWriter(stream))
                 {
                     writer.Write(dataToStore);
+                }
+
+                // Création d'une backup au cas ou&
+                S_GameData verifiedGameData = Load(profileId);
+
+                if (verifiedGameData != null)
+                {
+                    File.Copy(fullPath, backupFilePath, true);
                 }
             }
         }
@@ -137,23 +160,29 @@ public class S_FileDataHandler
 
     public void Delete(string profileId)
     {
+        // Si profileId = null
+        if (profileId == null)
+        {
+            return; 
+        }
+
         string fullPath = Path.Combine(dataDirPath, profileId, dataFileName);
         
         if (File.Exists(fullPath))
         {
             try
             {
-                File.Delete(fullPath);
-                Debug.Log("Fichier de sauvegarde supprimé : " + fullPath);
+                Directory.Delete(Path.GetDirectoryName(fullPath), true); // Supprime le dossier recursivement
+                Debug.Log("Dossier de sauvegarde supprimé : " + fullPath);
             }
             catch (System.Exception e)
             {
-                Debug.LogError("Erreur lors de la suppression du fichier : " + fullPath + "\n" + e);
+                Debug.LogError("Erreur lors de la suppression du dossier : " + fullPath + "\n" + e);
             }
         }
         else
         {
-            Debug.LogWarning("Aucun fichier à supprimer : " + fullPath);
+            Debug.LogWarning("Aucun dossier à supprimer : " + fullPath);
         }
     }
 
@@ -205,5 +234,27 @@ public class S_FileDataHandler
         return modifiedData;
     }
 
+    private bool AttemptRollback(string fullPath)
+    {
+        bool success = false;
+
+        string backupFilePath = fullPath + backupExtension;
+
+        try
+        {
+            // Backup
+            if (File.Exists(backupFilePath))
+            {
+                File.Copy(backupFilePath, fullPath, true);
+                success = true;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Erreur lors du backup: " + e);
+        }
+
+        return success;
+    }
 
 }

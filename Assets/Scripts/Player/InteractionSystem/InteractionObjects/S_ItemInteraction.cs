@@ -58,7 +58,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
         }
     }
 
-    public void SaveData(ref S_GameData gameData)
+    public void SaveData(S_GameData gameData)
     {
         if (gameData.itemsPosition.ContainsKey(id))
         {
