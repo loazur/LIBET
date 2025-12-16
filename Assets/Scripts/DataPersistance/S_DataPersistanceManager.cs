@@ -16,6 +16,8 @@ public class S_DataPersistanceManager : MonoBehaviour
     private List<SI_DataPersistance> dataPersistanceObjects;
     private S_FileDataHandler dataHandler;
 
+    private string selectedProfileId = "";
+
     void Awake()
     {
         if (instance == null) // Si aucune instance
@@ -24,6 +26,7 @@ public class S_DataPersistanceManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             dataHandler = new S_FileDataHandler(Application.persistentDataPath, fileName, useEncryption); 
+            selectedProfileId = dataHandler.GetMostRecentlyUpdatedProfileId();
         }
         else // Si une instance est déjà présente
         {
@@ -56,6 +59,14 @@ public class S_DataPersistanceManager : MonoBehaviour
 
     //!-----------------------------------------
 
+    public void ChangeSelectedProfileId(string newProfileId)
+    {
+        // Met à jour le profile id à utilisé pour la sauvegarde et le chargement
+        selectedProfileId = newProfileId;
+
+        LoadGame();
+    }
+
     public void NewGame()
     {
         // Charger les position/rotation par défaut
@@ -67,12 +78,15 @@ public class S_DataPersistanceManager : MonoBehaviour
             dataPersistanceObject.SaveData(ref gameData);
         }
 
+        // Crée un timestamp pour savoir quand ça a été sauvegardé pour la derniere fois
+        gameData.lastUpdated = System.DateTime.Now.ToBinary();
+
     }
 
     public void LoadGame()
     {
         // Load any data using the data handler
-        gameData = dataHandler.Load();
+        gameData = dataHandler.Load(selectedProfileId);
 
         // if no data load do nothing
         if (gameData == null)
@@ -104,12 +118,12 @@ public class S_DataPersistanceManager : MonoBehaviour
         }
         
         // Save that data to a file using the data handler
-        dataHandler.Save(gameData);
+        dataHandler.Save(gameData, selectedProfileId);
     }
 
      public void DeleteSaveData()
     {
-        dataHandler.Delete();
+        dataHandler.Delete(selectedProfileId);
         gameData = null;
         Debug.Log("Sauvegarde supprimée");
     }
@@ -127,9 +141,12 @@ public class S_DataPersistanceManager : MonoBehaviour
     
     public bool HasGameData()
     {
-        return gameData != null;
+        return dataHandler.Load(selectedProfileId) != null;
     }
 
-
+    public Dictionary<string, S_GameData> GetAllProfilesGameData()
+    {
+        return dataHandler.LoadAllProfiles();
+    }
     
 }

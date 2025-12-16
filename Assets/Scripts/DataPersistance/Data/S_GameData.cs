@@ -1,10 +1,11 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 [System.Serializable]
 public class S_GameData 
 {
+    public long lastUpdated;
+
     //~ Données à sauvegarder
     // Joueur
     public Vector3 playerPosition;
@@ -30,4 +31,6 @@ public class S_GameData
         itemsPosition = new SerializedDictionary<string, Vector3>();
         itemsRotation = new SerializedDictionary<string, Quaternion>();
     }
+
+    //TODO - Créer des fonction publiques pour récupérer les données
 }
