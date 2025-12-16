@@ -54,7 +54,13 @@ public class S_DataPersistanceManager : MonoBehaviour
 
     private void OnApplicationQuit() //& Ce lance lorsque l'application s'arrète
     {
-        SaveGame();
+        // Ne sauvegarder que si on n'est PAS dans le MainMenu
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        
+        if (currentSceneName != "MainMenu")
+        {
+            SaveGame();
+        }
     }
 
     //!-----------------------------------------

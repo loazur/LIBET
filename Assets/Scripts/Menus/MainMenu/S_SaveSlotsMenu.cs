@@ -6,6 +6,7 @@ public class S_SaveSlotsMenu : S_Menu
 {
     [Header("Menu Navigation")]
     [SerializeField] private S_MainMenu mainMenu;
+    [SerializeField] private S_ConfirmationPopupMenu confirmationPopupMenu;
 
     private S_SaveSlot[] saveSlots;
 
@@ -51,8 +52,8 @@ public class S_SaveSlotsMenu : S_Menu
 
     public void OnClearClicked(S_SaveSlot saveSlot)
     {
-        S_DataPersistanceManager.instance.DeleteProfileData(saveSlot.GetProfileId());
-        ActivateMenu(); // Rafraichit le menu
+        confirmationPopupMenu.ActivateMenu(saveSlot);
+        DeactivateMenu();
     }
 
     public void OnBackClicked()
