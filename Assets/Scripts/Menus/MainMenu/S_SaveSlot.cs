@@ -11,6 +11,8 @@ public class S_SaveSlot : MonoBehaviour
     [SerializeField] private GameObject hasDataContent;
     [SerializeField] private TextMeshProUGUI percentageCompleteText; //TODO - Trouver quelque chose a afficher sur le slot: Location? Nombre de clés? Temps de jeu?
 
+    private bool hasData = false;
+
     public void SetData(S_GameData data)
     {
         // No Data
@@ -18,11 +20,15 @@ public class S_SaveSlot : MonoBehaviour
         {
             noDataContent.SetActive(true);
             hasDataContent.SetActive(false);
+
+            hasData = false;
         }
         else // Data
         {
             noDataContent.SetActive(false);
             hasDataContent.SetActive(true);
+
+            hasData = true;
 
             //TODO - Changer le texte affiché ici
 
@@ -34,5 +40,9 @@ public class S_SaveSlot : MonoBehaviour
         return profileId;
     }
 
+    public bool HasDataInSlot()
+    {
+        return hasData;
+    }
     
 }

@@ -16,7 +16,7 @@ public class S_DataPersistanceManager : MonoBehaviour
     private List<SI_DataPersistance> dataPersistanceObjects;
     private S_FileDataHandler dataHandler;
 
-    private string selectedProfileId = "test";
+    private string selectedProfileId = "";
 
     void Awake()
     {
@@ -26,6 +26,7 @@ public class S_DataPersistanceManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             dataHandler = new S_FileDataHandler(Application.persistentDataPath, fileName, useEncryption); 
+            selectedProfileId = dataHandler.GetMostRecentlyUpdatedProfileId();
         }
         else // Si une instance est déjà présente
         {
@@ -58,6 +59,14 @@ public class S_DataPersistanceManager : MonoBehaviour
 
     //!-----------------------------------------
 
+    public void ChangeSelectedProfileId(string newProfileId)
+    {
+        // Met à jour le profile id à utilisé pour la sauvegarde et le chargement
+        selectedProfileId = newProfileId;
+
+        LoadGame();
+    }
+
     public void NewGame()
     {
         // Charger les position/rotation par défaut
@@ -68,6 +77,9 @@ public class S_DataPersistanceManager : MonoBehaviour
         {
             dataPersistanceObject.SaveData(ref gameData);
         }
+
+        // Crée un timestamp pour savoir quand ça a été sauvegardé pour la derniere fois
+        gameData.lastUpdated = System.DateTime.Now.ToBinary();
 
     }
 

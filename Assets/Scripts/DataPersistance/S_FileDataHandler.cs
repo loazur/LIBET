@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -21,6 +22,12 @@ public class S_FileDataHandler
 
     public S_GameData Load(string profileId)
     {
+        // Si profileId = null
+        if (profileId == null)
+        {
+            return null;
+        }
+
         string fullPath = Path.Combine(dataDirPath, profileId, dataFileName);
         S_GameData loadedGameData = null;
 
@@ -59,6 +66,12 @@ public class S_FileDataHandler
 
     public void Save(S_GameData gameData, string profileId)
     {
+        // Si profileId = null
+        if (profileId == null)
+        {
+            return;
+        }
+        
         string fullPath = Path.Combine(dataDirPath, profileId, dataFileName);
 
         try
@@ -142,6 +155,43 @@ public class S_FileDataHandler
         {
             Debug.LogWarning("Aucun fichier à supprimer : " + fullPath);
         }
+    }
+
+    public string GetMostRecentlyUpdatedProfileId()
+    {
+        string mostRecentProfileId = null;
+
+        Dictionary<string, S_GameData> profilesGameData = LoadAllProfiles();
+        foreach(KeyValuePair<string, S_GameData> pair in profilesGameData)
+        {
+            string profileId = pair.Key;
+            S_GameData gameData = pair.Value;
+
+            // Skip si null
+            if (gameData == null)
+            {
+                continue;
+            }
+
+            // Si c'est la 1er data alors c'est la plus récente
+            if (mostRecentProfileId == null)
+            {
+                mostRecentProfileId = profileId;
+            }
+            else // Sinon on la compare en fonction de la date
+            {
+                DateTime mostRecentDateTime = DateTime.FromBinary(profilesGameData[mostRecentProfileId].lastUpdated);
+                DateTime newDateTime = DateTime.FromBinary(gameData.lastUpdated);
+
+                // Le plus grand des deux sera le plus récent
+                if (newDateTime > mostRecentDateTime)
+                {
+                    mostRecentProfileId = profileId;
+                }
+            }
+        }
+
+        return mostRecentProfileId;
     }
 
     private string EncryptDecrypt(string data)

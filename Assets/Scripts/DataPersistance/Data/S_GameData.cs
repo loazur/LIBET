@@ -1,10 +1,11 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 [System.Serializable]
 public class S_GameData 
 {
+    public long lastUpdated;
+
     //~ Données à sauvegarder
     // Joueur
     public Vector3 playerPosition;
