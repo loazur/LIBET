@@ -449,81 +449,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &48673582
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 48673584}
-  - component: {fileID: 48673583}
-  m_Layer: 0
-  m_Name: GaugeManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &48673583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 48673582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5d8552f090f1cc47970ff1e3adcbf44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gauge: 0
-  maxInterval: 10
-  minInterval: 1
-  alzheimerEventsManager: {fileID: 879898547}
-  eventConfigs:
-  - alzheimerEvent: {fileID: 11400000, guid: 897b0842096e7b2b0ad73043a1122b8b, type: 2}
-    minWeight: 0
-    maxWeight: 640.45
-    currentWeight: 0
-    minDurationMultiplier: 1
-    maxDurationMultiplier: 2
-    minIntensityMultiplier: 0
-    maxIntensityMultiplier: 155.78
-    ignoreGaugeModifications: 1
-    baseWeight: 0
-    baseDuration: 0
-    baseIntensity: 0
-    isInitialized: 0
-  - alzheimerEvent: {fileID: 11400000, guid: adb483b6b93405e1aafad97d9ae2907a, type: 2}
-    minWeight: 0
-    maxWeight: 172.88
-    currentWeight: 0
-    minDurationMultiplier: 0
-    maxDurationMultiplier: 0
-    minIntensityMultiplier: 0
-    maxIntensityMultiplier: 168.68
-    ignoreGaugeModifications: 1
-    baseWeight: 0
-    baseDuration: 0
-    baseIntensity: 0
-    isInitialized: 0
---- !u!4 &48673584
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 48673582}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -31.106428, y: 78.68507, z: 333.56506}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &146774973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3094,6 +3019,31 @@ MonoBehaviour:
   - {fileID: 11400000, guid: adb483b6b93405e1aafad97d9ae2907a, type: 2}
   activationInterval: 1
   eventLoopActive: 1
+  currentIntensityGauge: 100
+  maxSimultaneousEvents: 1
+  gaugeDecreaseRate: 0.5
+  autoDecreaseGauge: 1
+  intensityTiers:
+  - tierName: Aucun
+    minThreshold: 70
+    maxThreshold: 100
+    intensityMultiplier: 0
+    maxEventsForTier: 0
+  - tierName: Faible
+    minThreshold: 50
+    maxThreshold: 70
+    intensityMultiplier: 0.5
+    maxEventsForTier: 1
+  - tierName: Moyen
+    minThreshold: 30
+    maxThreshold: 50
+    intensityMultiplier: 1
+    maxEventsForTier: 2
+  - tierName: Fort
+    minThreshold: 0
+    maxThreshold: 30
+    intensityMultiplier: 2
+    maxEventsForTier: 3
 --- !u!4 &879898548
 Transform:
   m_ObjectHideFlags: 0
@@ -9665,7 +9615,6 @@ SceneRoots:
   - {fileID: 1059151898}
   - {fileID: 3405442665999976306}
   - {fileID: 879898548}
-  - {fileID: 48673584}
   - {fileID: 2054552112}
   - {fileID: 1857807460}
   - {fileID: 1540210349}
