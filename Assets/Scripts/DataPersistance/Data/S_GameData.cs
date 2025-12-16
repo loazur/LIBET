@@ -30,4 +30,6 @@ public class S_GameData
         itemsPosition = new SerializedDictionary<string, Vector3>();
         itemsRotation = new SerializedDictionary<string, Quaternion>();
     }
+
+    //TODO - Créer des fonction publiques pour récupérer les données
 }

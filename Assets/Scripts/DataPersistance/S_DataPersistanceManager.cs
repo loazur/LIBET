@@ -16,6 +16,8 @@ public class S_DataPersistanceManager : MonoBehaviour
     private List<SI_DataPersistance> dataPersistanceObjects;
     private S_FileDataHandler dataHandler;
 
+    private string selectedProfileId = "test";
+
     void Awake()
     {
         if (instance == null) // Si aucune instance
@@ -72,7 +74,7 @@ public class S_DataPersistanceManager : MonoBehaviour
     public void LoadGame()
     {
         // Load any data using the data handler
-        gameData = dataHandler.Load();
+        gameData = dataHandler.Load(selectedProfileId);
 
         // if no data load do nothing
         if (gameData == null)
@@ -104,12 +106,12 @@ public class S_DataPersistanceManager : MonoBehaviour
         }
         
         // Save that data to a file using the data handler
-        dataHandler.Save(gameData);
+        dataHandler.Save(gameData, selectedProfileId);
     }
 
      public void DeleteSaveData()
     {
-        dataHandler.Delete();
+        dataHandler.Delete(selectedProfileId);
         gameData = null;
         Debug.Log("Sauvegarde supprimée");
     }
@@ -127,9 +129,12 @@ public class S_DataPersistanceManager : MonoBehaviour
     
     public bool HasGameData()
     {
-        return gameData != null;
+        return dataHandler.Load(selectedProfileId) != null;
     }
 
-
+    public Dictionary<string, S_GameData> GetAllProfilesGameData()
+    {
+        return dataHandler.LoadAllProfiles();
+    }
     
 }
