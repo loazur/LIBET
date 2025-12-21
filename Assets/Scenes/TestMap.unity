@@ -3014,36 +3014,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ad2de82b73dd07dca5237976eb38587, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alzheimerEvents:
-  - {fileID: 11400000, guid: 897b0842096e7b2b0ad73043a1122b8b, type: 2}
+  availableEvents:
   - {fileID: 11400000, guid: adb483b6b93405e1aafad97d9ae2907a, type: 2}
-  activationInterval: 1
-  eventLoopActive: 1
-  currentIntensityGauge: 100
+  - {fileID: 11400000, guid: 897b0842096e7b2b0ad73043a1122b8b, type: 2}
+  maxEventInterval: 5
+  minEventInterval: 2
   maxSimultaneousEvents: 1
-  gaugeDecreaseRate: 0.5
-  autoDecreaseGauge: 1
-  intensityTiers:
-  - tierName: Aucun
-    minThreshold: 70
-    maxThreshold: 100
+  enableEventLoop: 1
+  lucidity: 100
+  eventActivationThreshold: 60
+  lucidityDecreaseRate: 0.5
+  autoDecreaseLucidity: 1
+  currentCycle: 0
+  cycleThreshold: 20
+  lucidityTiers:
+  - name: Lucide
+    minLucidity: 60
+    maxLucidity: 100
     intensityMultiplier: 0
-    maxEventsForTier: 0
-  - tierName: Faible
-    minThreshold: 50
-    maxThreshold: 70
-    intensityMultiplier: 0.5
-    maxEventsForTier: 1
-  - tierName: Moyen
-    minThreshold: 30
-    maxThreshold: 50
+    maxEvents: 0
+  - name: "L\xE9g\xE8rement confus"
+    minLucidity: 40
+    maxLucidity: 60
     intensityMultiplier: 1
-    maxEventsForTier: 2
-  - tierName: Fort
-    minThreshold: 0
-    maxThreshold: 30
+    maxEvents: 1
+  - name: Confus
+    minLucidity: 20
+    maxLucidity: 40
+    intensityMultiplier: 1.5
+    maxEvents: 2
+  - name: "Tr\xE8s confus"
+    minLucidity: 0
+    maxLucidity: 20
     intensityMultiplier: 2
-    maxEventsForTier: 3
+    maxEvents: 3
 --- !u!4 &879898548
 Transform:
   m_ObjectHideFlags: 0
