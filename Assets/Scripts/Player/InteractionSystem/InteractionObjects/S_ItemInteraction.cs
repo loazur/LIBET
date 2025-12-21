@@ -1,7 +1,15 @@
 using UnityEngine;
 
-public class S_ItemInteraction : MonoBehaviour, SI_Interactable
+public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersistance
 {
+    [SerializeField] private string id;
+    
+    [ContextMenu("Generate guid for id")]
+    private void GenerateGuid()
+    {
+        id = System.Guid.NewGuid().ToString();
+    }
+
     //~ Gestion de l'item
     [Header("Gestion de l'item")]
     [SerializeField] private string interactText = "not_set"; // Nom de l'objet
@@ -31,6 +39,39 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
     void LateUpdate() //& Late update car l'objet se déplace après la camera
     {
         HoldingItem();
+    }
+
+    //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde position/rotation de chaque item
+
+    public void LoadData(S_GameData gameData)
+    {
+        if (gameData.itemsPosition.TryGetValue(id, out Vector3 itemPosition))
+        {
+            transform.position = itemPosition;
+        }
+
+        if (gameData.itemsRotation.TryGetValue(id, out Quaternion itemRotation))
+        {
+            transform.rotation = itemRotation;
+        }
+    }
+
+    public void SaveData(S_GameData gameData)
+    {
+        if (gameData.itemsPosition.ContainsKey(id))
+        {
+            gameData.itemsPosition.Remove(id);
+        }
+
+        if (gameData.itemsRotation.ContainsKey(id))
+        {
+            gameData.itemsRotation.Remove(id);
+        }
+
+        gameData.itemsPosition.Add(id, transform.position);
+        gameData.itemsRotation.Add(id, transform.rotation);
     }
 
     //! Méthodes provenant de l'interface SI_Interactable

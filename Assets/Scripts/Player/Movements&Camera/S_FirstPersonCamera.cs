@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class S_FirstPersonCamera : MonoBehaviour
+public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
 {
     //~ Gestion de la camera
     [Header("Gestion de la caméra")]
@@ -27,6 +27,31 @@ public class S_FirstPersonCamera : MonoBehaviour
     void Update() //& PAS PHYSICS
     {
         Rotate();
+    }
+
+     //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde rotation de la camera
+
+    public void LoadData(S_GameData gameData)
+    {
+        // Charger la rotation locale de la caméra (ce script est sur la caméra)
+        transform.localEulerAngles = gameData.cameraRotation;
+        
+        // Mettre à jour cameraVerticalRotation pour que Rotate() fonctionne correctement
+        cameraVerticalRotation = gameData.cameraRotation.x;
+        
+        // Corriger les valeurs > 180 (Unity représente -90 comme 270)
+        if (cameraVerticalRotation > 180f)
+        {
+            cameraVerticalRotation -= 360f;
+        }
+    }
+
+    public void SaveData(S_GameData gameData)
+    {
+        // Sauvegarder la rotation locale de la caméra (ce script est sur la caméra)
+        gameData.cameraRotation = transform.localEulerAngles;
     }
 
     //! --------------- Fonctions privés ---------------

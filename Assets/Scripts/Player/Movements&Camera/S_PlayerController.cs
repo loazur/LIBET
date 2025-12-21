@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class S_PlayerController : MonoBehaviour
+public class S_PlayerController : MonoBehaviour, SI_DataPersistance
 {
     //~ Références
     [Header("References")]
@@ -67,14 +67,33 @@ public class S_PlayerController : MonoBehaviour
         }
 
         //! Tout ce qui en dessous ne sera pas actif en Mode NoClip
-
-        
+ 
         Move(S_UserInput.instance.MoveInput); // Gestion Mouvements
         HandleGravity(); // Gestion de la gravité
         StepClimb(); // Gestion Stairs
     }
+    
 
-    //! --------------- Fonctions privés ---------------
+    //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde la position et de la rotation du joueur
+
+    public void LoadData(S_GameData gameData)
+    {
+        if (gameData.playerPosition != Vector3.zero && gameData.playerRotation != Quaternion.identity)
+        {
+            transform.position = gameData.playerPosition;
+            transform.rotation = gameData.playerRotation;
+        }
+    }
+
+    public void SaveData(S_GameData gameData)
+    {
+        gameData.playerPosition = transform.position;
+        gameData.playerRotation = transform.rotation;
+    }
+
+    //! --------------- Fonctions privés ------------------
 
     private void Move(Vector2 movementVector) //& Gére les mouvements du joueur et la gravité
     {
@@ -244,4 +263,6 @@ public class S_PlayerController : MonoBehaviour
         }
         
     }
+
+
 }
