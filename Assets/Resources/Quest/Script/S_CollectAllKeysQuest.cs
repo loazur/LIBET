@@ -3,8 +3,7 @@ using System.Collections;
 
 /**
  * Quête pour collecter toutes les clés attribuées à une porte spécifique.
- * Détecte quand le joueur ramasse des clés via le S_KeyManager.
- * La quête se termine quand toutes les clés requises sont collectées.
+ * Utilise le système d'événements du GameManager pour détecter la collecte de clés.
  *
  * @author	Lucas
  * @since	v0.0.1
@@ -14,12 +13,9 @@ using System.Collections;
 public class S_CollectAllKeysQuest : S_QuestStep
 {
     [Header("Quest Settings")]
-    [Tooltip("L'ID de la porte dont il faut collecter les clés")]
-    [SerializeField] private string targetDoorID = "door_01";
+    [SerializeField] private string targetDoorID = "door_01"; // ID de la porte dont il faut collecter les clés
+    [SerializeField] private int requiredKeyCount = 1; // Nombre de clés requises
     
-    [Tooltip("Nombre de clés requises pour terminer la quête")]
-    [SerializeField] private int requiredKeyCount = 1;
-
     private int collectedKeysCount = 0;
     private bool questCompleted = false;
     private bool isSubscribed = false;
@@ -31,15 +27,6 @@ public class S_CollectAllKeysQuest : S_QuestStep
         StartCoroutine(InitializeWhenReady());
     }
 
-    /**
-     * Attends que le GameManager et le KeyManager soient initialisés avant de s'abonner aux événements
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Sunday, January 5th, 2026.
-     * @access	private
-     * @return	IEnumerator
-     */
     private IEnumerator InitializeWhenReady()
     {
         // Attendre que S_GameManager soit initialisé
@@ -48,63 +35,33 @@ public class S_CollectAllKeysQuest : S_QuestStep
             yield return null;
         }
 
-        // Attendre que S_KeyManager soit initialisé
-        while (S_KeyManager.instance == null)
-        {
-            yield return null;
-        }
-
-        Debug.Log($"[S_CollectAllKeysQuest] Managers ready, subscribing to events for door '{targetDoorID}'");
+        Debug.Log("[S_CollectAllKeysQuest] GameManager ready, subscribing to events");
         
-        // Initialiser le compteur avec les clés déjà collectées
-        collectedKeysCount = S_KeyManager.instance.GetCollectedKeyCount(targetDoorID);
-        
-        // Vérifier si la quête est déjà complète
-        if (collectedKeysCount >= requiredKeyCount)
+        // Récupérer le nombre de clés déjà collectées
+        if (S_KeyManager.instance != null)
         {
-            Debug.Log($"[S_CollectAllKeysQuest] All keys already collected for door '{targetDoorID}'");
-            CompleteQuest();
-            yield break;
+            collectedKeysCount = S_KeyManager.instance.GetCollectedKeyCount(targetDoorID);
         }
 
         SubscribeToEvents();
-        UpdateQuestState();
     }
 
-    /**
-     * S'abonne aux événements du KeyManager
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Sunday, January 5th, 2026.
-     * @access	private
-     * @return	void
-     */
     private void SubscribeToEvents()
     {
-        if (S_KeyManager.instance == null || isSubscribed) return;
-
-        S_KeyManager.instance.OnKeyCollected += OnKeyCollected;
+        if (S_GameManager.instance == null || isSubscribed) return;
+        
+        S_GameManager.instance.playerEvents.onKeyCollected += OnKeyCollected;
         isSubscribed = true;
-        Debug.Log("[S_CollectAllKeysQuest] Subscribed to OnKeyCollected event");
+        Debug.Log("[S_CollectAllKeysQuest] Subscribed to onKeyCollected event");
     }
 
-    /**
-     * Se désabonne des événements du KeyManager
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Sunday, January 5th, 2026.
-     * @access	private
-     * @return	void
-     */
     private void UnsubscribeFromEvents()
     {
-        if (S_KeyManager.instance == null || !isSubscribed) return;
-
-        S_KeyManager.instance.OnKeyCollected -= OnKeyCollected;
+        if (S_GameManager.instance == null || !isSubscribed) return;
+        
+        S_GameManager.instance.playerEvents.onKeyCollected -= OnKeyCollected;
         isSubscribed = false;
-        Debug.Log("[S_CollectAllKeysQuest] Unsubscribed from OnKeyCollected event");
+        Debug.Log("[S_CollectAllKeysQuest] Unsubscribed from onKeyCollected event");
     }
 
     private void OnDisable()
@@ -113,60 +70,84 @@ public class S_CollectAllKeysQuest : S_QuestStep
     }
 
     /**
-     * Callback appelé quand le joueur collecte une clé
+     * Callback appelé quand le joueur ramasse une clé
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, January 5th, 2026.
+     * @access	private
+     * @param	GameObject	key   	L'objet clé ramassé
+     * @param	string    	doorID	L'ID de la porte associée
+     * @param	string    	keyID 	L'ID unique de la clé
+     * @return	void
+     */
+    private void OnKeyCollected(GameObject key, string doorID, string keyID)
+    {
+        if (questCompleted) return;
+
+        Debug.Log($"[S_CollectAllKeysQuest] Player collected key: {key.name} for door: {doorID}");
+
+        if (IsTargetKey(doorID))
+        {
+            CollectKey(key, keyID);
+        }
+    }
+
+    /**
+     * Vérifie si la clé est pour la porte recherchée
      *
      * @author	Lucas
      * @since	v0.0.1
      * @version	v1.0.0	Sunday, January 5th, 2026.
      * @access	private
      * @param	string	doorID	L'ID de la porte associée à la clé
-     * @param	string	keyID 	L'ID unique de la clé collectée
-     * @return	void
+     * @return	boolean
      */
-    private void OnKeyCollected(string doorID, string keyID)
+    private bool IsTargetKey(string doorID)
     {
-        if (questCompleted) return;
-
-        // Vérifier que la quête est bien initialisée (active)
-        if (!IsQuestStepInitialized())
+        if (string.IsNullOrEmpty(doorID))
         {
-            Debug.LogWarning($"[S_CollectAllKeysQuest] Key '{keyID}' collected but quest step not yet initialized. Waiting...");
-            return;
+            Debug.LogWarning("[S_CollectAllKeysQuest] Door ID is null or empty");
+            return false;
         }
 
         // Vérifier si c'est une clé pour la porte ciblée
         if (doorID != targetDoorID)
         {
-            Debug.Log($"[S_CollectAllKeysQuest] Key '{keyID}' collected but for different door '{doorID}' (looking for '{targetDoorID}')");
-            return;
+            Debug.Log($"[S_CollectAllKeysQuest] Key is for door '{doorID}', not for target door '{targetDoorID}'");
+            return false;
         }
 
-        collectedKeysCount = S_KeyManager.instance.GetCollectedKeyCount(targetDoorID);
-        Debug.Log($"[S_CollectAllKeysQuest] Key '{keyID}' collected for door '{targetDoorID}'. Progress: {collectedKeysCount}/{requiredKeyCount}");
+        Debug.Log($"[S_CollectAllKeysQuest] Key is for target door '{targetDoorID}'!");
+        return true;
+    }
 
-        UpdateQuestState();
+    /**
+     * Appelé quand le joueur ramasse une clé valide
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, January 5th, 2026.
+     * @access	private
+     * @param	GameObject	key  	L'objet clé ramassé
+     * @param	string    	keyID	L'ID de la clé
+     * @return	void
+     */
+    private void CollectKey(GameObject key, string keyID)
+    {
+        if (questCompleted) return;
+
+        collectedKeysCount++;
+        Debug.Log($"[S_CollectAllKeysQuest] Key '{keyID}' collected! Progress: {collectedKeysCount}/{requiredKeyCount}");
+
+        // Mettre à jour l'état de la quête
+        ChangeState($"{collectedKeysCount}/{requiredKeyCount}", $"Clés: {collectedKeysCount}/{requiredKeyCount}");
 
         // Vérifier si toutes les clés ont été collectées
         if (collectedKeysCount >= requiredKeyCount)
         {
             CompleteQuest();
         }
-    }
-
-    /**
-     * Met à jour l'état de la quête avec la progression actuelle
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Sunday, January 5th, 2026.
-     * @access	private
-     * @return	void
-     */
-    private void UpdateQuestState()
-    {
-        string state = $"{collectedKeysCount}/{requiredKeyCount}";
-        string status = $"Clés collectées: {collectedKeysCount}/{requiredKeyCount}";
-        ChangeState(state, status);
     }
 
     /**
@@ -183,32 +164,37 @@ public class S_CollectAllKeysQuest : S_QuestStep
         if (questCompleted) return;
 
         questCompleted = true;
-        Debug.Log($"[S_CollectAllKeysQuest] Quest completed! All {requiredKeyCount} keys collected for door '{targetDoorID}'");
-        
-        UnsubscribeFromEvents();
+        Debug.Log($"[S_CollectAllKeysQuest] Quest completed - all {requiredKeyCount} keys collected for door '{targetDoorID}'!");
+
+        ChangeState("COMPLETE", "Toutes les clés collectées");
         FinishQuestStep();
     }
 
     /**
-     * Restaure l'état de la quête depuis une sauvegarde
+     * Permet de charger l'état de la quest step depuis une sauvegarde
      *
      * @author	Lucas
      * @since	v0.0.1
      * @version	v1.0.0	Sunday, January 5th, 2026.
      * @access	protected
-     * @param	string	state	L'état sauvegardé (format: "collectedCount/requiredCount")
+     * @param	string	state	
      * @return	void
      */
     protected override void SetQuestStepState(string state)
     {
-        // Parser l'état sauvegardé (format: "X/Y")
-        if (!string.IsNullOrEmpty(state) && state.Contains("/"))
+        Debug.Log($"[S_CollectAllKeysQuest] Loading state: {state}");
+
+        if (state == "COMPLETE")
         {
+            questCompleted = true;
+        }
+        else if (!string.IsNullOrEmpty(state) && state.Contains("/"))
+        {
+            // Parser l'état sauvegardé (format: "X/Y")
             string[] parts = state.Split('/');
             if (parts.Length >= 1 && int.TryParse(parts[0], out int savedCount))
             {
                 collectedKeysCount = savedCount;
-                Debug.Log($"[S_CollectAllKeysQuest] State restored: {collectedKeysCount}/{requiredKeyCount}");
             }
         }
     }
