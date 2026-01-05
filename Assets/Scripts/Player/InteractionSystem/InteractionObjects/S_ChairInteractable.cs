@@ -4,7 +4,6 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
 {
     //~ Gestion de chaises
     [Header("Gestion de la chaise")]
-    [SerializeField] private S_DisplayMenus displayMenus; // Pour désactivé le menu quand on est assis
     [SerializeField] private Collider chairCollider; // Collider a désactivé/activer en fonction de si on est assis
     private GameObject player;
     private S_PlayerController playerController;
@@ -18,7 +17,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     {
         UpdateInteractText(); // Setup
  
-        S_GameSettingsData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
+        S_GameUserData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
     }
 
     void Update()
@@ -74,7 +73,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         // Bloquer les mouvements du joueur
         playerController.setMovementsEnabled(false);
         playerCrouch.setAbleToCrouch(false);
-        displayMenus.setAbleToOpenCloseMenu(false);
+        S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(false);
 
         //Activation limitation des mouvements de camera
         playerCamera.setHorizontalLimitEnabled(true);
@@ -103,7 +102,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         // Débloquer les mouvements du joueur
         playerController.setMovementsEnabled(true);
         playerCrouch.setAbleToCrouch(true);
-        displayMenus.setAbleToOpenCloseMenu(true);
+        S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(true);
 
         // Désactivation limitation des mouvements de camera
         playerCamera.setHorizontalLimitEnabled(false);
@@ -123,22 +122,22 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     {
         if (!isPlayerSitting) // Si Debout
         {
-            if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+            if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
             {
                 interactText = "S'asseoir";
             }
-            else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+            else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
             {
                 interactText = "Sit down";
             }
         }
         else // Si Assis
         {
-            if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+            if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
             {
                 interactText = "Se lever";
             }
-            else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+            else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
             {
                 interactText = "Get up";
             }

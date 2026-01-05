@@ -28,7 +28,7 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
         UpdateFieldOfView();
         setCursorEnabled(false);
 
-        S_CameraSettingsData.instance.OnFieldOfViewChanged += UpdateFieldOfView; // Lance cet fonction à chaque fois que le FOV change
+        S_CameraUserData.instance.OnFieldOfViewChanged += UpdateFieldOfView; // Lance cet fonction à chaque fois que le FOV change
         
         // Initialiser la rotation horizontale
         playerHorizontalRotation = player.localEulerAngles.y;
@@ -87,16 +87,16 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
         // Ajuste la vitesse de la camera en fonction du controller utilisé
         if (!S_UserInput.instance.isUsingController()) // Clavier & Souris
         {
-            lookValue = S_UserInput.instance.LookInput * (S_CameraSettingsData.instance.currentSensibilityMouse / 10); // divise par 100 (car plus précis pour régler)
+            lookValue = S_UserInput.instance.LookInput * (S_CameraUserData.instance.currentSensibilityMouse / 10); // divise par 100 (car plus précis pour régler)
         }
         else // Manettes
         {
-            lookValue = S_UserInput.instance.LookInput * S_CameraSettingsData.instance.currentSensibilityController; // divise par 100 (car plus précis pour régler)
+            lookValue = S_UserInput.instance.LookInput * S_CameraUserData.instance.currentSensibilityController; // divise par 100 (car plus précis pour régler)
         }
 
         // Inversion de X,Y
-        if (S_CameraSettingsData.instance.currentInverseXAxis) lookValue.x *= -1f;
-        if (S_CameraSettingsData.instance.currentInverseYAxis) lookValue.y *= -1f;
+        if (S_CameraUserData.instance.currentInverseXAxis) lookValue.x *= -1f;
+        if (S_CameraUserData.instance.currentInverseYAxis) lookValue.y *= -1f;
         
         lookValue *= Time.deltaTime; // Pour que la sensibilité s'ajuste au framerate
 
@@ -154,7 +154,7 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
 
     private void UpdateFieldOfView()
     {
-        playerCamera.fieldOfView = S_CameraSettingsData.instance.currentFieldOfView;
+        playerCamera.fieldOfView = S_CameraUserData.instance.currentFieldOfView;
     }
     
 }

@@ -28,15 +28,5 @@ public class S_MainMenu : S_Menu
         
     }
 
-    public void ActivateMenu()
-    {
-        gameObject.SetActive(true);
-    }
-
-    public void DeactivateMenu()
-    {
-        gameObject.SetActive(false);
-    }
-
     
 }
