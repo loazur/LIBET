@@ -1,24 +1,35 @@
 using UnityEngine;
 
+/// <summary>
+/// Script pour les objets clés ramassables.
+/// Chaque clé est associée à une porte via doorID et possède un keyID unique.
+/// </summary>
 public class S_TakeKey : MonoBehaviour, SI_Interactable
 {
+    [Header("Configuration de la clé")]
+    [Tooltip("L'ID de la porte que cette clé peut débloquer")]
+    [SerializeField] private string doorID = "door_01";
+    
+    [Tooltip("L'ID unique de cette clé (doit être unique parmi les clés de la même porte)")]
+    [SerializeField] private string keyID = "key_01";
 
-    public bool hasKey = false; //& savoir si le joueur a la clé
     private string interactText = "not_set";
 
+    //*-----------------------------------------------------*
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        UpdateInteractText(); //& changement de langue
-
-        S_GameSettingsData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
+        UpdateInteractText();
+        S_GameSettingsData.instance.OnLanguageChanged += UpdateInteractText;
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnDestroy()
     {
-        
+        //& Se désabonner pour éviter les erreurs
+        if (S_GameSettingsData.instance != null)
+        {
+            S_GameSettingsData.instance.OnLanguageChanged -= UpdateInteractText;
+        }
     }
 
     //! Méthodes provenant de l'interface SI_Interactable
@@ -26,10 +37,17 @@ public class S_TakeKey : MonoBehaviour, SI_Interactable
 
     public void Interact(Transform playerTransform)
     {
-        //& Récupère la clé:
-        //& destruire l'objet clé dans la scène
-        //& changer l'état de hasKey à true
-        hasKey = true;
+        //& Enregistrer la clé dans le KeyManager
+        if (S_KeyManager.instance != null)
+        {
+            S_KeyManager.instance.CollectKey(doorID, keyID);
+        }
+        else
+        {
+            Debug.LogWarning("[S_TakeKey] S_KeyManager.instance est null! Assurez-vous qu'un KeyManager existe dans la scène.");
+        }
+
+        //& Détruire l'objet clé
         Destroy(gameObject);
     }
 
@@ -45,8 +63,7 @@ public class S_TakeKey : MonoBehaviour, SI_Interactable
 
     //! =====================================================
 
-
-    private void UpdateInteractText() //& Gestion du texte en fonction de la langue
+    private void UpdateInteractText()
     {
         if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
         {
