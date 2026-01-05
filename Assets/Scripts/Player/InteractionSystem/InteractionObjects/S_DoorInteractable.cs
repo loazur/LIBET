@@ -6,29 +6,29 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
 {
     //~ Gestion de la porte
     [Header("Type de porte")]
-    [SerializeField] private bool isRotatingDoor = true;
-    [SerializeField] private float speed = 1f; // Vitesse d'ouverture/fermeture
+    [SerializeField] protected bool isRotatingDoor = true;
+    [SerializeField] protected float speed = 1f; // Vitesse d'ouverture/fermeture
 
-    private string interactText = "not_set"; // Texte affiché sur l'UI
-    private bool isOpen = false;
+    protected string interactText = "not_set"; // Texte affiché sur l'UI
+    protected bool isOpen = false;
     
     //~ Porte Rotative
     [Header("Gestion de la porte rotative")]
-    [SerializeField] private float rotationAmount = 90f; // L'angle d'ouverture
-    private float forwardDirection = 0f;
+    [SerializeField] protected float rotationAmount = 90f; // L'angle d'ouverture
+    protected float forwardDirection = 0f;
 
     //~ Porte coulissante
     [Header("Gestion de la porte coulissante")]
-    [SerializeField] private Vector3 slideDirection = Vector3.back;
-    [SerializeField] private float slideAmount = 1.9f;
+    [SerializeField] protected Vector3 slideDirection = Vector3.back;
+    [SerializeField] protected float slideAmount = 1.9f;
 
-    private Vector3 startPositionVec;
-    private Vector3 startRotationVec;
-    private Vector3 forward;
+    protected Vector3 startPositionVec;
+    protected Vector3 startRotationVec;
+    protected Vector3 forward;
 
-    private Coroutine animationCoroutine; // Coroutine d'ouverture
+    protected Coroutine animationCoroutine; // Coroutine d'ouverture
 
-    void Start() //& INITIALISATION VARIABLES
+    protected virtual void Start() //& INITIALISATION VARIABLES
     {
         UpdateInteractText(); // Setup
 
@@ -39,10 +39,18 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
         S_GameSettingsData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
     }
 
+    protected virtual void OnDestroy()
+    {
+        if (S_GameSettingsData.instance != null)
+        {
+            S_GameSettingsData.instance.OnLanguageChanged -= UpdateInteractText;
+        }
+    }
+
 
     //! Méthodes provenant de l'interface SI_Interactable
 
-    public void Interact(Transform playerTransform) //& Ouverture de la porte
+    public virtual void Interact(Transform playerTransform) //& Ouverture de la porte
     {
         if (!isOpen)
         {
@@ -56,20 +64,20 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
         UpdateInteractText();
     }
 
-    public string getInteractText() //& Texte de la porte
+    public virtual string getInteractText() //& Texte de la porte
     {
         return interactText;
     }
 
-    public Transform getTransform() //& Position de la porte
+    public virtual Transform getTransform() //& Position de la porte
     {
         return gameObject.transform;
     }
 
 
-    //! --------------- Fonctions privés ---------------
+    //! --------------- Fonctions protégées ---------------
 
-    private void Open(Vector3 playerPosition) //& Gére le coroutine d'ouverture
+    protected virtual void Open(Vector3 playerPosition) //& Gére le coroutine d'ouverture
     {
         if (!isOpen)
         {
@@ -94,7 +102,7 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
         }
     }
 
-    private IEnumerator DoRotationOpen(float forwardAmount) //& Ouverture porte rotative
+    protected virtual IEnumerator DoRotationOpen(float forwardAmount) //& Ouverture porte rotative
     {
         Quaternion startRotationQuat = transform.rotation;
         Quaternion endRotation;
@@ -125,7 +133,7 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
         }
     }
 
-    private IEnumerator DoSlidingOpen() //& Ouverture porte coulissante
+    protected virtual IEnumerator DoSlidingOpen() //& Ouverture porte coulissante
     {
         Vector3 endPosition = startPositionVec + slideAmount * slideDirection;
         Vector3 startPosition = transform.position;
@@ -147,7 +155,7 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
         }
     }
 
-    private void Close() //& Gére le coroutine de fermeture
+    protected virtual void Close() //& Gére le coroutine de fermeture
     {
         if (isOpen)
         {
@@ -170,7 +178,7 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
         }
     }
 
-    private IEnumerator DoRotationClose() //& Fermeture porte rotative
+    protected virtual IEnumerator DoRotationClose() //& Fermeture porte rotative
     {
         Quaternion startRotationQuat = transform.rotation;
         Quaternion endRotation = Quaternion.Euler(startRotationVec);
@@ -193,7 +201,7 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
 
     }
 
-    private IEnumerator DoSlidingClose() //& Fermeture porte coulissante
+    protected virtual IEnumerator DoSlidingClose() //& Fermeture porte coulissante
     {
         Vector3 endPosition = startPositionVec;
         Vector3 startPosition = transform.position;
@@ -216,7 +224,7 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
     }
     
 
-    private void UpdateInteractText() //& Gestion du texte en fonction de la langue
+    protected virtual void UpdateInteractText() //& Gestion du texte en fonction de la langue
     {
         if (!isOpen) // Si fermer
         {
