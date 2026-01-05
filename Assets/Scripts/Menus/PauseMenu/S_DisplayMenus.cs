@@ -154,7 +154,7 @@ public class S_DisplayMenus : MonoBehaviour
         isOpen = true;
 
         // Notifier que le menu est ouvert (pour cacher le canvas de quêtes)
-            S_GameManager.instance?.playerEvents.MenuOpened();
+        S_GameManager.instance?.playerEvents.MenuOpened();
         
     }
 
@@ -195,8 +195,7 @@ public class S_DisplayMenus : MonoBehaviour
         isOpen = false;
 
         // Notifier que le menu est fermé (pour afficher le canvas de quêtes)
-        
-            S_GameManager.instance?.playerEvents.MenuClosed();
+        S_GameManager.instance?.playerEvents.MenuClosed();
     }
 
     public void QuitButton()

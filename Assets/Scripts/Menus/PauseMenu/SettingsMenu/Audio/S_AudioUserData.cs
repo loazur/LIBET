@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class S_AudioSettingsData : MonoBehaviour
+public class S_AudioUserData : MonoBehaviour
 {
-    public static S_AudioSettingsData instance;
+    public static S_AudioUserData instance;
 
     [Header("Gestion de l'UI")]
     [SerializeField] private Slider masterVolumeSlider;

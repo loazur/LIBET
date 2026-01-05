@@ -4,9 +4,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class S_VideoSettingsData : MonoBehaviour
+public class S_VideoUserData : MonoBehaviour
 {
-    public static S_VideoSettingsData instance;
+    public static S_VideoUserData instance;
 
     [Header("Gestion de l'UI ")]
     [SerializeField] private TMPro.TMP_Dropdown dropdownResolution; //! Dropdown de la resolution

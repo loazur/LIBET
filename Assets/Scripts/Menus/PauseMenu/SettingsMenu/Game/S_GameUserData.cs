@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class S_GameSettingsData : MonoBehaviour
+public class S_GameUserData : MonoBehaviour
 {
-    public static S_GameSettingsData instance;
+    public static S_GameUserData instance;
 
     [Header("Gestion de l'UI")]
     [SerializeField] private TMPro.TMP_Dropdown dropdownLanguage; //! Dropdown du langage

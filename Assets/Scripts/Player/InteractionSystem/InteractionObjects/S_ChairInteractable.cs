@@ -18,7 +18,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     {
         UpdateInteractText(); // Setup
  
-        S_GameSettingsData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
+        S_GameUserData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
     }
 
     void Update()
@@ -123,22 +123,22 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     {
         if (!isPlayerSitting) // Si Debout
         {
-            if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+            if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
             {
                 interactText = "S'asseoir";
             }
-            else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+            else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
             {
                 interactText = "Sit down";
             }
         }
         else // Si Assis
         {
-            if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+            if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
             {
                 interactText = "Se lever";
             }
-            else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+            else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
             {
                 interactText = "Get up";
             }

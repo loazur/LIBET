@@ -21,7 +21,7 @@ public class S_TextTranslator : MonoBehaviour
 
         UpdateText();
 
-        S_GameSettingsData.instance.OnLanguageChanged += UpdateText;
+        S_GameUserData.instance.OnLanguageChanged += UpdateText;
     }
 
 
@@ -29,25 +29,25 @@ public class S_TextTranslator : MonoBehaviour
 
     private void UpdateText() //& Met à jour le texte du l'objet courant dans la bonne langue
     {
-        if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+        if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
         {
             if (attachedToKeybind)
             {
-                textContainerKeybind.text = textInEachLanguages[(int)S_GameSettingsData.Languages.French];
+                textContainerKeybind.text = textInEachLanguages[(int)S_GameUserData.Languages.French];
                 return;
             }
 
-            textContainer.text = textInEachLanguages[(int)S_GameSettingsData.Languages.French];
+            textContainer.text = textInEachLanguages[(int)S_GameUserData.Languages.French];
         }
-        else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+        else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
         {   
             if (attachedToKeybind)
             {
-                textContainerKeybind.text = textInEachLanguages[(int)S_GameSettingsData.Languages.English];
+                textContainerKeybind.text = textInEachLanguages[(int)S_GameUserData.Languages.English];
                 return;
             }
 
-            textContainer.text = textInEachLanguages[(int)S_GameSettingsData.Languages.English];
+            textContainer.text = textInEachLanguages[(int)S_GameUserData.Languages.English];
         }
     }
 

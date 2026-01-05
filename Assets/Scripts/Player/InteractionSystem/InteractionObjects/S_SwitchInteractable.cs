@@ -15,7 +15,7 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
     {
         UpdateInteractText(); // Setup
         
-        S_GameSettingsData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
+        S_GameUserData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
     }
 
     //! Méthodes provenant de l'interface SI_Interactable
@@ -71,22 +71,22 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
     {
         if (!isOn) // Si éteint
         {
-            if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+            if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
             {
                 interactText = "Allumer";
             }
-            else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+            else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
             {
                 interactText = "Turn on";
             }
         }
         else // Si allumer
         {
-            if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+            if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
             {
                 interactText = "Eteindre";
             }
-            else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+            else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
             {
                 interactText = "Turn off";
             }
