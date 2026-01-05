@@ -36,9 +36,6 @@ public class S_PauseMenu : S_Menu
     {
         // Sauvegarde quand on quitte
         S_DataPersistanceManager.instance.SaveGame();
-
-        // Au cas ou on quitte le menu
-        S_HandlerPauseMenu.instance.CompletelyCloseMenu();
         
         // Changement de scene
         SceneManager.LoadSceneAsync("MainMenu");
