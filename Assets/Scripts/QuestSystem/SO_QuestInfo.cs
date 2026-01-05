@@ -5,7 +5,8 @@ using UnityEngine;
 public class SO_QuestInfo : ScriptableObject
 {
     // * =============================  ATTRIBUTS  ==========================
-    [SerializeField] public string id { get; private set; }
+    [SerializeField] private string _id;
+    public string id => _id;
 
     [Header("Genral Info")]
     public string displayName;
@@ -37,7 +38,7 @@ public class SO_QuestInfo : ScriptableObject
     private void OnValidate()
     {
         #if UNITY_EDITOR
-        id = this.name;
+        _id = this.name;
         UnityEditor.EditorUtility.SetDirty(this);
         #endif
     }

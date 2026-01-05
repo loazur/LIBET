@@ -1,79 +1,66 @@
 using UnityEngine;
 
-
-
-/**
- * Supprimer les ombres dans le jeu pour que les joueurs ne puissent vraiment pas
- * évaluer les distances
- * (DepthPerceptionShadowLoss)
- *
- * @author	Lucas
- * @since	v0.0.1
- * @version	v1.0.0	Saturday, December 6th, 2025.
- * @global
- */
-class S_DepthPerceptionShadowLoss : MonoBehaviour
+/// <summary>
+/// Supprime les ombres dans le jeu pour que les joueurs ne puissent vraiment pas
+/// évaluer les distances (DepthPerceptionShadowLoss)
+/// </summary>
+public class S_DepthPerceptionShadowLoss : MonoBehaviour
 {
-    //~ DepthPerceptionShadowLoss -> Désactive les ombres
+    [Header("Configuration")]
+    [Tooltip("Référence à l'event ScriptableObject (optionnel, pour accéder à l'intensité)")]
+    [SerializeField] private SO_AlzheimerEvent eventData;
 
-     void OnEnable() //& Activation de l'event
-    {   
-        EnableAllShadows();
-    }
+    // Stockage des ombres originales pour restauration
+    private System.Collections.Generic.Dictionary<Light, LightShadows> originalShadows = 
+        new System.Collections.Generic.Dictionary<Light, LightShadows>();
 
-    void OnDisable() //& Désactivation de l'event
+    void OnEnable()
     {
         DisableAllShadows();
     }
 
-    //!---------------------------------------------------------------
-
-    /**
-     * désactive toutes les ombres dans la scène
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Saturday, December 6th, 2025.
-     * @return	void
-     */
-    void DisableAllShadows()
+    void OnDisable()
     {
+        RestoreAllShadows();
+    }
+
+    void OnDestroy()
+    {
+        RestoreAllShadows();
+    }
+
+    /// <summary>
+    /// Désactive toutes les ombres dans la scène
+    /// </summary>
+    private void DisableAllShadows()
+    {
+        originalShadows.Clear();
+        
         foreach (var light in Object.FindObjectsByType<Light>(FindObjectsInactive.Include, FindObjectsSortMode.None))
         {
+            // Sauvegarde l'état original
+            originalShadows[light] = light.shadows;
             light.shadows = LightShadows.None;
         }
 
+        Debug.Log($"<color=cyan>[DepthPerception]</color> Ombres désactivées ({originalShadows.Count} lumières)");
     }
 
-    /**
-     * Active toutes les ombres dans la scène
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Saturday, December 6th, 2025.
-     * @return	void
-     */
-    void EnableAllShadows()
+    /// <summary>
+    /// Restaure toutes les ombres à leur état original
+    /// </summary>
+    private void RestoreAllShadows()
     {
-        foreach (var light in Object.FindObjectsByType<Light>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        foreach (var kvp in originalShadows)
         {
-            light.shadows = LightShadows.Soft;
+            if (kvp.Key != null)
+            {
+                kvp.Key.shadows = kvp.Value;
+            }
         }
-
-    }
-
-    [ContextMenu("Test Disable Shadows")]
-    void TestDisableShadows()
-    {
-        DisableAllShadows();
-        Debug.Log("Shadows Disabled");
-    }
-
-    [ContextMenu("Test Enable Shadows")]
-    void TestEnableShadows()
-    {
-        EnableAllShadows();
-        Debug.Log("Shadows Enabled");
+        
+        Debug.Log("<color=gray>[DepthPerception]</color> Ombres restaurées");
+        originalShadows.Clear();
     }
 
 
