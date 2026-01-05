@@ -9,6 +9,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     private GameObject player;
     private S_PlayerController playerController;
     private S_FirstPersonCamera playerCamera;
+    private S_PlayerCrouch playerCrouch;
     private string interactText = "not_set";
 
     private bool isPlayerSitting = false;
@@ -39,6 +40,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
             player = playerTransform.gameObject;
             playerController = player.GetComponent<S_PlayerController>();
             playerCamera = playerTransform.GetComponentInChildren<S_FirstPersonCamera>();
+            playerCrouch = playerController.GetComponentInChildren<S_PlayerCrouch>();
 
             Sit();
         }
@@ -58,17 +60,25 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
 
     private void Sit() //& S'assoir
     {
+        if (playerCrouch.isCrouching) return;
+
         // milieu de la chaise
         Vector3 chairPosition_Center = transform.position + new Vector3(0, 0.5f, 0);
 
         player.transform.position = chairPosition_Center;
         playerCamera.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); //! Pas oublier de changer en fonction de l'angle de la chaise
 
+        // Désactivé les collisions quand il est assis
+        chairCollider.enabled = false;
+
         // Bloquer les mouvements du joueur
         playerController.setMovementsEnabled(false);
-        playerCamera.setRotationEnabled(false);
-        chairCollider.enabled = false;
+        playerCrouch.setAbleToCrouch(false);
         displayMenus.setAbleToOpenCloseMenu(false);
+
+        //Activation limitation des mouvements de camera
+        playerCamera.setHorizontalLimitEnabled(true);
+
 
         isPlayerSitting = true;
 
@@ -87,19 +97,24 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         Vector3 chairPosition_Side = transform.position + transform.right * 1.0f;
         player.transform.position = chairPosition_Side;
 
+        // Désactivé les collisions quand il est assis
+        chairCollider.enabled = true;
+
         // Débloquer les mouvements du joueur
         playerController.setMovementsEnabled(true);
-        playerCamera.setRotationEnabled(true);
-        chairCollider.enabled = true;
+        playerCrouch.setAbleToCrouch(true);
         displayMenus.setAbleToOpenCloseMenu(true);
-        
 
+        // Désactivation limitation des mouvements de camera
+        playerCamera.setHorizontalLimitEnabled(false);
+        
         isPlayerSitting = false;
 
         // Détruit les components 
         player = null;
         playerController = null;
         playerCamera = null;
+        playerCrouch = null;
 
         UpdateInteractText();
     }
