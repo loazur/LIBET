@@ -9,6 +9,8 @@ public class S_FMODEvents : MonoBehaviour
     [field: Header("Doors SFX")]
     [field: SerializeField] public EventReference doorOpening {get; private set;}
     [field: SerializeField] public EventReference doorClosing {get; private set;}
+    [field: SerializeField] public EventReference doorLocked {get; private set;}
+    [field: SerializeField] public EventReference doorUnlock {get; private set;}
 
     [field: Header("Music")]
     [field: SerializeField] public EventReference musicTest {get; private set;}
