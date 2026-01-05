@@ -47,6 +47,12 @@ public class S_TakeKey : MonoBehaviour, SI_Interactable
             Debug.LogWarning("[S_TakeKey] S_KeyManager.instance est null! Assurez-vous qu'un KeyManager existe dans la scène.");
         }
 
+        //& Déclencher l'événement pour le système de quêtes
+        if (S_GameManager.instance != null)
+        {
+            S_GameManager.instance.playerEvents.KeyCollected(gameObject, doorID, keyID);
+        }
+
         //& Détruire l'objet clé
         Destroy(gameObject);
     }

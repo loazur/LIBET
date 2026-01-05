@@ -48,29 +48,34 @@ public class S_PlayerInteractUI : MonoBehaviour
 
     //! --------------- Fonctions privés ---------------
 
-    private void Show(SI_Interactable interactable) //& Affiche l'UI et change le texte en fonction de interactText
+    private void Show(SI_Interactable interactable)
     {
-        // Si il s'agit d'un nouvel objet
         if (interactable != lastInteractable)
         {
-            if (lastInteractableOutline)
+            if (lastInteractableOutline != null)
                 lastInteractableOutline.Disable();
 
-            // Remplace l'objet
             lastInteractable = interactable;
 
-            // Récupère l'outline du nouveau
+            // Récupération sécurisée de l'outline
             lastInteractableOutline = interactable.getTransform().GetComponent<S_InteractableOutline>();
-            lastInteractableOutline.Enable();
+
+            if (lastInteractableOutline != null)
+                lastInteractableOutline.Enable();
         }
 
-        uiContainer.SetActive(true); // Active le visuel
-        interactText.text = interactable.getInteractText();
+        if (uiContainer != null)
+            uiContainer.SetActive(true);
+
+        if (interactText != null)
+            interactText.text = interactable.getInteractText();
     }
+
 
     private void Hide() //& Cache l'UI
     {
-        uiContainer.SetActive(false); // Désactive le visuel
+        if (uiContainer != null)
+        uiContainer.SetActive(false);
 
         if (lastInteractableOutline) // Si possède une outline la désactive
             lastInteractableOutline.Disable();
