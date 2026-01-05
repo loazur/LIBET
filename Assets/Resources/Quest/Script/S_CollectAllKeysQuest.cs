@@ -16,44 +16,67 @@ public class S_CollectAllKeysQuest : S_QuestStep
     [SerializeField] private string targetDoorID = "door_01"; // ID de la porte dont il faut collecter les clés
     [SerializeField] private int requiredKeyCount = 1; // Nombre de clés requises
     
-    private int collectedKeysCount = 0;
+    
     private bool questCompleted = false;
     private bool isSubscribed = false;
+
+    private int collectedKeysCount = 0;   // état de la quête (UI / save), PAS source de vérité
+
 
     // *==========================================================================
 
     private void Start()
     {
+        Debug.Log("[CollectAllKeysQuest] 🚀 Starting quest step");
         StartCoroutine(InitializeWhenReady());
     }
 
     private IEnumerator InitializeWhenReady()
+{
+    Debug.Log("[CollectAllKeysQuest] ⏳ Waiting for GameManager & KeyManager...");
+
+    while (S_GameManager.instance == null || S_KeyManager.instance == null)
+        yield return null;
+
+    Debug.Log("[CollectAllKeysQuest] ✅ Managers ready");
+
+    collectedKeysCount = S_KeyManager.instance.GetCollectedKeyCount(targetDoorID);
+    Debug.Log($"[CollectAllKeysQuest] 🔢 Initial key count for '{targetDoorID}': {collectedKeysCount}");
+
+    ChangeState($"{collectedKeysCount}/{requiredKeyCount}",
+                $"Clés: {collectedKeysCount}/{requiredKeyCount}");
+
+    if (collectedKeysCount >= requiredKeyCount)
     {
-        // Attendre que S_GameManager soit initialisé
-        while (S_GameManager.instance == null)
-        {
-            yield return null;
-        }
-
-        Debug.Log("[S_CollectAllKeysQuest] GameManager ready, subscribing to events");
-        
-        // Récupérer le nombre de clés déjà collectées
-        if (S_KeyManager.instance != null)
-        {
-            collectedKeysCount = S_KeyManager.instance.GetCollectedKeyCount(targetDoorID);
-        }
-
-        SubscribeToEvents();
+        Debug.Log("[CollectAllKeysQuest] 🏁 Already completed at init");
+        CompleteQuest();
+        yield break;
     }
+
+    SubscribeToEvents();
+}
+
+
 
     private void SubscribeToEvents()
+{
+    if (S_GameManager.instance == null)
     {
-        if (S_GameManager.instance == null || isSubscribed) return;
-        
-        S_GameManager.instance.playerEvents.onKeyCollected += OnKeyCollected;
-        isSubscribed = true;
-        Debug.Log("[S_CollectAllKeysQuest] Subscribed to onKeyCollected event");
+        Debug.LogWarning("[CollectAllKeysQuest] ❌ Subscribe failed: GameManager null");
+        return;
     }
+
+    if (isSubscribed)
+    {
+        Debug.Log("[CollectAllKeysQuest] ℹ️ Already subscribed");
+        return;
+    }
+
+    S_GameManager.instance.playerEvents.onKeyCollected += OnKeyCollected;
+    isSubscribed = true;
+    Debug.Log("[CollectAllKeysQuest] 📡 Subscribed to onKeyCollected");
+}
+
 
     private void UnsubscribeFromEvents()
     {
@@ -83,15 +106,14 @@ public class S_CollectAllKeysQuest : S_QuestStep
      */
     private void OnKeyCollected(GameObject key, string doorID, string keyID)
     {
+        Debug.Log($"[CollectAllKeysQuest] 🗝 Event received → key:{key?.name}, door:{doorID}, questCompleted:{questCompleted}");
+
         if (questCompleted) return;
 
-        Debug.Log($"[S_CollectAllKeysQuest] Player collected key: {key.name} for door: {doorID}");
-
         if (IsTargetKey(doorID))
-        {
             CollectKey(key, keyID);
-        }
     }
+
 
     /**
      * Vérifie si la clé est pour la porte recherchée
@@ -135,20 +157,24 @@ public class S_CollectAllKeysQuest : S_QuestStep
      */
     private void CollectKey(GameObject key, string keyID)
     {
+        Debug.Log("[CollectAllKeysQuest] 🔄 CollectKey called");
+
         if (questCompleted) return;
 
-        collectedKeysCount++;
-        Debug.Log($"[S_CollectAllKeysQuest] Key '{keyID}' collected! Progress: {collectedKeysCount}/{requiredKeyCount}");
+        int previous = collectedKeysCount;
+        collectedKeysCount = S_KeyManager.instance.GetCollectedKeyCount(targetDoorID);
 
-        // Mettre à jour l'état de la quête
-        ChangeState($"{collectedKeysCount}/{requiredKeyCount}", $"Clés: {collectedKeysCount}/{requiredKeyCount}");
+        Debug.Log($"[CollectAllKeysQuest] 📊 Count changed: {previous} → {collectedKeysCount} / {requiredKeyCount}");
 
-        // Vérifier si toutes les clés ont été collectées
+        ChangeState($"{collectedKeysCount}/{requiredKeyCount}",
+                    $"Clés: {collectedKeysCount}/{requiredKeyCount}");
+
         if (collectedKeysCount >= requiredKeyCount)
-        {
             CompleteQuest();
-        }
     }
+
+
+
 
     /**
      * Termine la quête quand toutes les clés sont collectées
@@ -164,11 +190,12 @@ public class S_CollectAllKeysQuest : S_QuestStep
         if (questCompleted) return;
 
         questCompleted = true;
-        Debug.Log($"[S_CollectAllKeysQuest] Quest completed - all {requiredKeyCount} keys collected for door '{targetDoorID}'!");
+        Debug.Log($"[CollectAllKeysQuest] 🎉 QUEST COMPLETE for door '{targetDoorID}'");
 
         ChangeState("COMPLETE", "Toutes les clés collectées");
         FinishQuestStep();
     }
+
 
     /**
      * Permet de charger l'état de la quest step depuis une sauvegarde
