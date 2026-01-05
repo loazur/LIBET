@@ -19,8 +19,7 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
     public float movementSpeed = 3.5f; 
     private float gravity = 10f;
     private bool isMovingEnabled = true;
-
-
+    
     //~ Gestion Slopes
     [Header("Gestion Slopes")]
     private RaycastHit slopeHit;
@@ -33,7 +32,6 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
     [SerializeField] private float stepHeight = 0.6f; 
     [SerializeField] private float stepSmooth = 0.1f;
 
-
     //~ Booleans (Au dessus tête et au sol)
     [Header("Colliders")]
     public GameObject overheadCheck;
@@ -41,6 +39,7 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
 
     public GameObject groundCheck;
     [HideInInspector] public BoxCollider colliderGround;
+
 
     void Start() //& INITIALISATION VARIABLES
     {
@@ -263,6 +262,5 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
         }
         
     }
-
 
 }
