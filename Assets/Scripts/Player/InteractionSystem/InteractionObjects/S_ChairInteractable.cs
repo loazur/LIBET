@@ -65,7 +65,8 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         Vector3 chairPosition_Center = transform.position + new Vector3(0, 0.5f, 0);
 
         player.transform.position = chairPosition_Center;
-        playerCamera.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); //! Pas oublier de changer en fonction de l'angle de la chaise
+        player.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); // Aligner le joueur avec la chaise
+        playerCamera.transform.localRotation = Quaternion.identity; // Réinitialiser la rotation locale de la caméra
 
         // Désactivé les collisions quand il est assis
         chairCollider.enabled = false;
@@ -77,7 +78,6 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
 
         //Activation limitation des mouvements de camera
         playerCamera.setHorizontalLimitEnabled(true);
-
 
         isPlayerSitting = true;
 
