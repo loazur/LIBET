@@ -11,9 +11,9 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
     private float limitYdown = -90f; //Limite quand on regarde en bas
     
     [Header("Limites horizontales")]  // UTILISER POUR LES CHAISES
-    [SerializeField] private bool limitHorizontalRotation = false; // Activer/désactiver la limite
-    [SerializeField] private float limitXLeft = -40f; // Limite à gauche
-    [SerializeField] private float limitXRight = 160f; // Limite à droite
+    private bool limitHorizontalRotation = false; // Activer/désactiver la limite
+    private float limitXLeft = -140f; // Limite à gauche
+    private float limitXRight = 90f; // Limite à droite
     
     private Vector2 lookValue = Vector2.zero;
 
@@ -148,6 +148,16 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
     public void setHorizontalLimitEnabled(bool isEnabled) //& Active/Désactive la limite horizontale
     {
         limitHorizontalRotation = isEnabled;
+        
+        // Synchroniser playerHorizontalRotation avec la rotation actuelle du joueur
+        if (isEnabled)
+        {
+            playerHorizontalRotation = player.localEulerAngles.y;
+            if (playerHorizontalRotation > 180f)
+            {
+                playerHorizontalRotation -= 360f;
+            }
+        }
     }
 
     //? ------------------------------------------------
