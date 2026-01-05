@@ -9,9 +9,17 @@ public class S_AudioMenu : S_Menu
     [Header("Boutons Audio Menu")]
     [SerializeField] private Button saveButton;
     [SerializeField] private Button returnButton;
-    //TODO bouton en haut a droite pour quitter tout 
+    [SerializeField] private Button leaveButton;
 
     //! Mise à jour sliders / Boutons resets sont géré directement via S_AudioUserData
+
+    protected override void OnEnable()
+    {
+        base.OnEnable(); // Utilise le OnEnable du parent
+
+        S_HandlerPauseMenu.instance.setCurrentMenu(this);
+        S_HandlerPauseMenu.instance.setMenuOpened(true);
+    }
 
     public void OnSaveClicked()
     {
@@ -24,13 +32,8 @@ public class S_AudioMenu : S_Menu
         DeactivateMenu();
     }
 
-    public void ActivateMenu()
+    public void OnLeaveButton()
     {
-        gameObject.SetActive(true);
-    }
-
-    public void DeactivateMenu()
-    {
-        gameObject.SetActive(false);
+        S_HandlerPauseMenu.instance.CompletelyCloseMenu();
     }
 }

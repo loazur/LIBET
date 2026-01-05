@@ -8,9 +8,17 @@ public class S_ControllerMenu : S_Menu
 
     [Header("Boutons Controller Menu")]
     [SerializeField] private Button returnButton;
-    //TODO bouton en haut a droite pour quitter tout 
+    [SerializeField] private Button leaveButton;
 
     //! Mise à jour sliders des keybinds automatiquement via le prefab lié
+
+    protected override void OnEnable()
+    {
+        base.OnEnable(); // Utilise le OnEnable du parent
+
+        S_HandlerPauseMenu.instance.setCurrentMenu(this);
+        S_HandlerPauseMenu.instance.setMenuOpened(true);
+    }
 
     public void OnReturnClicked()
     {
@@ -18,13 +26,9 @@ public class S_ControllerMenu : S_Menu
         DeactivateMenu();
     }
 
-    public void ActivateMenu()
+    public void OnLeaveButton()
     {
-        gameObject.SetActive(true);
+        S_HandlerPauseMenu.instance.CompletelyCloseMenu();
     }
 
-    public void DeactivateMenu()
-    {
-        gameObject.SetActive(false);
-    }
 }

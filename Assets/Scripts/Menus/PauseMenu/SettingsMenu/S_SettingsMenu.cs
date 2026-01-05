@@ -5,7 +5,12 @@ public class S_SettingsMenu : S_Menu
 {
     [Header("Menu Navigation")]
     [SerializeField] private S_PauseMenu pauseMenu;
+    [SerializeField] private S_GameMenu gameMenu;
     [SerializeField] private S_AudioMenu audioMenu;
+    [SerializeField] private S_VideoMenu videoMenu;
+    [SerializeField] private S_CameraMenu cameraMenu;
+    [SerializeField] private S_KeyboardMenu keyboardMenu;
+    [SerializeField] private S_ControllerMenu controllerMenu;
 
     [Header("Boutons Settings Menu")]
     [SerializeField] private Button gameButton;
@@ -15,11 +20,20 @@ public class S_SettingsMenu : S_Menu
     [SerializeField] private Button keyboardButton;
     [SerializeField] private Button controllerButton;
     [SerializeField] private Button returnButton;
-    //TODO bouton en haut a droite pour quitter tout 
+    [SerializeField] private Button leaveButton;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable(); // Utilise le OnEnable du parent
+
+        S_HandlerPauseMenu.instance.setCurrentMenu(this);
+        S_HandlerPauseMenu.instance.setMenuOpened(true);
+    }
 
     public void OnGameClicked()
     {
-        
+        gameMenu.ActivateMenu();
+        DeactivateMenu();
     }
 
     public void OnAudioClicked()
@@ -30,22 +44,26 @@ public class S_SettingsMenu : S_Menu
 
     public void OnVideoClicked()
     {
-        
+        videoMenu.ActivateMenu();
+        DeactivateMenu();
     }
 
     public void OnCameraClicked()
     {
-        
+        cameraMenu.ActivateMenu();
+        DeactivateMenu();
     }
 
     public void OnKeyboardClicked()
     {
-        
+        keyboardMenu.ActivateMenu();
+        DeactivateMenu();
     }
 
     public void OnControllerClicked()
     {
-        
+        controllerMenu.ActivateMenu();
+        DeactivateMenu();
     }
 
     public void OnReturnClicked()
@@ -54,13 +72,9 @@ public class S_SettingsMenu : S_Menu
         DeactivateMenu();
     }
 
-    public void ActivateMenu()
+    public void OnLeaveButton()
     {
-        gameObject.SetActive(true);
+        S_HandlerPauseMenu.instance.CompletelyCloseMenu();
     }
 
-    public void DeactivateMenu()
-    {
-        gameObject.SetActive(false);
-    }
 }

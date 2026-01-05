@@ -4,7 +4,6 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
 {
     //~ Gestion de chaises
     [Header("Gestion de la chaise")]
-    [SerializeField] private S_DisplayMenus displayMenus; // Pour désactivé le menu quand on est assis
     [SerializeField] private Collider chairCollider; // Collider a désactivé/activer en fonction de si on est assis
     private GameObject player;
     private S_PlayerController playerController;
@@ -74,7 +73,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         // Bloquer les mouvements du joueur
         playerController.setMovementsEnabled(false);
         playerCrouch.setAbleToCrouch(false);
-        displayMenus.setAbleToOpenCloseMenu(false);
+        S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(false);
 
         //Activation limitation des mouvements de camera
         playerCamera.setHorizontalLimitEnabled(true);
@@ -103,7 +102,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         // Débloquer les mouvements du joueur
         playerController.setMovementsEnabled(true);
         playerCrouch.setAbleToCrouch(true);
-        displayMenus.setAbleToOpenCloseMenu(true);
+        S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(true);
 
         // Désactivation limitation des mouvements de camera
         playerCamera.setHorizontalLimitEnabled(false);

@@ -11,11 +11,19 @@ public class S_PauseMenu : S_Menu
     [SerializeField] private Button continueButton;
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button quitButton;
-    //TODO bouton en haut a droite pour quitter tout 
+
+    protected override void OnEnable()
+    {
+        base.OnEnable(); // Utilise le OnEnable du parent
+
+        S_HandlerPauseMenu.instance.DisableAll();
+        S_HandlerPauseMenu.instance.setMenuOpened(true);
+        S_HandlerPauseMenu.instance.setCurrentMenu(this);
+    }
 
     public void OnContinueClicked()
     {
-        DeactivateMenu();
+        S_HandlerPauseMenu.instance.CompletelyCloseMenu();
     }
 
     public void OnSettingsClicked()
@@ -28,19 +36,12 @@ public class S_PauseMenu : S_Menu
     {
         // Sauvegarde quand on quitte
         S_DataPersistanceManager.instance.SaveGame();
+
+        // Au cas ou on quitte le menu
+        S_HandlerPauseMenu.instance.CompletelyCloseMenu();
         
         // Changement de scene
         SceneManager.LoadSceneAsync("MainMenu");
-    }
-
-    public void ActivateMenu()
-    {
-        gameObject.SetActive(true);
-    }
-
-    public void DeactivateMenu()
-    {
-        gameObject.SetActive(false);
     }
 
 }
