@@ -11,18 +11,18 @@ public class S_NPCInteractable : MonoBehaviour, SI_Interactable
     {
         UpdateInteractText(); // Setup
         
-        S_GameSettingsData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
+        S_GameUserData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
     }
 
     //! Méthodes provenant de l'interface SI_Interactable
 
     public void Interact(Transform playerTransform)
     {
-        if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French) // Français
+        if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French) // Français
         {
             dialogueTrigger.TriggerDialogueFrench(); // Lance le dialogue du NPC en français
         }
-        else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English) // Anglais
+        else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English) // Anglais
         {
             dialogueTrigger.TriggerDialogueEnglish(); // Lance le dialogue du NPC en anglais
         }
@@ -41,11 +41,11 @@ public class S_NPCInteractable : MonoBehaviour, SI_Interactable
     private void UpdateInteractText() //& Gestion du texte en fonction de la langue
     {
         
-        if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+        if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
         {
             interactText = "Parler";
         }
-        else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+        else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
         {
             interactText = "Talk";
         }

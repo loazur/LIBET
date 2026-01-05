@@ -36,14 +36,14 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
         forward = transform.right;
         startPositionVec = transform.position;
 
-        S_GameSettingsData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
+        S_GameUserData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
     }
 
     protected virtual void OnDestroy()
     {
-        if (S_GameSettingsData.instance != null)
+        if (S_GameUserData.instance != null)
         {
-            S_GameSettingsData.instance.OnLanguageChanged -= UpdateInteractText;
+            S_GameUserData.instance.OnLanguageChanged -= UpdateInteractText;
         }
     }
 
@@ -228,22 +228,22 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
     {
         if (!isOpen) // Si fermer
         {
-            if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+            if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
             {
                 interactText = "Ouvrir";
             }
-            else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+            else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
             {
                 interactText = "Open";
             }
         }
         else // Si ouverte
         {
-            if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+            if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
             {
                 interactText = "Fermer";
             }
-            else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+            else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
             {
                 interactText = "Close";
             }

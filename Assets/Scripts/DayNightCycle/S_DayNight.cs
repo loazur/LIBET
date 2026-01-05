@@ -1,11 +1,37 @@
-using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Rendering;
+using Assert = UnityEngine.Assertions.Assert;
 
 public class S_DayNight : MonoBehaviour
 {
+    [Header("Références")]
     public Light directionalLight;
+    public Material skyboxMaterial; // Assigner le material Skybox/Procedural
+    
+    [Header("Cycle")]
     public float dayLength = 120f; // Length of a full day in seconds
     private float time;
+
+    [Header("Couleurs du ciel")]
+    [Tooltip("Couleur du ciel à midi")]
+    public Color daySkyTint = new Color(0.5f, 0.5f, 0.5f, 1f);
+    [Tooltip("Couleur du ciel au lever/coucher du soleil")]
+    public Color sunsetSkyTint = new Color(1f, 0.5f, 0.3f, 1f);
+    [Tooltip("Couleur du ciel la nuit")]
+    public Color nightSkyTint = new Color(0.1f, 0.1f, 0.2f, 1f);
+    
+    [Header("Couleurs de la lumière")]
+    public Color dayLightColor = new Color(1f, 0.95f, 0.85f, 1f);
+    public Color sunsetLightColor = new Color(1f, 0.6f, 0.3f, 1f);
+    public Color nightLightColor = new Color(0.3f, 0.3f, 0.5f, 1f);
+
+    [Header("Atmosphère")]
+    [Range(0f, 5f)]
+    public float dayAtmosphereThickness = 1f;
+    [Range(0f, 5f)]
+    public float sunsetAtmosphereThickness = 2f;
+    [Range(0f, 5f)]
+    public float nightAtmosphereThickness = 0.5f;
 
     // convertir time en heures et minutes pour affichage si besoin
 
@@ -17,6 +43,12 @@ public class S_DayNight : MonoBehaviour
     void Start()
     {
         Assert.IsNotNull(directionalLight, "Aucune lumière directionnelle assignée pour le cycle jour/nuit.");
+
+        // Si pas de skybox assigné, essayer de récupérer celui de RenderSettings
+        if (skyboxMaterial == null)
+        {
+            skyboxMaterial = RenderSettings.skybox;
+        }
 
         // Par défaut, démarrer en jour
         StartDay();
@@ -53,22 +85,94 @@ public class S_DayNight : MonoBehaviour
         if (directionalLight == null)
             return;
 
-        // Ajuste l'intensité de la lumière en fonction de l'heure de la journée
-        if (t <= 0.23f || t >= 0.75f)
+        // Calcul des phases de la journée
+        float intensity;
+        Color lightColor;
+        Color skyTint;
+        float atmosphereThickness;
+
+        // Nuit profonde (0.0 - 0.20 et 0.80 - 1.0)
+        if (t <= 0.20f || t >= 0.80f)
         {
-            directionalLight.intensity = 0;
+            intensity = 0.1f;
+            lightColor = nightLightColor;
+            skyTint = nightSkyTint;
+            atmosphereThickness = nightAtmosphereThickness;
         }
-        else if (t <= 0.25f)
+        // Lever du soleil (0.20 - 0.30)
+        else if (t <= 0.30f)
         {
-            directionalLight.intensity = Mathf.Lerp(0, 1, (t - 0.23f) * 50);
+            float blend = (t - 0.20f) * 10f; // 0 à 1
+            intensity = Mathf.Lerp(0.1f, 1f, blend);
+            lightColor = Color.Lerp(nightLightColor, sunsetLightColor, blend);
+            skyTint = Color.Lerp(nightSkyTint, sunsetSkyTint, blend);
+            atmosphereThickness = Mathf.Lerp(nightAtmosphereThickness, sunsetAtmosphereThickness, blend);
         }
-        else if (t >= 0.73f)
+        // Transition lever → jour (0.30 - 0.40)
+        else if (t <= 0.40f)
         {
-            directionalLight.intensity = Mathf.Lerp(1, 0, (t - 0.73f) * 50);
+            float blend = (t - 0.30f) * 10f;
+            intensity = 1f;
+            lightColor = Color.Lerp(sunsetLightColor, dayLightColor, blend);
+            skyTint = Color.Lerp(sunsetSkyTint, daySkyTint, blend);
+            atmosphereThickness = Mathf.Lerp(sunsetAtmosphereThickness, dayAtmosphereThickness, blend);
         }
+        // Journée (0.40 - 0.60)
+        else if (t <= 0.60f)
+        {
+            intensity = 1f;
+            lightColor = dayLightColor;
+            skyTint = daySkyTint;
+            atmosphereThickness = dayAtmosphereThickness;
+        }
+        // Transition jour → coucher (0.60 - 0.70)
+        else if (t <= 0.70f)
+        {
+            float blend = (t - 0.60f) * 10f;
+            intensity = 1f;
+            lightColor = Color.Lerp(dayLightColor, sunsetLightColor, blend);
+            skyTint = Color.Lerp(daySkyTint, sunsetSkyTint, blend);
+            atmosphereThickness = Mathf.Lerp(dayAtmosphereThickness, sunsetAtmosphereThickness, blend);
+        }
+        // Coucher du soleil (0.70 - 0.80)
         else
         {
-            directionalLight.intensity = 1;
+            float blend = (t - 0.70f) * 10f;
+            intensity = Mathf.Lerp(1f, 0.1f, blend);
+            lightColor = Color.Lerp(sunsetLightColor, nightLightColor, blend);
+            skyTint = Color.Lerp(sunsetSkyTint, nightSkyTint, blend);
+            atmosphereThickness = Mathf.Lerp(sunsetAtmosphereThickness, nightAtmosphereThickness, blend);
+        }
+
+        // Appliquer à la lumière
+        directionalLight.intensity = intensity;
+        directionalLight.color = lightColor;
+
+        // Appliquer au skybox (si c'est un Skybox/Procedural)
+        UpdateSkybox(skyTint, atmosphereThickness);
+    }
+
+    /**
+     * Met à jour le matériau du skybox procédural
+     */
+    private void UpdateSkybox(Color skyTint, float atmosphereThickness)
+    {
+        if (skyboxMaterial == null) return;
+
+        // Propriétés du shader Skybox/Procedural
+        if (skyboxMaterial.HasProperty("_SkyTint"))
+        {
+            skyboxMaterial.SetColor("_SkyTint", skyTint);
+        }
+        if (skyboxMaterial.HasProperty("_AtmosphereThickness"))
+        {
+            skyboxMaterial.SetFloat("_AtmosphereThickness", atmosphereThickness);
+        }
+        if (skyboxMaterial.HasProperty("_Exposure"))
+        {
+            // Réduire l'exposition la nuit
+            float exposure = Mathf.Lerp(0.5f, 1.3f, directionalLight.intensity);
+            skyboxMaterial.SetFloat("_Exposure", exposure);
         }
     }
 

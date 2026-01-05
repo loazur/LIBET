@@ -15,7 +15,7 @@ public class S_SaveSlotsMenu : S_Menu
         saveSlots = GetComponentsInChildren<S_SaveSlot>();
     }
 
-    public void ActivateMenu()
+    public new void ActivateMenu()
     {
         // Active le menu
         gameObject.SetActive(true);
@@ -29,11 +29,6 @@ public class S_SaveSlotsMenu : S_Menu
             profilesGameData.TryGetValue(saveSlot.GetProfileId(), out S_GameData profileData);
             saveSlot.SetData(profileData);
         }
-    }
-
-    public void DeactivateMenu()
-    {
-        gameObject.SetActive(false);
     }
 
     public void OnSaveSlotClicked(S_SaveSlot saveSlot)

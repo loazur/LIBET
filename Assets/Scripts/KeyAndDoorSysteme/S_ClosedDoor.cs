@@ -89,7 +89,7 @@ public class S_ClosedDoor : S_DoorInteractable
         isUnlocked = true;
         Debug.Log($"[ClosedDoor] Porte '{doorID}' débloquée!");
         
-        // TODO: Jouer un son de déverrouillage 
+        // Jouer un son de déverrouillage 
         S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.doorUnlock, transform.position);
 
         UpdateInteractText();
@@ -109,7 +109,7 @@ public class S_ClosedDoor : S_DoorInteractable
         int currentKeys = S_KeyManager.instance != null ? S_KeyManager.instance.GetCollectedKeyCount(doorID) : 0;
         Debug.Log($"[ClosedDoor] Porte '{doorID}' verrouillée! Clés: {currentKeys}/{requiredKeyCount}");
 
-        // TODO: Jouer un son de porte verrouillée
+        // Jouer un son de porte verrouillée
         S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.doorLocked, transform.position);
     }
 
@@ -137,7 +137,7 @@ public class S_ClosedDoor : S_DoorInteractable
     protected override void UpdateInteractText()
     {
         int currentKeys = S_KeyManager.instance != null ? S_KeyManager.instance.GetCollectedKeyCount(doorID) : 0;
-        bool isFrench = S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French;
+        bool isFrench = S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French;
 
         if (!isUnlocked)
         {

@@ -31,9 +31,4 @@ public class S_ConfirmationPopupMenu : S_Menu
         gameObject.SetActive(true);
     }
 
-    public void DeactivateMenu()
-    {
-        saveSlot = null;
-        gameObject.SetActive(false);
-    }
 }
