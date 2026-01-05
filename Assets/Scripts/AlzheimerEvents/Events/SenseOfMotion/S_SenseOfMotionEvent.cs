@@ -50,7 +50,7 @@ public class S_SenseOfMotionEvent : MonoBehaviour
 
     private void ApplyEffect()
     {
-        if (S_CameraSettingsData.instance == null)
+        if (S_CameraUserData.instance == null)
         {
             Debug.LogWarning("[SenseOfMotion] S_CameraSettingsData.instance est null!");
             return;
@@ -60,7 +60,7 @@ public class S_SenseOfMotionEvent : MonoBehaviour
         float intensity = eventData != null ? eventData.currentIntensity : 1f;
         targetFOV = Mathf.Lerp(minFOV, maxFOV, Mathf.Clamp01(intensity / 5f)); // Intensité max = 5 pour FOV max
 
-        S_CameraSettingsData.instance.setCurrentFieldOfView(targetFOV);
+        S_CameraUserData.instance.setCurrentFieldOfView(targetFOV);
         isTransitioning = true;
 
         Debug.Log($"<color=cyan>[SenseOfMotion]</color> Effet appliqué - FOV: {targetFOV:F0} | Intensité: {intensity:F2}");
@@ -68,9 +68,9 @@ public class S_SenseOfMotionEvent : MonoBehaviour
 
     private void ResetEffect()
     {
-        if (S_CameraSettingsData.instance != null)
+        if (S_CameraUserData.instance != null)
         {
-            S_CameraSettingsData.instance.resetCurrentFieldOfView();
+            S_CameraUserData.instance.resetCurrentFieldOfView();
             isTransitioning = false;
             Debug.Log("<color=gray>[SenseOfMotion]</color> Effet désactivé - FOV restauré");
         }
@@ -78,7 +78,7 @@ public class S_SenseOfMotionEvent : MonoBehaviour
 
     private void UpdateFOVBasedOnIntensity()
     {
-        if (S_CameraSettingsData.instance == null || eventData == null) return;
+        if (S_CameraUserData.instance == null || eventData == null) return;
 
         // Recalcule le FOV si l'intensité a changé
         float intensity = eventData.currentIntensity;
@@ -87,7 +87,7 @@ public class S_SenseOfMotionEvent : MonoBehaviour
         if (Mathf.Abs(newTargetFOV - targetFOV) > 0.5f)
         {
             targetFOV = newTargetFOV;
-            S_CameraSettingsData.instance.setCurrentFieldOfView(targetFOV);
+            S_CameraUserData.instance.setCurrentFieldOfView(targetFOV);
         }
     }
 

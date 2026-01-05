@@ -137,7 +137,7 @@ public class S_ClosedDoor : S_DoorInteractable
     protected override void UpdateInteractText()
     {
         int currentKeys = S_KeyManager.instance != null ? S_KeyManager.instance.GetCollectedKeyCount(doorID) : 0;
-        bool isFrench = S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French;
+        bool isFrench = S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French;
 
         if (!isUnlocked)
         {

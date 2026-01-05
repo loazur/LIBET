@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class S_CameraSettingsData : MonoBehaviour
+public class S_CameraUserData : MonoBehaviour
 {
-    public static S_CameraSettingsData instance;
+    public static S_CameraUserData instance;
 
     [Header("Gestion de l'UI ")]
     [SerializeField] private Slider sliderSensibilityMouse; //! Slider Settings Souris

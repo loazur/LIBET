@@ -27,7 +27,6 @@ public class S_DialogueManager : MonoBehaviour
     [SerializeField] private S_PlayerController playerController;
     [SerializeField] private S_PlayerInteract playerInteract;
     [SerializeField] private S_FirstPersonCamera firstPersonCamera;
-    [SerializeField] private S_DisplayMenus displayMenu;
 
     void Start()
     {
@@ -49,7 +48,7 @@ public class S_DialogueManager : MonoBehaviour
         playerInteract.setInteractionEnabled(false); // Interactions
         firstPersonCamera.setCursorEnabled(true); // Curseur
         firstPersonCamera.setRotationEnabled(false); // Rotation camera
-        displayMenu.setAbleToOpenCloseMenu(false);
+        S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(false);
 
         uiContainer.SetActive(true); // Active le visuel
 
@@ -88,7 +87,7 @@ public class S_DialogueManager : MonoBehaviour
         foreach (char letter in dialogueLine.line.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return new WaitForSeconds(S_GameSettingsData.instance.currentTypingSpeed / 100); // Divisé par 100 car c'est plus facile de regler de 1 à 100 que 0.1 à 1
+            yield return new WaitForSeconds(S_GameUserData.instance.currentTypingSpeed / 100); // Divisé par 100 car c'est plus facile de regler de 1 à 100 que 0.1 à 1
         }
     }
 
@@ -99,7 +98,7 @@ public class S_DialogueManager : MonoBehaviour
         playerInteract.setInteractionEnabled(true); // Interactions
         firstPersonCamera.setCursorEnabled(false); // Curseur
         firstPersonCamera.setRotationEnabled(true); // Rotation camera
-        displayMenu.setAbleToOpenCloseMenu(true);
+        S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(true);
 
         isDialogueActive = false;
         uiContainer.SetActive(false); // Désactive le visuel

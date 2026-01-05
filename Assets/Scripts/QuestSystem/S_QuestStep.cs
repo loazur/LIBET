@@ -77,9 +77,16 @@ public abstract class S_QuestStep : MonoBehaviour
         );
     }
 
-    /// <summary>
-    /// Vérifie si la quest step a été correctement initialisée
-    /// </summary>
+    
+    /**
+     * Vérifie si la quest step a été correctement initialisée
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 5th, 2026.
+     * @access	protected
+     * @return	void
+     */
     protected bool IsQuestStepInitialized()
     {
         return !string.IsNullOrEmpty(questId);
