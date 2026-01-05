@@ -137,4 +137,18 @@ public class PlayerEvents
             onMenuClosed();
         }
     }
+
+    /**
+     * Événement déclenché quand le joueur ramasse une clé
+     *
+     * @var		mixed	onKeyCollected
+     */
+    public event Action<GameObject, string, string> onKeyCollected;
+    public void KeyCollected(GameObject key, string doorID, string keyID)
+    {
+        if (onKeyCollected != null)
+        {
+            onKeyCollected(key, doorID, keyID);
+        }
+    }
 }

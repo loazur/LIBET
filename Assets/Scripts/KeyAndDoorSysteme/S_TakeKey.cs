@@ -20,15 +20,15 @@ public class S_TakeKey : MonoBehaviour, SI_Interactable
     void Start()
     {
         UpdateInteractText();
-        S_GameSettingsData.instance.OnLanguageChanged += UpdateInteractText;
+        S_GameUserData.instance.OnLanguageChanged += UpdateInteractText;
     }
 
     void OnDestroy()
     {
         //& Se désabonner pour éviter les erreurs
-        if (S_GameSettingsData.instance != null)
+        if (S_GameUserData.instance != null)
         {
-            S_GameSettingsData.instance.OnLanguageChanged -= UpdateInteractText;
+            S_GameUserData.instance.OnLanguageChanged -= UpdateInteractText;
         }
     }
 
@@ -45,6 +45,12 @@ public class S_TakeKey : MonoBehaviour, SI_Interactable
         else
         {
             Debug.LogWarning("[S_TakeKey] S_KeyManager.instance est null! Assurez-vous qu'un KeyManager existe dans la scène.");
+        }
+
+        //& Déclencher l'événement pour le système de quêtes
+        if (S_GameManager.instance != null)
+        {
+            S_GameManager.instance.playerEvents.KeyCollected(gameObject, doorID, keyID);
         }
 
         //& Détruire l'objet clé
@@ -65,11 +71,11 @@ public class S_TakeKey : MonoBehaviour, SI_Interactable
 
     private void UpdateInteractText()
     {
-        if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.French)
+        if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
         {
             interactText = "Prendre la clé";
         }
-        else if (S_GameSettingsData.instance.currentLanguage == S_GameSettingsData.Languages.English)
+        else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
         {
             interactText = "Take Key";
         }
