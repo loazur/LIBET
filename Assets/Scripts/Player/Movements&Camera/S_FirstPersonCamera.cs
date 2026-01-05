@@ -6,12 +6,19 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
     [Header("Gestion de la caméra")]
     [SerializeField] private Transform player;
     private Camera playerCamera;
+
     private float limitYup = 90f; //Limite quand on regarde en haut
     private float limitYdown = -90f; //Limite quand on regarde en bas
+    
+    [Header("Limites horizontales")]  // UTILISER POUR LES CHAISES
+    [SerializeField] private bool limitHorizontalRotation = false; // Activer/désactiver la limite
+    [SerializeField] private float limitXLeft = -40f; // Limite à gauche
+    [SerializeField] private float limitXRight = 160f; // Limite à droite
     
     private Vector2 lookValue = Vector2.zero;
 
     private float cameraVerticalRotation = 0f;
+    private float playerHorizontalRotation = 0f; // Nouvelle variable pour tracker la rotation horizontale
     private bool isRotationActive = true;
 
     void Start() //& INITIALISATION VARIABLES
@@ -22,6 +29,13 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
         setCursorEnabled(false);
 
         S_CameraSettingsData.instance.OnFieldOfViewChanged += UpdateFieldOfView; // Lance cet fonction à chaque fois que le FOV change
+        
+        // Initialiser la rotation horizontale
+        playerHorizontalRotation = player.localEulerAngles.y;
+        if (playerHorizontalRotation > 180f)
+        {
+            playerHorizontalRotation -= 360f;
+        }
     }
 
     void Update() //& PAS PHYSICS
@@ -45,6 +59,13 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
         if (cameraVerticalRotation > 180f)
         {
             cameraVerticalRotation -= 360f;
+        }
+        
+        // Charger la rotation horizontale du joueur
+        playerHorizontalRotation = player.localEulerAngles.y;
+        if (playerHorizontalRotation > 180f)
+        {
+            playerHorizontalRotation -= 360f;
         }
     }
 
@@ -85,7 +106,16 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
         transform.localEulerAngles = Vector3.right * cameraVerticalRotation;
 
         // Rotation horizontal
-        player.Rotate(Vector3.up * lookValue.x);
+        if (limitHorizontalRotation)
+        {
+            playerHorizontalRotation += lookValue.x;
+            playerHorizontalRotation = Mathf.Clamp(playerHorizontalRotation, limitXLeft, limitXRight);
+            player.localEulerAngles = Vector3.up * playerHorizontalRotation;
+        }
+        else
+        {
+            player.Rotate(Vector3.up * lookValue.x);
+        }
     }
 
     //? ------------------------------------------------    
@@ -115,6 +145,10 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
         isRotationActive = isEnabled;
     }
 
+    public void setHorizontalLimitEnabled(bool isEnabled) //& Active/Désactive la limite horizontale
+    {
+        limitHorizontalRotation = isEnabled;
+    }
 
     //? ------------------------------------------------
 
