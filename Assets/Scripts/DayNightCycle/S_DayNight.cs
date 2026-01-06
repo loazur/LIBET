@@ -81,6 +81,20 @@ public class S_DayNight : MonoBehaviour
     public float sunsetAtmosphereThickness = 2f;
     [Range(0f, 5f)]
     public float nightAtmosphereThickness = 0.5f;
+
+    [Header("Ambient Lighting")]
+    [Tooltip("Activer le contrôle automatique de l'ambient lighting")]
+    public bool controlAmbientLighting = true;
+    [Tooltip("Couleur ambiante en journée")]
+    public Color dayAmbientColor = new Color(0.6f, 0.6f, 0.7f, 1f);
+    [Tooltip("Couleur ambiante la nuit (très sombre)")]
+    public Color nightAmbientColor = new Color(0.02f, 0.02f, 0.05f, 1f);
+    [Tooltip("Intensité ambiante en journée")]
+    [Range(0f, 2f)]
+    public float dayAmbientIntensity = 1f;
+    [Tooltip("Intensité ambiante la nuit")]
+    [Range(0f, 2f)]
+    public float nightAmbientIntensity = 0.1f;
     
     // Référence à la lumière active
     private Light activeLight;
@@ -180,6 +194,13 @@ public class S_DayNight : MonoBehaviour
                 // Orienter le Spot Light vers le joueur
                 Vector3 directionToPlayer = (playerTransform.position - spotLight.transform.position).normalized;
                 spotLight.transform.rotation = Quaternion.LookRotation(directionToPlayer);
+                
+                // Synchroniser la Directional Light avec le Spot Light
+                if (directionalLight != null)
+                {
+                    // La directional light pointe dans la même direction que le spot
+                    directionalLight.transform.rotation = spotLight.transform.rotation;
+                }
             }
         }
         else
@@ -268,6 +289,13 @@ public class S_DayNight : MonoBehaviour
 
             float spotIntensity = Mathf.Lerp(nightSpotIntensity, daySpotIntensity, dayBlend);
             activeLight.intensity = spotIntensity;
+            
+            // Synchroniser aussi la couleur et l'intensité de la Directional Light
+            if (directionalLight != null)
+            {
+                directionalLight.color = lightColor;
+                directionalLight.intensity = intensity;
+            }
         }
         else
         {
@@ -277,6 +305,52 @@ public class S_DayNight : MonoBehaviour
 
         // Appliquer au skybox (si c'est un Skybox/Procedural)
         UpdateSkybox(skyTint, atmosphereThickness);
+        
+        // Appliquer l'ambient lighting
+        UpdateAmbientLighting(intensity);
+    }
+
+    /**
+     * Met à jour l'ambient lighting selon l'heure
+     */
+    private void UpdateAmbientLighting(float dayIntensity)
+    {
+        if (!controlAmbientLighting) return;
+        
+        // Calculer le blend jour/nuit basé sur les fenêtres sunrise/sunset
+        float sunriseEnd = sunriseStart + sunriseDuration;
+        float sunsetEnd = sunsetStart + sunsetDuration;
+        
+        float ambientBlend = 0f;
+        
+        if (time < sunriseStart)
+        {
+            ambientBlend = 0f;
+        }
+        else if (time < sunriseEnd)
+        {
+            ambientBlend = Mathf.InverseLerp(sunriseStart, sunriseEnd, time);
+        }
+        else if (time < sunsetStart)
+        {
+            ambientBlend = 1f;
+        }
+        else if (time < sunsetEnd)
+        {
+            ambientBlend = 1f - Mathf.InverseLerp(sunsetStart, sunsetEnd, time);
+        }
+        else
+        {
+            ambientBlend = 0f;
+        }
+        
+        // Appliquer la couleur ambiante
+        RenderSettings.ambientMode = AmbientMode.Flat;
+        RenderSettings.ambientLight = Color.Lerp(nightAmbientColor, dayAmbientColor, ambientBlend);
+        RenderSettings.ambientIntensity = Mathf.Lerp(nightAmbientIntensity, dayAmbientIntensity, ambientBlend);
+        
+        // Réduire aussi les réflexions la nuit
+        RenderSettings.reflectionIntensity = Mathf.Lerp(0.2f, 1f, ambientBlend);
     }
 
     /**

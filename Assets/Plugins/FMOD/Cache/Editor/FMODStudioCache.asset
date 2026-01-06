@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.strings.bank
   Name: MasterBank.strings
   StudioPath: bank:/MasterBank.strings
-  lastModified: 639032296015275799
+  lastModified: 639032964278667453
   FileSizes:
   - Name: Desktop
-    Value: 1284
+    Value: 1160
   Exists: 1
 --- !u!114 &-8409581801698990430
 MonoBehaviour:
@@ -116,10 +116,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639032296015285799
+  lastModified: 639032964278677463
   FileSizes:
   - Name: Desktop
-    Value: 72608
+    Value: 42944
   Exists: 1
 --- !u!114 &-6601238760623468385
 MonoBehaviour:
@@ -161,33 +161,6 @@ MonoBehaviour:
   - Name: Desktop
     Value: 506
   Exists: 1
---- !u!114 &-4870894736169669456
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Environment/LockedDoor/lockedOpeningTest
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/Environment/LockedDoor/lockedOpeningTest
-  Guid:
-    Data1: -151641473
-    Data2: 1334722546
-    Data3: -1947259254
-    Data4: 1431840673
-  Banks:
-  - {fileID: -6678976764220933779}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &-3349655812272094761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,7 +196,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.bank
   Name: MasterBank
   StudioPath: bank:/MasterBank
-  lastModified: 639032293132929087
+  lastModified: 639032011264135488
   FileSizes:
   - Name: Desktop
     Value: 1378
@@ -263,7 +236,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639032293190500748
+  lastModified: 639032011264902800
   FileSizes:
   - Name: Desktop
     Value: 6964768
@@ -356,8 +329,6 @@ MonoBehaviour:
   EditorEvents:
   - {fileID: -7347422895424168664}
   - {fileID: 225602694130353072}
-  - {fileID: -4870894736169669456}
-  - {fileID: 3226794634298652320}
   - {fileID: -814982336192900278}
   EditorParameters: []
   MasterBanks:
@@ -365,18 +336,14 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -9218343506306915907}
   cacheVersion: 131857
-  cacheTime: 639032296015285799
+  cacheTime: 639032964278677463
   SerializableEventsDict:
   - key: event:/Music/musicTest
     index: 0
   - key: event:/Environment/Door/openingDoorTest
     index: 1
-  - key: event:/Environment/LockedDoor/lockedOpeningTest
-    index: 2
-  - key: event:/Environment/LockedDoor/lockedClosingTest
-    index: 3
   - key: event:/Environment/Door/closingDoorTest
-    index: 4
+    index: 2
 --- !u!114 &225602694130353072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,7 +413,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639032293191155444
+  lastModified: 639013893548969545
   FileSizes:
   - Name: Desktop
     Value: 506
@@ -525,33 +492,6 @@ MonoBehaviour:
   - Name: Desktop
     Value: 506
   Exists: 1
---- !u!114 &3226794634298652320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
-  m_Name: event:/Environment/LockedDoor/lockedClosingTest
-  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
-  Path: event:/Environment/LockedDoor/lockedClosingTest
-  Guid:
-    Data1: 1162826429
-    Data2: 1109558711
-    Data3: 781963664
-    Data4: 2067159154
-  Banks:
-  - {fileID: -6678976764220933779}
-  IsStream: 0
-  Is3D: 0
-  IsOneShot: 1
-  Parameters: []
-  MinDistance: 1
-  MaxDistance: 20
-  Length: 0
 --- !u!114 &3286117144247790591
 MonoBehaviour:
   m_ObjectHideFlags: 0
