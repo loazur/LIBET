@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class S_DialogueManager : MonoBehaviour
+public class S_DialogueManager : S_Menu
 {
     //~ Instance du DialogueManager (pour l'utiliser partout)
     public static S_DialogueManager instance;
@@ -43,12 +43,7 @@ public class S_DialogueManager : MonoBehaviour
 
     public void StartDialogue(S_Dialogue dialogue) //& Démarre le dialogue
     {
-        // Active désactive des scripts
-        playerController.setMovementsEnabled(false); // Mouvements
-        playerInteract.setInteractionEnabled(false); // Interactions
-        firstPersonCamera.setCursorEnabled(true); // Curseur
-        firstPersonCamera.setRotationEnabled(false); // Rotation camera
-        S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(false);
+        DisableMovCamMenus();
 
         uiContainer.SetActive(true); // Active le visuel
 
@@ -93,14 +88,29 @@ public class S_DialogueManager : MonoBehaviour
 
     private void EndDialogue() //& Termine le dialogue
     {
-        // Active désactive des scripts
+        EnableMovCamMenus();
+
+        isDialogueActive = false;
+        uiContainer.SetActive(false); // Désactive le visuel
+    }
+
+    //?-------------------------------------------------
+
+    private void EnableMovCamMenus()
+    {
         playerController.setMovementsEnabled(true); // Mouvements
         playerInteract.setInteractionEnabled(true); // Interactions
         firstPersonCamera.setCursorEnabled(false); // Curseur
         firstPersonCamera.setRotationEnabled(true); // Rotation camera
         S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(true);
+    }
 
-        isDialogueActive = false;
-        uiContainer.SetActive(false); // Désactive le visuel
+    private void DisableMovCamMenus()
+    {
+        playerController.setMovementsEnabled(false); // Mouvements
+        playerInteract.setInteractionEnabled(false); // Interactions
+        firstPersonCamera.setCursorEnabled(true); // Curseur
+        firstPersonCamera.setRotationEnabled(false); // Rotation camera
+        S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(false);
     }
 }

@@ -1,0 +1,124 @@
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class S_PlaceObjectsQuest : S_QuestStep
+{
+    [Header("Fonctionnement:")]
+    [Header("Mettre un tag sur l'objet à placer qui sera QuestZone")]
+
+    [Header("Validation Mode")]
+    [SerializeField] private bool useTagMode = true;
+
+    [SerializeField] private string requiredTag = "Ball";
+    [SerializeField] private int requiredAmount = 3;
+
+    [Header("Prefab Mode")]
+    [SerializeField] private GameObject[] validPrefabs;
+
+    private int placedCount = 0;
+    private bool isSubscribed = false;
+
+    private HashSet<GameObject> registeredObjects = new();
+
+    private S_PlaceObjectZone targetZone;
+
+    private void Start()
+    {
+        GameObject zoneObj = GameObject.FindWithTag("QuestZone");
+
+        if (zoneObj == null)
+        {
+            Debug.LogError("[S_PlaceObjectsQuest] No object with tag 'QuestZone' found in scene");
+            enabled = false;
+            return;
+        }
+
+        targetZone = zoneObj.GetComponent<S_PlaceObjectZone>();
+
+        if (targetZone == null)
+        {
+            Debug.LogError($"[S_PlaceObjectsQuest] '{zoneObj.name}' has no S_PlaceObjectZone component");
+            enabled = false;
+            return;
+        }
+
+        Debug.Log($"[S_PlaceObjectsQuest] Connected to zone: {zoneObj.name}");
+        StartCoroutine(InitializeWhenReady());
+    }
+
+
+
+    private IEnumerator InitializeWhenReady()
+    {
+        while (!IsQuestStepInitialized() || targetZone == null)
+            yield return null;
+
+        Subscribe();
+        UpdateState();
+    }
+
+    private void Subscribe()
+    {
+        if (isSubscribed) return;
+
+        targetZone.onObjectPlaced += OnObjectPlaced;
+        isSubscribed = true;
+    }
+
+    private void OnDisable()
+    {
+        if (!isSubscribed || targetZone == null) return;
+
+        targetZone.onObjectPlaced -= OnObjectPlaced;
+        isSubscribed = false;
+    }
+
+    private void OnObjectPlaced(GameObject obj)
+    {
+        if (registeredObjects.Contains(obj)) return;
+        if (!IsValidObject(obj)) return;
+
+        registeredObjects.Add(obj);
+        placedCount++;
+
+        Debug.Log($"[S_PlaceObjectsQuest] Objet placé: {obj.name} ({placedCount}/{requiredAmount})");
+
+        UpdateState();
+
+        if (placedCount >= requiredAmount)
+            CompleteQuest();
+    }
+
+    private bool IsValidObject(GameObject obj)
+    {
+        if (useTagMode)
+            return obj.CompareTag(requiredTag);
+
+        foreach (var prefab in validPrefabs)
+            if (prefab != null && obj.name.Contains(prefab.name))
+                return true;
+
+        return false;
+    }
+
+    private void UpdateState()
+    {
+        ChangeState($"{placedCount}/{requiredAmount}", $"Placés: {placedCount}/{requiredAmount}");
+    }
+
+    private void CompleteQuest()
+    {
+        Debug.Log("[S_PlaceObjectsQuest] Quête complétée !");
+        FinishQuestStep();
+    }
+
+    protected override void SetQuestStepState(string state)
+    {
+        if (string.IsNullOrEmpty(state)) return;
+
+        var parts = state.Split('/');
+        if (parts.Length == 2 && int.TryParse(parts[0], out int count))
+            placedCount = count;
+    }
+}
