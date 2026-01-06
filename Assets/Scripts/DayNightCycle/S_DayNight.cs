@@ -22,7 +22,7 @@ public class S_DayNight : MonoBehaviour
     [Tooltip("Contrôle manuel du temps (0 = minuit, 0.5 = midi, 1 = minuit)")]
     [Range(0f, 1f)]
     public float manualTime = 0.5f;
-    private float time;
+    public float time;
 
     [Header("Couleurs du ciel")]
     [Tooltip("Couleur du ciel à midi")]
@@ -221,6 +221,10 @@ public class S_DayNight : MonoBehaviour
 
         float sunriseEnd = sunriseStart + sunriseDuration;
         float sunsetEnd = sunsetStart + sunsetDuration;
+        
+        // Durée de transition sunrise->jour et jour->sunset (moitié de la durée du lever/coucher)
+        float morningTransitionEnd = sunriseEnd + sunriseDuration;
+        float eveningTransitionStart = sunsetStart - sunsetDuration;
 
         if (t < sunriseStart || t >= sunsetEnd)
         {
@@ -232,29 +236,52 @@ public class S_DayNight : MonoBehaviour
         }
         else if (t < sunriseEnd)
         {
-            // Lever
+            // Lever (nuit -> sunrise)
             float blend = Mathf.InverseLerp(sunriseStart, sunriseEnd, t);
-            intensity = Mathf.Lerp(0.1f, 1f, blend);
+            // Utiliser SmoothStep pour une transition plus douce
+            blend = Mathf.SmoothStep(0f, 1f, blend);
+            intensity = Mathf.Lerp(0.1f, 0.8f, blend);
             lightColor = Color.Lerp(nightLightColor, sunriseLightColor, blend);
             skyTint = Color.Lerp(nightSkyTint, sunriseSkyTint, blend);
             atmosphereThickness = Mathf.Lerp(nightAtmosphereThickness, sunriseAtmosphereThickness, blend);
         }
-        else if (t < sunsetStart)
+        else if (t < morningTransitionEnd)
         {
-            // Jour
+            // Transition matin (sunrise -> jour)
+            float blend = Mathf.InverseLerp(sunriseEnd, morningTransitionEnd, t);
+            blend = Mathf.SmoothStep(0f, 1f, blend);
+            intensity = Mathf.Lerp(0.8f, 1f, blend);
+            lightColor = Color.Lerp(sunriseLightColor, dayLightColor, blend);
+            skyTint = Color.Lerp(sunriseSkyTint, daySkyTint, blend);
+            atmosphereThickness = Mathf.Lerp(sunriseAtmosphereThickness, dayAtmosphereThickness, blend);
+        }
+        else if (t < eveningTransitionStart)
+        {
+            // Jour (plein)
             intensity = 1f;
             lightColor = dayLightColor;
             skyTint = daySkyTint;
             atmosphereThickness = dayAtmosphereThickness;
         }
-        else // t >= sunsetStart && t < sunsetEnd
+        else if (t < sunsetStart)
         {
-            // Coucher
-            float blend = Mathf.InverseLerp(sunsetStart, sunsetEnd, t);
-            intensity = Mathf.Lerp(1f, 0.1f, blend);
+            // Transition après-midi (jour -> sunset)
+            float blend = Mathf.InverseLerp(eveningTransitionStart, sunsetStart, t);
+            blend = Mathf.SmoothStep(0f, 1f, blend);
+            intensity = 1f;
             lightColor = Color.Lerp(dayLightColor, sunsetLightColor, blend);
             skyTint = Color.Lerp(daySkyTint, sunsetSkyTint, blend);
             atmosphereThickness = Mathf.Lerp(dayAtmosphereThickness, sunsetAtmosphereThickness, blend);
+        }
+        else // t >= sunsetStart && t < sunsetEnd
+        {
+            // Coucher (sunset -> nuit)
+            float blend = Mathf.InverseLerp(sunsetStart, sunsetEnd, t);
+            blend = Mathf.SmoothStep(0f, 1f, blend);
+            intensity = Mathf.Lerp(0.8f, 0.1f, blend);
+            lightColor = Color.Lerp(sunsetLightColor, nightLightColor, blend);
+            skyTint = Color.Lerp(sunsetSkyTint, nightSkyTint, blend);
+            atmosphereThickness = Mathf.Lerp(sunsetAtmosphereThickness, nightAtmosphereThickness, blend);
         }
 
         // Appliquer à la lumière
