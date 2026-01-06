@@ -22,19 +22,40 @@ public class S_Dialogue //& Contient les lignes de dialogues
 
 public class S_DialogueTrigger : MonoBehaviour //& Permet de lancer le dialogue et contient le dialogue
 {
+    [Tooltip("Dialogue Unique")]
+    public bool oneShot = false; 
+
     [Tooltip("Dialogue en français")]
-    public S_Dialogue dialogueFrench;
+    public List<S_Dialogue> dialoguesFrench = new List<S_Dialogue>();
 
     [Tooltip("Dialogue en anglais")]
-    public S_Dialogue dialogueEnglish;
+    public List<S_Dialogue> dialoguesEnglish = new List<S_Dialogue>();
+
+    private int howManyTimeTalkedTo = 0; // Combien de fois le joueur a parler avec
 
     public void TriggerDialogueFrench() //& Lance le dialogue en français
     {
-        S_DialogueManager.instance.StartDialogue(dialogueFrench);
+        if (oneShot && howManyTimeTalkedTo >= dialoguesFrench.Count) return; // Fin du dialogue
+
+        if (howManyTimeTalkedTo < dialoguesEnglish.Count) // Vérification en fonction du nombre de dialogue
+            S_DialogueManager.instance.StartDialogue(dialoguesFrench[howManyTimeTalkedTo]);
+
+        if (howManyTimeTalkedTo < dialoguesFrench.Count - 1) // Si il reste toujours des choses à dire après lui avoir parler
+            ++howManyTimeTalkedTo;
+        else if (oneShot) // Si c'est le dernier dialogue et oneShot est actif
+            ++howManyTimeTalkedTo;
     }
 
     public void TriggerDialogueEnglish() //& Lance le dialogue en anglais
     {
-        S_DialogueManager.instance.StartDialogue(dialogueEnglish);
+        if (oneShot && howManyTimeTalkedTo >= dialoguesEnglish.Count) return; // Fin du dialogue
+
+        if (howManyTimeTalkedTo < dialoguesEnglish.Count) // Vérification en fonction du nombre de dialogue
+            S_DialogueManager.instance.StartDialogue(dialoguesEnglish[howManyTimeTalkedTo]);
+
+        if (howManyTimeTalkedTo < dialoguesEnglish.Count - 1) // Si il reste toujours des choses à dire après lui avoir parler
+            ++howManyTimeTalkedTo;
+        else if (oneShot) // Si c'est le dernier dialogue et oneShot est actif
+            ++howManyTimeTalkedTo;
     }
 }
