@@ -93,6 +93,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         playerRigidBody.isKinematic = true;
 
         // Bloquer les mouvements du joueur
+
         playerInteract.setInteractionEnabled(false);
         playerController.setMovementsEnabled(false);
         playerCrouch.setAbleToCrouch(false);
