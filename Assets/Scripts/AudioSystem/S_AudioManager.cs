@@ -14,6 +14,9 @@ public class S_AudioManager : MonoBehaviour
     private Bus musicBus;
     private Bus sfxBus;
 
+    private EventInstance currentMusicInstance;
+
+
     void Awake()
     {
         if (instance == null)
@@ -64,11 +67,33 @@ public class S_AudioManager : MonoBehaviour
         return volume;
     }
 
+    
+
     //! -------- Jouer des sons -------
 
     public void PlayOneShot(EventReference sound, Vector3 worldPos) //& Joue un son une fois
     {
         RuntimeManager.PlayOneShot(sound, worldPos);
+    }
+
+    //! Gestion de la musique 
+
+    public void PlayMusic(EventReference music, Vector3 position)
+    {
+        StopMusic();
+
+        currentMusicInstance = RuntimeManager.CreateInstance(music);
+        currentMusicInstance.set3DAttributes(RuntimeUtils.To3DAttributes(position));
+        currentMusicInstance.start();
+    }
+
+    public void StopMusic()
+    {
+        if (currentMusicInstance.isValid())
+        {
+            currentMusicInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+            currentMusicInstance.release();
+        }
     }
 
 
