@@ -16,7 +16,7 @@ public class S_PlayerInteractUI : MonoBehaviour
 
     //~ Gestion de l'outline de l'interaction
     private SI_Interactable lastInteractable;
-    private S_InteractableOutline lastInteractableOutline;
+    private S_OutlineHandler lastInteractableOutline;
 
     void Start() //& Change le texte pour que soit de la bonne touche
     {
@@ -58,7 +58,7 @@ public class S_PlayerInteractUI : MonoBehaviour
             lastInteractable = interactable;
 
             // Récupération sécurisée de l'outline
-            lastInteractableOutline = interactable.getTransform().GetComponent<S_InteractableOutline>();
+            lastInteractableOutline = interactable.getTransform().GetComponent<S_OutlineHandler>();
 
             if (lastInteractableOutline != null)
                 lastInteractableOutline.Enable();

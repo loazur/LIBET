@@ -1,13 +1,12 @@
 using UnityEngine;
 
-public class S_InteractableOutline : MonoBehaviour
+public class S_OutlineHandler : MonoBehaviour
 {
     //~ Gère l'outline de CHAQUE intéraction
     private Outline outline;
 
     void Awake() //& Création de l'outline et ses propriétés
     {
-
         // Vérifie que l'objet a un mesh exploitable
         if (!HasSafeMesh())
         {
@@ -16,13 +15,10 @@ public class S_InteractableOutline : MonoBehaviour
             return;
         }
 
-        outline = gameObject.AddComponent<Outline>();
+        outline = gameObject.GetComponent<Outline>();
 
         // Informations de l'outline
         outline.enabled = false;
-        outline.OutlineMode = Outline.Mode.OutlineAll; // -> à travers les murs
-        outline.OutlineColor = new Color(1f, 1f, 1f, 0.9f); // Blanc avec un peu de glow
-        outline.OutlineWidth = 5f;
     }
 
     public void Enable()//& Pour l'activé l'outline
