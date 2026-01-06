@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class S_PlaceObjectsQuest : S_QuestStep
 {
-    [Header("Zone")]
-    [SerializeField] private GameObject targetZoneParameter;
+    [Header("Fonctionnement:")]
+    [Header("Mettre un tag sur l'objet à placer qui sera QuestZone")]
 
     [Header("Validation Mode")]
     [SerializeField] private bool useTagMode = true;
@@ -25,9 +25,29 @@ public class S_PlaceObjectsQuest : S_QuestStep
 
     private void Start()
     {
-        targetZone = targetZoneParameter.GetComponent<S_PlaceObjectZone>();
+        GameObject zoneObj = GameObject.FindWithTag("QuestZone");
+
+        if (zoneObj == null)
+        {
+            Debug.LogError("[S_PlaceObjectsQuest] No object with tag 'QuestZone' found in scene");
+            enabled = false;
+            return;
+        }
+
+        targetZone = zoneObj.GetComponent<S_PlaceObjectZone>();
+
+        if (targetZone == null)
+        {
+            Debug.LogError($"[S_PlaceObjectsQuest] '{zoneObj.name}' has no S_PlaceObjectZone component");
+            enabled = false;
+            return;
+        }
+
+        Debug.Log($"[S_PlaceObjectsQuest] Connected to zone: {zoneObj.name}");
         StartCoroutine(InitializeWhenReady());
     }
+
+
 
     private IEnumerator InitializeWhenReady()
     {
