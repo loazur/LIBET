@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 public class S_PlaceObjectsQuest : S_QuestStep
 {
-    [Header("Zone")]
-    [SerializeField] private GameObject targetZoneParameter;
-
+    [Header("Fonctionnement:")]
+    [Header("Mettre un tag sur l'objet à placer qui sera QuestZone")]
 
     [Header("Validation Mode")]
     [SerializeField] private bool useTagMode = true;
