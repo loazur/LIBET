@@ -9,6 +9,8 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     private S_PlayerController playerController;
     private S_FirstPersonCamera playerCamera;
     private S_PlayerCrouch playerCrouch;
+    private Collider playerCollider;
+    private Rigidbody playerRigidBody;
     private string interactText = "not_set";
 
     private bool isPlayerSitting = false;
@@ -40,6 +42,8 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
             playerController = player.GetComponent<S_PlayerController>();
             playerCamera = playerTransform.GetComponentInChildren<S_FirstPersonCamera>();
             playerCrouch = playerController.GetComponentInChildren<S_PlayerCrouch>();
+            playerRigidBody = player.GetComponent<Rigidbody>();
+            playerCollider = player.GetComponent<Collider>();
 
             Sit();
         }
@@ -70,6 +74,9 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
 
         // Désactivé les collisions quand il est assis
         chairCollider.enabled = false;
+        playerCollider.enabled = false;
+        playerRigidBody.useGravity = false;
+        playerRigidBody.isKinematic = true;
 
         // Bloquer les mouvements du joueur
         playerController.setMovementsEnabled(false);
@@ -98,6 +105,10 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
 
         // Désactivé les collisions quand il est assis
         chairCollider.enabled = true;
+        playerCollider.enabled = true;
+        playerRigidBody.useGravity = true;
+        playerRigidBody.isKinematic = false;
+
 
         // Débloquer les mouvements du joueur
         playerController.setMovementsEnabled(true);
@@ -114,6 +125,8 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         playerController = null;
         playerCamera = null;
         playerCrouch = null;
+        playerRigidBody = null;
+        playerCollider = null;
 
         UpdateInteractText();
     }
