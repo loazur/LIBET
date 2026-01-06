@@ -5,15 +5,21 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     //~ Gestion de chaises
     [Header("Gestion de la chaise")]
     [SerializeField] private Collider chairCollider; // Collider a désactivé/activer en fonction de si on est assis
+
+    [Header("Rotation")] // Permet de corriger la rotation si jamais elle est mauvaise
+    [SerializeField] [Range(0, 3)] private int rotationZ = 0; // 0 = 0°, 1 = 90°, 2 = 180°, 3 = 270°
+
     private GameObject player;
     private S_PlayerController playerController;
     private S_FirstPersonCamera playerCamera;
+    private S_PlayerInteract playerInteract;
     private S_PlayerCrouch playerCrouch;
     private Collider playerCollider;
     private Rigidbody playerRigidBody;
     private string interactText = "not_set";
 
     private bool isPlayerSitting = false;
+    private Vector3 playerLastPos;
 
     void Start()
     {
@@ -44,6 +50,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
             playerCrouch = playerController.GetComponentInChildren<S_PlayerCrouch>();
             playerRigidBody = player.GetComponent<Rigidbody>();
             playerCollider = player.GetComponent<Collider>();
+            playerInteract = player.GetComponent<S_PlayerInteract>();
 
             Sit();
         }
@@ -65,12 +72,19 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     {
         if (playerCrouch.isCrouching) return;
 
+        // On garde en mémoire la position quand le joueur s'assois
+        playerLastPos = player.transform.position;
+
         // milieu de la chaise
-        Vector3 chairPosition_Center = transform.position + new Vector3(0, 0.5f, 0);
+        Vector3 chairPosition_Center = transform.position + new Vector3(0, 0.75f, 0);
 
         player.transform.position = chairPosition_Center;
-        player.transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); // Aligner le joueur avec la chaise
-        playerCamera.transform.localRotation = Quaternion.identity; // Réinitialiser la rotation locale de la caméra
+        
+        // Appliquer la correction de rotation par incréments de 90°
+        float chairRotationY = transform.rotation.eulerAngles.y + (rotationZ * 90f);
+        
+        player.transform.rotation = Quaternion.Euler(0, chairRotationY, 0); // Aligner le joueur avec la chaise
+        playerCamera.transform.localRotation = Quaternion.identity; // Réinitialiser la rotation de la caméra
 
         // Désactivé les collisions quand il est assis
         chairCollider.enabled = false;
@@ -79,6 +93,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         playerRigidBody.isKinematic = true;
 
         // Bloquer les mouvements du joueur
+        playerInteract.setInteractionEnabled(false);
         playerController.setMovementsEnabled(false);
         playerCrouch.setAbleToCrouch(false);
         S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(false);
@@ -99,9 +114,8 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
 
     private void GetUp() //& Se lever
     {
-        // Mettre le joueur debout à coté de la chaise
-        Vector3 chairPosition_Side = transform.position + transform.right * 1.0f;
-        player.transform.position = chairPosition_Side;
+        // Mettre le joueur à son ancienne position
+        player.transform.position = playerLastPos;
 
         // Désactivé les collisions quand il est assis
         chairCollider.enabled = true;
@@ -109,8 +123,8 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         playerRigidBody.useGravity = true;
         playerRigidBody.isKinematic = false;
 
-
         // Débloquer les mouvements du joueur
+        playerInteract.setInteractionEnabled(true);
         playerController.setMovementsEnabled(true);
         playerCrouch.setAbleToCrouch(true);
         S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(true);
@@ -127,6 +141,7 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         playerCrouch = null;
         playerRigidBody = null;
         playerCollider = null;
+        playerInteract = null;
 
         UpdateInteractText();
     }
