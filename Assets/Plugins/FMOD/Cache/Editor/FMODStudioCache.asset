@@ -1,5 +1,126 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9218343506306915907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MasterBank.strings.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.strings.bank
+  Name: MasterBank.strings
+  StudioPath: bank:/MasterBank.strings
+  lastModified: 639032296015275799
+  FileSizes:
+  - Name: Desktop
+    Value: 1284
+  Exists: 1
+--- !u!114 &-8409581801698990430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Environment/LockedDoor/lockedOpeningTest
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Environment/LockedDoor/lockedOpeningTest
+  Guid:
+    Data1: -151641473
+    Data2: 1334722546
+    Data3: -1947259254
+    Data4: 1431840673
+  Banks:
+  - {fileID: -2107025304474999292}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-8278866857621618568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Environment/LockedDoor/lockedClosingTest
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Environment/LockedDoor/lockedClosingTest
+  Guid:
+    Data1: 1162826429
+    Data2: 1109558711
+    Data3: 781963664
+    Data4: 2067159154
+  Banks:
+  - {fileID: -2107025304474999292}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-7347422895424168664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/musicTest
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Music/musicTest
+  Guid:
+    Data1: 444086162
+    Data2: 1232350954
+    Data3: -941707871
+    Data4: -631532780
+  Banks:
+  - {fileID: -1307645388405869883}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 293564
+--- !u!114 &-6678976764220933779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/SFX.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: Assets/FMOD Project/LIBET/Build/Desktop/SFX.bank
+  Name: SFX
+  StudioPath: bank:/SFX
+  lastModified: 639032296015285799
+  FileSizes:
+  - Name: Desktop
+    Value: 72608
+  Exists: 1
 --- !u!114 &-6601238760623468385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,10 +136,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.strings.bank
   Name: MasterBank.strings
   StudioPath: bank:/MasterBank.strings
-  lastModified: 639032955294935288
+  lastModified: 639032296015275799
   FileSizes:
   - Name: Desktop
-    Value: 1160
+    Value: 1284
   Exists: 1
 --- !u!114 &-4879950765789460795
 MonoBehaviour:
@@ -40,6 +161,33 @@ MonoBehaviour:
   - Name: Desktop
     Value: 506
   Exists: 1
+--- !u!114 &-4870894736169669456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Environment/LockedDoor/lockedOpeningTest
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Environment/LockedDoor/lockedOpeningTest
+  Guid:
+    Data1: -151641473
+    Data2: 1334722546
+    Data3: -1947259254
+    Data4: 1431840673
+  Banks:
+  - {fileID: -6678976764220933779}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-3349655812272094761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,6 +208,26 @@ MonoBehaviour:
   - Name: Desktop
     Value: 506
   Exists: 1
+--- !u!114 &-2968363842700604913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/MasterBank.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.bank
+  Name: MasterBank
+  StudioPath: bank:/MasterBank
+  lastModified: 639032293132929087
+  FileSizes:
+  - Name: Desktop
+    Value: 1378
+  Exists: 1
 --- !u!114 &-2107025304474999292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,10 +243,30 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639032955294935288
+  lastModified: 639032296015285799
   FileSizes:
   - Name: Desktop
-    Value: 42944
+    Value: 72608
+  Exists: 1
+--- !u!114 &-1307645388405869883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Music.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: Assets/FMOD Project/LIBET/Build/Desktop/Music.bank
+  Name: Music
+  StudioPath: bank:/Music
+  lastModified: 639032293190500748
+  FileSizes:
+  - Name: Desktop
+    Value: 6964768
   Exists: 1
 --- !u!114 &-1213349340232323376
 MonoBehaviour:
@@ -95,11 +283,38 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.bank
   Name: MasterBank
   StudioPath: bank:/MasterBank
-  lastModified: 639032011264135488
+  lastModified: 639032293132929087
   FileSizes:
   - Name: Desktop
     Value: 1378
   Exists: 1
+--- !u!114 &-814982336192900278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Environment/Door/closingDoorTest
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Environment/Door/closingDoorTest
+  Guid:
+    Data1: 137630662
+    Data2: 1275951078
+    Data3: -908867957
+    Data4: -1955486974
+  Banks:
+  - {fileID: -6678976764220933779}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-472069292448956894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,29 +348,62 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: -6601238760623468385}
-  - {fileID: -1213349340232323376}
-  - {fileID: 5031765468959206189}
-  - {fileID: -2107025304474999292}
-  - {fileID: 3147679199114522821}
+  - {fileID: -9218343506306915907}
+  - {fileID: -2968363842700604913}
+  - {fileID: -1307645388405869883}
+  - {fileID: -6678976764220933779}
+  - {fileID: 402504963825452353}
   EditorEvents:
-  - {fileID: 3028925095391326604}
-  - {fileID: 4260354125169616766}
-  - {fileID: 1436086224235586392}
+  - {fileID: -7347422895424168664}
+  - {fileID: 225602694130353072}
+  - {fileID: -4870894736169669456}
+  - {fileID: 3226794634298652320}
+  - {fileID: -814982336192900278}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -1213349340232323376}
+  - {fileID: -2968363842700604913}
   StringsBanks:
-  - {fileID: -6601238760623468385}
+  - {fileID: -9218343506306915907}
   cacheVersion: 131857
-  cacheTime: 639032955294935288
+  cacheTime: 639032296015285799
   SerializableEventsDict:
-  - key: event:/Environment/Door/openingDoorTest
-    index: 0
-  - key: event:/Environment/Door/closingDoorTest
-    index: 1
   - key: event:/Music/musicTest
+    index: 0
+  - key: event:/Environment/Door/openingDoorTest
+    index: 1
+  - key: event:/Environment/LockedDoor/lockedOpeningTest
     index: 2
+  - key: event:/Environment/LockedDoor/lockedClosingTest
+    index: 3
+  - key: event:/Environment/Door/closingDoorTest
+    index: 4
+--- !u!114 &225602694130353072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Environment/Door/openingDoorTest
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Environment/Door/openingDoorTest
+  Guid:
+    Data1: -1754784421
+    Data2: 1195967063
+    Data3: 121161402
+    Data4: -1057628431
+  Banks:
+  - {fileID: -6678976764220933779}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &288864750921028004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +431,27 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 278742
---- !u!114 &1436086224235586392
+--- !u!114 &402504963825452353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/UI.bank
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorBankRef
+  Path: Assets/FMOD Project/LIBET/Build/Desktop/UI.bank
+  Name: UI
+  StudioPath: bank:/UI
+  lastModified: 639032293191155444
+  FileSizes:
+  - Name: Desktop
+    Value: 506
+  Exists: 1
+--- !u!114 &737886168863791163
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,7 +462,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
   m_Name: event:/Music/musicTest
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
   Path: event:/Music/musicTest
   Guid:
     Data1: 444086162
@@ -252,11 +520,38 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639013893548969545
+  lastModified: 639032293191155444
   FileSizes:
   - Name: Desktop
     Value: 506
   Exists: 1
+--- !u!114 &3226794634298652320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Environment/LockedDoor/lockedClosingTest
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Environment/LockedDoor/lockedClosingTest
+  Guid:
+    Data1: 1162826429
+    Data2: 1109558711
+    Data3: 781963664
+    Data4: 2067159154
+  Banks:
+  - {fileID: -6678976764220933779}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &3286117144247790591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,7 +634,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639032011264902800
+  lastModified: 639032293190500748
   FileSizes:
   - Name: Desktop
     Value: 6964768
