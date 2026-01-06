@@ -4,34 +4,86 @@ using Assert = UnityEngine.Assertions.Assert;
 
 public class S_DayNight : MonoBehaviour
 {
+    [Header("Mode")]
+    [Tooltip("Utiliser une Spot Light au lieu d'une Directional Light (pour les intérieurs)")]
+    public bool useSpotLight = false;
+    
     [Header("Références")]
     public Light directionalLight;
+    [Tooltip("Spot Light pour les scènes intérieures (alternative à directionalLight)")]
+    public Light spotLight;
     public Material skyboxMaterial; // Assigner le material Skybox/Procedural
     
     [Header("Cycle")]
     public float dayLength = 120f; // Length of a full day in seconds
+    [Space]
+    [Tooltip("Cocher pour contrôler manuellement l'heure du jour")]
+    public bool useManualTime = false;
+    [Tooltip("Contrôle manuel du temps (0 = minuit, 0.5 = midi, 1 = minuit)")]
+    [Range(0f, 1f)]
+    public float manualTime = 0.5f;
     private float time;
 
     [Header("Couleurs du ciel")]
     [Tooltip("Couleur du ciel à midi")]
     public Color daySkyTint = new Color(0.5f, 0.5f, 0.5f, 1f);
-    [Tooltip("Couleur du ciel au lever/coucher du soleil")]
+    [Tooltip("Couleur du ciel au lever")]
+    public Color sunriseSkyTint = new Color(0.9f, 0.6f, 0.4f, 1f);
+    [Tooltip("Couleur du ciel au coucher")]
     public Color sunsetSkyTint = new Color(1f, 0.5f, 0.3f, 1f);
     [Tooltip("Couleur du ciel la nuit")]
     public Color nightSkyTint = new Color(0.1f, 0.1f, 0.2f, 1f);
     
     [Header("Couleurs de la lumière")]
     public Color dayLightColor = new Color(1f, 0.95f, 0.85f, 1f);
+    public Color sunriseLightColor = new Color(1f, 0.7f, 0.5f, 1f);
     public Color sunsetLightColor = new Color(1f, 0.6f, 0.3f, 1f);
     public Color nightLightColor = new Color(0.3f, 0.3f, 0.5f, 1f);
+    
+    [Header("Intensité (Spot Light)")]
+    [Tooltip("Intensité de la Spot Light en journée")]
+    public float daySpotIntensity = 3f;
+    [Tooltip("Intensité de la Spot Light la nuit")]
+    public float nightSpotIntensity = 0.2f;
+
+    [Header("Position Spot Light")]
+    [Tooltip("Distance du joueur pour le Spot Light (simule un soleil intérieur)")]
+    public float spotLightDistance = 15f;
+    [Tooltip("Hauteur moyenne du Spot Light par rapport au joueur")]
+    public float spotLightHeight = 8f;
+    [Tooltip("Amplitude de la variation de hauteur (monte et descend)")]
+    public float spotLightHeightVariation = 6f;
+    [Tooltip("Axe de rotation de l'arc du soleil (ex: (0,0,1) pour rotation autour de Z)")]
+    public Vector3 sunArcRotationAxis = Vector3.forward;
+    [Tooltip("Décalage de l'angle de départ (en degrés)")]
+    public float sunArcStartAngleOffset = 0f;
+    [Tooltip("Pivot autour duquel le Spot Light orbite (gameObject vide)")]
+    public Transform pivotTransform;
+    [Tooltip("Transform du joueur (pour que la lumière le regarde)")]
+    public Transform playerTransform;
+
+    [Header("Fenêtre jour/nuit (heures normalisées)")]
+    [Tooltip("Début du lever (0-1). 0.33 ≈ 8h")]
+    [Range(0f, 1f)] public float sunriseStart = 0.33f;
+    [Tooltip("Durée du lever (0-1). 0.1 ≈ 2h30")]
+    [Range(0.01f, 0.5f)] public float sunriseDuration = 0.10f;
+    [Tooltip("Début du coucher (0-1). 0.92 ≈ 22h")]
+    [Range(0f, 1f)] public float sunsetStart = 0.92f;
+    [Tooltip("Durée du coucher (0-1). 0.08 ≈ 2h")]
+    [Range(0.01f, 0.5f)] public float sunsetDuration = 0.08f;
 
     [Header("Atmosphère")]
     [Range(0f, 5f)]
     public float dayAtmosphereThickness = 1f;
     [Range(0f, 5f)]
+    public float sunriseAtmosphereThickness = 1.3f;
+    [Range(0f, 5f)]
     public float sunsetAtmosphereThickness = 2f;
     [Range(0f, 5f)]
     public float nightAtmosphereThickness = 0.5f;
+    
+    // Référence à la lumière active
+    private Light activeLight;
 
     // convertir time en heures et minutes pour affichage si besoin
 
@@ -42,7 +94,25 @@ public class S_DayNight : MonoBehaviour
      */
     void Start()
     {
-        Assert.IsNotNull(directionalLight, "Aucune lumière directionnelle assignée pour le cycle jour/nuit.");
+        // Choisir la lumière active selon le mode
+        if (useSpotLight)
+        {
+            activeLight = spotLight;
+            if (spotLight == null)
+            {
+                Debug.LogError("Aucune Spot Light assignée pour le cycle jour/nuit en mode intérieur.");
+                return;
+            }
+        }
+        else
+        {
+            activeLight = directionalLight;
+            if (directionalLight == null)
+            {
+                Debug.LogError("Aucune lumière directionnelle assignée pour le cycle jour/nuit.");
+                return;
+            }
+        }
 
         // Si pas de skybox assigné, essayer de récupérer celui de RenderSettings
         if (skyboxMaterial == null)
@@ -61,12 +131,20 @@ public class S_DayNight : MonoBehaviour
      */
     void Update()
     {
-        // Increment time
-        time += Time.deltaTime / dayLength;
-        time %= 1; // Keep time in range [0, 1]
+        // Utiliser le temps manuel ou auto-incrémenter
+        if (useManualTime)
+        {
+            time = manualTime;
+        }
+        else
+        {
+            // Increment time automatiquement
+            time += Time.deltaTime / dayLength;
+            time %= 1; // Keep time in range [0, 1]
+        }
+        
         // Apply lighting/rotation for the current time
         UpdateLighting(time);
-
     }
 
     /**
@@ -78,75 +156,124 @@ public class S_DayNight : MonoBehaviour
      */
     private void UpdateLighting(float t)
     {
-        // Applique la rotation du soleil pour simuler un vrai soleil
-        float sunAngle = t * 360f - 90f;
-        transform.localRotation = Quaternion.Euler(sunAngle, 170f, 0f);
+        if (useSpotLight)
+        {
+            // Pour Spot Light: positionnement autour du pivot, regardant vers le joueur
+            if (spotLight != null && pivotTransform != null && playerTransform != null)
+            {
+                // Rotation sur un seul axe : 0..1 -> 0..360°
+                float angle = t * 360f + sunArcStartAngleOffset;
+                
+                // Position de base (point de départ avant rotation)
+                Vector3 basePosition = Vector3.right * spotLightDistance;
+                
+                // Appliquer la rotation autour de l'axe configuré
+                Quaternion rotation = Quaternion.AngleAxis(angle, sunArcRotationAxis.normalized);
+                Vector3 rotatedPosition = rotation * basePosition;
+                
+                // Ajouter la hauteur
+                Vector3 offsetPos = rotatedPosition + Vector3.up * spotLightHeight;
+                
+                // Orbiter autour du pivot (pas du joueur)
+                spotLight.transform.position = pivotTransform.position + offsetPos;
+                
+                // Orienter le Spot Light vers le joueur
+                Vector3 directionToPlayer = (playerTransform.position - spotLight.transform.position).normalized;
+                spotLight.transform.rotation = Quaternion.LookRotation(directionToPlayer);
+            }
+        }
+        else
+        {
+            // Applique la rotation du soleil (Directional Light)
+            float sunAngle = t * 360f - 90f;
+            transform.localRotation = Quaternion.Euler(sunAngle, 170f, 0f);
+        }
 
-        if (directionalLight == null)
+        if (activeLight == null)
             return;
 
-        // Calcul des phases de la journée
+        // Calcul des phases de la journée avec fenêtres configurables
         float intensity;
         Color lightColor;
         Color skyTint;
         float atmosphereThickness;
 
-        // Nuit profonde (0.0 - 0.20 et 0.80 - 1.0)
-        if (t <= 0.20f || t >= 0.80f)
+        float sunriseEnd = sunriseStart + sunriseDuration;
+        float sunsetEnd = sunsetStart + sunsetDuration;
+
+        if (t < sunriseStart || t >= sunsetEnd)
         {
+            // Nuit
             intensity = 0.1f;
             lightColor = nightLightColor;
             skyTint = nightSkyTint;
             atmosphereThickness = nightAtmosphereThickness;
         }
-        // Lever du soleil (0.20 - 0.30)
-        else if (t <= 0.30f)
+        else if (t < sunriseEnd)
         {
-            float blend = (t - 0.20f) * 10f; // 0 à 1
+            // Lever
+            float blend = Mathf.InverseLerp(sunriseStart, sunriseEnd, t);
             intensity = Mathf.Lerp(0.1f, 1f, blend);
-            lightColor = Color.Lerp(nightLightColor, sunsetLightColor, blend);
-            skyTint = Color.Lerp(nightSkyTint, sunsetSkyTint, blend);
-            atmosphereThickness = Mathf.Lerp(nightAtmosphereThickness, sunsetAtmosphereThickness, blend);
+            lightColor = Color.Lerp(nightLightColor, sunriseLightColor, blend);
+            skyTint = Color.Lerp(nightSkyTint, sunriseSkyTint, blend);
+            atmosphereThickness = Mathf.Lerp(nightAtmosphereThickness, sunriseAtmosphereThickness, blend);
         }
-        // Transition lever → jour (0.30 - 0.40)
-        else if (t <= 0.40f)
+        else if (t < sunsetStart)
         {
-            float blend = (t - 0.30f) * 10f;
-            intensity = 1f;
-            lightColor = Color.Lerp(sunsetLightColor, dayLightColor, blend);
-            skyTint = Color.Lerp(sunsetSkyTint, daySkyTint, blend);
-            atmosphereThickness = Mathf.Lerp(sunsetAtmosphereThickness, dayAtmosphereThickness, blend);
-        }
-        // Journée (0.40 - 0.60)
-        else if (t <= 0.60f)
-        {
+            // Jour
             intensity = 1f;
             lightColor = dayLightColor;
             skyTint = daySkyTint;
             atmosphereThickness = dayAtmosphereThickness;
         }
-        // Transition jour → coucher (0.60 - 0.70)
-        else if (t <= 0.70f)
+        else // t >= sunsetStart && t < sunsetEnd
         {
-            float blend = (t - 0.60f) * 10f;
-            intensity = 1f;
+            // Coucher
+            float blend = Mathf.InverseLerp(sunsetStart, sunsetEnd, t);
+            intensity = Mathf.Lerp(1f, 0.1f, blend);
             lightColor = Color.Lerp(dayLightColor, sunsetLightColor, blend);
             skyTint = Color.Lerp(daySkyTint, sunsetSkyTint, blend);
             atmosphereThickness = Mathf.Lerp(dayAtmosphereThickness, sunsetAtmosphereThickness, blend);
         }
-        // Coucher du soleil (0.70 - 0.80)
-        else
-        {
-            float blend = (t - 0.70f) * 10f;
-            intensity = Mathf.Lerp(1f, 0.1f, blend);
-            lightColor = Color.Lerp(sunsetLightColor, nightLightColor, blend);
-            skyTint = Color.Lerp(sunsetSkyTint, nightSkyTint, blend);
-            atmosphereThickness = Mathf.Lerp(sunsetAtmosphereThickness, nightAtmosphereThickness, blend);
-        }
 
         // Appliquer à la lumière
-        directionalLight.intensity = intensity;
-        directionalLight.color = lightColor;
+        if (useSpotLight)
+        {
+            // Pour Spot Light, utiliser les fenêtres configurables lever/coucher
+            // sunriseEnd et sunsetEnd déjà calculés plus haut
+            float dayBlend = 0f;
+
+            if (t < sunriseStart)
+            {
+                dayBlend = 0f; // nuit avant lever
+            }
+            else if (t < sunriseEnd)
+            {
+                // montée progressive au lever
+                dayBlend = Mathf.InverseLerp(sunriseStart, sunriseEnd, t);
+            }
+            else if (t < sunsetStart)
+            {
+                dayBlend = 1f; // plein jour
+            }
+            else if (t < sunsetEnd)
+            {
+                // descente progressive au coucher
+                dayBlend = 1f - Mathf.InverseLerp(sunsetStart, sunsetEnd, t);
+            }
+            else
+            {
+                dayBlend = 0f; // nuit après coucher
+            }
+
+            float spotIntensity = Mathf.Lerp(nightSpotIntensity, daySpotIntensity, dayBlend);
+            activeLight.intensity = spotIntensity;
+        }
+        else
+        {
+            activeLight.intensity = intensity;
+        }
+        activeLight.color = lightColor;
 
         // Appliquer au skybox (si c'est un Skybox/Procedural)
         UpdateSkybox(skyTint, atmosphereThickness);
@@ -171,7 +298,7 @@ public class S_DayNight : MonoBehaviour
         if (skyboxMaterial.HasProperty("_Exposure"))
         {
             // Réduire l'exposition la nuit
-            float exposure = Mathf.Lerp(0.5f, 1.3f, directionalLight.intensity);
+            float exposure = Mathf.Lerp(0.5f, 1.3f, activeLight != null ? activeLight.intensity / (useSpotLight ? daySpotIntensity : 1f) : 1f);
             skyboxMaterial.SetFloat("_Exposure", exposure);
         }
     }
