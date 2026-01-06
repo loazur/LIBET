@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMODUnity;
 
 class S_Piano : MonoBehaviour, SI_Interactable
 {
@@ -12,14 +13,15 @@ class S_Piano : MonoBehaviour, SI_Interactable
 
     //! eviter de modifier cette valeur
     private float keyPressDepth = 0.022f; //! Important: doit correspondre au déplacement visuel des touches
-    
     private List<GameObject> pianoKeys = new();
 
     private bool isPlaying = false;
     private Coroutine playRoutine;
     private Transform currentPlayer;
-
     private string interactText = "Jouer du piano";
+    private bool musicStarted = false;
+    private StudioEventEmitter pianoEmitter;
+
 
     void Start()
     {
@@ -94,7 +96,12 @@ class S_Piano : MonoBehaviour, SI_Interactable
 
         if (playRoutine != null)
             StopCoroutine(playRoutine);
+
+        StopPianoMusic();
+        musicStarted = false;
     }
+
+
 
     // ===================== PLAY LOOP =====================
 
@@ -129,6 +136,12 @@ class S_Piano : MonoBehaviour, SI_Interactable
      */
     private void MoovAllTouch()
     {
+        if (!musicStarted)
+        {
+            StartPianoMusic();
+            musicStarted = true;
+        }
+
         List<GameObject> selectedKeys = SelectRandomKeys();
 
         foreach (GameObject key in selectedKeys)
@@ -136,6 +149,8 @@ class S_Piano : MonoBehaviour, SI_Interactable
 
         StartCoroutine(ResetKeysAfterDelay(selectedKeys, timePressed));
     }
+
+
 
     /**
      * Réinitialise les touches après un délai
@@ -201,6 +216,27 @@ class S_Piano : MonoBehaviour, SI_Interactable
 
         return selected;
     }
+
+    private void StartPianoMusic()
+    {
+        if (pianoEmitter == null)
+        {
+            pianoEmitter = gameObject.AddComponent<StudioEventEmitter>();
+            pianoEmitter.EventReference = S_FMODEvents.instance.GetRandomPiano();
+            pianoEmitter.AllowFadeout = true;
+        }
+
+        if (!pianoEmitter.IsPlaying())
+            pianoEmitter.Play();
+    }
+
+    private void StopPianoMusic()
+    {
+        if (pianoEmitter != null && pianoEmitter.IsPlaying())
+            pianoEmitter.Stop();
+    }
+
+
 
     // ===================== UI =====================
 

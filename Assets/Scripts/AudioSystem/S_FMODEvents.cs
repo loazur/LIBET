@@ -29,4 +29,20 @@ public class S_FMODEvents : MonoBehaviour
             instance = this;
         }
     }
+
+    public EventReference GetRandomPiano()
+{
+    EventReference[] pianoTracks =
+    {
+        MscPiano1,
+        MscPiano2,
+        MscPiano3,
+        MscPiano4,
+        MscPiano5
+    };
+
+    int index = Random.Range(0, pianoTracks.Length);
+    return pianoTracks[index];
+}
+
 }

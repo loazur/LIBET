@@ -87,7 +87,7 @@ public class S_ClosedDoor : S_DoorInteractable
     private void UnlockDoor()
     {
         isUnlocked = true;
-        Debug.Log($"[ClosedDoor] Porte '{doorID}' débloquée!");
+        // Debug.Log($"[ClosedDoor] Porte '{doorID}' débloquée!");
         
         // Jouer un son de déverrouillage 
         S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.doorUnlock, transform.position);
@@ -107,7 +107,7 @@ public class S_ClosedDoor : S_DoorInteractable
     private void OnLockedInteraction()
     {
         int currentKeys = S_KeyManager.instance != null ? S_KeyManager.instance.GetCollectedKeyCount(doorID) : 0;
-        Debug.Log($"[ClosedDoor] Porte '{doorID}' verrouillée! Clés: {currentKeys}/{requiredKeyCount}");
+        // Debug.Log($"[ClosedDoor] Porte '{doorID}' verrouillée! Clés: {currentKeys}/{requiredKeyCount}");
 
         // Jouer un son de porte verrouillée
         S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.doorLocked, transform.position);
