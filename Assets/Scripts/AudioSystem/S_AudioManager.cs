@@ -34,6 +34,11 @@ public class S_AudioManager : MonoBehaviour
             musicBus = RuntimeManager.GetBus("bus:/Music");
             sfxBus = RuntimeManager.GetBus("bus:/SFX");
         }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
     void Start()

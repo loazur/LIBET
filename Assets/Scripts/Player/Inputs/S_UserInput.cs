@@ -39,6 +39,11 @@ public class S_UserInput : MonoBehaviour
         {
             instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         _playerInput = GetComponent<PlayerInput>();
 

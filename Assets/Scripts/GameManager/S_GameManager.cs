@@ -13,11 +13,15 @@ public class S_GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance == null)
         {
-            Debug.LogError("Found more than one Game Events Manager in the scene.");
+            instance = this;
         }
-        instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         // initialize all events
         inputEvents = new InputEvents();

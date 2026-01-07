@@ -24,12 +24,15 @@ public class S_KeyManager : MonoBehaviour
     void Awake()
     {
         //& Setup Singleton
-        if (instance != null && instance != this)
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
         {
             Destroy(gameObject);
             return;
         }
-        instance = this;
     }
 
     

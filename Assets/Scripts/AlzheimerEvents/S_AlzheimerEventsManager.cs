@@ -14,7 +14,7 @@ using UnityEngine;
  */
 public class S_AlzheimerEventsManager : MonoBehaviour
 {
-    public static S_AlzheimerEventsManager Instance { get; private set; }
+    public static S_AlzheimerEventsManager instance { get; private set; }
 
     //~ Configuration des Events
     [Header("=== ÉVÉNEMENTS ===")]
@@ -121,9 +121,9 @@ public class S_AlzheimerEventsManager : MonoBehaviour
     void Awake()
     {
         // Singleton
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
         }
         else
         {
@@ -161,8 +161,8 @@ public class S_AlzheimerEventsManager : MonoBehaviour
 
     void OnDestroy()
     {
-        if (Instance == this)
-            Instance = null;
+        if (instance == this)
+            instance = null;
     }
 
     #endregion
