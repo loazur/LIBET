@@ -3,7 +3,7 @@ using UnityEngine;
 public class S_MusicChangeTrigger : MonoBehaviour
 {
     [Header("Area")]
-    [SerializeField] private S_MusicArea area;
+    [SerializeField] private E_MusicArea area;
 
     private void OnTriggerEnter(Collider collider)
     {

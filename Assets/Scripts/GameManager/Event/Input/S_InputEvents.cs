@@ -1,11 +1,11 @@
 using UnityEngine;
 using System;
 
-public class InputEvents
+public class S_InputEvents
 {
-    public InputEventContext inputEventContext { get; private set; } = InputEventContext.DEFAULT;
+    public E_InputEventContext inputEventContext { get; private set; } = E_InputEventContext.DEFAULT;
 
-    public void ChangeInputEventContext(InputEventContext newContext) 
+    public void ChangeInputEventContext(E_InputEventContext newContext) 
     {
         this.inputEventContext = newContext;
     }
@@ -19,7 +19,7 @@ public class InputEvents
         }
     }
 
-    public event Action<InputEventContext> onSubmitPressed;
+    public event Action<E_InputEventContext> onSubmitPressed;
     public void SubmitPressed()
     {
         if (onSubmitPressed != null) 

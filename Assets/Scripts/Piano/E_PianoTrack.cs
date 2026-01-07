@@ -1,4 +1,4 @@
-public enum S_PianoTrack
+public enum E_PianoTrack
 {
     TRACK1 = 0,
     TRACK2 = 1,

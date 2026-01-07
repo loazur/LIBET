@@ -1,4 +1,4 @@
-public enum S_MusicArea 
+public enum E_MusicArea 
 {
     AREA1 = 0,
     AREA2 = 1,

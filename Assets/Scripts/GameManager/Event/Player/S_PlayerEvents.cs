@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerEvents
+public class S_PlayerEvents
 {
     public event Action onDisablePlayerMovement;
     public void DisablePlayerMovement()
