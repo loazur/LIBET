@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
-using FMOD.Studio;
+using UnityEngine.UI;
 
 class S_Piano : MonoBehaviour, SI_Interactable
 {
@@ -11,32 +11,28 @@ class S_Piano : MonoBehaviour, SI_Interactable
     [SerializeField] private int numberOfKeysSimulated = 5;
     [SerializeField] private float playInterval = 0.5f;
 
-    //* Gestion Audio
     [Header("Music")]
     [SerializeField] private SO_PianoTrack[] pianoTracks;
+
+    [Header("UI")]
+    [SerializeField] private GameObject musicUI;
+    [SerializeField] private Text trackNameText;
+    [SerializeField] private Text trackAuthorText;
+
+    [Header("Interaction Range")]
+    [SerializeField] private float stopDistance = 3f;
+
+    private Transform currentPlayer;
     private SO_PianoTrack currentTrack;
     private StudioEventEmitter pianoEmitter;
-    private EventInstance pianoEventInstance;
+    private Coroutine playRoutine;
 
-    //TODO Remettre l'UI
-    /*
-    [Header("UI")]
-
-    [Tooltip("UI affichée lors de la lecture de la musique")]
-    [SerializeField]private GameObject musicUI;
-
-    [Tooltip("Texte du nom de la piste")]
-    [SerializeField]private Text trackNameText;
-
-    [Tooltip("Texte de l'auteur de la piste")]
-    [SerializeField]private Text trackAuthorText;
-    */
-    //*========================================================
-
-    //! eviter de modifier cette valeur
-    private float keyPressDepth = 0.022f; //! Important: doit correspondre au déplacement visuel des touches
+    private float keyPressDepth = 0.022f;
     private List<GameObject> pianoKeys = new();
     private string interactText = "Jouer du piano";
+
+
+    //*========================================================
 
 
     void Start()
@@ -50,21 +46,25 @@ class S_Piano : MonoBehaviour, SI_Interactable
         foreach (Transform child in transform)
             if (child.name.StartsWith("touche"))
                 pianoKeys.Add(child.gameObject);
+
+        DisableUIMusic();
     }
 
-    private SO_PianoTrack GetRandomPianoTrack() //& Récupére une track aléatoire en fonction de la liste
+    void Update()
     {
-        int index = Random.Range(0, pianoTracks.Length);
-        return pianoTracks[index];
+        if (!pianoEmitter.IsPlaying() || currentPlayer == null)
+            return;
+
+        float distance = Vector3.Distance(transform.position, currentPlayer.position);
+
+        if (distance > stopDistance)
+            StopPlaying();
     }
 
-    public void SetPianoTrack(S_PianoTrack track) //& Change la track
-    {
-        pianoEmitter.EventInstance.setParameterByName("track", (float)track);
-    }
 
 
     // ===================== INTERACTION =====================
+    #region Gestion Interaction
 
     /**
      * Toggle le jeu du piano
@@ -79,10 +79,16 @@ class S_Piano : MonoBehaviour, SI_Interactable
     public void Interact(Transform playerTransform)
     {
         if (pianoEmitter.IsPlaying())
+        {
             StopPlaying();
+        }
         else
+        {
+            currentPlayer = playerTransform;
             StartPlaying();
+        }
     }
+
 
     /**
      * Fonctions de gestion du jeu du piano
@@ -97,9 +103,12 @@ class S_Piano : MonoBehaviour, SI_Interactable
     private void StartPlaying()
     {
         pianoEmitter.Play();
-        SetPianoTrack(GetRandomPianoTrack().track);
+        currentTrack = GetRandomPianoTrack();
+        SetPianoTrack(currentTrack.track);
 
-        //playRoutine = StartCoroutine(PlayLoop());
+        playRoutine = StartCoroutine(PlayLoop());
+        EnableUIMusic();
+        UpdateMusicUI();
     }
 
     /**
@@ -117,16 +126,14 @@ class S_Piano : MonoBehaviour, SI_Interactable
 
         pianoEmitter.Stop();
 
-        /*
         if (playRoutine != null)
             StopCoroutine(playRoutine);
 
-        StopPianoMusic();
-        musicStarted = false;
-        */
+        DisableUIMusic();
     }
+    #endregion Gestion Interaction
 
-    // ===================== PLAY LOOP =====================
+    
 
     /**
      * Coroutine de simulation du jeu du piano
@@ -139,15 +146,15 @@ class S_Piano : MonoBehaviour, SI_Interactable
      */
     private IEnumerator PlayLoop()
     {
-        
-        //while (isPlaying)
+        while (pianoEmitter.IsPlaying())
         {
             MoveAllTouches();
             yield return new WaitForSeconds(playInterval);
         }
     }
 
-    // ===================== TOUCHES =====================
+    
+    #region TOUCHES
 
     /**
      * Simule l'appui sur plusieurs touches du piano
@@ -158,16 +165,8 @@ class S_Piano : MonoBehaviour, SI_Interactable
      * @access	private
      * @return	void
      */
-    private void MoveAllTouches() //TODO Remettre avec le nouveau système
+    private void MoveAllTouches()
     {
-        /*
-        if (!musicStarted)
-        {
-            StartPianoMusic();
-            musicStarted = true;
-        }
-        */
-
         List<GameObject> selectedKeys = SelectRandomKeys();
 
         foreach (GameObject key in selectedKeys)
@@ -247,11 +246,11 @@ class S_Piano : MonoBehaviour, SI_Interactable
         return selected;
     }
 
+    #endregion TOUCHES
     #region MUSIC
 
-
     /**
-     * obtenir une piste aléatoire
+     * Obtient une piste de piano aléatoire
      *
      * @author	Lucas
      * @since	v0.0.1
@@ -259,56 +258,31 @@ class S_Piano : MonoBehaviour, SI_Interactable
      * @access	private
      * @return	mixed
      */
-    
-
-    #endregion MUSIC
-
-
-    /*
-    // ===================== UI =====================
-    #region UI
-
-   
-    private void UpdateMusicUI()
+    private SO_PianoTrack GetRandomPianoTrack() //& Récupére une track aléatoire en fonction de la liste
     {
-        if (musicUI != null)
-            musicUI.SetActive(true);
-
-        if (trackNameText != null)
-            trackNameText.text = currentTrack.trackName;
-
-        if (trackAuthorText != null)
-            trackAuthorText.text = currentTrack.author;
+        int index = Random.Range(0, pianoTracks.Length);
+        return pianoTracks[index];
     }
-
-   
-    public void DisableUIMusic()
-    {
-        if (musicUI != null)
-            musicUI.SetActive(false);
-    }
-
-   
-    public void EnableUIMusic()
-    {
-        if (musicUI != null)
-            musicUI.SetActive(true);
-    }
-    */
 
     /**
-     * Gestion du texte d'interaction
+     * Définit la track du piano
      *
      * @author	Lucas
      * @since	v0.0.1
      * @version	v1.0.0	Wednesday, January 7th, 2026.
      * @access	public
-     * @return	mixed
+     * @param	s_pianotrack	track	
+     * @return	void
      */
-    public string getInteractText()
+    public void SetPianoTrack(S_PianoTrack track) //& Change la track
     {
-        return pianoEmitter.IsPlaying() ? "Arrêter de jouer" : interactText;
+        pianoEmitter.EventInstance.setParameterByName("track", (float)track);
     }
+    
+
+    #endregion MUSIC
+
+    #region Accesseurs
 
     /**
      * Obtient la position du piano
@@ -320,6 +294,10 @@ class S_Piano : MonoBehaviour, SI_Interactable
      * @return	void
      */
     public Transform getTransform() => transform;
+
+    #endregion Accesseurs
+    
+    #region UI
 
     /**
      * Mettre à jour le texte d'interaction en fonction de la langue
@@ -341,6 +319,70 @@ class S_Piano : MonoBehaviour, SI_Interactable
             interactText = "Play the piano";
         }
     }
-    #region UI
+
+    /**
+     * Gestion du texte d'interaction
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	public
+     * @return	mixed
+     */
+    public string getInteractText()
+    {
+        return pianoEmitter.IsPlaying() ? "Arrêter de jouer" : interactText;
+    }
+
+    /**
+     * met à jour l'UI de la musique
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	private
+     * @return	void
+     */
+    private void UpdateMusicUI()
+    {
+        if (musicUI != null)
+            musicUI.SetActive(true);
+
+        if (trackNameText != null)
+            trackNameText.text = currentTrack.trackName;
+
+        if (trackAuthorText != null)
+            trackAuthorText.text = currentTrack.author;
+    }
+
+    /**
+     * Désactive l'UI de la musique
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	public
+     * @return	void
+     */
+    public void DisableUIMusic()
+    {
+        if (musicUI != null)
+            musicUI.SetActive(false);
+    }
+
+    /**
+     * Active l'UI de la musique
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	public
+     * @return	void
+     */
+    public void EnableUIMusic()
+    {
+        if (musicUI != null)
+            musicUI.SetActive(true);
+    }
     #endregion UI
 }
