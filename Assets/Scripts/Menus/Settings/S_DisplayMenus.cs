@@ -150,7 +150,7 @@ public class S_DisplayMenus : MonoBehaviour
         playerCamera.setRotationEnabled(false);
         playerInteract.setInteractionEnabled(false);
         playerCrouch.setAbleToCrouch(false);
-        //volume.enabled = true;
+        volume.enabled = true;
         isOpen = true;
 
         // Notifier que le menu est ouvert (pour cacher le canvas de quêtes)
