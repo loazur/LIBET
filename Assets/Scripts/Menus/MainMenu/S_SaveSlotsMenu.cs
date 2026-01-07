@@ -42,7 +42,7 @@ public class S_SaveSlotsMenu : S_Menu
             S_DataPersistanceManager.instance.DeleteProfileData(saveSlot.GetProfileId());
 
         // Charge la scène du jeu
-        SceneManager.LoadSceneAsync("TestMap"); 
+        S_SceneLoader.instance.LoadScene("TestMap");
     }
 
     public void OnClearClicked(S_SaveSlot saveSlot)

@@ -38,7 +38,7 @@ public class S_PauseMenu : S_Menu
         S_DataPersistanceManager.instance.SaveGame();
         
         // Changement de scene
-        SceneManager.LoadSceneAsync("MainMenu");
+        S_SceneLoader.instance.LoadScene("MainMenu");
     }
 
 }
