@@ -11,6 +11,14 @@ class S_Piano : MonoBehaviour, SI_Interactable
     [SerializeField] private float playInterval = 0.5f;
     [SerializeField] private float maxUseDistance = 2.5f;
 
+    //* Gestion Audio
+    [Header("Music")]
+    [SerializeField] private SO_PianoTrack[] pianoTracks;
+    private SO_PianoTrack currentTrack;
+    private StudioEventEmitter pianoEmitter;
+    //*========================================================
+
+
     //! eviter de modifier cette valeur
     private float keyPressDepth = 0.022f; //! Important: doit correspondre au déplacement visuel des touches
     private List<GameObject> pianoKeys = new();
@@ -20,7 +28,6 @@ class S_Piano : MonoBehaviour, SI_Interactable
     private Transform currentPlayer;
     private string interactText = "Jouer du piano";
     private bool musicStarted = false;
-    private StudioEventEmitter pianoEmitter;
 
 
     void Start()
