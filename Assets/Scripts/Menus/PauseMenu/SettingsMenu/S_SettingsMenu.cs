@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class S_SettingsMenu : S_Menu
@@ -22,9 +23,44 @@ public class S_SettingsMenu : S_Menu
     [SerializeField] private Button returnButton;
     [SerializeField] private Button leaveButton;
 
+    private string currentSceneName;
+    private S_MainMenu mainMenu;
+
     protected override void OnEnable()
     {
         base.OnEnable(); // Utilise le OnEnable du parent
+
+        currentSceneName = SceneManager.GetActiveScene().name;
+        
+        //~ Exclusif à la scene MainMenu
+        if (currentSceneName == "MainMenu")
+        {
+            // Chercher S_MainMenu dans les frères du parent (ou parent de parent)
+            Transform parent = transform.parent;
+            
+            if (parent != null)
+            {
+                // Chercher dans les frères du parent
+                mainMenu = parent.GetComponentInChildren<S_MainMenu>(true);
+                
+                // Si pas trouvé, remonter d'un niveau
+                if (mainMenu == null && parent.parent != null)
+                {
+                    mainMenu = parent.parent.GetComponentInChildren<S_MainMenu>(true);
+                }
+            }
+            
+            // Fallback : chercher dans toute la scène
+            if (mainMenu == null)
+            {
+                mainMenu = FindFirstObjectByType<S_MainMenu>();
+                
+                if (mainMenu == null)
+                {
+                    Debug.LogWarning("S_MainMenu not found in MainMenu scene!");
+                }
+            }
+        }
 
         S_HandlerPauseMenu.instance.setCurrentMenu(this);
         S_HandlerPauseMenu.instance.setMenuOpened(true);
@@ -68,8 +104,17 @@ public class S_SettingsMenu : S_Menu
 
     public void OnReturnClicked()
     {
-        pauseMenu.ActivateMenu();
+        if (currentSceneName != "MainMenu")
+        {
+            pauseMenu.ActivateMenu();
+        }
+        else // Scene MainMenu
+        {
+            mainMenu.ActivateMenu();
+        }
+
         DeactivateMenu();
+
     }
 
     public void OnLeaveButton()
