@@ -27,7 +27,8 @@ public class S_MainMenu : S_Menu
 
     public void OnLeaveClicked()
     {
-        
+        Application.Quit();
+        Debug.Log("Retour au bureau...");
     }
 
     
