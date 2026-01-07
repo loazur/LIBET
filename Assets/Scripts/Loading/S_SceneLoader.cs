@@ -17,6 +17,11 @@ public class S_SceneLoader : MonoBehaviour
         {
             instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
     public void LoadScene(string sceneName)

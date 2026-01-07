@@ -126,14 +126,14 @@ public class S_QuestPoint : MonoBehaviour
      * @param	inputeventcontext	inputEventContext	
      * @return	void
      */
-    private void SubmitPressed(InputEventContext inputEventContext)
+    private void SubmitPressed(E_InputEventContext inputEventContext)
     {
         if (!playerIsNear)
         {
             return;
         }
 
-        if (!inputEventContext.Equals(InputEventContext.DEFAULT))
+        if (!inputEventContext.Equals(E_InputEventContext.DEFAULT))
         {
             // Debug.Log($"[S_QuestPoint] Input context is {inputEventContext}, not DEFAULT. Ignoring.");
             return;
