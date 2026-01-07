@@ -21,8 +21,8 @@ public class S_QuestManager : MonoBehaviour
 
     [Header("Interface pour les quêtes")]
     [SerializeField] private GameObject questCanvas; // Canvas pour les quêtes
-    [SerializeField]private Text QuestDispalyTitle;
-    private Dictionary<string, S_Quest> quesMap;
+    [SerializeField]private Text QuestDisplayTitle;
+    private Dictionary<string, S_Quest> questMap;
 
     private int currentPlayerLevel = 1; // Niveau par défaut (sera mis à jour par PlayerLevelChange)
     private bool isSubscribed = false;
@@ -35,7 +35,7 @@ public class S_QuestManager : MonoBehaviour
 
     private void Awake()
     {
-        quesMap = CreateQuestMap();
+        questMap = CreateQuestMap();
     }
 
     private void Start()
@@ -47,7 +47,7 @@ public class S_QuestManager : MonoBehaviour
     {
         // Vérifier si des quêtes peuvent passer de REQUIREMENTS_NOT_MET à CAN_START
         // TODO: Optimiser en utilisant un système d'événements plutôt que Update()
-        foreach (S_Quest quest in quesMap.Values)
+        foreach (S_Quest quest in questMap.Values)
         {
             if (quest.state == E_QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
             {
@@ -85,7 +85,7 @@ public class S_QuestManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         // Notifier l'état initial de toutes les quêtes
-        foreach(S_Quest quest in quesMap.Values)
+        foreach(S_Quest quest in questMap.Values)
         {
             // Debug.Log($"[S_QuestManager] Quête '{quest.info.displayName}' (ID: {quest.info.id}) - État: {quest.state}");
             
@@ -207,7 +207,7 @@ public class S_QuestManager : MonoBehaviour
      */
     private void OnApplicationQuit()
     {
-        foreach (S_Quest quest in quesMap.Values)
+        foreach (S_Quest quest in questMap.Values)
         {
             SaveQuest(quest);
         }
@@ -409,13 +409,13 @@ public class S_QuestManager : MonoBehaviour
             return null;
         }
 
-        if (!quesMap.ContainsKey(questID))
+        if (!questMap.ContainsKey(questID))
         {
             Debug.LogWarning("[S_QuestManager] Quest not found for ID: " + questID);
             return null;
         }
 
-        S_Quest quest = quesMap[questID];
+        S_Quest quest = questMap[questID];
         return quest;
     }
 
@@ -591,7 +591,7 @@ public class S_QuestManager : MonoBehaviour
             return;
         }
 
-        if (QuestDispalyTitle == null)
+        if (QuestDisplayTitle == null)
         {
             Debug.LogWarning("[S_QuestManager] QuestDispalyTitle n'est pas assigné dans l'Inspector!");
             return;
@@ -603,7 +603,7 @@ public class S_QuestManager : MonoBehaviour
         {
             // Debug.Log($"[S_QuestManager] Quête active trouvée: {activeQuest.info.displayName} (État: {activeQuest.state})");
             ShowQuestCanvas();
-            QuestDispalyTitle.text = activeQuest.GetCurrentStepDisplayName();
+            QuestDisplayTitle.text = activeQuest.GetCurrentStepDisplayName();
             // Debug.Log($"[S_QuestManager] UI mise à jour avec le titre: {QuestDispalyTitle.text}");
         }
         else
@@ -631,7 +631,7 @@ public class S_QuestManager : MonoBehaviour
      */
     public S_Quest GetActiveQuest()
     {
-        return quesMap.Values.FirstOrDefault(q => q.state == E_QuestState.IN_PROGRESS);
+        return questMap.Values.FirstOrDefault(q => q.state == E_QuestState.IN_PROGRESS);
     }
     
     /**
@@ -645,7 +645,7 @@ public class S_QuestManager : MonoBehaviour
      */
     public IEnumerable<S_Quest> GetActiveQuests()
     {
-        return quesMap.Values.Where(q => q.state == E_QuestState.IN_PROGRESS);
+        return questMap.Values.Where(q => q.state == E_QuestState.IN_PROGRESS);
     }
     
     /**
@@ -659,7 +659,7 @@ public class S_QuestManager : MonoBehaviour
      */
     public KeyValuePair<string, S_Quest> GetFirstElement()
     {
-        return quesMap.FirstOrDefault();
+        return questMap.FirstOrDefault();
     }
 
     /**
@@ -675,9 +675,9 @@ public class S_QuestManager : MonoBehaviour
     public void DebugShowAllQuests()
     {
         Debug.Log("=== DEBUG QUÊTES ===");
-        Debug.Log($"Nombre total de quêtes: {quesMap.Count}");
+        Debug.Log($"Nombre total de quêtes: {questMap.Count}");
         
-        foreach (var quest in quesMap.Values)
+        foreach (var quest in questMap.Values)
         {
             Debug.Log($"Quête: '{quest.info.displayName}' (ID: {quest.info.id}) - État: {quest.state}");
         }
@@ -693,7 +693,7 @@ public class S_QuestManager : MonoBehaviour
         }
 
         Debug.Log($"Canvas assigné: {questCanvas != null}");
-        Debug.Log($"QuestDispalyTitle assigné: {QuestDispalyTitle != null}");
+        Debug.Log($"QuestDispalyTitle assigné: {QuestDisplayTitle != null}");
         if (questCanvas != null)
         {
             Debug.Log($"Canvas actif: {questCanvas.activeSelf}");

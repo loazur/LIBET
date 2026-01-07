@@ -34,6 +34,11 @@ public class S_AudioManager : MonoBehaviour
             musicBus = RuntimeManager.GetBus("bus:/Music");
             sfxBus = RuntimeManager.GetBus("bus:/SFX");
         }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
     void Start()
@@ -119,7 +124,7 @@ public class S_AudioManager : MonoBehaviour
         musicEventInstance.start();
     }
 
-    public void SetMusicArea(S_MusicArea area)
+    public void SetMusicArea(E_MusicArea area)
     {
         musicEventInstance.setParameterByName("area", (float)area);
     }

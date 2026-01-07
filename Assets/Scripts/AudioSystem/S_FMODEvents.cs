@@ -23,6 +23,11 @@ public class S_FMODEvents : MonoBehaviour
         {
             instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
 }
