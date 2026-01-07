@@ -170,6 +170,33 @@ public class S_Quest
         }
     }
 
+    /**
+     * Récupère le nom d'affichage de l'étape actuelle pour l'UI
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	public
+     * @return	string
+     */
+    public string GetCurrentStepDisplayName()
+    {
+        if (CurrentStepExists())
+        {
+            GameObject currentStepPrefab = info.questStepsPrefabs[currentQuestStepIndex];
+            if (currentStepPrefab != null)
+            {
+                S_QuestStep questStep = currentStepPrefab.GetComponent<S_QuestStep>();
+                if (questStep != null && !string.IsNullOrEmpty(questStep.stepName))
+                {
+                    return questStep.stepName;
+                }
+            }
+        }
+        // Fallback sur le displayName de la quête
+        return info.displayName;
+    }
+
     public S_QuestData GetQuestData()
     {
         return new S_QuestData(state, currentQuestStepIndex, questStepStates);

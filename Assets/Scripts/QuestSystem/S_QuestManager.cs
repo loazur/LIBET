@@ -325,6 +325,9 @@ public class S_QuestManager : MonoBehaviour
             ChangeQuestState(quest.info.id, E_QuestState.CAN_FINISH);
         }
 
+        // Mettre à jour l'UI pour afficher le nouveau titre d'étape
+        UpdateQuestUI();
+
         // Debug.Log("Quest " + questID + " advanced to step: " + quest.state.ToString());
     }
 
@@ -600,7 +603,7 @@ public class S_QuestManager : MonoBehaviour
         {
             // Debug.Log($"[S_QuestManager] Quête active trouvée: {activeQuest.info.displayName} (État: {activeQuest.state})");
             ShowQuestCanvas();
-            QuestDispalyTitle.text = activeQuest.info.displayName;
+            QuestDispalyTitle.text = activeQuest.GetCurrentStepDisplayName();
             // Debug.Log($"[S_QuestManager] UI mise à jour avec le titre: {QuestDispalyTitle.text}");
         }
         else
