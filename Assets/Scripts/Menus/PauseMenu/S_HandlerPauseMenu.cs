@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class S_HandlerPauseMenu : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class S_HandlerPauseMenu : MonoBehaviour
     [SerializeField] private S_FirstPersonCamera playerCamera;
     [SerializeField] private S_PlayerInteract playerInteract;
 
+    private string currentSceneName;
+        
     private bool menuOpened = false;
     private bool ableToOpenCloseMenu = true;
     private S_Menu currentMenu = null;
@@ -24,6 +27,8 @@ public class S_HandlerPauseMenu : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+
+            currentSceneName = SceneManager.GetActiveScene().name;
         }
         else if (instance != this)
         {
@@ -33,7 +38,7 @@ public class S_HandlerPauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (S_UserInput.instance.MenuOpenCloseInput && ableToOpenCloseMenu) // Quand on appuis sur la touche d'ouverture du menu
+        if (S_UserInput.instance.MenuOpenCloseInput && ableToOpenCloseMenu && currentSceneName != "MainMenu") // Quand on appuis sur la touche d'ouverture du menu
         {
             if (!menuOpened) // Ouverture MenuPause
             {
