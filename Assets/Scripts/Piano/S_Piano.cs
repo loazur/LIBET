@@ -44,7 +44,9 @@ class S_Piano : MonoBehaviour, SI_Interactable
 
     void Start()
     {
-        UpdateInteractText();
+        DisableUIMusic(); //& S'assurer que l'UI est désactivée au départ
+
+        UpdateInteractText(); //& Met à jour le texte d'interaction en fonction de la langue
 
         foreach (Transform child in transform)
             if (child.name.StartsWith("touche"))
@@ -240,6 +242,8 @@ class S_Piano : MonoBehaviour, SI_Interactable
         return selected;
     }
 
+    #region MUSIC
+
     /**
      * Démarrer la musique du piano
      *
@@ -302,9 +306,12 @@ class S_Piano : MonoBehaviour, SI_Interactable
         return pianoTracks[Random.Range(0, pianoTracks.Length)];
     }
 
+    #endregion MUSIC
+
 
 
     // ===================== UI =====================
+    #region UI
 
     /**
      * Mettre à jour l'UI de la musique
@@ -327,23 +334,35 @@ class S_Piano : MonoBehaviour, SI_Interactable
             trackAuthorText.text = currentTrack.author;
     }
 
-
+    /**
+     * Couper l'UI de la musique
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	public
+     * @return	void
+     */
     public void DisableUIMusic()
     {
         if (musicUI != null)
             musicUI.SetActive(false);
     }
 
+    /**
+     * Activer l'UI de la musique
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	public
+     * @return	void
+     */
     public void EnableUIMusic()
     {
         if (musicUI != null)
             musicUI.SetActive(true);
     }
-
-
-    public string GetCurrentTrackName() => currentTrack?.trackName ?? "";
-    public string GetCurrentTrackAuthor() => currentTrack?.author ?? "";
-
 
 
     /**
@@ -391,4 +410,6 @@ class S_Piano : MonoBehaviour, SI_Interactable
             interactText = "Play the piano";
         }
     }
+
+    #endregion UI
 }
