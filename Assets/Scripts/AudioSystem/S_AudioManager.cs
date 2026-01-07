@@ -1,6 +1,7 @@
 using FMOD.Studio;
 using UnityEngine;
 using FMODUnity;
+using System.Collections.Generic;
 
 
 public class S_AudioManager : MonoBehaviour
@@ -14,16 +15,53 @@ public class S_AudioManager : MonoBehaviour
     private Bus musicBus;
     private Bus sfxBus;
 
+    private List<EventInstance> eventInstances;
+    private List<StudioEventEmitter> eventEmitters;
+
+    private EventInstance musicEventInstance;
+
+
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
 
+            eventInstances = new List<EventInstance>();
+            eventEmitters = new List<StudioEventEmitter>();
+
             masterBus = RuntimeManager.GetBus("bus:/");
             musicBus = RuntimeManager.GetBus("bus:/Music");
             sfxBus = RuntimeManager.GetBus("bus:/SFX");
         }
+    }
+
+    void Start()
+    {
+        InitializeMusic(S_FMODEvents.instance.music);
+    }
+
+    void OnDestroy()
+    {
+        CleanUp();
+    }
+
+    private void CleanUp()
+    {
+        // stop and release any created instances
+        foreach (EventInstance eventInstance in eventInstances)
+        {
+            eventInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            eventInstance.release();
+        }
+
+        
+        // stop all of the event emitters, because if we don't they may hang around in other scenes
+        foreach (StudioEventEmitter emitter in eventEmitters)
+        {
+            emitter.Stop();
+        }
+        
     }
 
     //!---------Gestion des volumes des bus---------
@@ -64,11 +102,43 @@ public class S_AudioManager : MonoBehaviour
         return volume;
     }
 
+    
+
     //! -------- Jouer des sons -------
 
     public void PlayOneShot(EventReference sound, Vector3 worldPos) //& Joue un son une fois
     {
         RuntimeManager.PlayOneShot(sound, worldPos);
+    }
+
+    //! -------- Gestion de la musique -------
+
+    private void InitializeMusic(EventReference musicEventReference)
+    {
+        musicEventInstance = CreateInstance(musicEventReference);
+        musicEventInstance.start();
+    }
+
+    public void SetMusicArea(S_MusicArea area)
+    {
+        musicEventInstance.setParameterByName("area", (float)area);
+    }
+
+    public EventInstance CreateInstance(EventReference eventReference)
+    {
+        EventInstance eventInstance = RuntimeManager.CreateInstance(eventReference);
+        eventInstances.Add(eventInstance);
+        return eventInstance;
+    }
+
+    //! -------- Gestion des event emitters -------
+
+    public StudioEventEmitter InitializeEventEmitter(EventReference eventReference, GameObject emitterGameObject)
+    {
+        StudioEventEmitter emitter = emitterGameObject.GetComponent<StudioEventEmitter>();
+        emitter.EventReference = eventReference;
+        eventEmitters.Add(emitter);
+        return emitter;
     }
 
 

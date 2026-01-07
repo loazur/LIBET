@@ -12,8 +12,10 @@ public class S_FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference doorLocked {get; private set;}
     [field: SerializeField] public EventReference doorUnlock {get; private set;}
 
-    [field: Header("Music")]
-    [field: SerializeField] public EventReference musicTest {get; private set;}
+    [field: Header("Musics")]
+    [field: SerializeField] public EventReference music {get; private set;}
+    [field: SerializeField] public EventReference piano {get; private set;}
+
 
     void Awake()
     {
@@ -22,4 +24,5 @@ public class S_FMODEvents : MonoBehaviour
             instance = this;
         }
     }
+
 }
