@@ -9,7 +9,23 @@ public class SO_QuestInfo : ScriptableObject
     public string id => _id;
 
     [Header("Genral Info")]
-    public string displayName;
+    // Le displayName est maintenant calculé à partir du stepName du premier step
+    public string displayName
+    {
+        get
+        {
+            if (questStepsPrefabs != null && questStepsPrefabs.Length > 0 && questStepsPrefabs[0] != null)
+            {
+                S_QuestStep firstStep = questStepsPrefabs[0].GetComponent<S_QuestStep>();
+                if (firstStep != null && !string.IsNullOrEmpty(firstStep.stepName))
+                {
+                    return firstStep.stepName;
+                }
+            }
+            // Fallback sur le nom de l'objet si pas de step ou pas de stepName
+            return this.name;
+        }
+    }
 
     [Header("Requirements")]
     public int levelRequirement;

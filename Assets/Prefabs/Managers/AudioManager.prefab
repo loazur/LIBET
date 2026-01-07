@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6716323711439900645
+--- !u!1 &521137630998413881
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,42 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2887687849128071691}
-  - component: {fileID: 7051053705183978373}
+  - component: {fileID: 6191858046899572021}
+  - component: {fileID: 2733480322207442256}
   m_Layer: 0
-  m_Name: OpenDoor
+  m_Name: AudioManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2887687849128071691
+--- !u!4 &6191858046899572021
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6716323711439900645}
+  m_GameObject: {fileID: 521137630998413881}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.123438, y: 1.5842443, z: -13.412706}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 499.40775, y: 261.5189, z: -135.5423}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7051053705183978373
+--- !u!114 &2733480322207442256
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6716323711439900645}
+  m_GameObject: {fileID: 521137630998413881}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db4a90292809e4d4dbc2c2b2352e567b, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a08aaf0c31dfeda7924f0c8795c286c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepName: Ouvrir la porte
-  doorTag: Door
-  specificDoorName: 
