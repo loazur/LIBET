@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class S_QuestStep : MonoBehaviour
 {
+    public string stepName; //& ce sera le nom de la quete step dans l'éditeur
     private bool isFinished = false;
     private string questId;
     private int stepIndex;
