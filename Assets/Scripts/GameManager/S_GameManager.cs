@@ -4,24 +4,28 @@ public class S_GameManager : MonoBehaviour
 {
     public static S_GameManager instance { get; private set; }
 
-    public InputEvents inputEvents;
+    public S_InputEvents inputEvents;
 
     public S_QuestEvent questEvents;
 
-    public PlayerEvents playerEvents;
+    public S_PlayerEvents playerEvents;
 
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance == null)
         {
-            Debug.LogError("Found more than one Game Events Manager in the scene.");
+            instance = this;
         }
-        instance = this;
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         // initialize all events
-        inputEvents = new InputEvents();
+        inputEvents = new S_InputEvents();
         questEvents = new S_QuestEvent();
-        playerEvents = new PlayerEvents();
+        playerEvents = new S_PlayerEvents();
     }
 }

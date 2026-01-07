@@ -274,7 +274,7 @@ class S_Piano : MonoBehaviour, SI_Interactable
      * @param	s_pianotrack	track	
      * @return	void
      */
-    public void SetPianoTrack(S_PianoTrack track) //& Change la track
+    public void SetPianoTrack(E_PianoTrack track) //& Change la track
     {
         pianoEmitter.EventInstance.setParameterByName("track", (float)track);
     }
