@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
+using UnityEngine.UI;
 
 class S_Piano : MonoBehaviour, SI_Interactable
 {
@@ -16,6 +17,17 @@ class S_Piano : MonoBehaviour, SI_Interactable
     [SerializeField] private SO_PianoTrack[] pianoTracks;
     private SO_PianoTrack currentTrack;
     private StudioEventEmitter pianoEmitter;
+
+    [Header("UI")]
+
+    [Tooltip("UI affichée lors de la lecture de la musique")]
+    [SerializeField]private GameObject musicUI;
+
+    [Tooltip("Texte du nom de la piste")]
+    [SerializeField]private Text trackNameText;
+
+    [Tooltip("Texte de l'auteur de la piste")]
+    [SerializeField]private Text trackAuthorText;
     //*========================================================
 
 
@@ -208,7 +220,11 @@ class S_Piano : MonoBehaviour, SI_Interactable
         key.transform.localPosition += new Vector3(0, keyPressDepth, 0);
     }
 
-    // Sectionner des touches aléatoires
+    /**
+     * Sectionner des touches aléatoires
+     *
+     * @var		mixed	SelectRandomKeys()
+     */
     private List<GameObject> SelectRandomKeys()
     {
         List<GameObject> selected = new();
@@ -224,36 +240,146 @@ class S_Piano : MonoBehaviour, SI_Interactable
         return selected;
     }
 
+    /**
+     * Démarrer la musique du piano
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	private
+     * @return	void
+     */
     private void StartPianoMusic()
     {
-        if (pianoEmitter == null)
-        {
-            pianoEmitter = gameObject.AddComponent<StudioEventEmitter>();
-            pianoEmitter.EventReference = S_FMODEvents.instance.GetRandomPiano();
-            pianoEmitter.AllowFadeout = true;
-        }
+        //& Activer L'ui
+        EnableUIMusic();
 
-        if (!pianoEmitter.IsPlaying())
-            pianoEmitter.Play();
+        if (pianoEmitter == null)
+            pianoEmitter = gameObject.AddComponent<StudioEventEmitter>();
+
+        currentTrack = GetRandomTrack();
+        if (currentTrack == null) return;
+
+        pianoEmitter.EventReference = currentTrack.musicEvent;
+        pianoEmitter.AllowFadeout = true;
+        pianoEmitter.Play();
+
+        UpdateMusicUI();
     }
 
+
+    /**
+     * arrêter la musique du piano
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	private
+     * @return	void
+     */
     private void StopPianoMusic()
     {
+        //& Couper L'ui
+        DisableUIMusic();
+
         if (pianoEmitter != null && pianoEmitter.IsPlaying())
             pianoEmitter.Stop();
+    }
+
+
+    /**
+     * obtenir une piste aléatoire
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	private
+     * @return	mixed
+     */
+    private SO_PianoTrack GetRandomTrack()
+    {
+        if (pianoTracks.Length == 0) return null;
+        return pianoTracks[Random.Range(0, pianoTracks.Length)];
     }
 
 
 
     // ===================== UI =====================
 
+    /**
+     * Mettre à jour l'UI de la musique
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	private
+     * @return	void
+     */
+    private void UpdateMusicUI()
+    {
+        if (musicUI != null)
+            musicUI.SetActive(true);
+
+        if (trackNameText != null)
+            trackNameText.text = currentTrack.trackName;
+
+        if (trackAuthorText != null)
+            trackAuthorText.text = currentTrack.author;
+    }
+
+
+    public void DisableUIMusic()
+    {
+        if (musicUI != null)
+            musicUI.SetActive(false);
+    }
+
+    public void EnableUIMusic()
+    {
+        if (musicUI != null)
+            musicUI.SetActive(true);
+    }
+
+
+    public string GetCurrentTrackName() => currentTrack?.trackName ?? "";
+    public string GetCurrentTrackAuthor() => currentTrack?.author ?? "";
+
+
+
+    /**
+     * Gestion du texte d'interaction
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	public
+     * @return	mixed
+     */
     public string getInteractText()
     {
         return isPlaying ? "Arrêter de jouer" : interactText;
     }
 
+    /**
+     * Obtient la position du piano
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	public
+     * @return	void
+     */
     public Transform getTransform() => transform;
 
+    /**
+     * Mettre à jour le texte d'interaction en fonction de la langue
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Wednesday, January 7th, 2026.
+     * @access	private
+     * @return	void
+     */
     private void UpdateInteractText() 
     {
         if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
