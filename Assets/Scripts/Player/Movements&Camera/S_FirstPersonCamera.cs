@@ -12,8 +12,9 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
     
     [Header("Limites horizontales")]  // UTILISER POUR LES CHAISES
     private bool limitHorizontalRotation = false; // Activer/désactiver la limite
-    private float limitXLeft = -140f; // Limite à gauche
+    private float limitXLeft = -90f; // Limite à gauche
     private float limitXRight = 90f; // Limite à droite
+    private float basePlayerRotation = 0f; // Rotation de base quand on active les limites
     
     private Vector2 lookValue = Vector2.zero;
 
@@ -110,7 +111,9 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
         {
             playerHorizontalRotation += lookValue.x;
             playerHorizontalRotation = Mathf.Clamp(playerHorizontalRotation, limitXLeft, limitXRight);
-            player.localEulerAngles = Vector3.up * playerHorizontalRotation;
+            
+            // Appliquer la rotation relative à la rotation de base fixe
+            player.localEulerAngles = Vector3.up * (basePlayerRotation + playerHorizontalRotation);
         }
         else
         {
@@ -152,11 +155,10 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
         // Synchroniser playerHorizontalRotation avec la rotation actuelle du joueur
         if (isEnabled)
         {
-            playerHorizontalRotation = player.localEulerAngles.y;
-            if (playerHorizontalRotation > 180f)
-            {
-                playerHorizontalRotation -= 360f;
-            }
+            // Sauvegarder la rotation de base (celle de la chaise)
+            basePlayerRotation = player.localEulerAngles.y;
+            // Réinitialiser l'offset à 0
+            playerHorizontalRotation = 0f;
         }
     }
 

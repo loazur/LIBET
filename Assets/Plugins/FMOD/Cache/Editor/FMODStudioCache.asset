@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.strings.bank
   Name: MasterBank.strings
   StudioPath: bank:/MasterBank.strings
-  lastModified: 639032969093108545
+  lastModified: 639033132196768249
   FileSizes:
   - Name: Desktop
-    Value: 1284
+    Value: 1330
   Exists: 1
 --- !u!114 &-8409581801698990430
 MonoBehaviour:
@@ -116,10 +116,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639032969093293059
+  lastModified: 639033132249054994
   FileSizes:
   - Name: Desktop
-    Value: 72608
+    Value: 72576
   Exists: 1
 --- !u!114 &-6601238760623468385
 MonoBehaviour:
@@ -223,11 +223,38 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.bank
   Name: MasterBank
   StudioPath: bank:/MasterBank
-  lastModified: 639032969093107814
+  lastModified: 639033132196758254
   FileSizes:
   - Name: Desktop
     Value: 1378
   Exists: 1
+--- !u!114 &-2638998088777581237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Environment/Piano/PianoMsc1
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Environment/Piano/PianoMsc1
+  Guid:
+    Data1: -1940543555
+    Data2: 1225328313
+    Data3: 744991935
+    Data4: 185323818
+  Banks:
+  - {fileID: -1307645388405869883}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-2107025304474999292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,10 +290,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639032969093293059
+  lastModified: 639033132248171007
   FileSizes:
   - Name: Desktop
-    Value: 6964768
+    Value: 8196320
   Exists: 1
 --- !u!114 &-1213349340232323376
 MonoBehaviour:
@@ -359,13 +386,14 @@ MonoBehaviour:
   - {fileID: -4870894736169669456}
   - {fileID: 3226794634298652320}
   - {fileID: -814982336192900278}
+  - {fileID: -2638998088777581237}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2968363842700604913}
   StringsBanks:
   - {fileID: -9218343506306915907}
   cacheVersion: 131857
-  cacheTime: 639032969093293059
+  cacheTime: 639033132249146030
   SerializableEventsDict:
   - key: event:/Music/musicTest
     index: 0
@@ -377,6 +405,8 @@ MonoBehaviour:
     index: 3
   - key: event:/Environment/Door/closingDoorTest
     index: 4
+  - key: event:/Environment/Piano/PianoMsc1
+    index: 5
 --- !u!114 &225602694130353072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,7 +476,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639032969093293059
+  lastModified: 639033132249146030
   FileSizes:
   - Name: Desktop
     Value: 506
