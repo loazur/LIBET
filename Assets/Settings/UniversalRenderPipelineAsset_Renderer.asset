@@ -17,12 +17,12 @@ MonoBehaviour:
   blendMode: 0
   renderPassEvent: 500
   downscaling: 1
-  blurPasses: 1
+  blurPasses: 3
   blurDownscaling: 1
   blurSpread: 0.64
   blurHDR: 1
   blurEdgePreserve: 1
-  blurEdgeDepthThreshold: 0.5
+  blurEdgeDepthThreshold: 10
   brightness: 1
   ditherStrength: 0
   ignoreOverlayCamera: 1
@@ -98,13 +98,13 @@ MonoBehaviour:
   m_Settings:
     AOMethod: 0
     Downsample: 0
-    AfterOpaque: 0
-    Source: 0
+    AfterOpaque: 1
+    Source: 1
     NormalSamples: 2
-    Intensity: 0
-    DirectLightingStrength: 1
+    Intensity: 0.9
+    DirectLightingStrength: 0.832
     Radius: 0.3
-    Samples: 1
+    Samples: 0
     BlurQuality: 0
-    Falloff: 5
+    Falloff: 6
     SampleCount: -1
