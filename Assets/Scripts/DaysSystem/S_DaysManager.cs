@@ -7,9 +7,16 @@ public class S_DaysManager : MonoBehaviour
     public static S_DaysManager instance { get; private set; }
 
     //~ Information du système de jours
+    [Header("Information du système de jours")]
     [SerializeField] private float dayDuration = 300f; // Durée d'une journée en seconde
     [SerializeField] private float percentageLucidityJaugeAward = 15; // Pourcentage récupérer de jauge de lucidité en pourcentage
     [SerializeField] private int maxDays = 15; // Jours max pour atteindre la fin du jeu
+
+    //~ Génération des médicaments
+    [Header("Gestion de la génération des médicaments")]
+    [Range(1, 10)]
+    [SerializeField] private int medicinesPerDay; //! Rajouter le nombre de spawnPoint équivalent
+
 
     //~ Information du jour actuel
     private int currentDay = 1; // Jour actuel par défaut 1
@@ -21,7 +28,6 @@ public class S_DaysManager : MonoBehaviour
     public event Action OnDayLost; // Event quand le joueur perd un jour
 
     //TODO Manque la gestion des quetes du jour
-    //TODO Gerer le stocke de medocs, et la géneration des nouveaux médocs
 
     void Awake() //& Création du manager
     {
@@ -35,8 +41,8 @@ public class S_DaysManager : MonoBehaviour
             return;
         }
 
-        StartDay(); // TEST
-
+        // Initialiser le premier jour
+        InitializeFirstDay();
     }
 
     void Update() //& Gère l'écoulement du jour
@@ -63,6 +69,10 @@ public class S_DaysManager : MonoBehaviour
     private void EndDay() //& Fin du jour
     {
         isDayActive = false;
+
+        // Stocker les médicaments non mangés AVANT de passer au jour suivant
+        S_MedicinesManager.instance.StoreRemainingMedicines();
+
         OnDayEnd?.Invoke(); // Lance l'event de fin de jour
 
         Debug.Log($"Jour {currentDay} terminé après {timeLasted:F2} secondes");
@@ -88,15 +98,38 @@ public class S_DaysManager : MonoBehaviour
         Debug.Log($"Récompense de {percentageLucidityJaugeAward}% de lucidité");
     }
 
+    //! ---------- Initialisation du premier jour ----------
+
+    private void InitializeFirstDay() //& Initialise le jour 1 avec génération des éléments
+    {
+        Debug.Log("Initialisation du jour 1");
+        
+        // Générer les médicaments pour le jour 1
+        GenerateMedicines();
+        
+        // Randomiser le soleil
+        RandomizeSunTime();
+        
+        // TODO: Générer les quêtes pour le jour 1
+        
+        // Démarrer le jour 1
+        StartDay();
+    }
+
     private void PrepareNextDay() //& Prépare le jour d'après, gènère tout ce qu'il faut
     {
         timeLasted = 0f;
         SetCurrentDay(currentDay + 1);
 
         Debug.Log($"Préparation du jour {currentDay}");
-        //TODO Générer les quêtes.
-
-        RandomizeSunTime(); // Randomiser le soleil entre 10h et 18h
+        
+        // Générer les médicaments en fonction medicinesPerDay
+        GenerateMedicines();
+        
+        // Randomiser le soleil entre 10h et 18h
+        RandomizeSunTime();
+        
+        //TODO Générer les quêtes
 
         // On commence le prochain jour
         StartDay();
@@ -120,6 +153,19 @@ public class S_DaysManager : MonoBehaviour
         string timeString = S_DayNightManager.instance.GetTimeString(randomTime);
         Debug.Log($"Soleil randomisé à {timeString}");
     }
+
+    //! --------- Génération des médicaments ---------
+
+    private void GenerateMedicines()
+    {
+        int medicines = UnityEngine.Random.Range(1, medicinesPerDay + 1); // 1 ou 2 médicaments (ou selon la range définie)
+
+        // Passer medicinesPerDay comme paramètre pour éviter la duplication
+        S_MedicinesManager.instance.GenerateMedicines(medicines, medicinesPerDay);
+
+        Debug.Log($"Génération de {medicines} nouveaux médicaments pour le jour {currentDay}.");
+    }
+
 
     //! ---------- Système de perte de jour ----------
 
