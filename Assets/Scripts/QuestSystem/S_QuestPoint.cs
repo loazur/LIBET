@@ -76,14 +76,14 @@ public class S_QuestPoint : MonoBehaviour
         // Surveillance pour démarrage automatique (sans zone)
         if (autoStartQuest && currentQuestState == E_QuestState.CAN_START)
         {
-            Debug.Log($"<color=cyan>[QuestPoint]</color> Auto-démarrage de '{questId}' (CAN_START détecté)");
+            // Debug.Log($"<color=cyan>[QuestPoint]</color> Auto-démarrage de '{questId}' (CAN_START détecté)");
             S_GameManager.instance.questEvents.StartQuest(questId);
         }
 
         // Surveillance pour fin automatique (sans zone)
         if (autoFinishQuest && currentQuestState == E_QuestState.CAN_FINISH)
         {
-            Debug.Log($"<color=cyan>[QuestPoint]</color> Auto-finalisation de '{questId}' (CAN_FINISH détecté)");
+            // Debug.Log($"<color=cyan>[QuestPoint]</color> Auto-finalisation de '{questId}' (CAN_FINISH détecté)");
             S_GameManager.instance.questEvents.FinishQuest(questId);
         }
     }
@@ -127,14 +127,14 @@ public class S_QuestPoint : MonoBehaviour
         // Démarrage manuel dans la zone
         if (startPoint && requireSubmitToStart && currentQuestState == E_QuestState.CAN_START)
         {
-            Debug.Log($"<color=green>[QuestPoint]</color> Démarrage manuel (Submit) de '{questId}'");
+            // Debug.Log($"<color=green>[QuestPoint]</color> Démarrage manuel (Submit) de '{questId}'");
             S_GameManager.instance.questEvents.StartQuest(questId);
         }
 
         // Fin manuelle dans la zone
         if (finishPoint && requireSubmitToFinish && currentQuestState == E_QuestState.CAN_FINISH)
         {
-            Debug.Log($"<color=green>[QuestPoint]</color> Finalisation manuelle (Submit) de '{questId}'");
+            // Debug.Log($"<color=green>[QuestPoint]</color> Finalisation manuelle (Submit) de '{questId}'");
             S_GameManager.instance.questEvents.FinishQuest(questId);
         }
     }
@@ -160,19 +160,19 @@ public class S_QuestPoint : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         playerIsNear = true;
-        Debug.Log($"<color=cyan>[QuestPoint]</color> Joueur entré dans zone de '{questId}'");
+        // Debug.Log($"<color=cyan>[QuestPoint]</color> Joueur entré dans zone de '{questId}'");
 
         // Démarrage automatique dans la zone (sans Submit)
         if (startPoint && !requireSubmitToStart && currentQuestState == E_QuestState.CAN_START)
         {
-            Debug.Log($"<color=green>[QuestPoint]</color> Démarrage automatique (zone) de '{questId}'");
+            // Debug.Log($"<color=green>[QuestPoint]</color> Démarrage automatique (zone) de '{questId}'");
             S_GameManager.instance.questEvents.StartQuest(questId);
         }
 
         // Fin automatique dans la zone (sans Submit)
         if (finishPoint && !requireSubmitToFinish && currentQuestState == E_QuestState.CAN_FINISH)
         {
-            Debug.Log($"<color=green>[QuestPoint]</color> Finalisation automatique (zone) de '{questId}'");
+            // Debug.Log($"<color=green>[QuestPoint]</color> Finalisation automatique (zone) de '{questId}'");
             S_GameManager.instance.questEvents.FinishQuest(questId);
         }
     }
@@ -185,7 +185,6 @@ public class S_QuestPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsNear = false;
-            Debug.Log($"<color=cyan>[QuestPoint]</color> Joueur sorti de la zone de '{questId}'");
         }
     }
 }

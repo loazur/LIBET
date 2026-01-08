@@ -46,7 +46,7 @@ public class S_QuestManager : MonoBehaviour
     public void Update()
     {
         // Vérifier si des quêtes peuvent passer de REQUIREMENTS_NOT_MET à CAN_START
-        // TODO: Optimiser en utilisant un système d'événements plutôt que Update()
+        // // TODO: Optimiser en utilisant un système d'événements plutôt que Update()
         foreach (S_Quest quest in questMap.Values)
         {
             if (quest.state == E_QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
@@ -405,16 +405,11 @@ public class S_QuestManager : MonoBehaviour
             if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
             {
                 S_GameManager.instance.playerEvents.ExperienceGained(quest.info.experienceReward);
-                Debug.Log($"<color=green>[QuestManager]</color> Événement ExperienceGained déclenché avec {quest.info.experienceReward} XP");
             }
             else
             {
-                Debug.LogError($"<color=red>[QuestManager]</color> GameManager ou PlayerEvents est null ! Impossible de donner l'expérience.");
+                Debug.LogError($"[QuestManager] GameManager ou PlayerEvents est null ! Impossible de donner l'expérience.");
             }
-        }
-        else
-        {
-            Debug.Log($"<color=yellow>[QuestManager]</color> Aucune expérience configurée (experienceReward = {quest.info.experienceReward})");
         }
     }
 
