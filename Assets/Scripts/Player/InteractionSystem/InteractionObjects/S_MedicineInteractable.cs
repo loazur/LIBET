@@ -5,7 +5,7 @@ public class S_MedicineInteractable : MonoBehaviour, SI_Interactable
     //~ Gestion du medicament
     [Header("Gestion du medicament")]
     [SerializeField] private float percentageLucidityJaugeAward = 5; // Pourcentage de lucidité récupérer
-    [SerializeField] private string interactText = "not_set"; // Texte à afficher en fonction du NPC
+    [SerializeField] private string interactText = "not_set"; // Texte à afficher
 
     void Start()
     {
@@ -21,6 +21,9 @@ public class S_MedicineInteractable : MonoBehaviour, SI_Interactable
         S_AlzheimerEventsManager.instance.RecoverLucidity(percentageLucidityJaugeAward); // Gain de lucidité
         Debug.Log($"Délicieux! {percentageLucidityJaugeAward}% de lucidité récupéré!");
 
+        // Notifier le manager qu'un médicament a été mangé
+        S_MedicinesManager.instance.OnMedicineEatenByPlayer(gameObject);
+
         Destroy(gameObject); // Détruit le médicament
     }
 
@@ -29,14 +32,13 @@ public class S_MedicineInteractable : MonoBehaviour, SI_Interactable
         return interactText;
     }
 
-    public Transform getTransform() //& Position du NPC
+    public Transform getTransform() //& Position du médicament
     {
         return gameObject.transform;
     }
 
     private void UpdateInteractText() //& Gestion du texte en fonction de la langue
     {
-        
         if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
         {
             interactText = "Manger";
@@ -45,7 +47,5 @@ public class S_MedicineInteractable : MonoBehaviour, SI_Interactable
         {
             interactText = "Eat";
         }
-        
-        
     }
 }
