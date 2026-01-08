@@ -139,23 +139,23 @@ public class S_QuestPoint : MonoBehaviour
             return;
         }
 
-        // Debug.Log($"[S_QuestPoint] Submit pressé pour quête {questId}, état actuel: {currentQuestState}");
+        Debug.Log($"[QuestPoint] Submit pressé - Quête: '{questId}' | État: {currentQuestState} | AutoStart: {autoStartQuest} | AutoFinish: {autoFinishQuest}");
 
         // Démarrage manuel de la quête (si autoStartQuest est false)
         if (!autoStartQuest && currentQuestState.Equals(E_QuestState.CAN_START) && startPoint)
         {
-            // Debug.Log($"[S_QuestPoint] Démarrage manuel de la quête {questId}");
+            Debug.Log($"[QuestPoint] Démarrage manuel de la quête '{questId}'");
             S_GameManager.instance.questEvents.StartQuest(questId);
         }
         // Finalisation manuelle de la quête (si autoFinishQuest est false)
         else if (!autoFinishQuest && currentQuestState.Equals(E_QuestState.CAN_FINISH) && finishPoint)
         {
-            // Debug.Log($"[S_QuestPoint] Finalisation manuelle de la quête {questId}");
+            Debug.Log($"[QuestPoint] Finalisation manuelle de la quête '{questId}'");
             S_GameManager.instance.questEvents.FinishQuest(questId);
         }
         else
         {
-            // Debug.Log($"[S_QuestPoint] Conditions non remplies: currentState={currentQuestState}, autoStart={autoStartQuest}, autoFinish={autoFinishQuest}, startPoint={startPoint}, finishPoint={finishPoint}");
+            Debug.Log($"[QuestPoint] Submit ignoré - Conditions non remplies pour '{questId}'");
         }
     }
 
@@ -175,8 +175,9 @@ public class S_QuestPoint : MonoBehaviour
         // only update the quest state if this point has the corresponding quest
         if (quest.info.id.Equals(questId))
         {
+            E_QuestState oldState = currentQuestState;
             currentQuestState = quest.state;
-            // Debug.Log($"[S_QuestPoint] État de la quête {questId} mis à jour: {currentQuestState}");
+            Debug.Log($"[QuestPoint] Changement d'état pour '{questId}': {oldState} → {currentQuestState}");
         }
     }
 
@@ -196,20 +197,28 @@ public class S_QuestPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsNear = true;
-            // Debug.Log($"[S_QuestPoint] Joueur proche du point de quête '{questId}', état: {currentQuestState}");
+            Debug.Log($"[QuestPoint] Joueur entre dans le trigger - Quête: '{questId}' | État: {currentQuestState} | StartPoint: {startPoint} | FinishPoint: {finishPoint} | AutoStart: {autoStartQuest} | AutoFinish: {autoFinishQuest}");
 
             // Démarrage automatique de la quête si configuré
             if (autoStartQuest && currentQuestState == E_QuestState.CAN_START && startPoint)
             {
-                // Debug.Log($"[S_QuestPoint] Démarrage automatique de la quête {questId}");
+                Debug.Log($"[QuestPoint] Démarrage automatique de la quête '{questId}'");
                 S_GameManager.instance.questEvents.StartQuest(questId);
+            }
+            else if (!autoStartQuest && currentQuestState == E_QuestState.CAN_START && startPoint)
+            {
+                Debug.Log($"[QuestPoint] Quête '{questId}' peut démarrer mais AutoStartQuest est désactivé. Appuyez sur Submit pour démarrer.");
             }
             
             // Finalisation automatique de la quête si configuré
             if (autoFinishQuest && currentQuestState == E_QuestState.CAN_FINISH && finishPoint)
             {
-                // Debug.Log($"[S_QuestPoint] Finalisation automatique de la quête {questId}");
+                Debug.Log($"[QuestPoint] Finalisation automatique de la quête '{questId}'");
                 S_GameManager.instance.questEvents.FinishQuest(questId);
+            }
+            else if (currentQuestState == E_QuestState.CAN_FINISH && finishPoint)
+            {
+                Debug.Log($"[QuestPoint] Quête '{questId}' peut être terminée mais AutoFinish est désactivé. Appuyez sur Submit pour terminer.");
             }
         }
     }

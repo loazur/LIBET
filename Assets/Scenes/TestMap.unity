@@ -441,7 +441,7 @@ Material:
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowIntensity: {r: 1, g: 0, b: 0, a: 0}
     - _ToLightDir: {r: 0.9774494, g: 0.21117042, b: 0.00000013690442, a: 0.39}
-    - _WindDirection: {r: 0.11978051, g: 0.07186838, b: 0.011978056, a: 0}
+    - _WindDirection: {r: 0.0368278, g: 0.022096673, b: 0.003682779, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!43 &84151604
@@ -2593,6 +2593,43 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 786085083915034593, guid: c6e27bc925760e40da51adf2a7489005, type: 3}
   m_PrefabInstance: {fileID: 511943658}
   m_PrefabAsset: {fileID: 0}
+--- !u!84 &545747884
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!43 &573932205
 Mesh:
   m_ObjectHideFlags: 0
@@ -3310,43 +3347,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1915490133181162346, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
   m_PrefabInstance: {fileID: 107379727706575993}
   m_PrefabAsset: {fileID: 0}
---- !u!84 &699205399
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &701556398
 GameObject:
   m_ObjectHideFlags: 0
@@ -3363,7 +3363,7 @@ GameObject:
   m_Layer: 0
   m_Name: GotoZone
   m_TagString: QuestZone
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -5312,6 +5312,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8178240729236217027, guid: bf5406ac515fb7541bca35dc71f47f4e, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 8178240729236217027, guid: bf5406ac515fb7541bca35dc71f47f4e, type: 3}
       propertyPath: m_Name
       value: QuestStartPoint_QuestSitOnChair
       objectReference: {fileID: 0}
@@ -6409,6 +6413,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8624842275714758777, guid: a1f1abfb66b01004182696f8f1481d39, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 8624842275714758777, guid: a1f1abfb66b01004182696f8f1481d39, type: 3}
       propertyPath: m_Name
       value: QuestStartPoint_QuestOpen-CloseDoor
@@ -9235,7 +9243,7 @@ PrefabInstance:
     - target: {fileID: 3427824855752784596, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 699205399}
+      objectReference: {fileID: 545747884}
     - target: {fileID: 4302015194351260662, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_LocalPosition.x
       value: -278.43658
@@ -9337,6 +9345,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 824202952}
     m_Modifications:
+    - target: {fileID: 964274483190521906, guid: 079bc205647e52244b5a85bb75f96541, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 964274483190521906, guid: 079bc205647e52244b5a85bb75f96541, type: 3}
       propertyPath: m_Name
       value: QuestStartPoint_QuestTakeBall
@@ -11824,6 +11836,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 824202952}
     m_Modifications:
+    - target: {fileID: 3120216832112140772, guid: d65f63307acc44a488516cd00a40a577, type: 3}
+      propertyPath: startPoint
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3120216832112140772, guid: d65f63307acc44a488516cd00a40a577, type: 3}
+      propertyPath: finishPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3120216832112140772, guid: d65f63307acc44a488516cd00a40a577, type: 3}
+      propertyPath: autoStartQuest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3120216832112140772, guid: d65f63307acc44a488516cd00a40a577, type: 3}
+      propertyPath: autoFinishQuest
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6803271131706545144, guid: d65f63307acc44a488516cd00a40a577, type: 3}
       propertyPath: m_LocalPosition.x
       value: -286.0953
@@ -11864,6 +11892,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7940537214262448626, guid: d65f63307acc44a488516cd00a40a577, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 7940537214262448626, guid: d65f63307acc44a488516cd00a40a577, type: 3}
       propertyPath: m_Name
       value: QuestPointAllQuest
@@ -12258,6 +12290,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6598492702192184842, guid: ba2d0b8739248d94fa693530ba47cf95, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 6598492702192184842, guid: ba2d0b8739248d94fa693530ba47cf95, type: 3}
       propertyPath: m_Name
       value: QuestStartPoint_QuestGoTo
       objectReference: {fileID: 0}
@@ -12559,6 +12595,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 824202952}
     m_Modifications:
+    - target: {fileID: 4251900990015234638, guid: 248d46edc57368f43baa3be3a8200bd5, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 4251900990015234638, guid: 248d46edc57368f43baa3be3a8200bd5, type: 3}
       propertyPath: m_Name
       value: QuestStartPoint_QuestPlaceObject

@@ -323,6 +323,15 @@ public class S_QuestManager : MonoBehaviour
         else
         {
             ChangeQuestState(quest.info.id, E_QuestState.CAN_FINISH);
+            
+            Debug.Log($"<color=orange>[QuestManager]</color> Toutes les étapes de '{quest.info.id}' sont terminées. AutoComplete = {quest.info.autoCompleteQuest}");
+            
+            // Si autoCompleteQuest est activé, terminer la quête immédiatement
+            if (quest.info.autoCompleteQuest)
+            {
+                Debug.Log($"<color=orange>[QuestManager]</color> Fin automatique de la quête '{quest.info.id}'");
+                FinishQuest(quest.info.id);
+            }
         }
 
         // Mettre à jour l'UI pour afficher le nouveau titre d'étape
@@ -343,7 +352,16 @@ public class S_QuestManager : MonoBehaviour
      */
     private void FinishQuest(string questID)
     {
+        Debug.Log($"<color=green>[QuestManager]</color> Terminer la quête: {questID}");
+        
         S_Quest quest = GetQuestByID(questID);
+        
+        if (quest == null)
+        {
+            Debug.LogError($"<color=red>[QuestManager]</color> Impossible de trouver la quête avec l'ID: {questID}");
+            return;
+        }
+        
         ClaimRewards(quest);
         ChangeQuestState(quest.info.id, E_QuestState.FINISHED);
 
@@ -362,6 +380,32 @@ public class S_QuestManager : MonoBehaviour
      */
     private void ClaimRewards(S_Quest quest)
     {
+        Debug.Log($"<color=cyan>[QuestManager]</color> Distribution des récompenses pour la quête: {quest.info.id}");
+        
+        // Distribue les récompenses ScriptableObject (lucidité, événements, etc.)
+        if (quest.info.questRewards != null && quest.info.questRewards.Length > 0)
+        {
+            Debug.Log($"<color=cyan>[QuestManager]</color> {quest.info.questRewards.Length} récompense(s) trouvée(s)");
+            
+            foreach (QuestReward reward in quest.info.questRewards)
+            {
+                if (reward != null)
+                {
+                    Debug.Log($"<color=cyan>[QuestManager]</color> Distribution de: {reward.GetType().Name}");
+                    reward.GiveReward();
+                }
+                else
+                {
+                    Debug.LogWarning($"<color=yellow>[QuestManager]</color> Une récompense est null dans la liste!");
+                }
+            }
+        }
+        else
+        {
+            Debug.Log($"<color=yellow>[QuestManager]</color> Aucune récompense configurée pour cette quête");
+        }
+        
+        // Distribue l'expérience (ancien système)
         S_GameManager.instance.playerEvents.ExperienceGained(quest.info.experienceReward);
     }
 

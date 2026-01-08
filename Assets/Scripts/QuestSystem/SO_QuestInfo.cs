@@ -34,7 +34,14 @@ public class SO_QuestInfo : ScriptableObject
     [Header("Steps")]
     public GameObject[] questStepsPrefabs;
 
+    [Header("Quest Completion")]
+    [Tooltip("Si activé, la quête se termine automatiquement quand toutes les étapes sont complétées (sans avoir besoin de retourner au QuestPoint)")]
+    public bool autoCompleteQuest = false;
+
     [Header("Rewards")]
+    [Tooltip("Liste des récompenses à donner à la fin de la quête")]
+    public QuestReward[] questRewards;
+    
     // ! À MODIFIER SELON LES BESOINS DU JEU
     public int experienceReward; // ! Ne sert à rien pour le moment
 
