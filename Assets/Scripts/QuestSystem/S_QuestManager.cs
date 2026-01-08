@@ -323,15 +323,7 @@ public class S_QuestManager : MonoBehaviour
         else
         {
             ChangeQuestState(quest.info.id, E_QuestState.CAN_FINISH);
-            
-            Debug.Log($"<color=orange>[QuestManager]</color> Toutes les étapes de '{quest.info.id}' sont terminées. AutoComplete = {quest.info.autoCompleteQuest}");
-            
-            // Si autoCompleteQuest est activé, terminer la quête immédiatement
-            if (quest.info.autoCompleteQuest)
-            {
-                Debug.Log($"<color=orange>[QuestManager]</color> Fin automatique de la quête '{quest.info.id}'");
-                FinishQuest(quest.info.id);
-            }
+            Debug.Log($"<color=orange>[QuestManager]</color> Toutes les étapes de '{quest.info.id}' sont terminées. État: CAN_FINISH");
         }
 
         // Mettre à jour l'UI pour afficher le nouveau titre d'étape

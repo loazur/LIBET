@@ -23,13 +23,17 @@ public class S_QuestPoint : MonoBehaviour
     [SerializeField] private SO_QuestInfo questInfoForPoint;
 
     [Header("Config")]
+    [Tooltip("Ce QuestPoint peut démarrer la quête")]
     [SerializeField] private bool startPoint = true;
+    
+    [Tooltip("Ce QuestPoint peut terminer la quête")]
     [SerializeField] private bool finishPoint = true;
     
     [Header("Interaction Mode")]
     [Tooltip("Si true, la quête démarre automatiquement quand le joueur entre dans le trigger. Si false, il faut appuyer sur Submit.")]
     [SerializeField] private bool autoStartQuest = true;
-    [Tooltip("Si true, la quête se termine automatiquement quand le joueur entre dans le trigger. Si false, il faut appuyer sur Submit.")]
+    
+    [Tooltip("Si true, la quête se termine automatiquement quand le joueur entre dans le trigger (après avoir complété toutes les étapes). Si false, il faut appuyer sur Submit.")]
     [SerializeField] private bool autoFinishQuest = false;
 
     // *----------------------------------------------------------------*
@@ -39,14 +43,12 @@ public class S_QuestPoint : MonoBehaviour
     private E_QuestState currentQuestState;
     private bool isSubscribed = false;
 
-    // private QuestIcon questIcon;
 
     // *----------------------------------------------------------------*
 
     private void Awake() 
     {
         questId = questInfoForPoint.id;
-        // questIcon = GetComponentInChildren<QuestIcon>();
     }
 
     private void Start()
