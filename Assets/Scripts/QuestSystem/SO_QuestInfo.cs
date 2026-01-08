@@ -35,6 +35,9 @@ public class SO_QuestInfo : ScriptableObject
     public GameObject[] questStepsPrefabs;
 
     [Header("Rewards")]
+    [Tooltip("Liste des récompenses à donner à la fin de la quête")]
+    public QuestReward[] questRewards;
+    
     // ! À MODIFIER SELON LES BESOINS DU JEU
     public int experienceReward; // ! Ne sert à rien pour le moment
 
