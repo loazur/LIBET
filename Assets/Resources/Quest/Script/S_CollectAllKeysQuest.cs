@@ -106,7 +106,7 @@ public class S_CollectAllKeysQuest : S_QuestStep
      */
     private void OnKeyCollected(GameObject key, string doorID, string keyID)
     {
-        Debug.Log($"[CollectAllKeysQuest] 🗝 Event received → key:{key?.name}, door:{doorID}, questCompleted:{questCompleted}");
+        // Debug.Log($"[CollectAllKeysQuest] Event received -> key:{key?.name}, door:{doorID}, questCompleted:{questCompleted}");
 
         if (questCompleted) return;
 

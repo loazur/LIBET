@@ -37,9 +37,10 @@ public class SO_QuestInfo : ScriptableObject
     [Header("Rewards")]
     [Tooltip("Liste des récompenses à donner à la fin de la quête")]
     public QuestReward[] questRewards;
-    
-    // ! À MODIFIER SELON LES BESOINS DU JEU
-    public int experienceReward; // ! Ne sert à rien pour le moment
+
+    [Header("Experience Reward")]
+    [Tooltip("Quantité d'expérience à donner au joueur à la fin de la quête")]
+    public int experienceReward; //& Sera utiliser pour donner l'accès à certaines quêtes qui seront de plus haut lvl
 
 
 

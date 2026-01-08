@@ -40,10 +40,21 @@ public class S_PlayerLevelManager : MonoBehaviour
 
     private void SubscribeToEvents()
     {
-        if (S_GameManager.instance == null || isSubscribed) return;
+        if (S_GameManager.instance == null)
+        {
+            Debug.LogError("[PlayerLevelManager] Impossible de s'abonner : S_GameManager est null !");
+            return;
+        }
+        
+        if (isSubscribed)
+        {
+            Debug.LogWarning("[PlayerLevelManager] Déjà abonné aux événements");
+            return;
+        }
 
         S_GameManager.instance.playerEvents.onExperienceGained += ExperienceGained;
         isSubscribed = true;
+        // Debug.Log("<color=green>[PlayerLevelManager]</color> Abonnement à l'événement ExperienceGained réussi !");
     }
 
     private void UnsubscribeFromEvents()
@@ -61,14 +72,28 @@ public class S_PlayerLevelManager : MonoBehaviour
 
     private void ExperienceGained(int experience) 
     {
+        // Debug.Log($"<color=cyan>[PlayerLevelManager]</color> Réception de {experience} XP | Niveau actuel: {currentLevel} | XP actuel: {currentExperience}/{S_GlobalConstants.experienceToLevelUp}");
+        
         currentExperience += experience;
+        
+        // Debug.Log($"<color=cyan>[PlayerLevelManager]</color> Après ajout: {currentExperience}/{S_GlobalConstants.experienceToLevelUp} XP");
+        
         // check if we're ready to level up
+        int levelsGained = 0;
         while (currentExperience >= S_GlobalConstants.experienceToLevelUp) 
         {
             currentExperience -= S_GlobalConstants.experienceToLevelUp;
             currentLevel++;
+            levelsGained++;
             S_GameManager.instance.playerEvents.PlayerLevelChange(currentLevel);
+            // Debug.Log($"<color=green>[PlayerLevelManager]</color> NIVEAU SUPÉRIEUR ! Nouveau niveau: {currentLevel} | XP restant: {currentExperience}");
         }
+        
+        if (levelsGained == 0)
+        {
+            // Debug.Log($"<color=yellow>[PlayerLevelManager]</color> Pas assez d'XP pour monter de niveau (besoin de {S_GlobalConstants.experienceToLevelUp - currentExperience} XP supplémentaires)");
+        }
+        
         S_GameManager.instance.playerEvents.PlayerExperienceChange(currentExperience);
     }
 }

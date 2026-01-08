@@ -22,7 +22,7 @@ public class S_PlayerEvents
     }
 
     public event Action<int> onExperienceGained;
-    public void ExperienceGained(int experience) 
+    public void ExperienceGained(int experience)
     {
         if (onExperienceGained != null) 
         {
