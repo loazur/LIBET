@@ -398,7 +398,24 @@ public class S_QuestManager : MonoBehaviour
         }
         
         // Distribue l'expérience (ancien système)
-        S_GameManager.instance.playerEvents.ExperienceGained(quest.info.experienceReward);
+        if (quest.info.experienceReward > 0)
+        {
+            Debug.Log($"<color=cyan>[QuestManager]</color> Distribution de {quest.info.experienceReward} points d'expérience");
+            
+            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+            {
+                S_GameManager.instance.playerEvents.ExperienceGained(quest.info.experienceReward);
+                Debug.Log($"<color=green>[QuestManager]</color> Événement ExperienceGained déclenché avec {quest.info.experienceReward} XP");
+            }
+            else
+            {
+                Debug.LogError($"<color=red>[QuestManager]</color> GameManager ou PlayerEvents est null ! Impossible de donner l'expérience.");
+            }
+        }
+        else
+        {
+            Debug.Log($"<color=yellow>[QuestManager]</color> Aucune expérience configurée (experienceReward = {quest.info.experienceReward})");
+        }
     }
 
     #endregion
