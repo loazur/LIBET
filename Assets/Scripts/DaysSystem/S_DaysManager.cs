@@ -21,6 +21,7 @@ public class S_DaysManager : MonoBehaviour
     public event Action OnDayLost; // Event quand le joueur perd un jour
 
     //TODO Manque la gestion des quetes du jour
+    //TODO Gerer le stocke de medocs, et la géneration des nouveaux médocs
 
     void Awake() //& Création du manager
     {
@@ -82,7 +83,8 @@ public class S_DaysManager : MonoBehaviour
 
     private void Award() //& Récompense du joueur
     {
-        //TODO Récompense de lucidité via S_LucidityManager
+        S_AlzheimerEventsManager.instance.RecoverLucidity(percentageLucidityJaugeAward); // Augmente la lucidité
+
         Debug.Log($"Récompense de {percentageLucidityJaugeAward}% de lucidité");
     }
 
@@ -92,7 +94,7 @@ public class S_DaysManager : MonoBehaviour
         SetCurrentDay(currentDay + 1);
 
         Debug.Log($"Préparation du jour {currentDay}");
-        //TODO Générer les quêtes, randomiser le soleil, etc.
+        //TODO Générer les quêtes.
 
         RandomizeSunTime(); // Randomiser le soleil entre 10h et 18h
 
