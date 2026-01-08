@@ -2,8 +2,10 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using Assert = UnityEngine.Assertions.Assert;
 
-public class S_DayNight : MonoBehaviour
+public class S_DayNightManager : MonoBehaviour
 {
+    public static S_DayNightManager instance { get; private set; }
+
     [Header("Mode")]
     [Tooltip("Utiliser une Spot Light au lieu d'une Directional Light (pour les intérieurs)")]
     public bool useSpotLight = false;
@@ -100,6 +102,19 @@ public class S_DayNight : MonoBehaviour
     private Light activeLight;
 
     // convertir time en heures et minutes pour affichage si besoin
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     /**
      * Au lancement, le jour est instancié par défaut
