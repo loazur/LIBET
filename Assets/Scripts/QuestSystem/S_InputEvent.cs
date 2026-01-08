@@ -1,5 +1,7 @@
 using System;
 
+
+
 /**
  * Classe pour gérer les événements d'input
  *
@@ -10,10 +12,15 @@ using System;
  */
 public class S_InputEvent 
 {
-    public event Action onSubmitPressed;
+    public event Action<E_InputEventContext> onSubmitPressed;
 
-    public void SubmitPressed()
+    /**
+     * Déclenche l'événement Submit avec un contexte
+     *
+     * @param context Le contexte dans lequel Submit est pressé
+     */
+    public void SubmitPressed(E_InputEventContext context = E_InputEventContext.DEFAULT)
     {
-        onSubmitPressed?.Invoke();
+        onSubmitPressed?.Invoke(context);
     }
 }
