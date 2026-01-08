@@ -46,7 +46,7 @@ public class S_QuestManager : MonoBehaviour
     public void Update()
     {
         // Vérifier si des quêtes peuvent passer de REQUIREMENTS_NOT_MET à CAN_START
-        // TODO: Optimiser en utilisant un système d'événements plutôt que Update()
+        // // TODO: Optimiser en utilisant un système d'événements plutôt que Update()
         foreach (S_Quest quest in questMap.Values)
         {
             if (quest.state == E_QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
@@ -398,7 +398,19 @@ public class S_QuestManager : MonoBehaviour
         }
         
         // Distribue l'expérience (ancien système)
-        S_GameManager.instance.playerEvents.ExperienceGained(quest.info.experienceReward);
+        if (quest.info.experienceReward > 0)
+        {
+            Debug.Log($"<color=cyan>[QuestManager]</color> Distribution de {quest.info.experienceReward} points d'expérience");
+            
+            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+            {
+                S_GameManager.instance.playerEvents.ExperienceGained(quest.info.experienceReward);
+            }
+            else
+            {
+                Debug.LogError($"[QuestManager] GameManager ou PlayerEvents est null ! Impossible de donner l'expérience.");
+            }
+        }
     }
 
     #endregion
@@ -735,6 +747,12 @@ public class S_QuestManager : MonoBehaviour
             Debug.Log($"Canvas actif: {questCanvas.activeSelf}");
         }
         Debug.Log("===================");
+    }
+
+    [ContextMenu("Debug - Show Cureent level of player")]
+    public void DebugShowPlayerLevel()
+    {
+        Debug.Log($"[S_QuestManager] Niveau actuel du joueur: {currentPlayerLevel}");
     }
 
     #endregion
