@@ -41,7 +41,10 @@ public class S_DaysManager : MonoBehaviour
             return;
         }
 
-        // Initialiser le premier jour
+    }
+
+    void Start() //& Initialize le 1er jour
+    {
         InitializeFirstDay();
     }
 
