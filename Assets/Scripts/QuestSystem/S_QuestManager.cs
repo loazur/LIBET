@@ -737,6 +737,12 @@ public class S_QuestManager : MonoBehaviour
         Debug.Log("===================");
     }
 
+    [ContextMenu("Debug - Show Cureent level of player")]
+    public void DebugShowPlayerLevel()
+    {
+        Debug.Log($"[S_QuestManager] Niveau actuel du joueur: {currentPlayerLevel}");
+    }
+
     #endregion
     
 }
