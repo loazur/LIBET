@@ -2,34 +2,42 @@
  * S_QuestPoint.cs
  * 
  * Représente un point de quête dans le jeu.
- * Chaque point de quête peut être un lieu où le joueur doit se rendre,
- * interagir avec un objet, ou accomplir une tâche spécifique.
- * On peut chosir si c'est le début de la qûete ou la fin de la quête.
+ * Gère le démarrage et la fin des quêtes via zones ou automatiquement.
+ * 
+ * LOGIQUE :
+ * - startPoint/finishPoint : Ce point peut déclencher start/finish via zone
+ * - requireSubmitToStart/Finish : Nécessite Submit dans la zone (sinon automatique dans zone)
+ * - autoStartQuest : Démarre AUTOMATIQUEMENT dès que CAN_START (sans zone)
+ * - autoFinishQuest : Termine AUTOMATIQUEMENT dès que CAN_FINISH (sans zone)
 **/
-
 
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
 [RequireComponent(typeof(Collider))]
 public class S_QuestPoint : MonoBehaviour
 {
-
-    [Header("Dialogue (optional)")]
-    [SerializeField] private string dialogueKnotName;
-
     [Header("Quest")]
     [SerializeField] private SO_QuestInfo questInfoForPoint;
 
-    [Header("Config")]
+    [Header("Zone Interaction")]
+    [Tooltip("Ce QuestPoint peut démarrer la quête quand le joueur entre dans la zone")]
     [SerializeField] private bool startPoint = true;
+    
+    [Tooltip("Ce QuestPoint peut terminer la quête quand le joueur entre dans la zone")]
     [SerializeField] private bool finishPoint = true;
     
-    [Header("Interaction Mode")]
-    [Tooltip("Si true, la quête démarre automatiquement quand le joueur entre dans le trigger. Si false, il faut appuyer sur Submit.")]
-    [SerializeField] private bool autoStartQuest = true;
-    [Tooltip("Si true, la quête se termine automatiquement quand le joueur entre dans le trigger. Si false, il faut appuyer sur Submit.")]
+    [Tooltip("Nécessite d'appuyer sur Submit pour démarrer dans la zone (sinon automatique)")]
+    [SerializeField] private bool requireSubmitToStart = false;
+    
+    [Tooltip("Nécessite d'appuyer sur Submit pour terminer dans la zone (sinon automatique)")]
+    [SerializeField] private bool requireSubmitToFinish = false;
+    
+    [Header("Automatic Quest Control (Global)")]
+    [Tooltip("Démarre automatiquement la quête dès que CAN_START (sans zone)")]
+    [SerializeField] private bool autoStartQuest = false;
+    
+    [Tooltip("Termine automatiquement la quête dès que CAN_FINISH (sans zone)")]
     [SerializeField] private bool autoFinishQuest = false;
 
     // *----------------------------------------------------------------*
@@ -39,14 +47,11 @@ public class S_QuestPoint : MonoBehaviour
     private E_QuestState currentQuestState;
     private bool isSubscribed = false;
 
-    // private QuestIcon questIcon;
-
     // *----------------------------------------------------------------*
 
     private void Awake() 
     {
         questId = questInfoForPoint.id;
-        // questIcon = GetComponentInChildren<QuestIcon>();
     }
 
     private void Start()
@@ -66,6 +71,23 @@ public class S_QuestPoint : MonoBehaviour
         SubscribeToEvents();
     }
 
+    private void Update()
+    {
+        // Surveillance pour démarrage automatique (sans zone)
+        if (autoStartQuest && currentQuestState == E_QuestState.CAN_START)
+        {
+            // Debug.Log($"<color=cyan>[QuestPoint]</color> Auto-démarrage de '{questId}' (CAN_START détecté)");
+            S_GameManager.instance.questEvents.StartQuest(questId);
+        }
+
+        // Surveillance pour fin automatique (sans zone)
+        if (autoFinishQuest && currentQuestState == E_QuestState.CAN_FINISH)
+        {
+            // Debug.Log($"<color=cyan>[QuestPoint]</color> Auto-finalisation de '{questId}' (CAN_FINISH détecté)");
+            S_GameManager.instance.questEvents.FinishQuest(questId);
+        }
+    }
+
     private void SubscribeToEvents()
     {
         if (S_GameManager.instance == null || isSubscribed) return;
@@ -73,7 +95,6 @@ public class S_QuestPoint : MonoBehaviour
         S_GameManager.instance.questEvents.onQuestStateChange += QuestStateChange;
         S_GameManager.instance.inputEvents.onSubmitPressed += SubmitPressed;
         isSubscribed = true;
-
     }
 
     private void UnsubscribeFromEvents()
@@ -85,151 +106,85 @@ public class S_QuestPoint : MonoBehaviour
         isSubscribed = false;
     }
 
-
-    /**
-     * Active les événements de quête
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Sunday, November 23rd, 2025.
-     * @access	private
-     * @return	void
-     */
     private void OnEnable()
     {
         // L'abonnement est géré par InitializeWhenReady() dans Start()
     }
 
-    /**
-     * Désactive les événements de quête
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Sunday, November 23rd, 2025.
-     * @access	private
-     * @return	void
-     */
     private void OnDisable()
     {
         UnsubscribeFromEvents();
     }
 
-
     /**
-     * Permet de gérer l'entrée et la sortie de la zone d'interaction
-     * Appelé quand le joueur appuie sur Submit (mode manuel uniquement)
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Sunday, November 23rd, 2025.
-     * @access	private
-     * @param	inputeventcontext	inputEventContext	
-     * @return	void
+     * Gère l'appui sur Submit quand le joueur est dans la zone
      */
     private void SubmitPressed(E_InputEventContext inputEventContext)
     {
-        if (!playerIsNear)
-        {
+        if (!playerIsNear || inputEventContext != E_InputEventContext.DEFAULT)
             return;
-        }
 
-        if (!inputEventContext.Equals(E_InputEventContext.DEFAULT))
+        // Démarrage manuel dans la zone
+        if (startPoint && requireSubmitToStart && currentQuestState == E_QuestState.CAN_START)
         {
-            // Debug.Log($"[S_QuestPoint] Input context is {inputEventContext}, not DEFAULT. Ignoring.");
-            return;
-        }
-
-        // Debug.Log($"[S_QuestPoint] Submit pressé pour quête {questId}, état actuel: {currentQuestState}");
-
-        // Démarrage manuel de la quête (si autoStartQuest est false)
-        if (!autoStartQuest && currentQuestState.Equals(E_QuestState.CAN_START) && startPoint)
-        {
-            // Debug.Log($"[S_QuestPoint] Démarrage manuel de la quête {questId}");
+            // Debug.Log($"<color=green>[QuestPoint]</color> Démarrage manuel (Submit) de '{questId}'");
             S_GameManager.instance.questEvents.StartQuest(questId);
         }
-        // Finalisation manuelle de la quête (si autoFinishQuest est false)
-        else if (!autoFinishQuest && currentQuestState.Equals(E_QuestState.CAN_FINISH) && finishPoint)
+
+        // Fin manuelle dans la zone
+        if (finishPoint && requireSubmitToFinish && currentQuestState == E_QuestState.CAN_FINISH)
         {
-            // Debug.Log($"[S_QuestPoint] Finalisation manuelle de la quête {questId}");
+            // Debug.Log($"<color=green>[QuestPoint]</color> Finalisation manuelle (Submit) de '{questId}'");
             S_GameManager.instance.questEvents.FinishQuest(questId);
-        }
-        else
-        {
-            // Debug.Log($"[S_QuestPoint] Conditions non remplies: currentState={currentQuestState}, autoStart={autoStartQuest}, autoFinish={autoFinishQuest}, startPoint={startPoint}, finishPoint={finishPoint}");
         }
     }
 
-
     /**
-     * permet de mettre à jour l'état de la quête associée à ce point de quête
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Sunday, November 23rd, 2025.
-     * @access	private
-     * @param	s_quest	quest	
-     * @return	void
+     * Met à jour l'état de la quête associée à ce point
      */
     private void QuestStateChange(S_Quest quest)
     {
-        // only update the quest state if this point has the corresponding quest
         if (quest.info.id.Equals(questId))
         {
+            E_QuestState oldState = currentQuestState;
             currentQuestState = quest.state;
-            // Debug.Log($"[S_QuestPoint] État de la quête {questId} mis à jour: {currentQuestState}");
+            Debug.Log($"<color=yellow>[QuestPoint]</color> État de '{questId}': {oldState} → {currentQuestState}");
         }
     }
 
-
     /**
      * Détecte quand le joueur entre dans la zone du point de quête
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Sunday, November 23rd, 2025.
-     * @access	private
-     * @param	collider	other	
-     * @return	void
      */
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            playerIsNear = true;
-            // Debug.Log($"[S_QuestPoint] Joueur proche du point de quête '{questId}', état: {currentQuestState}");
+        if (!other.CompareTag("Player")) return;
 
-            // Démarrage automatique de la quête si configuré
-            if (autoStartQuest && currentQuestState == E_QuestState.CAN_START && startPoint)
-            {
-                // Debug.Log($"[S_QuestPoint] Démarrage automatique de la quête {questId}");
-                S_GameManager.instance.questEvents.StartQuest(questId);
-            }
-            
-            // Finalisation automatique de la quête si configuré
-            if (autoFinishQuest && currentQuestState == E_QuestState.CAN_FINISH && finishPoint)
-            {
-                // Debug.Log($"[S_QuestPoint] Finalisation automatique de la quête {questId}");
-                S_GameManager.instance.questEvents.FinishQuest(questId);
-            }
+        playerIsNear = true;
+        // Debug.Log($"<color=cyan>[QuestPoint]</color> Joueur entré dans zone de '{questId}'");
+
+        // Démarrage automatique dans la zone (sans Submit)
+        if (startPoint && !requireSubmitToStart && currentQuestState == E_QuestState.CAN_START)
+        {
+            // Debug.Log($"<color=green>[QuestPoint]</color> Démarrage automatique (zone) de '{questId}'");
+            S_GameManager.instance.questEvents.StartQuest(questId);
+        }
+
+        // Fin automatique dans la zone (sans Submit)
+        if (finishPoint && !requireSubmitToFinish && currentQuestState == E_QuestState.CAN_FINISH)
+        {
+            // Debug.Log($"<color=green>[QuestPoint]</color> Finalisation automatique (zone) de '{questId}'");
+            S_GameManager.instance.questEvents.FinishQuest(questId);
         }
     }
 
     /**
      * Détecte quand le joueur quitte la zone du point de quête
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Sunday, November 23rd, 2025.
-     * @access	private
-     * @param	collider	other	
-     * @return	void
      */
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             playerIsNear = false;
-            // Debug.Log("Player left quest point for quest: " + questId + ", current state: " + currentQuestState);
         }
     }
 }
