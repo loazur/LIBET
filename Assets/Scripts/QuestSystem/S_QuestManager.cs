@@ -46,7 +46,7 @@ public class S_QuestManager : MonoBehaviour
     public void Update()
     {
         // Vérifier si des quêtes peuvent passer de REQUIREMENTS_NOT_MET à CAN_START
-        // TODO: Optimiser en utilisant un système d'événements plutôt que Update()
+        // // TODO: Optimiser en utilisant un système d'événements plutôt que Update()
         foreach (S_Quest quest in questMap.Values)
         {
             if (quest.state == E_QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
@@ -323,6 +323,7 @@ public class S_QuestManager : MonoBehaviour
         else
         {
             ChangeQuestState(quest.info.id, E_QuestState.CAN_FINISH);
+            Debug.Log($"<color=orange>[QuestManager]</color> Toutes les étapes de '{quest.info.id}' sont terminées. État: CAN_FINISH");
         }
 
         // Mettre à jour l'UI pour afficher le nouveau titre d'étape
@@ -343,7 +344,16 @@ public class S_QuestManager : MonoBehaviour
      */
     private void FinishQuest(string questID)
     {
+        Debug.Log($"<color=green>[QuestManager]</color> Terminer la quête: {questID}");
+        
         S_Quest quest = GetQuestByID(questID);
+        
+        if (quest == null)
+        {
+            Debug.LogError($"<color=red>[QuestManager]</color> Impossible de trouver la quête avec l'ID: {questID}");
+            return;
+        }
+        
         ClaimRewards(quest);
         ChangeQuestState(quest.info.id, E_QuestState.FINISHED);
 
@@ -362,7 +372,45 @@ public class S_QuestManager : MonoBehaviour
      */
     private void ClaimRewards(S_Quest quest)
     {
-        S_GameManager.instance.playerEvents.ExperienceGained(quest.info.experienceReward);
+        Debug.Log($"<color=cyan>[QuestManager]</color> Distribution des récompenses pour la quête: {quest.info.id}");
+        
+        // Distribue les récompenses ScriptableObject (lucidité, événements, etc.)
+        if (quest.info.questRewards != null && quest.info.questRewards.Length > 0)
+        {
+            Debug.Log($"<color=cyan>[QuestManager]</color> {quest.info.questRewards.Length} récompense(s) trouvée(s)");
+            
+            foreach (QuestReward reward in quest.info.questRewards)
+            {
+                if (reward != null)
+                {
+                    Debug.Log($"<color=cyan>[QuestManager]</color> Distribution de: {reward.GetType().Name}");
+                    reward.GiveReward();
+                }
+                else
+                {
+                    Debug.LogWarning($"<color=yellow>[QuestManager]</color> Une récompense est null dans la liste!");
+                }
+            }
+        }
+        else
+        {
+            Debug.Log($"<color=yellow>[QuestManager]</color> Aucune récompense configurée pour cette quête");
+        }
+        
+        // Distribue l'expérience (ancien système)
+        if (quest.info.experienceReward > 0)
+        {
+            Debug.Log($"<color=cyan>[QuestManager]</color> Distribution de {quest.info.experienceReward} points d'expérience");
+            
+            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+            {
+                S_GameManager.instance.playerEvents.ExperienceGained(quest.info.experienceReward);
+            }
+            else
+            {
+                Debug.LogError($"[QuestManager] GameManager ou PlayerEvents est null ! Impossible de donner l'expérience.");
+            }
+        }
     }
 
     #endregion
@@ -699,6 +747,12 @@ public class S_QuestManager : MonoBehaviour
             Debug.Log($"Canvas actif: {questCanvas.activeSelf}");
         }
         Debug.Log("===================");
+    }
+
+    [ContextMenu("Debug - Show Cureent level of player")]
+    public void DebugShowPlayerLevel()
+    {
+        Debug.Log($"[S_QuestManager] Niveau actuel du joueur: {currentPlayerLevel}");
     }
 
     #endregion
