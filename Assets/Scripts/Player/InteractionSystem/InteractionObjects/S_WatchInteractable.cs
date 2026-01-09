@@ -1,5 +1,3 @@
-using System;
-using TMPro;
 using UnityEngine;
 
 public class S_WatchInteractable : MonoBehaviour, SI_Interactable
