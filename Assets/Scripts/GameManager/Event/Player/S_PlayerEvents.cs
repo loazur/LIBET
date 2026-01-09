@@ -151,4 +151,33 @@ public class S_PlayerEvents
             onKeyCollected(key, doorID, keyID);
         }
     }
+
+
+    /**
+     * Événement déclenché quand le joueur ouvre un placard
+     *
+     * @var		mixed	onCupboardOpened
+     */
+    public event Action<GameObject> onCupboardOpened;
+    public void CupboardOpened(GameObject cupboard)
+    {
+        if (onCupboardOpened != null)
+        {
+            onCupboardOpened(cupboard);
+        }
+    }
+
+    /**
+     * Événement déclenché quand le joueur ferme un placard
+     *
+     * @var		mixed	onCupboardClosed
+     */
+    public event Action<GameObject> onCupboardClosed;
+    public void CupboardClosed(GameObject cupboard)
+    {
+        if (onCupboardClosed != null)
+        {
+            onCupboardClosed(cupboard);
+        }
+    }
 }
