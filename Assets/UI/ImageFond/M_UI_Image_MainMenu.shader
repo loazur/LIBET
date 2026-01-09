@@ -8,8 +8,8 @@ Shader "URP/OrganicGlobalBlur"
         _NoiseSpeed ("Noise Speed", Float) = 0.1
         _Distortion ("Distortion Strength", Float) = 0.05
 
-        _BlurRadius ("Blur Radius", Float) = 0.006
-        _BlurSamples ("Blur Samples", Range(4,16)) = 8
+        _BlurRadius ("Blur Radius", Float) = 0.02
+        _BlurSamples ("Blur Samples", Range(4,32)) = 16
 
         _ColorA ("Color A", Color) = (0.1,0.2,0.6,1)
         _ColorB ("Color B", Color) = (0.9,0.9,1,1)
@@ -81,7 +81,29 @@ Shader "URP/OrganicGlobalBlur"
                 return OUT;
             }
 
-            float4 GlobalBlur(float2 uv)
+            // Floute le noise en échantillonnant plusieurs positions voisines
+            float blurredNoise(float2 p)
+            {
+                float total = 0;
+                float weightSum = 0;
+                
+                for (int i = 0; i < _BlurSamples; i++)
+                {
+                    float a = (i / (float)_BlurSamples) * 6.2831853 * 3.0; // Plus de rotations
+                    float r = (i + 0.5) / _BlurSamples; // Distribution linéaire (plus étalée)
+                    
+                    float2 offset = float2(cos(a), sin(a)) * r * _BlurRadius * 50.0;
+                    float w = exp(-r * r * 2.0); // Poids plus doux
+                    
+                    total += noise(p + offset) * w;
+                    weightSum += w;
+                }
+                
+                return total / weightSum;
+            }
+
+            // Floute la texture de base
+            float4 blurTexture(float2 uv)
             {
                 float4 col = 0;
                 float weightSum = 0;
@@ -106,17 +128,20 @@ Shader "URP/OrganicGlobalBlur"
                 float2 uv = IN.uv;
                 float2 centered = uv - 0.5;
 
-                float n = noise(centered * _NoiseScale + _Time.y * _NoiseSpeed);
+                // Noise flouté pour un effet plus doux
+                float2 noiseUV = centered * _NoiseScale + _Time.y * _NoiseSpeed;
+                float n = blurredNoise(noiseUV);
 
                 float2 flow = normalize(centered + 0.0001);
                 uv += flow * n * _Distortion;
 
-                float4 blurred = GlobalBlur(uv);
+                // Texture de base floutée
+                float4 texColor = blurTexture(uv);
 
-                float t = saturate(blurred.r);
+                float t = saturate(texColor.r);
                 float3 color = lerp(_ColorA.rgb, _ColorB.rgb, t);
 
-                return float4(color, blurred.a);
+                return float4(color, texColor.a);
             }
 
             ENDHLSL
