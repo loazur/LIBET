@@ -101,7 +101,7 @@ public class S_OpenCupboardQuest : S_QuestStep
             return false;
         }
 
-        // Vérifier si l'objet a le component S_CupboardInteractable
+        //& Vérifier si l'objet a le component S_CupboardInteractable
         S_CupboardInteractable cupboardComponent = obj.GetComponent<S_CupboardInteractable>();
         if (cupboardComponent == null)
         {
@@ -109,7 +109,7 @@ public class S_OpenCupboardQuest : S_QuestStep
             return false;
         }
 
-        // Si un tag spécifique est défini, vérifier le tag
+        //& Si un tag spécifique est défini, vérifier le tag
         if (!string.IsNullOrEmpty(cupboardTag))
         {
             if (!obj.CompareTag(cupboardTag))
@@ -119,7 +119,7 @@ public class S_OpenCupboardQuest : S_QuestStep
             }
         }
 
-        // Si un nom spécifique est défini, vérifier le nom
+        //& Si un nom spécifique est défini, vérifier le nom
         if (!string.IsNullOrEmpty(specificCupboardName))
         {
             if (obj.name != specificCupboardName)
