@@ -29,11 +29,16 @@ public class S_DaysManager : MonoBehaviour
 
     //TODO Manque la gestion des quetes du jour
 
+    //TEST
+    public bool questsDone = false;
+
     void Awake() //& Création du manager
     {
         if (instance == null)
         {
             instance = this;
+
+            S_AlzheimerEventsManager.instance.OnLucidityZero += OnLucidityReachedZero; // Si Lucidity 0
         }
         else
         {
@@ -62,14 +67,22 @@ public class S_DaysManager : MonoBehaviour
     {
         timeLasted += Time.deltaTime;
 
-        // Vérification de si le jour est terminé et trigger l'event de fin
+        // Si le jour est terminé
         if (timeLasted >= dayDuration)
         {
-            EndDay();
+            // Les quetes ont été effectuées
+            if (AreQuestsDone())
+            {
+                EndDay();
+            }
+            else // Les quetes n'ont pas été effectuées
+            {
+                OnMainQuestsNotCompleted();
+            }
         }
     }
 
-    private void EndDay() //& Fin du jour
+    public void EndDay() //& Fin du jour
     {
         isDayActive = false;
 
@@ -106,6 +119,8 @@ public class S_DaysManager : MonoBehaviour
     private void InitializeFirstDay() //& Initialise le jour 1 avec génération des éléments
     {
         Debug.Log("Initialisation du jour 1");
+
+        //TODO Afficher écran transition
         
         // Générer les médicaments pour le jour 1
         GenerateMedicines();
@@ -113,7 +128,8 @@ public class S_DaysManager : MonoBehaviour
         // Randomiser le soleil
         RandomizeSunTime();
         
-        // TODO: Générer les quêtes pour le jour 1
+        // Génération des quetes aléatoire
+        GenerateQuests();
         
         // Démarrer le jour 1
         StartDay();
@@ -125,14 +141,17 @@ public class S_DaysManager : MonoBehaviour
         SetCurrentDay(currentDay + 1);
 
         Debug.Log($"Préparation du jour {currentDay}");
+
+        //TODO - Afficher écran de transition
         
         // Générer les médicaments en fonction medicinesPerDay
         GenerateMedicines();
         
         // Randomiser le soleil entre 10h et 18h
         RandomizeSunTime();
-        
-        //TODO Générer les quêtes
+    
+        // Génération des quetes aléatoire
+        GenerateQuests();
 
         // On commence le prochain jour
         StartDay();
@@ -185,23 +204,39 @@ public class S_DaysManager : MonoBehaviour
 
         OnDayLost?.Invoke(); // Lance l'event de perte de jour
 
-        // Si on est au jour 1, on recommence le jour 1
-        if (currentDay == 1)
+        // On recule d'un jour si on est pas au jour 1 (sinon recommance le jour 1)
+        if (currentDay != 1)
         {
-            Debug.Log("Recommencement du jour 1");
-            timeLasted = 0f;
-            //TODO Réinitialiser les quêtes, la lucidité, etc.
-        }
-        else
-        {
-            // Sinon on recule d'un jour
             SetCurrentDay(currentDay - 1);
-            timeLasted = 0f;
             Debug.Log($"Retour au jour {currentDay}");
-            //TODO Réinitialiser les quêtes du jour actuel
         }
 
-        //TODO Afficher un écran de transition/feedback au joueur
+        RestartCurrentDay();
+        //TODO Afficher ecran de transition
+    }
+
+    private void RestartCurrentDay() //& Réinitialise le jour actuel
+    {
+        // Réinitialiser le temps
+        timeLasted = 0f;
+
+        // Nettoyer et régénérer les médicaments
+        S_MedicinesManager.instance.CleanupForDayRestart();
+        GenerateMedicines();
+
+        // Réinitialiser la lucidité à un niveau de base
+        S_AlzheimerEventsManager.instance.RecoverLucidity(10000);
+
+        // Randomiser le soleil
+        RandomizeSunTime();
+
+        // Régénérer les quêtes
+        GenerateQuests();
+
+        // Redémarrer le jour
+        StartDay();
+
+        Debug.Log($"Jour {currentDay} réinitialisé");
     }
 
     public void OnLucidityReachedZero() //& Appellé quand la jauge de lucidité atteint 0
@@ -214,12 +249,29 @@ public class S_DaysManager : MonoBehaviour
         LoseDay("Quêtes principales non complétées");
     }
 
+     //! --------- Gestion des quetes ---------
+
+    private void GenerateQuests()
+    {
+        //TODO - Générer les quetes en fonction dans quel jour on se trouve, diff 1, 2 ou 3
+    }
+
+
+    // TODO Faire la vrai fonction de vérification 
+    public bool AreQuestsDone() //FONCTION DE TEST 
+    {
+        return questsDone;
+    }
+
     //! ---------- Méthodes publiques ----------
 
     public void StartDay()
     {
         timeLasted = 0f;
         isDayActive = true;
+
+        //TODO - TP au spawn (à coté du lit)
+
         Debug.Log($"Jour {currentDay} commencé");
     }
 
