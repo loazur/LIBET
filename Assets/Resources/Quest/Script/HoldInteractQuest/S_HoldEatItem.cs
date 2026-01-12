@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+
 
 
 public class S_HoldEatItem : S_QuestStep
@@ -72,6 +73,7 @@ public class S_HoldEatItem : S_QuestStep
     private void CompleteQuest(GameObject obj)
     {
         hasCompleted = true;
+        Destroy(obj); //& detruit l'objet une fois que tout est bon 
 
         Debug.Log($"[S_HoldAnyObjectQuest] Completed with {obj.name}");
 

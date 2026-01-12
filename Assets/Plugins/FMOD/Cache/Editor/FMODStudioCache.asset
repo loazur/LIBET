@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.strings.bank
   Name: MasterBank.strings
   StudioPath: bank:/MasterBank.strings
-  lastModified: 639038273722037668
+  lastModified: 639038358920411007
   FileSizes:
   - Name: Desktop
     Value: 1456
@@ -144,7 +144,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639038273743168119
+  lastModified: 639038358920615618
   FileSizes:
   - Name: Desktop
     Value: 2724064
@@ -236,6 +236,34 @@ MonoBehaviour:
   - Name: Desktop
     Value: 506
   Exists: 1
+--- !u!114 &-3021430525700563996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Player/footsteps
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Player/footsteps
+  Guid:
+    Data1: 949468895
+    Data2: 1236194630
+    Data3: 1383768500
+    Data4: 1664038223
+  Banks:
+  - {fileID: -6678976764220933779}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters:
+  - {fileID: 1062386278149356468}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-2968363842700604913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,7 +279,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.bank
   Name: MasterBank
   StudioPath: bank:/MasterBank
-  lastModified: 639038273722034794
+  lastModified: 639033964988208819
   FileSizes:
   - Name: Desktop
     Value: 1378
@@ -291,7 +319,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639038273722727824
+  lastModified: 639033964988693535
   FileSizes:
   - Name: Desktop
     Value: 6967136
@@ -388,14 +416,14 @@ MonoBehaviour:
   - {fileID: -814982336192900278}
   - {fileID: 2483282296425213826}
   - {fileID: 9165501663462446327}
-  - {fileID: -8140583653838716782}
+  - {fileID: -3021430525700563996}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2968363842700604913}
   StringsBanks:
   - {fileID: -9218343506306915907}
   cacheVersion: 131857
-  cacheTime: 639038273743168119
+  cacheTime: 639038358920615618
   SerializableEventsDict:
   - key: event:/Environment/Door/openingDoorTest
     index: 0
@@ -409,8 +437,6 @@ MonoBehaviour:
     index: 4
   - key: event:/Environment/piano
     index: 5
-  - key: event:/Player/footsteps
-    index: 6
 --- !u!114 &225602694130353072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,7 +506,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/UI
-  lastModified: 639033794423641897
+  lastModified: 639033132249146030
   FileSizes:
   - Name: Desktop
     Value: 506
@@ -512,6 +538,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 293564
+--- !u!114 &1062386278149356468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/footsteps/Terrain
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorParamRef
+  Name: Terrain
+  StudioPath: 
+  Min: 0
+  Max: 2
+  Default: 0
+  ID:
+    data1: 4013639407
+    data2: 2847038071
+  Type: 1
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &1190141950245038032
 MonoBehaviour:
   m_ObjectHideFlags: 0
