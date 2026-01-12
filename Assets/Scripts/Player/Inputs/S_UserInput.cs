@@ -8,7 +8,7 @@ public class S_UserInput : MonoBehaviour
 
     public Vector2 MoveInput { get; private set; }
     public Vector2 LookInput { get; private set; }
-    public bool InteractInput { get; private set; }
+    public InputAction InteractAction { get; private set; } // -> Publique (à besoin de récuperer la touche pour l'UI)
     public InputAction CancelInteractionAction { get; private set; } // -> Publique (utilisé en appuyant et maintenant le bouton)
     public bool CrouchInput { get; private set; }
     public bool SprintInput { get; private set; }
@@ -19,7 +19,6 @@ public class S_UserInput : MonoBehaviour
 
     private InputAction _moveAction;
     private InputAction _lookAction;
-    public InputAction _interactAction { get; private set; } // -> Publique (à besoin de récuperer la touche pour l'UI)
     private InputAction _crouchAction;
     private InputAction _sprintAction;
     private InputAction _menuOpenCloseAction;
@@ -61,7 +60,7 @@ public class S_UserInput : MonoBehaviour
     {
         _moveAction = _playerInput.actions["Move"];
         _lookAction = _playerInput.actions["Look"];
-        _interactAction = _playerInput.actions["Interact"];
+        InteractAction = _playerInput.actions["Interact"];
         CancelInteractionAction = _playerInput.actions["CancelInteraction"];
         _crouchAction = _playerInput.actions["Crouch"];
         _sprintAction = _playerInput.actions["Sprint"];
@@ -77,7 +76,6 @@ public class S_UserInput : MonoBehaviour
     {
         MoveInput = _moveAction.ReadValue<Vector2>();
         LookInput = _lookAction.ReadValue<Vector2>();
-        InteractInput = _interactAction.WasPressedThisFrame();
         CrouchInput = _crouchAction.WasPressedThisFrame();
         SprintInput = _sprintAction.IsPressed();
         MenuOpenCloseInput = _menuOpenCloseAction.WasPressedThisFrame();
