@@ -88,8 +88,9 @@ public class S_QuestManager : MonoBehaviour
             SubscribeToEvents();
         }
 
-        // Attendre que PlayerLevelManager initialise le niveau du joueur
-        yield return new WaitForSeconds(0.1f);
+        // Attendre que tous les S_QuestPoint s'abonnent (ils le font dans Start())
+        // et que PlayerLevelManager initialise le niveau du joueur
+        yield return new WaitForSeconds(0.5f);
 
         // Notifier l'état initial de toutes les quêtes
         foreach(S_Quest quest in questMap.Values)
@@ -293,10 +294,18 @@ public class S_QuestManager : MonoBehaviour
     private void StartQuest(string questID)
     {
         S_Quest quest = GetQuestByID(questID);
+        
+        // Protection contre les appels multiples - ne démarrer que si CAN_START
+        if (quest.state != E_QuestState.CAN_START)
+        {
+            Debug.LogWarning($"<color=yellow>[QuestManager]</color> StartQuest ignoré pour '{questID}' - état actuel: {quest.state} (attendu: CAN_START)");
+            return;
+        }
+        
         quest.InstantiateCurrentQuestStep(this.transform);
         ChangeQuestState(questID, E_QuestState.IN_PROGRESS);
 
-        // Debug.Log("Quest " + questID + " started " + " with first step: " + quest.state.ToString());
+        Debug.Log($"<color=green>[QuestManager]</color> Quest '{questID}' started with first step");
     }
 
     /**
@@ -319,8 +328,19 @@ public class S_QuestManager : MonoBehaviour
             return;
         }
 
+        // Protection: ne pas avancer si la quête n'est pas IN_PROGRESS
+        if (quest.state != E_QuestState.IN_PROGRESS)
+        {
+            Debug.LogWarning($"<color=yellow>[QuestManager]</color> AdvanceQuest ignoré pour '{questID}' - état: {quest.state} (attendu: IN_PROGRESS)");
+            return;
+        }
+
+        int previousIndex = quest.CurrentStepIndex;
+        
         // move on to the next step
         quest.MoveToNextStep();
+
+        Debug.Log($"<color=cyan>[QuestManager]</color> Quest '{questID}' avancée: étape {previousIndex} → {quest.CurrentStepIndex}");
 
         // if there are more steps, instantiate the next one
         if (quest.CurrentStepExists())
@@ -336,8 +356,6 @@ public class S_QuestManager : MonoBehaviour
 
         // Mettre à jour l'UI pour afficher le nouveau titre d'étape
         UpdateQuestUI();
-
-        // Debug.Log("Quest " + questID + " advanced to step: " + quest.state.ToString());
     }
 
     /**
@@ -458,7 +476,7 @@ public class S_QuestManager : MonoBehaviour
      * @param	string	questID	
      * @return	mixed
      */
-    private S_Quest GetQuestByID(string questID)
+    public S_Quest GetQuestByID(string questID)
     {
         if (string.IsNullOrEmpty(questID))
         {

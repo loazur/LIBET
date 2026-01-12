@@ -10,6 +10,10 @@ public class S_Quest
 
     private S_QuestStepState[] questStepStates;
 
+    // Tracking de l'instance active pour éviter les doublons
+    private GameObject currentStepInstance;
+    public int CurrentStepIndex => currentQuestStepIndex;
+
     /**
      * constructeur qui initialise les variables
      *
@@ -62,6 +66,7 @@ public class S_Quest
     public void MoveToNextStep()
     {
         currentQuestStepIndex++;
+        Debug.Log($"[S_Quest] Quest '{info.displayName}' (ID: {info.id}) moved to step index: {currentQuestStepIndex}");
     }
 
     /**
@@ -90,17 +95,26 @@ public class S_Quest
      */
     public void InstantiateCurrentQuestStep(Transform parentTransform)
     {
+        // Détruire l'ancienne instance si elle existe encore
+        if (currentStepInstance != null)
+        {
+            Debug.LogWarning($"<color=orange>[S_Quest]</color> Destruction de l'ancienne instance d'étape pour '{info.id}'");
+            GameObject.Destroy(currentStepInstance);
+            currentStepInstance = null;
+        }
+
         GameObject questStepPrefab = CurrentQuestStepPrefab();
         if (questStepPrefab != null)
         {
-            GameObject questStepInstance = GameObject.Instantiate<GameObject>(questStepPrefab, parentTransform);
-            S_QuestStep questStep = questStepInstance.GetComponent<S_QuestStep>();
+            currentStepInstance = GameObject.Instantiate<GameObject>(questStepPrefab, parentTransform);
+            S_QuestStep questStep = currentStepInstance.GetComponent<S_QuestStep>();
             
             if (questStep != null)
             {
                 // Initialiser l'étape de quête avec son ID, index et état
                 string questStepState = GetQuestStepState();
                 questStep.InitializeQuestStep(info.id, currentQuestStepIndex, questStepState);
+                Debug.Log($"<color=cyan>[S_Quest]</color> Étape {currentQuestStepIndex} instanciée pour '{info.id}'");
             }
             else
             {

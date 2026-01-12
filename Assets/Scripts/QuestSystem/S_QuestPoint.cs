@@ -46,12 +46,16 @@ public class S_QuestPoint : MonoBehaviour
     private string questId;
     private E_QuestState currentQuestState;
     private bool isSubscribed = false;
+    private bool hasTriggeredStart = false; // Protection contre appels multiples
+    private bool hasTriggeredFinish = false; // Protection contre appels multiples
 
     // *----------------------------------------------------------------*
 
     private void Awake() 
     {
         questId = questInfoForPoint.id;
+        // État par défaut - sera mis à jour par QuestStateChange dès l'abonnement
+        currentQuestState = E_QuestState.REQUIREMENTS_NOT_MET;
     }
 
     private void Start()
@@ -73,17 +77,21 @@ public class S_QuestPoint : MonoBehaviour
 
     private void Update()
     {
-        // Surveillance pour démarrage automatique (sans zone)
-        if (autoStartQuest && currentQuestState == E_QuestState.CAN_START)
+        // Ne rien faire si pas abonné
+        if (!isSubscribed) return;
+
+        // Auto-démarrage (sans zone) - avec protection contre appels multiples
+        if (autoStartQuest && currentQuestState == E_QuestState.CAN_START && !hasTriggeredStart)
         {
-            // Debug.Log($"<color=cyan>[QuestPoint]</color> Auto-démarrage de '{questId}' (CAN_START détecté)");
+            hasTriggeredStart = true;
+            Debug.Log($"<color=green>[QuestPoint]</color> Auto-démarrage de '{questId}'");
             S_GameManager.instance.questEvents.StartQuest(questId);
         }
 
-        // Surveillance pour fin automatique (sans zone)
-        if (autoFinishQuest && currentQuestState == E_QuestState.CAN_FINISH)
+        // Auto-finalisation (sans zone) - avec protection contre appels multiples
+        if (autoFinishQuest && currentQuestState == E_QuestState.CAN_FINISH && !hasTriggeredFinish)
         {
-            // Debug.Log($"<color=cyan>[QuestPoint]</color> Auto-finalisation de '{questId}' (CAN_FINISH détecté)");
+            Debug.Log($"<color=green>[QuestPoint]</color> Auto-finalisation de '{questId}'");
             S_GameManager.instance.questEvents.FinishQuest(questId);
         }
     }
@@ -104,11 +112,6 @@ public class S_QuestPoint : MonoBehaviour
         S_GameManager.instance.questEvents.onQuestStateChange -= QuestStateChange;
         S_GameManager.instance.inputEvents.onSubmitPressed -= SubmitPressed;
         isSubscribed = false;
-    }
-
-    private void OnEnable()
-    {
-        // L'abonnement est géré par InitializeWhenReady() dans Start()
     }
 
     private void OnDisable()
@@ -144,11 +147,21 @@ public class S_QuestPoint : MonoBehaviour
      */
     private void QuestStateChange(S_Quest quest)
     {
-        if (quest.info.id.Equals(questId))
+        if (!quest.info.id.Equals(questId)) return;
+
+        E_QuestState oldState = currentQuestState;
+        currentQuestState = quest.state;
+        
+        Debug.Log($"<color=yellow>[QuestPoint]</color> '{questId}': {oldState} → {currentQuestState}");
+
+        // Reset les flags si l'état change
+        if (currentQuestState == E_QuestState.CAN_START)
         {
-            E_QuestState oldState = currentQuestState;
-            currentQuestState = quest.state;
-            Debug.Log($"<color=yellow>[QuestPoint]</color> État de '{questId}': {oldState} → {currentQuestState} ");
+            hasTriggeredStart = false;
+        }
+        if (currentQuestState == E_QuestState.CAN_FINISH)
+        {
+            hasTriggeredFinish = false;
         }
     }
 
@@ -160,19 +173,18 @@ public class S_QuestPoint : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         playerIsNear = true;
-        // Debug.Log($"<color=cyan>[QuestPoint]</color> Joueur entré dans zone de '{questId}'");
 
         // Démarrage automatique dans la zone (sans Submit)
         if (startPoint && !requireSubmitToStart && currentQuestState == E_QuestState.CAN_START)
         {
-            // Debug.Log($"<color=green>[QuestPoint]</color> Démarrage automatique (zone) de '{questId}'");
+            Debug.Log($"<color=green>[QuestPoint]</color> Démarrage (zone) de '{questId}'");
             S_GameManager.instance.questEvents.StartQuest(questId);
         }
 
         // Fin automatique dans la zone (sans Submit)
         if (finishPoint && !requireSubmitToFinish && currentQuestState == E_QuestState.CAN_FINISH)
         {
-            // Debug.Log($"<color=green>[QuestPoint]</color> Finalisation automatique (zone) de '{questId}'");
+            Debug.Log($"<color=green>[QuestPoint]</color> Finalisation (zone) de '{questId}'");
             S_GameManager.instance.questEvents.FinishQuest(questId);
         }
     }

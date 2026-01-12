@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8428343604060501152}
-  - component: {fileID: -6795620432678384842}
+  - component: {fileID: 4841371183013344321}
   m_Layer: 0
   m_Name: WaterPlant
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-6795620432678384842
+--- !u!114 &4841371183013344321
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,11 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 663056125158210199}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a3075b4f9856eb40babd42abd6496bf, type: 3}
+  m_Script: {fileID: 11500000, guid: ec67dca7e592e5d41bde212b2f12c948, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HoldInteractQuest
+  m_EditorClassIdentifier: Assembly-CSharp::S_HoldAnyObjectQuest
   stepNameFrench: Arroser la plante
   stepNameEnglish: Water the plant
-  interactTag: HoldInteract
+  requiredTag: HoldInteract
   specificObjectName: 
-  useAnyObjectMode: 1
