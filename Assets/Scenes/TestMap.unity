@@ -441,7 +441,7 @@ Material:
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowIntensity: {r: 1, g: 0, b: 0, a: 0}
     - _ToLightDir: {r: 0.9774494, g: 0.21117042, b: 0.00000013690442, a: 0.39}
-    - _WindDirection: {r: 0.529526, g: 0.31771505, b: 0.052952446, a: 0}
+    - _WindDirection: {r: 0.36892855, g: 0.22135668, b: 0.03689277, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!1 &66516863
@@ -2916,43 +2916,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 130073990}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &495232873
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1001 &511943658
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10517,6 +10480,43 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!84 &1750507521
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1803934922
 GameObject:
   m_ObjectHideFlags: 0
@@ -11043,7 +11043,7 @@ PrefabInstance:
     - target: {fileID: 3427824855752784596, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 495232873}
+      objectReference: {fileID: 1750507521}
     - target: {fileID: 4302015194351260662, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_LocalPosition.x
       value: -278.43658
@@ -13799,7 +13799,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3120216832112140772, guid: d65f63307acc44a488516cd00a40a577, type: 3}
       propertyPath: startPoint
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3120216832112140772, guid: d65f63307acc44a488516cd00a40a577, type: 3}
       propertyPath: finishPoint
@@ -13807,7 +13807,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3120216832112140772, guid: d65f63307acc44a488516cd00a40a577, type: 3}
       propertyPath: autoStartQuest
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3120216832112140772, guid: d65f63307acc44a488516cd00a40a577, type: 3}
       propertyPath: autoFinishQuest
@@ -13962,6 +13962,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 824202952}
     m_Modifications:
+    - target: {fileID: 2570389686100093982, guid: e5d9453edaba26545a2b336bd3796baa, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 2570389686100093982, guid: e5d9453edaba26545a2b336bd3796baa, type: 3}
       propertyPath: m_Name
       value: "QuestPointDiificult\xE93"
@@ -15069,6 +15073,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 824202952}
     m_Modifications:
+    - target: {fileID: 3429794929797148526, guid: 416c4d0427308e74eba00297ad6eb889, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 3429794929797148526, guid: 416c4d0427308e74eba00297ad6eb889, type: 3}
       propertyPath: m_Name
       value: "QuestPointDiificult\xE92"
