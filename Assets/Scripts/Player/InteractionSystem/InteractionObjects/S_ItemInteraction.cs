@@ -10,6 +10,13 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
         id = System.Guid.NewGuid().ToString();
     }
 
+    public enum InteractionMode
+    {
+        Press,
+        Hold
+    }
+
+
     //~ Gestion de l'item
     [Header("Gestion de l'item")]
     [SerializeField] private string interactText = "not_set"; // Nom de l'objet
@@ -21,10 +28,17 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
     private Collider itemCollider;
     private Transform originalParent; // Utile pour le remettre à son état initial
 
+    [Header("Gestion du ramassage")]
+    [SerializeField] private InteractionMode pickUpMode = InteractionMode.Press;
+    [SerializeField] private float holdToPickUpTime = 0.5f;
+
+
     [Header("Gestion Lancer")]
+    [SerializeField] private bool canBeThrown = true; // Si l'item peut être lancé
     [SerializeField] private float throwForce = 850f; // Force du lancer
     [SerializeField] private float holdThrow = 0.4f; // Combien de temps faut tenir le bouton pour lancer
     private float holdTimer;
+    private float pickUpHoldTimer;
 
     void Start() //& INITIALISATION DE VARIABLES
     {
@@ -38,6 +52,12 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
 
     void LateUpdate() //& Late update car l'objet se déplace après la camera
     {
+        if (pickUpMode == InteractionMode.Hold && !playerInteract?.isHoldingItem() == true)
+        {
+            if (!S_UserInput.instance.InteractInput)
+                pickUpHoldTimer = 0f;
+        }
+
         HoldingItem();
     }
 
@@ -78,11 +98,17 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
 
     public void Interact(Transform playerTransform) //& Ramasse l'item
     {
-        // Récupération des bons components au moment de l'interaction
         playerInteract = playerTransform.GetComponent<S_PlayerInteract>();
         playerCamera = playerTransform.GetComponentInChildren<S_FirstPersonCamera>();
 
-        PickUpItem();
+        if (pickUpMode == InteractionMode.Press)
+        {
+            PickUpItem();
+        }
+        else
+        {
+            HandleHoldPickUp();
+        }
     }
 
     public string getInteractText()  //& Retourne le nom de l'item
@@ -129,7 +155,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
             return;
         }
 
-        if (S_UserInput.instance.CancelInteractionAction.IsPressed()) // Action de lancer
+        if (S_UserInput.instance.CancelInteractionAction.IsPressed() && canBeThrown) // Action de lancer
         {
             holdTimer -= Time.deltaTime;
 
@@ -195,6 +221,29 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
         playerInteract = null;
         playerCamera = null;
     }
+
+    /**
+     * Gère le ramassage en maintenant le bouton
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 12th, 2026.
+     * @access	private
+     * @return	void
+     */
+    private void HandleHoldPickUp()
+    {
+        if (playerInteract == null || playerInteract.isHoldingItem()) return;
+
+        pickUpHoldTimer += Time.deltaTime;
+
+        if (pickUpHoldTimer >= holdToPickUpTime)
+        {
+            pickUpHoldTimer = 0f;
+            PickUpItem();
+        }
+    }
+
 
     private void ReEnableInteractionsAndRB() //& Réactive tout ce qui avait été desactivé lors de PickupItem()
     {
