@@ -13,6 +13,16 @@ Shader "URP/OrganicGlobalBlur"
 
         _ColorA ("Color A", Color) = (0.1,0.2,0.6,1)
         _ColorB ("Color B", Color) = (0.9,0.9,1,1)
+
+        _PulseColor ("Pulse Color", Color) = (1,0.4,0.6,1)
+        _PulseStrength ("Pulse Strength", Float) = 0.0
+
+
+        _PulseNoiseScale ("Pulse Noise Scale", Float) = 1.5
+        _PulseDesync ("Pulse Desync", Float) = 0.6
+        _PulseIntensityVar ("Pulse Intensity Variation", Float) = 1.2
+
+        
     }
 
     SubShader
@@ -36,8 +46,17 @@ Shader "URP/OrganicGlobalBlur"
             float _Distortion;
             float _BlurRadius;
             int _BlurSamples;
+
             float4 _ColorA;
             float4 _ColorB;
+
+            float4 _PulseColor;
+            float _PulseStrength;
+
+            float _PulseNoiseScale;
+            float _PulseDesync;
+            float _PulseIntensityVar;
+
 
             struct Attributes
             {
@@ -81,28 +100,26 @@ Shader "URP/OrganicGlobalBlur"
                 return OUT;
             }
 
-            // Floute le noise en échantillonnant plusieurs positions voisines
             float blurredNoise(float2 p)
             {
                 float total = 0;
                 float weightSum = 0;
-                
+
                 for (int i = 0; i < _BlurSamples; i++)
                 {
-                    float a = (i / (float)_BlurSamples) * 6.2831853 * 3.0; // Plus de rotations
-                    float r = (i + 0.5) / _BlurSamples; // Distribution linéaire (plus étalée)
-                    
+                    float a = (i / (float)_BlurSamples) * 6.2831853 * 3.0;
+                    float r = (i + 0.5) / _BlurSamples;
+
                     float2 offset = float2(cos(a), sin(a)) * r * _BlurRadius * 50.0;
-                    float w = exp(-r * r * 2.0); // Poids plus doux
-                    
+                    float w = exp(-r * r * 2.0);
+
                     total += noise(p + offset) * w;
                     weightSum += w;
                 }
-                
+
                 return total / weightSum;
             }
 
-            // Floute la texture de base
             float4 blurTexture(float2 uv)
             {
                 float4 col = 0;
@@ -128,20 +145,43 @@ Shader "URP/OrganicGlobalBlur"
                 float2 uv = IN.uv;
                 float2 centered = uv - 0.5;
 
-                // Noise flouté pour un effet plus doux
                 float2 noiseUV = centered * _NoiseScale + _Time.y * _NoiseSpeed;
                 float n = blurredNoise(noiseUV);
 
                 float2 flow = normalize(centered + 0.0001);
                 uv += flow * n * _Distortion;
 
-                // Texture de base floutée
                 float4 texColor = blurTexture(uv);
-
                 float t = saturate(texColor.r);
-                float3 color = lerp(_ColorA.rgb, _ColorB.rgb, t);
 
-                return float4(color, texColor.a);
+                // Masque organique du battement
+                // --- Noise spatial lent pour zones organiques ---
+                float zoneNoise = noise(centered * _PulseNoiseScale + 10.0);
+
+                // --- Désynchronisation locale ---
+                float localTime = _Time.y + zoneNoise * _PulseDesync;
+
+                // --- Battement local ---
+                float localPulse = sin(localTime * 6.28318);
+                localPulse = saturate(localPulse);
+
+                // --- Variation d'intensité par zone ---
+                float zoneIntensity = lerp(0.4, _PulseIntensityVar, zoneNoise);
+
+                // --- Masque final ---
+                float pulseMask =
+                    smoothstep(0.3, 0.8, n) *
+                    localPulse *
+                    zoneIntensity *
+                    _PulseStrength;
+
+                // Color B battante (remplacement partiel)
+                float3 animatedColorB = lerp(_ColorB.rgb, _PulseColor.rgb, pulseMask);
+
+                // Mélange final A -> B animé
+                float3 finalColor = lerp(_ColorA.rgb, animatedColorB, t);
+
+                return float4(finalColor, texColor.a);
             }
 
             ENDHLSL
