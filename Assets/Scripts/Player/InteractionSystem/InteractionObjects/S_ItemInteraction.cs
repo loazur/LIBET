@@ -21,7 +21,11 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
     private Collider itemCollider;
     private Transform originalParent; // Utile pour le remettre à son état initial
 
+    [Header("Gestion du ramassage")]
+    [SerializeField] private bool PressToPickUp = false; // Si on doit appuyer pour ramasser l'item ou juste cliquer une fois
+
     [Header("Gestion Lancer")]
+    [SerializeField] private bool canBeThrown = true; // Si l'item peut être lancé
     [SerializeField] private float throwForce = 850f; // Force du lancer
     [SerializeField] private float holdThrow = 0.4f; // Combien de temps faut tenir le bouton pour lancer
     private float holdTimer;
@@ -129,7 +133,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
             return;
         }
 
-        if (S_UserInput.instance.CancelInteractionAction.IsPressed()) // Action de lancer
+        if (S_UserInput.instance.CancelInteractionAction.IsPressed() && canBeThrown) // Action de lancer
         {
             holdTimer -= Time.deltaTime;
 
