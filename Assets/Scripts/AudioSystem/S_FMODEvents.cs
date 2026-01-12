@@ -16,6 +16,8 @@ public class S_FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference music {get; private set;}
     [field: SerializeField] public EventReference piano {get; private set;}
 
+    [field: Header("Player")]
+    [field: SerializeField] public EventReference footsteps {get; private set;}
 
     void Awake()
     {
