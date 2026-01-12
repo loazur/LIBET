@@ -38,7 +38,7 @@ public class S_DaysManager : MonoBehaviour
         {
             instance = this;
 
-            //TODO - Lié l'event lucidity 0 à OnLucidityReachedZero()
+            S_AlzheimerEventsManager.instance.OnLucidityZero += OnLucidityReachedZero; // Si Lucidity 0
         }
         else
         {
@@ -128,6 +128,7 @@ public class S_DaysManager : MonoBehaviour
         // Randomiser le soleil
         RandomizeSunTime();
         
+        // Génération des quetes aléatoire
         GenerateQuests();
         
         // Démarrer le jour 1
@@ -149,6 +150,7 @@ public class S_DaysManager : MonoBehaviour
         // Randomiser le soleil entre 10h et 18h
         RandomizeSunTime();
     
+        // Génération des quetes aléatoire
         GenerateQuests();
 
         // On commence le prochain jour
@@ -223,7 +225,7 @@ public class S_DaysManager : MonoBehaviour
         GenerateMedicines();
 
         // Réinitialiser la lucidité à un niveau de base
-        //S_AlzheimerEventsManager.instance.ResetLucidityForDayRestart();
+        S_AlzheimerEventsManager.instance.RecoverLucidity(10000);
 
         // Randomiser le soleil
         RandomizeSunTime();
@@ -255,7 +257,8 @@ public class S_DaysManager : MonoBehaviour
     }
 
 
-    public bool AreQuestsDone()
+    // TODO Faire la vrai fonction de vérification 
+    public bool AreQuestsDone() //FONCTION DE TEST 
     {
         return questsDone;
     }
