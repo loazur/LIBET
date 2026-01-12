@@ -4,57 +4,36 @@ using UnityEngine;
 public class UISelectorLogo : MonoBehaviour
 {
     private Animator animator;
-    private bool isOpen = false;
+    private bool isOpen;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
-
-        Debug.Log($"[UISelectorLogo] Awake on {name} | Animator = {animator}");
-    }
-
-    void OnEnable()
-    {
-        Debug.Log($"[UISelectorLogo] OnEnable | isOpen={isOpen}");
+        gameObject.SetActive(false);
     }
 
     public void Open()
     {
-        Debug.Log($"[UISelectorLogo] Open() called | isOpen={isOpen}");
+        if (isOpen) return;
 
-        if (isOpen)
-        {
-            Debug.Log("[UISelectorLogo] Open aborted (already open)");
-            return;
-        }
-
+        Debug.Log($"[UISelectorLogo] Open → {name}");
         isOpen = true;
-        animator.Play("Open", 0, 0f);
+        gameObject.SetActive(true);
         animator.SetBool("IsActive", true);
-
-        Debug.Log("[UISelectorLogo] Open animation triggered");
     }
 
     public void Close()
     {
-        Debug.Log($"[UISelectorLogo] Close() called | isOpen={isOpen}");
+        if (!isOpen) return;
 
-        if (!isOpen)
-        {
-            Debug.Log("[UISelectorLogo] Close aborted (already closed)");
-            return;
-        }
-
+        Debug.Log($"[UISelectorLogo] Close → {name}");
         isOpen = false;
         animator.SetBool("IsActive", false);
-
-        Debug.Log("[UISelectorLogo] Close animation triggered");
     }
 
-    // Animation Event à la FIN du clip Close
+    // Appelé par Animation Event à la fin de Close
     public void DisableSelf()
     {
-        Debug.Log("[UISelectorLogo] DisableSelf() called");
         gameObject.SetActive(false);
     }
 }

@@ -1,24 +1,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SaveSlotHover : MonoBehaviour,
-    IPointerEnterHandler, IPointerExitHandler
+public class SaveSlotHover : MonoBehaviour, IPointerEnterHandler
 {
-    [SerializeField] private UISelectorLogo left;
-    [SerializeField] private UISelectorLogo right;
-    [SerializeField] private MenuBackgroundShaderController shaderController;
+    [Header("Decorations")]
+    [SerializeField] private UISelectorLogo leftDecoration;
+    [SerializeField] private UISelectorLogo rightDecoration;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        left.Open();
-        right.Open();
-        shaderController.OnHoverEnter();
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        left.Close();
-        right.Close();
-        shaderController.OnHoverExit();
+        MenuSelectionManager.Instance.Select(leftDecoration, rightDecoration);
     }
 }
