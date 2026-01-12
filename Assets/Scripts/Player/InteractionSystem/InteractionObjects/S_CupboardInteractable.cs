@@ -81,6 +81,13 @@ public class S_CupboardInteractable : MonoBehaviour, SI_Interactable
 
             // Ce qui permettra de vérifier de quel coté de la porte le joueur est
             animationCoroutine = StartCoroutine(DoRotationOpen());
+
+            // Notifier le système de quêtes
+            if (S_GameManager.instance != null)
+            {
+                S_GameManager.instance.playerEvents.CupboardOpened(gameObject);
+                Debug.Log("[S_CupboardInteractable] Cupboard opened event sent");
+            }
             
             // Son d'ouverture
             S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.doorOpening, transform.position);
@@ -103,6 +110,8 @@ public class S_CupboardInteractable : MonoBehaviour, SI_Interactable
         }
 
         isOpen = true;
+
+        
         
         float time = 0;
         while (time < 1)
@@ -125,6 +134,13 @@ public class S_CupboardInteractable : MonoBehaviour, SI_Interactable
 
             
             animationCoroutine = StartCoroutine(DoRotationClose());
+
+            // Notifier le système de quêtes
+            if (S_GameManager.instance != null)
+            {
+                S_GameManager.instance.playerEvents.CupboardClosed(gameObject);
+                Debug.Log("[S_CupboardInteractable] Cupboard closed event sent");
+            }
             
 
             // Son de fermeture
@@ -138,6 +154,8 @@ public class S_CupboardInteractable : MonoBehaviour, SI_Interactable
         Quaternion endRotation = Quaternion.Euler(startRotationVec);
 
         isOpen = false;
+
+        
 
         float time = 0;
         while (time < 1)

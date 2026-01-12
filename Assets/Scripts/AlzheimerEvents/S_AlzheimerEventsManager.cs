@@ -7,7 +7,7 @@ using UnityEngine;
  * Gestionnaire central des événements Alzheimer
  * Gère la jauge de lucidité et le déclenchement des events
  *
- * @author	Lucas
+ * @author	---
  * @since	v0.0.1
  * @version	v1.0.0	Sunday, December 21st, 2025.
  * @global
@@ -116,6 +116,13 @@ public class S_AlzheimerEventsManager : MonoBehaviour
     public bool EventsAreActive => lucidity < eventActivationThreshold;
     public List<SO_AlzheimerEvent> AvailableEvents => availableEvents;
 
+    //*--------------------------------*
+    //* Event Lucidity
+
+    public System.Action OnLucidityZero;
+
+    //*--------------------------------*
+
     #region Unity Lifecycle
 
     void Awake()
@@ -157,6 +164,11 @@ public class S_AlzheimerEventsManager : MonoBehaviour
     {
         // Nettoie les events détruits
         CleanupDestroyedEvents();
+
+        if (lucidity <= 0f)
+        {
+            OnLucidityZero?.Invoke();
+        }
     }
 
     void OnDestroy()
