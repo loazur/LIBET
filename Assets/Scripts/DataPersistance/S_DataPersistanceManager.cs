@@ -51,8 +51,8 @@ public class S_DataPersistanceManager : MonoBehaviour
         LoadGame(); // Charge la partie au démarrage
     }
 
-
-    private void OnApplicationQuit() //& Ce lance lorsque l'application s'arrète
+    /*
+    private void OnApplicationQuit() //& Ce lance lorsque l'application s'arrète (crash)
     {
         // Ne sauvegarder que si on n'est PAS dans le MainMenu
         string currentSceneName = SceneManager.GetActiveScene().name;
@@ -62,6 +62,7 @@ public class S_DataPersistanceManager : MonoBehaviour
             SaveGame();
         }
     }
+    */
 
     //!-----------------------------------------
 
