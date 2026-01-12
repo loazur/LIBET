@@ -18,6 +18,7 @@ public class S_QuestManager : MonoBehaviour
 
     [Header("Config")]
     [SerializeField] private bool loadQuestState = true;
+    [SerializeField] private bool resetAllQuestsOnStart = false; // Mettre à true pour réinitialiser toutes les quêtes
 
     [Header("Interface pour les quêtes")]
     [SerializeField] private GameObject questCanvas; // Canvas pour les quêtes
@@ -35,6 +36,12 @@ public class S_QuestManager : MonoBehaviour
 
     private void Awake()
     {
+        // Optionnel : réinitialiser toutes les quêtes en développement
+        if (resetAllQuestsOnStart)
+        {
+            ResetAllQuests();
+        }
+        
         questMap = CreateQuestMap();
     }
 
@@ -81,8 +88,9 @@ public class S_QuestManager : MonoBehaviour
             SubscribeToEvents();
         }
 
-        // Attendre que PlayerLevelManager initialise le niveau du joueur
-        yield return new WaitForSeconds(0.1f);
+        // Attendre que tous les S_QuestPoint s'abonnent (ils le font dans Start())
+        // et que PlayerLevelManager initialise le niveau du joueur
+        yield return new WaitForSeconds(0.5f);
 
         // Notifier l'état initial de toutes les quêtes
         foreach(S_Quest quest in questMap.Values)
@@ -251,6 +259,7 @@ public class S_QuestManager : MonoBehaviour
         S_Quest quest = GetQuestByID(id);
         quest.StoreQuestStepState(questStepState, stepIndex);
         ChangeQuestState(id, quest.state);
+        Debug.Log($"<color=magenta>[QuestManager]</color> État de l'étape {stepIndex} de la quête '{id}' mis à jour.");
     }
 
     /**
@@ -285,10 +294,18 @@ public class S_QuestManager : MonoBehaviour
     private void StartQuest(string questID)
     {
         S_Quest quest = GetQuestByID(questID);
+        
+        // Protection contre les appels multiples - ne démarrer que si CAN_START
+        if (quest.state != E_QuestState.CAN_START)
+        {
+            Debug.LogWarning($"<color=yellow>[QuestManager]</color> StartQuest ignoré pour '{questID}' - état actuel: {quest.state} (attendu: CAN_START)");
+            return;
+        }
+        
         quest.InstantiateCurrentQuestStep(this.transform);
         ChangeQuestState(questID, E_QuestState.IN_PROGRESS);
 
-        // Debug.Log("Quest " + questID + " started " + " with first step: " + quest.state.ToString());
+        Debug.Log($"<color=green>[QuestManager]</color> Quest '{questID}' started with first step");
     }
 
     /**
@@ -311,8 +328,19 @@ public class S_QuestManager : MonoBehaviour
             return;
         }
 
+        // Protection: ne pas avancer si la quête n'est pas IN_PROGRESS
+        if (quest.state != E_QuestState.IN_PROGRESS)
+        {
+            Debug.LogWarning($"<color=yellow>[QuestManager]</color> AdvanceQuest ignoré pour '{questID}' - état: {quest.state} (attendu: IN_PROGRESS)");
+            return;
+        }
+
+        int previousIndex = quest.CurrentStepIndex;
+        
         // move on to the next step
         quest.MoveToNextStep();
+
+        Debug.Log($"<color=cyan>[QuestManager]</color> Quest '{questID}' avancée: étape {previousIndex} → {quest.CurrentStepIndex}");
 
         // if there are more steps, instantiate the next one
         if (quest.CurrentStepExists())
@@ -328,8 +356,6 @@ public class S_QuestManager : MonoBehaviour
 
         // Mettre à jour l'UI pour afficher le nouveau titre d'étape
         UpdateQuestUI();
-
-        // Debug.Log("Quest " + questID + " advanced to step: " + quest.state.ToString());
     }
 
     /**
@@ -434,7 +460,8 @@ public class S_QuestManager : MonoBehaviour
             {
                 Debug.LogWarning("[S_QuestManager] Duplicate quest ID found: " + questInfo.id);
             }
-            idToQuestMap[questInfo.id] = new S_Quest(questInfo);
+            // Charger la quête sauvegardée ou créer une nouvelle instance
+            idToQuestMap[questInfo.id] = LoadQuest(questInfo);
         }
         return idToQuestMap;
     }
@@ -449,7 +476,7 @@ public class S_QuestManager : MonoBehaviour
      * @param	string	questID	
      * @return	mixed
      */
-    private S_Quest GetQuestByID(string questID)
+    public S_Quest GetQuestByID(string questID)
     {
         if (string.IsNullOrEmpty(questID))
         {
@@ -560,16 +587,18 @@ public class S_QuestManager : MonoBehaviour
         try 
         {
             // load quest from saved data
-            if (PlayerPrefs.HasKey(questInfo.id) && loadQuestState)
+            if (PlayerPrefs.HasKey("Quest_" + questInfo.id) && loadQuestState)
             {
-                string serializedData = PlayerPrefs.GetString(questInfo.id);
+                string serializedData = PlayerPrefs.GetString("Quest_" + questInfo.id);
                 S_QuestData questData = JsonUtility.FromJson<S_QuestData>(serializedData);
                 quest = new S_Quest(questInfo, questData.state, questData.index, questData.questStepStates);
+                Debug.Log($"<color=cyan>[S_QuestManager]</color> Quête '{questInfo.displayName}' chargée - État: {questData.state}, Étape: {questData.index}");
             }
             // otherwise, initialize a new quest
             else 
             {
                 quest = new S_Quest(questInfo);
+                Debug.Log($"<color=cyan>[S_QuestManager]</color> Nouvelle quête créée: '{questInfo.displayName}'");
             }
         }
         catch (System.Exception e)
@@ -579,6 +608,38 @@ public class S_QuestManager : MonoBehaviour
         return quest;
     }
     
+    /**
+     * Réinitialise toutes les quêtes sauvegardées (utile pour le développement)
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, January 12th, 2026.
+     * @access	private
+     * @return	void
+     */
+    private void ResetAllQuests()
+    {
+        Debug.Log("<color=yellow>[S_QuestManager]</color> Réinitialisation de toutes les quêtes sauvegardées...");
+        
+        // Charger toutes les quêtes disponibles
+        SO_QuestInfo[] allQuests = Resources.LoadAll<SO_QuestInfo>("Quest");
+        
+        int resetCount = 0;
+        foreach (SO_QuestInfo questInfo in allQuests)
+        {
+            string key = "Quest_" + questInfo.id;
+            if (PlayerPrefs.HasKey(key))
+            {
+                PlayerPrefs.DeleteKey(key);
+                resetCount++;
+                Debug.Log($"<color=yellow>[S_QuestManager]</color> Quête '{questInfo.displayName}' (ID: {questInfo.id}) réinitialisée");
+            }
+        }
+        
+        PlayerPrefs.Save();
+        Debug.Log($"<color=green>[S_QuestManager]</color> {resetCount} quête(s) réinitialisée(s)");
+    }
+
 
     #endregion
 

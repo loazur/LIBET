@@ -12,9 +12,11 @@ public class S_HandlerPauseMenu : MonoBehaviour
 
     //~ Références vers d'autre classes
     [SerializeField] private S_PlayerController playerController;
-    [SerializeField] private S_PlayerCrouch playerCrouch;
     [SerializeField] private S_FirstPersonCamera playerCamera;
-    [SerializeField] private S_PlayerInteract playerInteract;
+
+    private S_PlayerCrouch playerCrouch;
+    private S_PlayerInteract playerInteract;
+    private S_PlayerFootsteps playerFootsteps;
 
     private string currentSceneName;
         
@@ -29,6 +31,9 @@ public class S_HandlerPauseMenu : MonoBehaviour
             instance = this;
 
             currentSceneName = SceneManager.GetActiveScene().name;
+            playerCrouch = playerController.GetComponent<S_PlayerCrouch>();
+            playerInteract = playerController.GetComponent<S_PlayerInteract>();
+            playerFootsteps = playerController.GetComponent<S_PlayerFootsteps>();
         }
         else if (instance != this)
         {
@@ -61,6 +66,9 @@ public class S_HandlerPauseMenu : MonoBehaviour
         playerCamera.setRotationEnabled(true);
         playerInteract.setInteractionEnabled(true);
         playerCrouch.setAbleToCrouch(true);
+        playerFootsteps.SetSoundsEnabled(true);
+
+        Time.timeScale = 1; // Réactive l'écoulement du temps
     }
 
     public void DisableAll()
@@ -70,6 +78,9 @@ public class S_HandlerPauseMenu : MonoBehaviour
         playerCamera.setRotationEnabled(false);
         playerInteract.setInteractionEnabled(false);
         playerCrouch.setAbleToCrouch(false);
+        playerFootsteps.SetSoundsEnabled(false);
+
+        Time.timeScale = 0; // Désactive l'écoulement du temps
     }
 
     public void CompletelyCloseMenu()

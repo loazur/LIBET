@@ -10,20 +10,72 @@ public class S_PlayerInteract : MonoBehaviour
     [SerializeField] private float interactRange = 2f;
     private bool areInteractionsEnabled = true;
     private S_ItemInteraction holdingItem = null;
-    
 
+    // Pour gérer l'interaction maintenue
+    private HoldToInteract currentHoldingItem = null;
 
     void Update() //& PAS PHYSICS
     {
-        if (S_UserInput.instance.InteractInput)
-        {
-            SI_Interactable interactable = GetInteractableObject();
+        SI_Interactable interactable = GetInteractableObject();
 
-            if (interactable != null)
+        // Vérifier si c'est un objet qui nécessite de maintenir
+        if (interactable != null && interactable.getTransform().TryGetComponent(out HoldToInteract holdingScript))
+        {
+            // Si le joueur commence à appuyer
+            if (S_UserInput.instance.InteractAction.WasPressedThisFrame())
             {
-                interactable.Interact(transform);
+                currentHoldingItem = holdingScript;
+                currentHoldingItem.holdTimer = currentHoldingItem.howLongToHold;
             }
 
+            // Si le joueur maintient le bouton
+            if (S_UserInput.instance.InteractAction.IsPressed() && currentHoldingItem != null)
+            {
+                currentHoldingItem.holdTimer -= Time.deltaTime;
+
+                // Si le timer est écoulé, déclencher l'interaction
+                if (currentHoldingItem.holdTimer <= 0)
+                {
+                    // Déclencher l'événement pour le système de quêtes
+                    if (S_GameManager.instance != null)
+                    {
+                        S_GameManager.instance.playerEvents.PlayerHoldInteracted(
+                            interactable.getTransform().gameObject.name,
+                            interactable.getTransform().gameObject.tag
+                        );
+                    }
+
+                    interactable.Interact(transform);
+                    currentHoldingItem = null; // Reset
+                }
+            }
+
+            // Si le joueur relâche le bouton avant la fin
+            if (S_UserInput.instance.InteractAction.WasReleasedThisFrame())
+            {
+                if (currentHoldingItem != null)
+                {
+                    currentHoldingItem.holdTimer = currentHoldingItem.howLongToHold; // Reset
+                    currentHoldingItem = null;
+                }
+            }
+        }
+        else // Interaction normale (pas besoin de maintenir)
+        {
+            if (S_UserInput.instance.InteractAction.WasPressedThisFrame())
+            {
+                if (interactable != null)
+                {
+                    interactable.Interact(transform);
+                }
+            }
+
+            // Reset si on ne vise plus un objet à maintenir
+            if (currentHoldingItem != null)
+            {
+                currentHoldingItem.holdTimer = currentHoldingItem.howLongToHold;
+                currentHoldingItem = null;
+            }
         }
     }
 
@@ -60,7 +112,6 @@ public class S_PlayerInteract : MonoBehaviour
                 {
                     interactableList.Add(interactable); // On peux intéragir avec
                 }
-
             }
         }
 
@@ -111,18 +162,16 @@ public class S_PlayerInteract : MonoBehaviour
         holdingItem = itemHolded;
     }
 
-    /**
-     * Récupère l'item actuellement tenu par le joueur
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Saturday, November 29th, 2025.
-     * @access	public
-     * @return	mixed
-     */
     public S_ItemInteraction GetHoldingItem()
     {
         return holdingItem;
     }
 
+    public float GetHoldProgress() //& Retourne le progrès de l'interaction maintenue (0 à 1)
+    {
+        if (currentHoldingItem == null)
+            return 0f;
+
+        return 1f - (currentHoldingItem.holdTimer / currentHoldingItem.howLongToHold);
+    }
 }
