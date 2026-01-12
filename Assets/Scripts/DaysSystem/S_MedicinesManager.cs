@@ -175,6 +175,18 @@ public class S_MedicinesManager : MonoBehaviour
         }
         spawnedMedicines.Clear();
     }
+    
+    public void CleanupForDayRestart() //& Nettoie pour un relancement de jour (après une perte)
+    {
+        // Détruire tous les médicaments spawned
+        CleanupRemainingMedicines();
+        
+        // Réinitialiser les compteurs
+        medicinesNotEaten = 0;
+        storedMedicinesFromPreviousDay = 0; // On perd tout quand on perd un jour
+        
+        Debug.Log("Médicaments réinitialisés pour restart du jour");
+    }
 
     //! ---------- Getters ----------
 
