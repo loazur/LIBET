@@ -270,6 +270,9 @@ public class S_DaysManager : MonoBehaviour
         timeLasted = 0f;
         isDayActive = true;
 
+        // Sauvegarde
+        S_DataPersistanceManager.instance.SaveGame();
+
         //TODO - TP au spawn (à coté du lit)
 
         Debug.Log($"Jour {currentDay} commencé");
