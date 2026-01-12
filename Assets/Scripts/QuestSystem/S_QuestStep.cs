@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public abstract class S_QuestStep : MonoBehaviour
@@ -8,6 +7,8 @@ public abstract class S_QuestStep : MonoBehaviour
     private bool isFinished = false;
     private string questId;
     private int stepIndex;
+
+    public int StepIndex => stepIndex; // Getter public pour vérification
 
     //& Propriété qui retourne le nom traduit automatiquement
     public string stepName
@@ -78,9 +79,14 @@ public abstract class S_QuestStep : MonoBehaviour
                 Debug.LogError("[S_QuestStep] FinishQuestStep appelé mais questId est null! Assurez-vous que InitializeQuestStep() a été appelé.");
                 return;
             }
-            
+
+            Debug.Log($"<color=magenta>[S_QuestStep]</color> Étape {stepIndex} terminée pour '{questId}'");
             S_GameManager.instance.questEvents.AdvanceQuest(questId);
             Destroy(this.gameObject);
+        }
+        else
+        {
+            Debug.LogWarning($"<color=yellow>[S_QuestStep]</color> FinishQuestStep ignoré - étape {stepIndex} déjà terminée pour '{questId}'");
         }
     }
 
