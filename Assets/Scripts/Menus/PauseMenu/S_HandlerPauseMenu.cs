@@ -61,6 +61,8 @@ public class S_HandlerPauseMenu : MonoBehaviour
         playerCamera.setRotationEnabled(true);
         playerInteract.setInteractionEnabled(true);
         playerCrouch.setAbleToCrouch(true);
+
+        Time.timeScale = 1; // Réactive l'écoulement du temps
     }
 
     public void DisableAll()
@@ -70,6 +72,8 @@ public class S_HandlerPauseMenu : MonoBehaviour
         playerCamera.setRotationEnabled(false);
         playerInteract.setInteractionEnabled(false);
         playerCrouch.setAbleToCrouch(false);
+
+        Time.timeScale = 0; // Désactive l'écoulement du temps
     }
 
     public void CompletelyCloseMenu()

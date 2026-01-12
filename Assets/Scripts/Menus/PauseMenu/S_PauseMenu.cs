@@ -34,9 +34,6 @@ public class S_PauseMenu : S_Menu
 
     public void OnQuitClicked()
     {
-        // Sauvegarde quand on quitte
-        S_DataPersistanceManager.instance.SaveGame();
-        
         // Changement de scene
         S_SceneLoader.instance.LoadScene("MainMenu");
     }
