@@ -180,4 +180,18 @@ public class S_PlayerEvents
             onCupboardClosed(cupboard);
         }
     }
+
+    /**
+     * Événement déclenché quand le joueur interagit avec un objet en maintenant une touche
+     *
+     * @var		mixed	onPlayerHoldInteracted
+     */
+    public event Action<string, string> onPlayerHoldInteracted;
+    public void PlayerHoldInteracted(string objectName, string objectTag)
+    {
+        if (onPlayerHoldInteracted != null)
+        {
+            onPlayerHoldInteracted(objectName, objectTag);
+        }
+    }
 }

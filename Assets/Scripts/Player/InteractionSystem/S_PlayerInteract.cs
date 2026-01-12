@@ -36,6 +36,15 @@ public class S_PlayerInteract : MonoBehaviour
                 // Si le timer est écoulé, déclencher l'interaction
                 if (currentHoldingItem.holdTimer <= 0)
                 {
+                    // Déclencher l'événement pour le système de quêtes
+                    if (S_GameManager.instance != null)
+                    {
+                        S_GameManager.instance.playerEvents.PlayerHoldInteracted(
+                            interactable.getTransform().gameObject.name,
+                            interactable.getTransform().gameObject.tag
+                        );
+                    }
+
                     interactable.Interact(transform);
                     currentHoldingItem = null; // Reset
                 }
