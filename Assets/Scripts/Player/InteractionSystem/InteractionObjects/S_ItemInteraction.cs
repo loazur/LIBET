@@ -108,6 +108,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
         else
         {
             HandleHoldPickUp();
+            Debug.Log("[S_ItemInteraction] Holding interaction to pick up item...");
         }
     }
 
@@ -234,6 +235,8 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
     private void HandleHoldPickUp()
     {
         if (playerInteract == null || playerInteract.isHoldingItem()) return;
+
+        Debug.Log("[S_ItemInteraction] Holding to pick up item...");
 
         pickUpHoldTimer += Time.deltaTime;
 

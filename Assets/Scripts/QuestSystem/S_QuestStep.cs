@@ -3,12 +3,38 @@ using UnityEngine;
 
 public abstract class S_QuestStep : MonoBehaviour
 {
-    public string stepName; //& ce sera le nom de la quete step dans l'éditeur
+    public string stepNameFrench; //& ce sera le nom de la quete step dans l'éditeur
+    public string stepNameEnglish;
     private bool isFinished = false;
     private string questId;
     private int stepIndex;
 
+    //& Propriété qui retourne le nom traduit automatiquement
+    public string stepName
+    {
+        get
+        {
+            // Vérifie si l'instance existe
+            if (S_GameUserData.instance == null)
+            {
+                // Fallback: retourne le français par défaut, ou l'anglais si le français est vide
+                return !string.IsNullOrEmpty(stepNameFrench) ? stepNameFrench : stepNameEnglish;
+            }
+
+            // Retourne le nom selon la langue actuelle
+            if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
+            {
+                return !string.IsNullOrEmpty(stepNameFrench) ? stepNameFrench : stepNameEnglish;
+            }
+            else // English ou autre
+            {
+                return !string.IsNullOrEmpty(stepNameEnglish) ? stepNameEnglish : stepNameFrench;
+            }
+        }
+    }
+
     //& --------------- Fonctions publics ---------------
+
 
     /**
      * Initialisation de la quest step
