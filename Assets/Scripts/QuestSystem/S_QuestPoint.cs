@@ -148,7 +148,7 @@ public class S_QuestPoint : MonoBehaviour
         {
             E_QuestState oldState = currentQuestState;
             currentQuestState = quest.state;
-            Debug.Log($"<color=yellow>[QuestPoint]</color> État de '{questId}': {oldState} → {currentQuestState}");
+            Debug.Log($"<color=yellow>[QuestPoint]</color> État de '{questId}': {oldState} → {currentQuestState} ");
         }
     }
 

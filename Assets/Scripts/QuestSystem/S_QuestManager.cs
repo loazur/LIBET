@@ -18,6 +18,7 @@ public class S_QuestManager : MonoBehaviour
 
     [Header("Config")]
     [SerializeField] private bool loadQuestState = true;
+    [SerializeField] private bool resetAllQuestsOnStart = false; // Mettre à true pour réinitialiser toutes les quêtes
 
     [Header("Interface pour les quêtes")]
     [SerializeField] private GameObject questCanvas; // Canvas pour les quêtes
@@ -35,6 +36,12 @@ public class S_QuestManager : MonoBehaviour
 
     private void Awake()
     {
+        // Optionnel : réinitialiser toutes les quêtes en développement
+        if (resetAllQuestsOnStart)
+        {
+            ResetAllQuests();
+        }
+        
         questMap = CreateQuestMap();
     }
 
@@ -434,7 +441,8 @@ public class S_QuestManager : MonoBehaviour
             {
                 Debug.LogWarning("[S_QuestManager] Duplicate quest ID found: " + questInfo.id);
             }
-            idToQuestMap[questInfo.id] = new S_Quest(questInfo);
+            // Charger la quête sauvegardée ou créer une nouvelle instance
+            idToQuestMap[questInfo.id] = LoadQuest(questInfo);
         }
         return idToQuestMap;
     }
@@ -560,16 +568,18 @@ public class S_QuestManager : MonoBehaviour
         try 
         {
             // load quest from saved data
-            if (PlayerPrefs.HasKey(questInfo.id) && loadQuestState)
+            if (PlayerPrefs.HasKey("Quest_" + questInfo.id) && loadQuestState)
             {
-                string serializedData = PlayerPrefs.GetString(questInfo.id);
+                string serializedData = PlayerPrefs.GetString("Quest_" + questInfo.id);
                 S_QuestData questData = JsonUtility.FromJson<S_QuestData>(serializedData);
                 quest = new S_Quest(questInfo, questData.state, questData.index, questData.questStepStates);
+                Debug.Log($"<color=cyan>[S_QuestManager]</color> Quête '{questInfo.displayName}' chargée - État: {questData.state}, Étape: {questData.index}");
             }
             // otherwise, initialize a new quest
             else 
             {
                 quest = new S_Quest(questInfo);
+                Debug.Log($"<color=cyan>[S_QuestManager]</color> Nouvelle quête créée: '{questInfo.displayName}'");
             }
         }
         catch (System.Exception e)
@@ -579,6 +589,38 @@ public class S_QuestManager : MonoBehaviour
         return quest;
     }
     
+    /**
+     * Réinitialise toutes les quêtes sauvegardées (utile pour le développement)
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Sunday, January 12th, 2026.
+     * @access	private
+     * @return	void
+     */
+    private void ResetAllQuests()
+    {
+        Debug.Log("<color=yellow>[S_QuestManager]</color> Réinitialisation de toutes les quêtes sauvegardées...");
+        
+        // Charger toutes les quêtes disponibles
+        SO_QuestInfo[] allQuests = Resources.LoadAll<SO_QuestInfo>("Quest");
+        
+        int resetCount = 0;
+        foreach (SO_QuestInfo questInfo in allQuests)
+        {
+            string key = "Quest_" + questInfo.id;
+            if (PlayerPrefs.HasKey(key))
+            {
+                PlayerPrefs.DeleteKey(key);
+                resetCount++;
+                Debug.Log($"<color=yellow>[S_QuestManager]</color> Quête '{questInfo.displayName}' (ID: {questInfo.id}) réinitialisée");
+            }
+        }
+        
+        PlayerPrefs.Save();
+        Debug.Log($"<color=green>[S_QuestManager]</color> {resetCount} quête(s) réinitialisée(s)");
+    }
+
 
     #endregion
 
