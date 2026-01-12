@@ -258,6 +258,7 @@ public class S_QuestManager : MonoBehaviour
         S_Quest quest = GetQuestByID(id);
         quest.StoreQuestStepState(questStepState, stepIndex);
         ChangeQuestState(id, quest.state);
+        Debug.Log($"<color=magenta>[QuestManager]</color> État de l'étape {stepIndex} de la quête '{id}' mis à jour.");
     }
 
     /**

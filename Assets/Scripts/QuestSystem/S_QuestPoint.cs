@@ -127,14 +127,14 @@ public class S_QuestPoint : MonoBehaviour
         // Démarrage manuel dans la zone
         if (startPoint && requireSubmitToStart && currentQuestState == E_QuestState.CAN_START)
         {
-            // Debug.Log($"<color=green>[QuestPoint]</color> Démarrage manuel (Submit) de '{questId}'");
+            Debug.Log($"<color=green>[QuestPoint]</color> Démarrage manuel (Submit) de '{questId}'");
             S_GameManager.instance.questEvents.StartQuest(questId);
         }
 
         // Fin manuelle dans la zone
         if (finishPoint && requireSubmitToFinish && currentQuestState == E_QuestState.CAN_FINISH)
         {
-            // Debug.Log($"<color=green>[QuestPoint]</color> Finalisation manuelle (Submit) de '{questId}'");
+            Debug.Log($"<color=green>[QuestPoint]</color> Finalisation manuelle (Submit) de '{questId}'");
             S_GameManager.instance.questEvents.FinishQuest(questId);
         }
     }

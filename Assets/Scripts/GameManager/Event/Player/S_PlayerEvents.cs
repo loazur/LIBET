@@ -194,4 +194,18 @@ public class S_PlayerEvents
             onPlayerHoldInteracted(objectName, objectTag);
         }
     }
+
+    /**
+     * Événement déclenché quand le joueur interagit avec n'importe quel objet (HoldInteractAnyObject)
+     *
+     * @var		mixed	onPlayerHoldInteractedWithAnyObject
+     */
+    public event Action<GameObject> onPlayerHoldInteractedWithAnyObject;
+    public void PlayerHoldInteractedWithAnyObject(GameObject obj)
+    {
+        if (onPlayerHoldInteractedWithAnyObject != null)
+        {
+            onPlayerHoldInteractedWithAnyObject(obj);
+        }
+    }
 }
