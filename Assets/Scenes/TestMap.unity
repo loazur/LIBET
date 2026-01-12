@@ -441,7 +441,7 @@ Material:
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowIntensity: {r: 1, g: 0, b: 0, a: 0}
     - _ToLightDir: {r: 0.9774494, g: 0.21117042, b: 0.00000013690442, a: 0.39}
-    - _WindDirection: {r: 0.06363796, g: 0.03818277, b: 0.006363796, a: 0}
+    - _WindDirection: {r: 0.19058739, g: 0.11435252, b: 0.019058768, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!84 &60150459
@@ -4271,6 +4271,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HoldToInteract
   howLongToHold: 2
   holdTimer: 0
+--- !u!114 &767718056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767718052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53dfb133055e3ae45a8a21d6f66c8acd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoldInteractAnyObject
+  interactTextFrench: Maintenir E
+  interactTextEnglish: Hold E
 --- !u!43 &807600793
 Mesh:
   m_ObjectHideFlags: 0
@@ -6897,6 +6911,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bac5ed392d8766c419d8f7f6eeb21712, type: 3}
       insertIndex: -1
       addedObject: {fileID: 767718055}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bac5ed392d8766c419d8f7f6eeb21712, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 767718056}
   m_SourcePrefab: {fileID: 100100000, guid: bac5ed392d8766c419d8f7f6eeb21712, type: 3}
 --- !u!1 &1312735572 stripped
 GameObject:
@@ -9608,6 +9625,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+--- !u!84 &1456002504
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1517887560
 GameObject:
   m_ObjectHideFlags: 1
@@ -10587,7 +10641,7 @@ PrefabInstance:
     - target: {fileID: 3427824855752784596, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 60150459}
+      objectReference: {fileID: 1456002504}
     - target: {fileID: 4302015194351260662, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_LocalPosition.x
       value: -278.43658
@@ -13408,6 +13462,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8645833320879176283, guid: e5d9453edaba26545a2b336bd3796baa, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14334,6 +14392,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6646868866002513729, guid: 416c4d0427308e74eba00297ad6eb889, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14347,6 +14409,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 824202952}
     m_Modifications:
+    - target: {fileID: 2093038735761865904, guid: f9a32e7eb7a754041a82b84b89bbf905, type: 3}
+      propertyPath: startPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093038735761865904, guid: f9a32e7eb7a754041a82b84b89bbf905, type: 3}
+      propertyPath: finishPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093038735761865904, guid: f9a32e7eb7a754041a82b84b89bbf905, type: 3}
+      propertyPath: autoStartQuest
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093038735761865904, guid: f9a32e7eb7a754041a82b84b89bbf905, type: 3}
+      propertyPath: autoFinishQuest
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8519460274413485153, guid: f9a32e7eb7a754041a82b84b89bbf905, type: 3}
       propertyPath: m_Name
       value: "QuestPointDiificult\xE91"

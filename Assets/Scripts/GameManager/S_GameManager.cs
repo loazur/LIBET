@@ -10,6 +10,8 @@ public class S_GameManager : MonoBehaviour
 
     public S_PlayerEvents playerEvents;
 
+    public S_QuestManager questManager;
+
 
     private void Awake()
     {
