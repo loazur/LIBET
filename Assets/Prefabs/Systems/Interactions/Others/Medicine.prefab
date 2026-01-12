@@ -240,6 +240,7 @@ GameObject:
   - component: {fileID: 155244324827907857}
   - component: {fileID: 6158121086241548390}
   - component: {fileID: 834273704117586479}
+  - component: {fileID: 8226735933298226331}
   - component: {fileID: 7397147860140941411}
   m_Layer: 0
   m_Name: Medicine
@@ -862,6 +863,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 962cdf264e21b73199b691388284e053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::S_OutlineHandler
+--- !u!114 &8226735933298226331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5979905689615888923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467db91ba27fb680dad39ad92e4ceebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoldToInteract
+  howLongToHold: 0.5
+  holdTimer: 0
 --- !u!136 &7397147860140941411
 CapsuleCollider:
   m_ObjectHideFlags: 0

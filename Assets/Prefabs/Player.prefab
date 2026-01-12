@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 7415443177782492238}
   - component: {fileID: 8798338443872045811}
   - component: {fileID: 1270148158842031400}
+  - component: {fileID: 8098431285937746629}
   - component: {fileID: 1673238761029844516}
   - component: {fileID: -8010061489724291252}
   m_Layer: 0
@@ -61,7 +62,7 @@ Transform:
   m_GameObject: {fileID: 1507892592971500121}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.597, z: 0}
+  m_LocalPosition: {x: 0, y: 0.59698486, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -175,6 +176,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 8557010005859436040}
+--- !u!114 &8098431285937746629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1507892592971500121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e447f414474e87cbdb30be43cfb62776, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_HeadbobSystem
+  Amount: 0.0752
+  Frequency: 30
+  Smooth: 100
+  playerController: {fileID: 4217204885918703692}
+  movementThreshold: 0.1
 --- !u!114 &1673238761029844516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,6 +446,7 @@ GameObject:
   - component: {fileID: 8038480735452585374}
   - component: {fileID: 7709009579591783634}
   - component: {fileID: 5001668731640335912}
+  - component: {fileID: 7860897438059389931}
   m_Layer: 2
   m_Name: Body
   m_TagString: Player
@@ -448,8 +467,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 8438631690692948693}
   - {fileID: 4910514800663477904}
+  - {fileID: 8438631690692948693}
   m_Father: {fileID: 1645091008375464043}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1950952241099664091
@@ -576,7 +595,7 @@ MonoBehaviour:
   capsuleCollider: {fileID: 3041798189606514041}
   baseMat: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   sprintMat: {fileID: 2100000, guid: c2e40fa84d53ccd428f640eac126b1fb, type: 2}
-  movementSpeed: 3.5
+  movementSpeed: 3
   maxSlopeAngle: 60
   stepRayUpper: {fileID: 8838734158530156383}
   stepRayLower: {fileID: 1359712466099827893}
@@ -642,3 +661,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCamera: {fileID: 7415443177782492238}
   interactRange: 2
+--- !u!114 &7860897438059389931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9169824269107651241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fca28c25c531d6a0b20152e89a936bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_PlayerFootsteps
+  walkStepInterval: 0.7
+  runStepInterval: 0.5
