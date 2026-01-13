@@ -96,12 +96,12 @@ public class S_NotesSystem : MonoBehaviour
 
     void OnEnable()
     {
-        
+        A_display += DisplayNote;
     }
 
     void OnDisable()
     {
-        
+        A_display -= DisplayNote;
     }
 
     void Awake()
@@ -113,12 +113,13 @@ public class S_NotesSystem : MonoBehaviour
 
     void Start()
     {
-        
+        Close(false);
+        defaultPageTexture = UI.page.sprite;
     }
 
     void Update()
     {
-        
+        //TODO if avec la touche a utiliser
     }
 
     #endregion
@@ -131,11 +132,11 @@ public class S_NotesSystem : MonoBehaviour
         UpdateList();
         UpdateCanvasGroup(true, UI.listConvasGroup);
     }
-
-    public void Close()
+    public void Close(bool playSFX)
     {
         EnableMovements(); // Active les scripts
 
+        CloseNote(playSFX);
         UpdateCanvasGroup(false, UI.listConvasGroup);
     }
 
@@ -143,12 +144,12 @@ public class S_NotesSystem : MonoBehaviour
     {
         if (note == null) return;
 
+        //TODO jouer le son d'ouverture
         UpdateCanvasGroup(true, UI.noteCanvasGroup);
         activeNote = note;
 
         DisplayPage(0);
     }
-
     private void DisplayPage(int page)
     {
         UI.readButton.interactable = activeNote.pages[page].pageType == PageType.TEXTURE;
@@ -164,6 +165,8 @@ public class S_NotesSystem : MonoBehaviour
                 UpdateSubscript();
             }
         }
+
+
 
         switch (activeNote.pages[page].pageType)
         {
@@ -181,6 +184,29 @@ public class S_NotesSystem : MonoBehaviour
         UpdateUI();
     }
 
+    public static void Display(S_Note note)
+    {
+        A_display(note);
+    }
+    public static void Display(string key)
+    {
+        var note = GetNote(key);
+        A_display(note);
+    }
+
+    public void CloseNote(bool playSFX)
+    {
+        if (playSFX)
+        {
+            //TODO jouer le son de fermeture
+        }
+
+        UpdateCanvasGroup(false, UI.noteCanvasGroup);
+        OnNoteClose();
+    }
+
+
+
     private void UpdateUI()
     {
         UI.previousButton.interactable = !(currentPage == 0);
@@ -191,7 +217,6 @@ public class S_NotesSystem : MonoBehaviour
 
         UpdateCanvasGroup(readSubscript, UI.subscriptGroup);
     }
-
     private void UpdateList()
     {
         ClearList();
@@ -215,7 +240,6 @@ public class S_NotesSystem : MonoBehaviour
             index++;
         }
     }
-
     private void UpdateSubscript()
     {
         UI.subscript.text = readSubscript ? activePage.text : string.Empty;
@@ -223,22 +247,24 @@ public class S_NotesSystem : MonoBehaviour
 
     public void Next()
     {
-        currentPage++;
+        //TODO Jouer le son tourner page
 
+        currentPage++;
         DisplayPage(currentPage);
     }
-
     public void Previous()
     {
-        currentPage--;
+        //TODO Jouer le son tourner page
 
+        currentPage--;
         DisplayPage(currentPage);
     }
-
     public void Read()
     {
         readSubscript = !readSubscript;
-        
+
+        UpdateSubscript();
+        UpdateUI();
     }
 
     private void ClearList()
@@ -249,7 +275,12 @@ public class S_NotesSystem : MonoBehaviour
         }
         noteDatas.Clear();
     }
-
+    private void OnNoteClose()
+    {
+        activeNote = null;
+        currentPage = 0;
+        readSubscript = false;
+    }
     private void UpdateCanvasGroup(bool state, CanvasGroup canvasGroup)
     {
         if (state)
@@ -267,6 +298,23 @@ public class S_NotesSystem : MonoBehaviour
                 
     }
   
+    public static void AddNote(string key, S_Note note)
+    {
+        if (notes.ContainsKey(key) == false)
+        {
+            notes.Add(key, note);
+        }
+    }
+    public static S_Note GetNote(string key)
+    {
+        if (notes.ContainsKey(key))
+        {
+            return notes[key];
+        }
+
+        return null;
+    }
+
     //?-----------------------------------------------------------
 
     private void EnableMovements()
