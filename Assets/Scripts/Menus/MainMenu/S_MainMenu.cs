@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -12,6 +13,14 @@ public class S_MainMenu : S_Menu
     [SerializeField] private Button playGameButton;
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button leaveButton;
+
+    public new void ActivateMenu()
+    {
+        gameObject.SetActive(true);
+        // Sélectionne le bouton "Jouer" par défaut et déclenche OnSelect
+        if (playGameButton != null)
+            EventSystem.current.SetSelectedGameObject(playGameButton.gameObject);
+    }
 
     public void OnPlayGameClicked()
     {
