@@ -8,7 +8,7 @@ using UnityEngine;
  * @version	v1.0.0	Wednesday, January 8th, 2026.
  * @abstract
  */
-public abstract class QuestReward : ScriptableObject
+public abstract class SO_QuestReward : ScriptableObject
 {
 
 

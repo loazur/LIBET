@@ -82,11 +82,30 @@ public class S_UIQuestMenu : MonoBehaviour
         {
             ToggleQuestMenu();
 
+            // Activer/désactiver le curseur de la souris et verrouiller/déverrouiller la caméra
             if (uiQuestMenu.activeSelf)
             {
                 // Réactiver le curseur de la souris si le menu est ouvert
-                S_GameManager.instance.playerEvents.MenuOpened();
-                
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+
+                // Bloquer la caméra du joueur
+                if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+                {
+                    S_GameManager.instance.playerEvents.LockPlayerCamera(true);
+                }
+            }
+            else
+            {
+                // Re-locker le curseur si le menu est fermé
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+
+                // Débloquer la caméra du joueur
+                if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+                {
+                    S_GameManager.instance.playerEvents.LockPlayerCamera(false);
+                }
             }
         } 
     }
