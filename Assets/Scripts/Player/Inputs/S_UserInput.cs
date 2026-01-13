@@ -13,6 +13,7 @@ public class S_UserInput : MonoBehaviour
     public bool CrouchInput { get; private set; }
     public bool SprintInput { get; private set; }
     public bool MenuOpenCloseInput { get; private set; }
+    public bool QuestMenuAction { get; private set; }
 
     // Actions
     private PlayerInput _playerInput;
@@ -22,6 +23,7 @@ public class S_UserInput : MonoBehaviour
     private InputAction _crouchAction;
     private InputAction _sprintAction;
     private InputAction _menuOpenCloseAction;
+    private InputAction _questMenuAction;
 
     // ! Dévs
     public bool NoClipInput { get; private set; }
@@ -65,6 +67,8 @@ public class S_UserInput : MonoBehaviour
         _crouchAction = _playerInput.actions["Crouch"];
         _sprintAction = _playerInput.actions["Sprint"];
         _menuOpenCloseAction = _playerInput.actions["MenuOpenClose"];
+        _questMenuAction = _playerInput.actions["QuestMenu"];
+
 
         //! Dévs
         _noClipAction = _playerInput.actions["NoClip"];
@@ -79,6 +83,7 @@ public class S_UserInput : MonoBehaviour
         CrouchInput = _crouchAction.WasPressedThisFrame();
         SprintInput = _sprintAction.IsPressed();
         MenuOpenCloseInput = _menuOpenCloseAction.WasPressedThisFrame();
+        QuestMenuAction = _questMenuAction.WasPressedThisFrame();
 
         //! Dévs
         NoClipInput = _noClipAction.WasPressedThisFrame();
