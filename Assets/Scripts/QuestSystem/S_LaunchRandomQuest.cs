@@ -35,7 +35,7 @@ public class S_LaunchRandomQuest : MonoBehaviour
     [SerializeField] private int questsPerDay = 3;
     
     [Tooltip("Jours par niveau de difficulté")]
-    [SerializeField] private int daysPerDifficultyLevel = 3;
+    [SerializeField] private int daysPerDifficultyLevel = 3; //& Genre c'est le décalage 3-6-9-12-15 5 niveau de difficulté
 
     // Quêtes actuellement sélectionnées pour le jour
     private List<SO_QuestInfo> selectedQuestsForDay = new List<SO_QuestInfo>();
@@ -84,7 +84,7 @@ public class S_LaunchRandomQuest : MonoBehaviour
             3 => questListDifficulty3,
             4 => questListDifficulty4,
             5 => questListDifficulty5,
-            _ => questListDifficulty1
+            _ => questListDifficulty1 //& Retour par défaut au cas où
         };
     }
 

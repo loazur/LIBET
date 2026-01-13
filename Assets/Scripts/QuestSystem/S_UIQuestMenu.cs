@@ -81,6 +81,13 @@ public class S_UIQuestMenu : MonoBehaviour
         if (S_UserInput.instance != null && S_UserInput.instance.QuestMenuInput)
         {
             ToggleQuestMenu();
+
+            if (uiQuestMenu.activeSelf)
+            {
+                // Réactiver le curseur de la souris si le menu est ouvert
+                S_GameManager.instance.playerEvents.MenuOpened();
+                
+            }
         } 
     }
 
