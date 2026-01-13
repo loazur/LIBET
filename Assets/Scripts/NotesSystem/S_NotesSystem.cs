@@ -119,7 +119,19 @@ public class S_NotesSystem : MonoBehaviour
 
     void Update()
     {
-        //TODO if avec la touche a utiliser
+        if (S_UserInput.instance.NotesMenuInput)
+        {
+            usingNotesSystem = !usingNotesSystem;
+
+            if (usingNotesSystem)
+            {
+                Open();
+            }
+            else
+            {
+                Close(activeNote != null);
+            }
+        }
     }
 
     #endregion

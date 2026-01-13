@@ -441,7 +441,7 @@ Material:
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowIntensity: {r: 1, g: 0, b: 0, a: 0}
     - _ToLightDir: {r: 0.9774494, g: 0.21117042, b: 0.00000013690442, a: 0.39}
-    - _WindDirection: {r: 7.986344, g: 4.791802, b: 0.79862857, a: 0}
+    - _WindDirection: {r: 1.1746454, g: 0.70478505, b: 0.11746474, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!1 &43893672
@@ -1200,7 +1200,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 140720810}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 245667115}
+        m_TargetAssemblyTypeName: S_NotesSystem, Assembly-CSharp
+        m_MethodName: Previous
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &140720810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1825,6 +1837,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 245667114}
+  - component: {fileID: 245667115}
   m_Layer: 0
   m_Name: NotesSystem
   m_TagString: Untagged
@@ -1849,6 +1862,34 @@ Transform:
   - {fileID: 2127192170}
   m_Father: {fileID: 902046876}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &245667115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245667113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53980f144cb20cb40b3ebc646b0e1b04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_NotesSystem
+  UI:
+    _textObj: {fileID: 1740237553}
+    _subscript: {fileID: 696396028}
+    _subscriptGroup: {fileID: 1147126906}
+    _page: {fileID: 302072612}
+    _noteCanvasGroup: {fileID: 2127192174}
+    _listCanvasGroup: {fileID: 1783392079}
+    _readButton: {fileID: 1259009935}
+    _nextButton: {fileID: 1609316658}
+    _previousButton: {fileID: 140720808}
+    _noteDataPrefab: {fileID: 6712573793669636837, guid: e514d39f569082e6181b148f8f337409, type: 3}
+    _listRect: {fileID: 285414671}
+  color1: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
+  color2: {r: 0.1509434, g: 0.1509434, b: 0.1509434, a: 1}
+  playerController: {fileID: 7589659699334930667}
+  playerCamera: {fileID: 7589659699334930665}
 --- !u!1 &246705914
 GameObject:
   m_ObjectHideFlags: 0
@@ -8639,7 +8680,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1259009933}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 245667115}
+        m_TargetAssemblyTypeName: S_NotesSystem, Assembly-CSharp
+        m_MethodName: Read
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1259009933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12539,7 +12592,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1609316656}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 245667115}
+        m_TargetAssemblyTypeName: S_NotesSystem, Assembly-CSharp
+        m_MethodName: Next
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1609316656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12795,7 +12860,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1664573961}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 245667115}
+        m_TargetAssemblyTypeName: S_NotesSystem, Assembly-CSharp
+        m_MethodName: CloseNote
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1664573961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13860,6 +13937,43 @@ Transform:
   - {fileID: 511943659}
   m_Father: {fileID: 164099636}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!84 &1814176820
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1867142230
 GameObject:
   m_ObjectHideFlags: 0
@@ -14021,7 +14135,7 @@ PrefabInstance:
     - target: {fileID: 3427824855752784596, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 2049312371}
+      objectReference: {fileID: 1814176820}
     - target: {fileID: 4302015194351260662, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_LocalPosition.x
       value: -278.43658
@@ -14334,43 +14448,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7211680527085980581, guid: 079bc205647e52244b5a85bb75f96541, type: 3}
   m_PrefabInstance: {fileID: 2043402594}
   m_PrefabAsset: {fileID: 0}
---- !u!84 &2049312371
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &2114339965
 GameObject:
   m_ObjectHideFlags: 0
