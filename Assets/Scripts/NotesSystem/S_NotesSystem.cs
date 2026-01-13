@@ -156,7 +156,8 @@ public class S_NotesSystem : MonoBehaviour
 
         DisableMouvements();
 
-        //TODO jouer le son d'ouverture
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.noteOpen, playerController.transform.position);
+
         UpdateCanvasGroup(true, UI.noteCanvasGroup);
         activeNote = note;
 
@@ -210,7 +211,7 @@ public class S_NotesSystem : MonoBehaviour
     {
         if (playSFX)
         {
-            //TODO jouer le son de fermeture
+             S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.noteClose, playerController.transform.position);
         }
 
         UpdateCanvasGroup(false, UI.noteCanvasGroup);
@@ -259,14 +260,14 @@ public class S_NotesSystem : MonoBehaviour
 
     public void Next()
     {
-        //TODO Jouer le son tourner page
+         S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.noteTurnPage, playerController.transform.position);
 
         currentPage++;
         DisplayPage(currentPage);
     }
     public void Previous()
     {
-        //TODO Jouer le son tourner page
+         S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.noteTurnPage, playerController.transform.position);
 
         currentPage--;
         DisplayPage(currentPage);

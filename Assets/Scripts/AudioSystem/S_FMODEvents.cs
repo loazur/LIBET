@@ -19,8 +19,10 @@ public class S_FMODEvents : MonoBehaviour
     [field: Header("Player")]
     [field: SerializeField] public EventReference footsteps {get; private set;}
 
-    //TODO Sons ouvrir / fermer notes
-    //TODO Son tourner page
+    [field: Header("Notes")]
+    [field: SerializeField] public EventReference noteOpen {get; private set;}
+    [field: SerializeField] public EventReference noteClose {get; private set;}
+    [field: SerializeField] public EventReference noteTurnPage {get; private set;}
 
     void Awake()
     {
