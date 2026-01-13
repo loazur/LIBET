@@ -16,17 +16,30 @@ public class S_QuestManager : MonoBehaviour
     // *==========================================================================*
     #endregion
 
+    //~ Singleton
+    public static S_QuestManager instance { get; private set; }
+
     [Header("Config")]
     [SerializeField] private bool loadQuestState = true;
     [SerializeField] private bool resetAllQuestsOnStart = false; // Mettre à true pour réinitialiser toutes les quêtes
 
     [Header("Interface pour les quêtes")]
     [SerializeField] private GameObject questCanvas; // Canvas pour les quêtes
-    [SerializeField]private Text QuestDisplayTitle;
+    [SerializeField] private Text QuestDisplayTitle;
     private Dictionary<string, S_Quest> questMap;
+
+    //~ Quête sélectionnée pour l'affichage dans l'UI des objectifs
+    private S_Quest selectedQuestForDisplay;
+    
+    //~ Quêtes actives du jour (histoire + secondaires)
+    private S_Quest storyQuest; // La quête principale/histoire
+    private List<S_Quest> dailySideQuests = new List<S_Quest>(); // Les 3 quêtes secondaires du jour
 
     private int currentPlayerLevel = 1; // Niveau par défaut (sera mis à jour par PlayerLevelChange)
     private bool isSubscribed = false;
+    
+    //~ Events pour la gestion des jours
+    public event System.Action OnDailyQuestsReset;
 
     #region METHODS MonoBehaviour
     // *==========================================================================*
@@ -36,6 +49,17 @@ public class S_QuestManager : MonoBehaviour
 
     private void Awake()
     {
+        //~ Singleton setup
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         // Optionnel : réinitialiser toutes les quêtes en développement
         if (resetAllQuestsOnStart)
         {
@@ -684,11 +708,11 @@ public class S_QuestManager : MonoBehaviour
     }
 
     /**
-     * Met à jour l'interface de quête en fonction de la quête active
+     * Met à jour l'interface de quête en fonction de la quête sélectionnée ou active
      *
      * @author	Lucas
      * @since	v0.0.1
-     * @version	v1.0.0	Friday, November 29th, 2025.
+     * @version	v1.0.0	Monday, January 13th, 2026.
      * @access	private
      * @return	void
      */
@@ -706,18 +730,16 @@ public class S_QuestManager : MonoBehaviour
             return;
         }
 
-        S_Quest activeQuest = GetActiveQuest();
+        // Utiliser la quête sélectionnée ou la première quête active
+        S_Quest displayQuest = GetSelectedQuestForDisplay();
         
-        if (activeQuest != null)
+        if (displayQuest != null)
         {
-            // Debug.Log($"[S_QuestManager] Quête active trouvée: {activeQuest.info.displayName} (État: {activeQuest.state})");
             ShowQuestCanvas();
-            QuestDisplayTitle.text = activeQuest.GetCurrentStepDisplayName();
-            // Debug.Log($"[S_QuestManager] UI mise à jour avec le titre: {QuestDispalyTitle.text}");
+            QuestDisplayTitle.text = displayQuest.GetCurrentStepDisplayName();
         }
         else
         {
-            // Debug.Log("[S_QuestManager] Aucune quête active (IN_PROGRESS) trouvée.");
             HideQuestCanvas();
         }
     }
@@ -814,6 +836,259 @@ public class S_QuestManager : MonoBehaviour
     public void DebugShowPlayerLevel()
     {
         Debug.Log($"[S_QuestManager] Niveau actuel du joueur: {currentPlayerLevel}");
+    }
+
+    #endregion
+
+    #region Quest Selection & Display
+
+    /**
+     * Définit la quête à afficher dans l'UI des objectifs
+     * Les autres quêtes continuent de progresser en arrière-plan
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 13th, 2026.
+     * @access	public
+     * @param	S_Quest	quest	La quête à afficher
+     * @return	void
+     */
+    public void SetSelectedQuestForDisplay(S_Quest quest)
+    {
+        selectedQuestForDisplay = quest;
+        UpdateQuestUI();
+        Debug.Log($"<color=cyan>[QuestManager]</color> Quête sélectionnée pour affichage: {quest?.info.displayName ?? "Aucune"}");
+    }
+
+    /**
+     * Définit la quête à afficher par son ID
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 13th, 2026.
+     * @access	public
+     * @param	string	questId	L'ID de la quête à afficher
+     * @return	void
+     */
+    public void SetSelectedQuestForDisplay(string questId)
+    {
+        S_Quest quest = GetQuestByID(questId);
+        if (quest != null)
+        {
+            SetSelectedQuestForDisplay(quest);
+        }
+    }
+
+    /**
+     * Récupère la quête actuellement sélectionnée pour l'affichage
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 13th, 2026.
+     * @access	public
+     * @return	S_Quest	La quête sélectionnée ou null
+     */
+    public S_Quest GetSelectedQuestForDisplay()
+    {
+        // Si une quête est explicitement sélectionnée, la retourner
+        if (selectedQuestForDisplay != null && selectedQuestForDisplay.state == E_QuestState.IN_PROGRESS)
+        {
+            return selectedQuestForDisplay;
+        }
+        // Sinon, retourner la première quête active
+        return GetActiveQuest();
+    }
+
+    /**
+     * Récupère la quête d'histoire principale
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 13th, 2026.
+     * @access	public
+     * @return	S_Quest	La quête principale ou null
+     */
+    public S_Quest GetStoryQuest()
+    {
+        return storyQuest;
+    }
+
+    /**
+     * Définit la quête d'histoire principale
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 13th, 2026.
+     * @access	public
+     * @param	S_Quest	quest	La quête principale
+     * @return	void
+     */
+    public void SetStoryQuest(S_Quest quest)
+    {
+        storyQuest = quest;
+        Debug.Log($"<color=green>[QuestManager]</color> Quête principale définie: {quest?.info.displayName ?? "Aucune"}");
+    }
+
+    /**
+     * Récupère les quêtes secondaires du jour
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 13th, 2026.
+     * @access	public
+     * @return	S_Quest[]	Tableau des quêtes secondaires
+     */
+    public S_Quest[] GetSideQuests()
+    {
+        return dailySideQuests.ToArray();
+    }
+
+    /**
+     * Ajoute une quête secondaire au jour
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 13th, 2026.
+     * @access	public
+     * @param	S_Quest	quest	La quête à ajouter
+     * @return	void
+     */
+    public void AddSideQuest(S_Quest quest)
+    {
+        if (quest != null && !dailySideQuests.Contains(quest))
+        {
+            dailySideQuests.Add(quest);
+            Debug.Log($"<color=cyan>[QuestManager]</color> Quête secondaire ajoutée: {quest.info.displayName}");
+        }
+    }
+
+    /**
+     * Efface les quêtes secondaires du jour
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 13th, 2026.
+     * @access	public
+     * @return	void
+     */
+    public void ClearSideQuests()
+    {
+        dailySideQuests.Clear();
+        Debug.Log("<color=yellow>[QuestManager]</color> Quêtes secondaires effacées");
+    }
+
+    #endregion
+
+    #region Daily Quest Reset System
+
+    /**
+     * Réinitialise toutes les quêtes répétitives pour un nouveau jour
+     * Appelé par S_DaysManager au début de chaque journée
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 13th, 2026.
+     * @access	public
+     * @param	List<SO_QuestInfo>	questsToReset	Liste des quêtes à réinitialiser
+     * @return	void
+     */
+    public void ResetDailyQuests(List<SO_QuestInfo> questsToReset)
+    {
+        Debug.Log("<color=yellow>[QuestManager]</color> Réinitialisation des quêtes journalières...");
+        
+        foreach (SO_QuestInfo questInfo in questsToReset)
+        {
+            if (questMap.ContainsKey(questInfo.id))
+            {
+                S_Quest quest = questMap[questInfo.id];
+                
+                // Détruire les instances de steps actives si nécessaire
+                quest.CleanupCurrentStep();
+                
+                // Réinitialiser l'état
+                quest.ResetQuest();
+                
+                // Supprimer la sauvegarde
+                string key = "Quest_" + questInfo.id;
+                if (PlayerPrefs.HasKey(key))
+                {
+                    PlayerPrefs.DeleteKey(key);
+                }
+                
+                Debug.Log($"<color=yellow>[QuestManager]</color> Quête '{questInfo.displayName}' réinitialisée");
+            }
+        }
+        
+        PlayerPrefs.Save();
+        
+        // Effacer les quêtes secondaires du jour précédent
+        ClearSideQuests();
+        selectedQuestForDisplay = null;
+        
+        // Notifier les listeners
+        OnDailyQuestsReset?.Invoke();
+    }
+
+    /**
+     * Démarre une quête par son SO_QuestInfo (utilisé par S_LaunchRandomQuest)
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 13th, 2026.
+     * @access	public
+     * @param	SO_QuestInfo	questInfo	Les informations de la quête
+     * @return	S_Quest	La quête démarrée ou null
+     */
+    public S_Quest StartQuestFromInfo(SO_QuestInfo questInfo)
+    {
+        if (questInfo == null)
+        {
+            Debug.LogError("<color=red>[QuestManager]</color> StartQuestFromInfo: questInfo est null!");
+            return null;
+        }
+
+        S_Quest quest = GetQuestByID(questInfo.id);
+        if (quest == null)
+        {
+            Debug.LogError($"<color=red>[QuestManager]</color> Quête non trouvée: {questInfo.id}");
+            return null;
+        }
+
+        // Forcer l'état CAN_START si nécessaire
+        if (quest.state == E_QuestState.REQUIREMENTS_NOT_MET)
+        {
+            ChangeQuestState(quest.info.id, E_QuestState.CAN_START);
+        }
+
+        // Démarrer la quête via les events
+        if (quest.state == E_QuestState.CAN_START)
+        {
+            S_GameManager.instance.questEvents.StartQuest(questInfo.id);
+        }
+
+        return quest;
+    }
+
+    /**
+     * Vérifie si toutes les quêtes du jour sont terminées
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 13th, 2026.
+     * @access	public
+     * @return	bool	True si toutes les quêtes sont terminées
+     */
+    public bool AreAllDailyQuestsCompleted()
+    {
+        // Vérifier les quêtes secondaires
+        foreach (S_Quest quest in dailySideQuests)
+        {
+            if (quest.state != E_QuestState.FINISHED)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     #endregion

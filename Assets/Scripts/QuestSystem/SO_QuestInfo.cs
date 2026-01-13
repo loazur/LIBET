@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -6,6 +7,8 @@ public class SO_QuestInfo : ScriptableObject
 {
     // * =============================  ATTRIBUTS  ==========================
     [SerializeField] private string _id;
+    public string QuestDescriptionFR; //& Description qui sera utiliser dans l'UIQuestMenu FR
+    public string QuestDescriptionEN; //& Description qui sera utiliser dans l'UIQuestMenu EN
     public string id => _id;
 
     [Header("Genral Info")]
