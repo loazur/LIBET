@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,6 +14,9 @@ public struct UIElements
 
     [SerializeField] private TextMeshProUGUI _subscript;
     public TextMeshProUGUI subscript {get {return _subscript;}}
+
+    [SerializeField] private CanvasGroup _subscriptGroup;
+    public CanvasGroup subscriptGroup {get {return _subscriptGroup;}}
 
     [SerializeField] private Image _page;
     public Image page {get {return _page;}}
@@ -125,6 +129,67 @@ public class S_NotesSystem : MonoBehaviour
         DisableMouvements(); // Désactive les scripts
 
         UpdateList();
+        UpdateCanvasGroup(true, UI.listConvasGroup);
+    }
+
+    public void Close()
+    {
+        EnableMovements(); // Active les scripts
+
+        UpdateCanvasGroup(false, UI.listConvasGroup);
+    }
+
+    private void DisplayNote(S_Note note)
+    {
+        if (note == null) return;
+
+        UpdateCanvasGroup(true, UI.noteCanvasGroup);
+        activeNote = note;
+
+        DisplayPage(0);
+    }
+
+    private void DisplayPage(int page)
+    {
+        UI.readButton.interactable = activeNote.pages[page].pageType == PageType.TEXTURE;
+
+        if (activeNote.pages[page].pageType != PageType.TEXTURE)
+        {
+            readSubscript = false;
+        }
+        else
+        {
+            if (readSubscript)
+            {
+                UpdateSubscript();
+            }
+        }
+
+        switch (activeNote.pages[page].pageType)
+        {
+            case PageType.TEXT:
+                UI.page.sprite = defaultPageTexture;
+                UI.textObj.text = activeNote.pages[page].text;
+                break;
+
+            case PageType.TEXTURE:
+                UI.page.sprite = activeNote.pages[page].texture;
+                UI.textObj.text = string.Empty;
+                break;
+        }
+
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        UI.previousButton.interactable = !(currentPage == 0);
+        UI.nextButton.interactable = !(currentPage == activeNote.pages.Length - 1);
+
+        var useSubscript = activePage.pageType == PageType.TEXTURE && activePage.useSubscript;
+        UI.readButton.alpha = useSubscript ? (readSubscript ? 0.5f : 1f) : 0f;
+
+        UpdateCanvasGroup(readSubscript, UI.subscriptGroup);
     }
 
     private void UpdateList()
@@ -151,6 +216,31 @@ public class S_NotesSystem : MonoBehaviour
         }
     }
 
+    private void UpdateSubscript()
+    {
+        UI.subscript.text = readSubscript ? activePage.text : string.Empty;
+    }
+
+    public void Next()
+    {
+        currentPage++;
+
+        DisplayPage(currentPage);
+    }
+
+    public void Previous()
+    {
+        currentPage--;
+
+        DisplayPage(currentPage);
+    }
+
+    public void Read()
+    {
+        readSubscript = !readSubscript;
+        
+    }
+
     private void ClearList()
     {
         foreach (var note in noteDatas)
@@ -160,6 +250,23 @@ public class S_NotesSystem : MonoBehaviour
         noteDatas.Clear();
     }
 
+    private void UpdateCanvasGroup(bool state, CanvasGroup canvasGroup)
+    {
+        if (state)
+        {
+            canvasGroup.alpha = 1;
+            canvasGroup.blocksRaycasts = true;
+            canvasGroup.interactable = true;
+        }
+        else
+        {
+            canvasGroup.alpha = 0;
+            canvasGroup.blocksRaycasts = false;
+            canvasGroup.interactable = false;
+        }
+                
+    }
+  
     //?-----------------------------------------------------------
 
     private void EnableMovements()
