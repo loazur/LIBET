@@ -441,7 +441,7 @@ Material:
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowIntensity: {r: 1, g: 0, b: 0, a: 0}
     - _ToLightDir: {r: 0.9774494, g: 0.21117042, b: 0.00000013690442, a: 0.39}
-    - _WindDirection: {r: 0.36892855, g: 0.22135668, b: 0.03689277, a: 0}
+    - _WindDirection: {r: 0.59593546, g: 0.35756063, b: 0.05959348, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!1 &66516863
@@ -1555,6 +1555,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 786085083915034593, guid: c6e27bc925760e40da51adf2a7489005, type: 3}
   m_PrefabInstance: {fileID: 195093939}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &240893300 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5948993327522986444, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
+  m_PrefabInstance: {fileID: 6623323102843167030}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &240893303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240893300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c959420a78a1c4da79ec0b0da009be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_LaunchRandomQuest
+  questListDifficulty1:
+  - {fileID: 11400000, guid: 91df3216737371a47b4b73d49a4d88a8, type: 2}
+  - {fileID: 11400000, guid: 457d9f0249a3d6c40aea48245cbb4c57, type: 2}
+  - {fileID: 11400000, guid: 99cab0d491c63a340b38a1d1c631c96b, type: 2}
+  questListDifficulty2: []
+  questListDifficulty3: []
+  questListDifficulty4: []
+  questListDifficulty5: []
+  questsPerDay: 3
+  daysPerDifficultyLevel: 3
 --- !u!114 &245581614 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3899483924617160671, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
@@ -5964,6 +5991,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1114818090546346078, guid: bf5406ac515fb7541bca35dc71f47f4e, type: 3}
+      propertyPath: finishPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1114818090546346078, guid: bf5406ac515fb7541bca35dc71f47f4e, type: 3}
+      propertyPath: autoStartQuest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1114818090546346078, guid: bf5406ac515fb7541bca35dc71f47f4e, type: 3}
+      propertyPath: autoFinishQuest
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2087293115926327192, guid: bf5406ac515fb7541bca35dc71f47f4e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -283.5263
@@ -6522,6 +6561,43 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 786085083915034593, guid: c6e27bc925760e40da51adf2a7489005, type: 3}
   m_PrefabInstance: {fileID: 1130747173}
   m_PrefabAsset: {fileID: 0}
+--- !u!84 &1149682546
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!43 &1165473358
 Mesh:
   m_ObjectHideFlags: 0
@@ -7695,6 +7771,18 @@ PrefabInstance:
     - target: {fileID: 3272680029284607791, guid: a1f1abfb66b01004182696f8f1481d39, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272680029284607791, guid: a1f1abfb66b01004182696f8f1481d39, type: 3}
+      propertyPath: finishPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272680029284607791, guid: a1f1abfb66b01004182696f8f1481d39, type: 3}
+      propertyPath: autoStartQuest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3272680029284607791, guid: a1f1abfb66b01004182696f8f1481d39, type: 3}
+      propertyPath: autoFinishQuest
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7359704075755810231, guid: a1f1abfb66b01004182696f8f1481d39, type: 3}
       propertyPath: m_LocalPosition.x
@@ -10480,43 +10568,6 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
---- !u!84 &1750507521
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1803934922
 GameObject:
   m_ObjectHideFlags: 0
@@ -11043,7 +11094,7 @@ PrefabInstance:
     - target: {fileID: 3427824855752784596, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 1750507521}
+      objectReference: {fileID: 1149682546}
     - target: {fileID: 4302015194351260662, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_LocalPosition.x
       value: -278.43658
@@ -11292,6 +11343,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 878167681003379176, guid: 079bc205647e52244b5a85bb75f96541, type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 878167681003379176, guid: 079bc205647e52244b5a85bb75f96541, type: 3}
+      propertyPath: finishPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 878167681003379176, guid: 079bc205647e52244b5a85bb75f96541, type: 3}
+      propertyPath: autoStartQuest
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 964274483190521906, guid: 079bc205647e52244b5a85bb75f96541, type: 3}
@@ -13446,6 +13505,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameUI
       objectReference: {fileID: 0}
+    - target: {fileID: 2368138901570148346, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 2368138901570148346, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037573962788499321, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
+      propertyPath: m_FontData.m_MinSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037573962788499321, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3037573962788499321, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3514130221636562891, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
       propertyPath: playerInteract
       value: 
@@ -13454,14 +13533,6 @@ PrefabInstance:
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 7589659699334930665}
-    - target: {fileID: 3598795615957595920, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
-      propertyPath: playerCrouch
-      value: 
-      objectReference: {fileID: 7589659699334930666}
-    - target: {fileID: 3598795615957595920, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
-      propertyPath: playerInteract
-      value: 
-      objectReference: {fileID: 7589659699334930664}
     - target: {fileID: 3598795615957595920, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
       propertyPath: playerController
       value: 
@@ -13478,6 +13549,18 @@ PrefabInstance:
       propertyPath: firstPersonCamera
       value: 
       objectReference: {fileID: 7589659699334930665}
+    - target: {fileID: 7086315763306421194, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
+      propertyPath: m_FontData.m_MinSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7086315763306421194, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7086315763306421194, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7613577145526839747, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -13557,6 +13640,18 @@ PrefabInstance:
     - target: {fileID: 7613577145526839747, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8325551742122046053, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
+      propertyPath: m_FontData.m_MinSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8325551742122046053, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8325551742122046053, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13775,6 +13870,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2691765611704170434, guid: 8a268fd45f9f7c048bb282371b32e766, type: 3}
+      propertyPath: finishPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2691765611704170434, guid: 8a268fd45f9f7c048bb282371b32e766, type: 3}
+      propertyPath: autoStartQuest
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3351957020308250664, guid: 8a268fd45f9f7c048bb282371b32e766, type: 3}
       propertyPath: m_Name
       value: QuestStartPoint_QuestTakeKeyQuest
@@ -13798,8 +13901,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 824202952}
     m_Modifications:
     - target: {fileID: 3120216832112140772, guid: d65f63307acc44a488516cd00a40a577, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3120216832112140772, guid: d65f63307acc44a488516cd00a40a577, type: 3}
       propertyPath: startPoint
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3120216832112140772, guid: d65f63307acc44a488516cd00a40a577, type: 3}
       propertyPath: finishPoint
@@ -13807,7 +13914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3120216832112140772, guid: d65f63307acc44a488516cd00a40a577, type: 3}
       propertyPath: autoStartQuest
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3120216832112140772, guid: d65f63307acc44a488516cd00a40a577, type: 3}
       propertyPath: autoFinishQuest
@@ -14525,6 +14632,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6859582299106997028, guid: ba2d0b8739248d94fa693530ba47cf95, type: 3}
+      propertyPath: finishPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6859582299106997028, guid: ba2d0b8739248d94fa693530ba47cf95, type: 3}
+      propertyPath: autoStartQuest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6859582299106997028, guid: ba2d0b8739248d94fa693530ba47cf95, type: 3}
+      propertyPath: autoFinishQuest
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14755,7 +14874,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4575043854520252316, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4907418110851449696, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
       propertyPath: questCanvas
@@ -14816,7 +14935,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5948993327522986444, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 240893303}
   m_SourcePrefab: {fileID: 100100000, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
 --- !u!4 &6623323102843167031 stripped
 Transform:
@@ -14882,6 +15004,18 @@ PrefabInstance:
     - target: {fileID: 5917727482040920197, guid: 248d46edc57368f43baa3be3a8200bd5, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917727482040920197, guid: 248d46edc57368f43baa3be3a8200bd5, type: 3}
+      propertyPath: finishPoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917727482040920197, guid: 248d46edc57368f43baa3be3a8200bd5, type: 3}
+      propertyPath: autoStartQuest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5917727482040920197, guid: 248d46edc57368f43baa3be3a8200bd5, type: 3}
+      propertyPath: autoFinishQuest
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15038,17 +15172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 742cdb8fec718a6029660c53845bb5a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7589659699334930666 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7630282949441243267, guid: e57ab1d133de3466884fcff01e270780, type: 3}
-  m_PrefabInstance: {fileID: 7589659699334930663}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa527bac69eca6beaf66e3b8cbda652, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7589659699334930667 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4217204885918703692, guid: e57ab1d133de3466884fcff01e270780, type: 3}
@@ -15139,8 +15262,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 824202952}
     m_Modifications:
     - target: {fileID: 2093038735761865904, guid: f9a32e7eb7a754041a82b84b89bbf905, type: 3}
-      propertyPath: startPoint
+      propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093038735761865904, guid: f9a32e7eb7a754041a82b84b89bbf905, type: 3}
+      propertyPath: startPoint
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2093038735761865904, guid: f9a32e7eb7a754041a82b84b89bbf905, type: 3}
       propertyPath: finishPoint
@@ -15148,7 +15275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2093038735761865904, guid: f9a32e7eb7a754041a82b84b89bbf905, type: 3}
       propertyPath: autoStartQuest
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2093038735761865904, guid: f9a32e7eb7a754041a82b84b89bbf905, type: 3}
       propertyPath: autoFinishQuest
