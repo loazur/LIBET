@@ -215,4 +215,50 @@ public class S_Quest
     {
         return new S_QuestData(state, currentQuestStepIndex, questStepStates);
     }
+
+    /**
+     * Réinitialise la quête à son état initial
+     * Utilisé pour les quêtes répétitives au début de chaque jour
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 13th, 2026.
+     * @access	public
+     * @return	void
+     */
+    public void ResetQuest()
+    {
+        // Nettoyer l'instance de step actuelle
+        CleanupCurrentStep();
+        
+        // Réinitialiser l'état
+        state = E_QuestState.REQUIREMENTS_NOT_MET;
+        currentQuestStepIndex = 0;
+        
+        // Réinitialiser les états des étapes
+        for (int i = 0; i < questStepStates.Length; i++)
+        {
+            questStepStates[i] = new S_QuestStepState();
+        }
+        
+        Debug.Log($"<color=yellow>[S_Quest]</color> Quête '{info.displayName}' réinitialisée");
+    }
+
+    /**
+     * Nettoie l'instance de l'étape actuelle
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 13th, 2026.
+     * @access	public
+     * @return	void
+     */
+    public void CleanupCurrentStep()
+    {
+        if (currentStepInstance != null)
+        {
+            GameObject.Destroy(currentStepInstance);
+            currentStepInstance = null;
+        }
+    }
 }
