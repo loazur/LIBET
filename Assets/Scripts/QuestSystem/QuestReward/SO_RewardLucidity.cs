@@ -8,7 +8,7 @@ using UnityEngine;
  * @version	v1.0.0	Wednesday, January 8th, 2026.
  */
 [CreateAssetMenu(fileName = "New Lucidity Reward", menuName = "Quest System/Rewards/Lucidity Reward", order = 1)]
-public class RewardLucidity : QuestReward
+public class SO_RewardLucidity : SO_QuestReward
 {
     [Header("Lucidity Settings")]
     [Tooltip("Valeur d'augmentation de la jauge de lucidité (0-100)")]

@@ -281,5 +281,11 @@ public class S_LaunchRandomQuest : MonoBehaviour
         LaunchRandomQuestsForDay(1);
     }
 
+    [ContextMenu("Reset All Repeatable Quests")]
+    public void DebugResetAllRepeatableQuests()
+    {
+        ResetAllRepeatableQuests();
+    }
+
     #endregion
 }
