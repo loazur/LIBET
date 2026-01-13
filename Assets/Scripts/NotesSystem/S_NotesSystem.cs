@@ -146,8 +146,6 @@ public class S_NotesSystem : MonoBehaviour
     }
     public void Close(bool playSFX)
     {
-        EnableMovements(); // Active les scripts
-
         CloseNote(playSFX);
         UpdateCanvasGroup(false, UI.listConvasGroup);
     }
@@ -155,6 +153,8 @@ public class S_NotesSystem : MonoBehaviour
     private void DisplayNote(S_Note note)
     {
         if (note == null) return;
+
+        DisableMouvements();
 
         //TODO jouer le son d'ouverture
         UpdateCanvasGroup(true, UI.noteCanvasGroup);
@@ -292,6 +292,11 @@ public class S_NotesSystem : MonoBehaviour
         activeNote = null;
         currentPage = 0;
         readSubscript = false;
+
+        if (!usingNotesSystem)
+        {
+            EnableMovements(); // Active les scripts
+        }
     }
     private void UpdateCanvasGroup(bool state, CanvasGroup canvasGroup)
     {

@@ -33,6 +33,6 @@ public class S_NoteData : MonoBehaviour
     }
     public void Display()
     {
-        // Display the note
+        S_NotesSystem.Display(note);
     }
 }
