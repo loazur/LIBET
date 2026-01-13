@@ -30,12 +30,30 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
         setCursorEnabled(false);
 
         S_CameraUserData.instance.OnFieldOfViewChanged += UpdateFieldOfView; // Lance cet fonction à chaque fois que le FOV change
+        // Subscribe to player events for camera lock/unlock
+        if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+        {
+            S_GameManager.instance.playerEvents.onLockPlayerCamera += OnLockPlayerCamera;
+        }
         
         // Initialiser la rotation horizontale
         playerHorizontalRotation = player.localEulerAngles.y;
         if (playerHorizontalRotation > 180f)
         {
             playerHorizontalRotation -= 360f;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (S_CameraUserData.instance != null)
+        {
+            S_CameraUserData.instance.OnFieldOfViewChanged -= UpdateFieldOfView;
+        }
+
+        if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+        {
+            S_GameManager.instance.playerEvents.onLockPlayerCamera -= OnLockPlayerCamera;
         }
     }
 
@@ -136,6 +154,15 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
+    }
+
+    // Handler pour l'événement de verrouillage/déverrouillage de la caméra
+    public void OnLockPlayerCamera(bool locked)
+    {
+        // Si locked == true -> désactiver la rotation
+        setRotationEnabled(!locked ? true : false);
+        // Afficher le curseur si la caméra est verrouillée (ex: menu ouvert)
+        setCursorEnabled(locked);
     }
 
     public bool canRotateCamera() //& A le droit de rotate la camera

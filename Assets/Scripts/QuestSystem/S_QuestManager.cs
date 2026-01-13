@@ -429,7 +429,7 @@ public class S_QuestManager : MonoBehaviour
         {
             Debug.Log($"<color=cyan>[QuestManager]</color> {quest.info.questRewards.Length} récompense(s) trouvée(s)");
             
-            foreach (QuestReward reward in quest.info.questRewards)
+            foreach (SO_QuestReward reward in quest.info.questRewards)
             {
                 if (reward != null)
                 {
