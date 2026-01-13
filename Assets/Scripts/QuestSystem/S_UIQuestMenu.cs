@@ -76,15 +76,15 @@ public class S_UIQuestMenu : MonoBehaviour
     }
 
     void Update()
-    {
-         //& Touche pour ouvrir/fermer le menu des quêtes
-        if (S_UserInput.instance != null && S_UserInput.instance.QuestMenuAction)
+    { 
+        //& Touche pour ouvrir/fermer le menu des quêtes
+        if (S_UserInput.instance != null && S_UserInput.instance.QuestMenuInput)
         {
             ToggleQuestMenu();
-        }
+        } 
     }
 
-    #region Menu Toggle
+    #region Menu Toggle 
 
     /**
      * Ouvre ou ferme le menu des quêtes
