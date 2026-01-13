@@ -15,6 +15,7 @@ public class S_UserInput : MonoBehaviour
     public bool MenuOpenCloseInput { get; private set; }
     // Quest menu pressed this frame (true only on the frame the button was pressed)
     public bool QuestMenuInput { get; private set; } //& touche pour ouvrir/fermer le menu des quêtes
+    public bool NotesMenuInput {get; private set;}
 
     // Actions
     private PlayerInput _playerInput;
@@ -25,6 +26,8 @@ public class S_UserInput : MonoBehaviour
     private InputAction _sprintAction;
     private InputAction _menuOpenCloseAction;
     private InputAction _questMenuAction;
+    private InputAction _notesMenuAction;
+
 
 
     // ! Dévs
@@ -71,7 +74,7 @@ public class S_UserInput : MonoBehaviour
         _sprintAction = _playerInput.actions["Sprint"];
         _menuOpenCloseAction = _playerInput.actions["MenuOpenClose"];
         _questMenuAction = _playerInput.actions["QuestMenu"];
-
+        _notesMenuAction = _playerInput.actions["NotesMenu"];
 
         //! Dévs
         _noClipAction = _playerInput.actions["NoClip"];
@@ -87,6 +90,7 @@ public class S_UserInput : MonoBehaviour
         SprintInput = _sprintAction.IsPressed();
         MenuOpenCloseInput = _menuOpenCloseAction.WasPressedThisFrame();
         QuestMenuInput = _questMenuAction.WasPressedThisFrame();
+        NotesMenuInput = _notesMenuAction.WasPressedThisFrame();
 
         //! Dévs
         NoClipInput = _noClipAction.WasPressedThisFrame();
