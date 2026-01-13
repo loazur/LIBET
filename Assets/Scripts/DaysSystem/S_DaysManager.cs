@@ -253,14 +253,47 @@ public class S_DaysManager : MonoBehaviour
 
     private void GenerateQuests()
     {
-        //TODO - Générer les quetes en fonction dans quel jour on se trouve, diff 1, 2 ou 3
+        // Réinitialiser les quêtes du jour précédent
+        if (S_LaunchRandomQuest.instance != null)
+        {
+            S_LaunchRandomQuest.instance.ResetAllRepeatableQuests();
+            
+            // Lancer 3 nouvelles quêtes aléatoires selon la difficulté du jour
+            S_LaunchRandomQuest.instance.LaunchRandomQuestsForDay(currentDay);
+            
+            int difficulty = S_LaunchRandomQuest.instance.GetDifficultyForDay(currentDay);
+            Debug.Log($"<color=green>[DaysManager]</color> Quêtes générées pour le jour {currentDay} (Difficulté: {difficulty})");
+        }
+        else
+        {
+            Debug.LogWarning("[DaysManager] S_LaunchRandomQuest.instance est null! Les quêtes ne peuvent pas être générées.");
+        }
     }
 
 
-    // TODO Faire la vrai fonction de vérification 
-    public bool AreQuestsDone() //FONCTION DE TEST 
+    /**
+     * Vérifie si toutes les quêtes du jour sont terminées
+     * Utilise le vrai système de quêtes via S_QuestManager
+     *
+     * @return  bool    True si toutes les quêtes sont terminées
+     */
+    public bool AreQuestsDone()
     {
-        return questsDone;
+        // Si questsDone est forcé à true (pour les tests), retourner true
+        if (questsDone)
+        {
+            return true;
+        }
+
+        // Vérifier via le système de quêtes
+        if (S_QuestManager.instance != null)
+        {
+            return S_QuestManager.instance.AreAllDailyQuestsCompleted();
+        }
+
+        // Fallback si le système n'est pas disponible
+        Debug.LogWarning("[DaysManager] S_QuestManager.instance est null!");
+        return false;
     }
 
     //! ---------- Méthodes publiques ----------

@@ -29,6 +29,7 @@ public class S_UserInput : MonoBehaviour
     private InputAction _notesMenuAction;
 
 
+
     // ! Dévs
     public bool NoClipInput { get; private set; }
     public bool FlyUpInput { get; private set; }
