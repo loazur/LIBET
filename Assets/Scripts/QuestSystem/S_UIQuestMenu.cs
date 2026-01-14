@@ -8,16 +8,16 @@
  * Organigrame de l'UI des quêtes:
  *   GameObject UIQuestMenu
  *       |-- Panel Background
- *       |-- Button Quest Story
+ *       |-- Button Quest Story (OnClick)
  *           |-- Text Quest Story Title
  *           |-- Text Quest Story Description
- *       |-- Button Quest Side 1
+ *       |-- Button Quest Side 1 (OnClick)
  *           |-- Text Quest Side Title 1
  *           |-- Text Quest Side Description 1
- *       |-- Button Quest Side 2
+ *       |-- Button Quest Side 2 (OnClick)
  *           |-- Text Quest Side Title 2
  *           |-- Text Quest Side Description 2
- *       |-- Button Quest Side 3
+ *       |-- Button Quest Side 3 (OnClick)
  *           |-- Text Quest Side Title 3
  *           |-- Text Quest Side Description 3
  */
