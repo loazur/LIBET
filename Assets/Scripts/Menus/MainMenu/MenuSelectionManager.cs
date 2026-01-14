@@ -7,11 +7,18 @@ public class MenuSelectionManager : MonoBehaviour
     private UISelectorLogo currentLeft;
     private UISelectorLogo currentRight;
 
-    void Awake()
+void Awake()
+{
+    if (Instance == null)
     {
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
-
+    else if (Instance != this)
+    {
+        Destroy(gameObject);
+    }
+}
     void OnEnable()
     {
         // S'assurer qu'il n'y a qu'une seule instance active
