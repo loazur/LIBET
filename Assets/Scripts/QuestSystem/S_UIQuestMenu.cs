@@ -24,6 +24,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class S_UIQuestMenu : MonoBehaviour
 {
@@ -34,8 +35,8 @@ public class S_UIQuestMenu : MonoBehaviour
 
     [Header("Quête Histoire")]
     [SerializeField] private Button questStoryButton;
-    [SerializeField] private Text questStoryTitleText;
-    [SerializeField] private Text questStoryDescriptionText;
+    [SerializeField] private TextMeshProUGUI questStoryTitleText;
+    [SerializeField] private TextMeshProUGUI questStoryDescriptionText;
     [SerializeField] private GameObject questStoryPanel; // Panel pour cacher/montrer si pas de quête story
 
     [Header("Quêtes Secondaires")]
