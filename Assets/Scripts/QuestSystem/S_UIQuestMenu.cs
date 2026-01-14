@@ -34,6 +34,7 @@ public class S_UIQuestMenu : MonoBehaviour
     [SerializeField] private GameObject uiQuestMenu;
 
     [Header("Quête Histoire")]
+    [SerializeField] private S_QuestPoint storyQuestPoint; // QuestPoint de la quête principale
     [SerializeField] private Button questStoryButton;
     [SerializeField] private TextMeshProUGUI questStoryTitleText;
     [SerializeField] private TextMeshProUGUI questStoryDescriptionText;
@@ -46,6 +47,9 @@ public class S_UIQuestMenu : MonoBehaviour
     [SerializeField] private Color selectedQuestColor = new Color(0.8f, 1f, 0.8f, 1f);
     [SerializeField] private Color normalQuestColor = Color.white;
 
+    // Cache de la quête principale liée au QuestPoint
+    private S_Quest storyQuest;
+    private bool isSubscribed = false;
 
     void Awake()
     {
@@ -66,6 +70,44 @@ public class S_UIQuestMenu : MonoBehaviour
         if (uiQuestMenu != null)
         {
             uiQuestMenu.SetActive(false); //& Assurer que le menu est fermé au début
+        }
+
+        // S'abonner aux changements d'état de quête
+        SubscribeToQuestEvents();
+    }
+
+    void OnDestroy()
+    {
+        UnsubscribeFromQuestEvents();
+    }
+
+    private void SubscribeToQuestEvents()
+    {
+        if (isSubscribed || S_GameManager.instance == null) return;
+
+        S_GameManager.instance.questEvents.onQuestStateChange += OnQuestStateChange;
+        isSubscribed = true;
+    }
+
+    private void UnsubscribeFromQuestEvents()
+    {
+        if (!isSubscribed || S_GameManager.instance == null) return;
+
+        S_GameManager.instance.questEvents.onQuestStateChange -= OnQuestStateChange;
+        isSubscribed = false;
+    }
+
+    /**
+     * Callback quand l'état d'une quête change
+     * Met à jour l'UI si c'est la quête principale (storyQuestPoint)
+     */
+    private void OnQuestStateChange(S_Quest quest)
+    {
+        // Vérifier si c'est la quête principale assignée
+        if (storyQuestPoint != null && quest.info.id == storyQuestPoint.QuestId)
+        {
+            storyQuest = quest;
+            RefreshIfOpen();
         }
     }
 
@@ -180,12 +222,11 @@ public class S_UIQuestMenu : MonoBehaviour
 
     /**
      * Met à jour l'affichage de la quête d'histoire
+     * Utilise le storyQuestPoint assigné dans l'Inspector
      * Note: Les quêtes FINISHED sont masquées
      */
     private void UpdateStoryQuestUI()
     {
-        S_Quest storyQuest = S_QuestManager.instance.GetStoryQuest();
-
         // Afficher seulement si la quête est en cours ou peut être terminée (pas FINISHED)
         bool shouldDisplay = storyQuest != null && 
                             (storyQuest.state == E_QuestState.IN_PROGRESS || 
@@ -303,7 +344,6 @@ public class S_UIQuestMenu : MonoBehaviour
         // Quête histoire
         if (questStoryButton != null)
         {
-            S_Quest storyQuest = S_QuestManager.instance.GetStoryQuest();
             ColorBlock colors = questStoryButton.colors;
             colors.normalColor = (storyQuest != null && storyQuest == selected) ? selectedQuestColor : normalQuestColor;
             questStoryButton.colors = colors;
@@ -339,9 +379,7 @@ public class S_UIQuestMenu : MonoBehaviour
         
         if (S_QuestManager.instance == null) return;
         
-        S_Quest storyQuest = S_QuestManager.instance.GetStoryQuest();
-        
-        if (storyQuest != null && storyQuest.state == E_QuestState.IN_PROGRESS)
+        if (storyQuest != null && (storyQuest.state == E_QuestState.IN_PROGRESS || storyQuest.state == E_QuestState.CAN_FINISH))
         {
             S_QuestManager.instance.SetSelectedQuestForDisplay(storyQuest);
             UpdateSelectionHighlight();
