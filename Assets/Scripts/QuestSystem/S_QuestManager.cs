@@ -4,6 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,7 +26,7 @@ public class S_QuestManager : MonoBehaviour
 
     [Header("Interface pour les quêtes")]
     [SerializeField] private GameObject questCanvas; // Canvas pour les quêtes
-    [SerializeField] private Text QuestDisplayTitle;
+    [SerializeField] private TextMeshProUGUI QuestDisplayTitle;
     private Dictionary<string, S_Quest> questMap;
 
     //~ Quête sélectionnée pour l'affichage dans l'UI des objectifs
