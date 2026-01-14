@@ -237,7 +237,6 @@ GameObject:
   - component: {fileID: 776369049157555149}
   - component: {fileID: 4975192897483330600}
   - component: {fileID: 2615256780115724240}
-  - component: {fileID: 8202025155563967338}
   m_Layer: 5
   m_Name: Trigger_Option
   m_TagString: Untagged
@@ -361,20 +360,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &8202025155563967338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3440577578703907064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8487066da6992ed44835ebed9f880c84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SaveSlotHover
-  leftDecoration: {fileID: 5212950821090509781}
-  rightDecoration: {fileID: 5878165229831668031}
 --- !u!1 &3708292403150171056
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,7 +438,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Y
+  m_Text: Z
 --- !u!1 &4760644529381211948
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,6 +547,7 @@ GameObject:
   - component: {fileID: 2790606054492491896}
   - component: {fileID: 3804878090755669619}
   - component: {fileID: 1310110834768308081}
+  - component: {fileID: 6228234154956383677}
   m_Layer: 5
   m_Name: TriggerRebindButton
   m_TagString: Untagged
@@ -696,6 +682,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &6228234154956383677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5593492784123869035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8487066da6992ed44835ebed9f880c84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveSlotHover
+  leftDecoration: {fileID: 5212950821090509781}
+  rightDecoration: {fileID: 5878165229831668031}
+  childSelectable: {fileID: 0}
 --- !u!1 &7236944315380995466
 GameObject:
   m_ObjectHideFlags: 0

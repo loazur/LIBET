@@ -31,6 +31,19 @@ public class UISelectorLogo : MonoBehaviour
         animator.SetBool("IsActive", false);
     }
 
+    // Fermeture forcée et immédiate (pour éviter les chevauchements)
+    public void ForceClose()
+    {
+        Debug.Log($"[UISelectorLogo] ForceClose → {name}");
+        isOpen = false;
+        if (animator != null)
+        {
+            animator.SetBool("IsActive", false);
+        }
+        // Désactiver immédiatement pour éviter les problèmes de chevauchement
+        gameObject.SetActive(false);
+    }
+
     // Appelé par Animation Event à la fin de Close
     public void DisableSelf()
     {

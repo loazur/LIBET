@@ -17,9 +17,11 @@ public class S_MainMenu : S_Menu
     public new void ActivateMenu()
     {
         gameObject.SetActive(true);
-        // Sélectionne le bouton "Jouer" par défaut et déclenche OnSelect
+        // Sélectionne le bouton "Jouer" par défaut et déclenche les décorations
         if (playGameButton != null)
-            EventSystem.current.SetSelectedGameObject(playGameButton.gameObject);
+        {
+            SetFirstSelected(playGameButton);
+        }
     }
 
     public void OnPlayGameClicked()
