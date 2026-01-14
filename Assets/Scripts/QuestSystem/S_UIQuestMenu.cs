@@ -74,32 +74,6 @@ public class S_UIQuestMenu : MonoBehaviour
         if (S_UserInput.instance != null && S_UserInput.instance.QuestMenuInput)
         {
             ToggleQuestMenu();
-
-            //& Activer/désactiver le curseur de la souris et verrouiller/déverrouiller la caméra
-            if (uiQuestMenu.activeSelf)
-            {
-                //& Réactiver le curseur de la souris si le menu est ouvert
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-
-                //& Bloquer la caméra du joueur
-                if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
-                {
-                    S_GameManager.instance.playerEvents.LockPlayerCamera(true);
-                }
-            }
-            else
-            {
-                //& Re-locker le curseur si le menu est fermé
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-
-                //& Débloquer la caméra du joueur
-                if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
-                {
-                    S_GameManager.instance.playerEvents.LockPlayerCamera(false);
-                }
-            }
         } 
     }
 
@@ -115,8 +89,18 @@ public class S_UIQuestMenu : MonoBehaviour
         bool isOpen = uiQuestMenu.activeSelf;
         uiQuestMenu.SetActive(!isOpen);
 
-        if (!isOpen)
+        if (!isOpen) //~ Ouvert
         {
+            //& Réactiver le curseur de la souris si le menu est ouvert
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            //& Bloquer la caméra du joueur
+            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+            {
+                S_GameManager.instance.playerEvents.LockPlayerCamera(true);
+            }
+            
             // Le menu vient de s'ouvrir
             UpdateQuestMenuUI();
             
@@ -126,8 +110,18 @@ public class S_UIQuestMenu : MonoBehaviour
                 S_GameManager.instance.playerEvents.MenuOpened();
             }
         }
-        else
+        else //~ Fermé
         {
+            //& Re-locker le curseur si le menu est fermé
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            //& Débloquer la caméra du joueur
+            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+            {
+                S_GameManager.instance.playerEvents.LockPlayerCamera(false);
+            }
+
             // Le menu vient de se fermer
             if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
             {
@@ -144,27 +138,16 @@ public class S_UIQuestMenu : MonoBehaviour
         if (uiQuestMenu != null && uiQuestMenu.activeSelf)
         {
             uiQuestMenu.SetActive(false);
-            
-            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
-            {
-                S_GameManager.instance.playerEvents.MenuClosed();
-            }
-        }
-    }
 
-    /**
-     * Force l'ouverture du menu
-     */
-    public void OpenQuestMenu()
-    {
-        if (uiQuestMenu != null && !uiQuestMenu.activeSelf)
-        {
-            uiQuestMenu.SetActive(true);
-            UpdateQuestMenuUI();
-            
+            // Re-locker le curseur si le menu est fermé
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            // Débloquer la caméra du joueur et notifier la fermeture
             if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
             {
-                S_GameManager.instance.playerEvents.MenuOpened();
+                S_GameManager.instance.playerEvents.LockPlayerCamera(false);
+                S_GameManager.instance.playerEvents.MenuClosed();
             }
         }
     }
