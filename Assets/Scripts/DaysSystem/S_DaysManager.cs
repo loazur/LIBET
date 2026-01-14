@@ -30,7 +30,7 @@ public class S_DaysManager : MonoBehaviour
     //TODO Manque la gestion des quetes du jour
 
     //TEST
-    public bool questsDone = false;
+    // public bool questsDone = false;
 
     void Awake() //& Création du manager
     {
@@ -152,6 +152,7 @@ public class S_DaysManager : MonoBehaviour
     
         // Génération des quetes aléatoire
         GenerateQuests();
+        Debug.Log($"<color=green>[DaysManager]</color> Quêtes générées pour le jour {currentDay}");
 
         // On commence le prochain jour
         StartDay();
@@ -220,6 +221,9 @@ public class S_DaysManager : MonoBehaviour
         // Réinitialiser le temps
         timeLasted = 0f;
 
+        // Régénérer les quêtes
+        GenerateQuests();
+
         // Nettoyer et régénérer les médicaments
         S_MedicinesManager.instance.CleanupForDayRestart();
         GenerateMedicines();
@@ -230,8 +234,7 @@ public class S_DaysManager : MonoBehaviour
         // Randomiser le soleil
         RandomizeSunTime();
 
-        // Régénérer les quêtes
-        GenerateQuests();
+        
 
         // Redémarrer le jour
         StartDay();
@@ -257,6 +260,7 @@ public class S_DaysManager : MonoBehaviour
         if (S_LaunchRandomQuest.instance != null)
         {
             S_LaunchRandomQuest.instance.ResetAllRepeatableQuests();
+            Debug.Log($"----> [DaysManager] Quêtes du jour précédent réinitialisées.");
             
             // Lancer 3 nouvelles quêtes aléatoires selon la difficulté du jour
             S_LaunchRandomQuest.instance.LaunchRandomQuestsForDay(currentDay);
@@ -279,21 +283,25 @@ public class S_DaysManager : MonoBehaviour
      */
     public bool AreQuestsDone()
     {
+
+
         // Si questsDone est forcé à true (pour les tests), retourner true
-        if (questsDone)
-        {
-            return true;
-        }
+        // if (questsDone)
+        // {
+        //     return true;
+        // }
 
         // Vérifier via le système de quêtes
         if (S_QuestManager.instance != null)
         {
             return S_QuestManager.instance.AreAllDailyQuestsCompleted();
         }
-
-        // Fallback si le système n'est pas disponible
-        Debug.LogWarning("[DaysManager] S_QuestManager.instance est null!");
-        return false;
+        else //& Cas où S_QuestManager n'est pas initialisé
+        {
+            Debug.LogWarning("[DaysManager] S_QuestManager.instance est null!");
+            return false;
+        }
+        
     }
 
     //! ---------- Méthodes publiques ----------
@@ -357,4 +365,22 @@ public class S_DaysManager : MonoBehaviour
 
         currentDay = newDay;
     }
+
+    #region  DEBUG
+
+    [ContextMenu("DEBUG - Forcer fin de jour")]
+    private void Debug_ForceEndDay()
+    {
+        EndDay();
+    }
+
+    [ContextMenu("DEBUG - Forcer perte de jour")]
+    private void Debug_ForceLoseDay()
+    {
+        LoseDay("Debug - Forcé");
+    }
+
+
+
+    #endregion
 }

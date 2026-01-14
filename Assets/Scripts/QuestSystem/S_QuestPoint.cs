@@ -20,6 +20,9 @@ public class S_QuestPoint : MonoBehaviour
     [Header("Quest")]
     [SerializeField] private SO_QuestInfo questInfoForPoint;
 
+    // Propriété publique pour accéder à l'ID de la quête
+    public string QuestId => questInfoForPoint != null ? questInfoForPoint.id : string.Empty;
+
     [Header("Zone Interaction")]
     [Tooltip("Ce QuestPoint peut démarrer la quête quand le joueur entre dans la zone")]
     [SerializeField] private bool startPoint = true;

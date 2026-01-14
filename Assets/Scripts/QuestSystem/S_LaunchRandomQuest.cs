@@ -35,7 +35,7 @@ public class S_LaunchRandomQuest : MonoBehaviour
     [SerializeField] private int questsPerDay = 3;
     
     [Tooltip("Jours par niveau de difficulté")]
-    [SerializeField] private int daysPerDifficultyLevel = 3; //& Genre c'est le décalage 3-6-9-12-15 5 niveau de difficulté
+    [SerializeField] private int daysPerDifficultyLevel = 3; //& Genre c'est le décalage 3-6-9-12-15 | 5 niveau de difficulté
 
     // Quêtes actuellement sélectionnées pour le jour
     private List<SO_QuestInfo> selectedQuestsForDay = new List<SO_QuestInfo>();
@@ -279,6 +279,12 @@ public class S_LaunchRandomQuest : MonoBehaviour
     public void DebugTestLaunchDay1()
     {
         LaunchRandomQuestsForDay(1);
+    }
+
+    [ContextMenu("Reset All Repeatable Quests")]
+    public void DebugResetAllRepeatableQuests()
+    {
+        ResetAllRepeatableQuests();
     }
 
     #endregion
