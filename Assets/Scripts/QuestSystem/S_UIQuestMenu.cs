@@ -8,22 +8,23 @@
  * Organigrame de l'UI des quêtes:
  *   GameObject UIQuestMenu
  *       |-- Panel Background
- *       |-- Button Quest Story
+ *       |-- Button Quest Story (OnClick)
  *           |-- Text Quest Story Title
  *           |-- Text Quest Story Description
- *       |-- Button Quest Side 1
+ *       |-- Button Quest Side 1 (OnClick)
  *           |-- Text Quest Side Title 1
  *           |-- Text Quest Side Description 1
- *       |-- Button Quest Side 2
+ *       |-- Button Quest Side 2 (OnClick)
  *           |-- Text Quest Side Title 2
  *           |-- Text Quest Side Description 2
- *       |-- Button Quest Side 3
+ *       |-- Button Quest Side 3 (OnClick)
  *           |-- Text Quest Side Title 3
  *           |-- Text Quest Side Description 3
  */
 
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class S_UIQuestMenu : MonoBehaviour
 {
@@ -33,9 +34,10 @@ public class S_UIQuestMenu : MonoBehaviour
     [SerializeField] private GameObject uiQuestMenu;
 
     [Header("Quête Histoire")]
+    [SerializeField] private S_QuestPoint storyQuestPoint; // QuestPoint de la quête principale
     [SerializeField] private Button questStoryButton;
-    [SerializeField] private Text questStoryTitleText;
-    [SerializeField] private Text questStoryDescriptionText;
+    [SerializeField] private TextMeshProUGUI questStoryTitleText;
+    [SerializeField] private TextMeshProUGUI questStoryDescriptionText;
     [SerializeField] private GameObject questStoryPanel; // Panel pour cacher/montrer si pas de quête story
 
     [Header("Quêtes Secondaires")]
@@ -45,10 +47,9 @@ public class S_UIQuestMenu : MonoBehaviour
     [SerializeField] private Color selectedQuestColor = new Color(0.8f, 1f, 0.8f, 1f);
     [SerializeField] private Color normalQuestColor = Color.white;
 
-    // Quête actuellement en surbrillance dans le menu
-    private S_Quest currentlySelectedQuest;
-
-    
+    // Cache de la quête principale liée au QuestPoint
+    private S_Quest storyQuest;
+    private bool isSubscribed = false;
 
     void Awake()
     {
@@ -71,8 +72,43 @@ public class S_UIQuestMenu : MonoBehaviour
             uiQuestMenu.SetActive(false); //& Assurer que le menu est fermé au début
         }
 
-        // Setup des listeners de boutons
-        SetupButtonListeners();
+        // S'abonner aux changements d'état de quête
+        SubscribeToQuestEvents();
+    }
+
+    void OnDestroy()
+    {
+        UnsubscribeFromQuestEvents();
+    }
+
+    private void SubscribeToQuestEvents()
+    {
+        if (isSubscribed || S_GameManager.instance == null) return;
+
+        S_GameManager.instance.questEvents.onQuestStateChange += OnQuestStateChange;
+        isSubscribed = true;
+    }
+
+    private void UnsubscribeFromQuestEvents()
+    {
+        if (!isSubscribed || S_GameManager.instance == null) return;
+
+        S_GameManager.instance.questEvents.onQuestStateChange -= OnQuestStateChange;
+        isSubscribed = false;
+    }
+
+    /**
+     * Callback quand l'état d'une quête change
+     * Met à jour l'UI si c'est la quête principale (storyQuestPoint)
+     */
+    private void OnQuestStateChange(S_Quest quest)
+    {
+        // Vérifier si c'est la quête principale assignée
+        if (storyQuestPoint != null && quest.info.id == storyQuestPoint.QuestId)
+        {
+            storyQuest = quest;
+            RefreshIfOpen();
+        }
     }
 
     void Update()
@@ -81,13 +117,6 @@ public class S_UIQuestMenu : MonoBehaviour
         if (S_UserInput.instance != null && S_UserInput.instance.QuestMenuInput)
         {
             ToggleQuestMenu();
-
-            if (uiQuestMenu.activeSelf)
-            {
-                // Réactiver le curseur de la souris si le menu est ouvert
-                S_GameManager.instance.playerEvents.MenuOpened();
-                
-            }
         } 
     }
 
@@ -103,8 +132,18 @@ public class S_UIQuestMenu : MonoBehaviour
         bool isOpen = uiQuestMenu.activeSelf;
         uiQuestMenu.SetActive(!isOpen);
 
-        if (!isOpen)
+        if (!isOpen) //~ Ouvert
         {
+            //& Réactiver le curseur de la souris si le menu est ouvert
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            //& Bloquer la caméra du joueur
+            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+            {
+                S_GameManager.instance.playerEvents.LockPlayerCamera(true);
+            }
+            
             // Le menu vient de s'ouvrir
             UpdateQuestMenuUI();
             
@@ -114,8 +153,18 @@ public class S_UIQuestMenu : MonoBehaviour
                 S_GameManager.instance.playerEvents.MenuOpened();
             }
         }
-        else
+        else //~ Fermé
         {
+            //& Re-locker le curseur si le menu est fermé
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            //& Débloquer la caméra du joueur
+            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+            {
+                S_GameManager.instance.playerEvents.LockPlayerCamera(false);
+            }
+
             // Le menu vient de se fermer
             if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
             {
@@ -132,53 +181,16 @@ public class S_UIQuestMenu : MonoBehaviour
         if (uiQuestMenu != null && uiQuestMenu.activeSelf)
         {
             uiQuestMenu.SetActive(false);
-            
+
+            // Re-locker le curseur si le menu est fermé
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            // Débloquer la caméra du joueur et notifier la fermeture
             if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
             {
+                S_GameManager.instance.playerEvents.LockPlayerCamera(false);
                 S_GameManager.instance.playerEvents.MenuClosed();
-            }
-        }
-    }
-
-    /**
-     * Force l'ouverture du menu
-     */
-    public void OpenQuestMenu()
-    {
-        if (uiQuestMenu != null && !uiQuestMenu.activeSelf)
-        {
-            uiQuestMenu.SetActive(true);
-            UpdateQuestMenuUI();
-            
-            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
-            {
-                S_GameManager.instance.playerEvents.MenuOpened();
-            }
-        }
-    }
-
-    #endregion
-
-    #region Button Setup
-
-    /**
-     * Configure les listeners des boutons de quête
-     */
-    private void SetupButtonListeners()
-    {
-        // Bouton quête histoire
-        if (questStoryButton != null)
-        {
-            questStoryButton.onClick.AddListener(OnStoryQuestClicked);
-        }
-
-        // Boutons quêtes secondaires
-        for (int i = 0; i < questSideSlots.Length; i++)
-        {
-            int index = i; // Capture pour closure
-            if (questSideSlots[i].button != null)
-            {
-                questSideSlots[i].button.onClick.AddListener(() => OnSideQuestClicked(index));
             }
         }
     }
@@ -198,30 +210,41 @@ public class S_UIQuestMenu : MonoBehaviour
             return;
         }
 
-        // Mettre à jour la quête d'histoire
+        //& Mettre à jour la quête d'histoire
         UpdateStoryQuestUI();
 
-        // Mettre à jour les quêtes secondaires
+        //& Mettre à jour les quêtes secondaires
         UpdateSideQuestsUI();
 
-        // Mettre en surbrillance la quête sélectionnée
+        //& Mettre en surbrillance la quête sélectionnée
         UpdateSelectionHighlight();
     }
 
     /**
      * Met à jour l'affichage de la quête d'histoire
+     * Utilise le storyQuestPoint assigné dans l'Inspector
+     * Note: Les quêtes FINISHED sont masquées
      */
     private void UpdateStoryQuestUI()
     {
-        S_Quest storyQuest = S_QuestManager.instance.GetStoryQuest();
+        // Afficher seulement si la quête est en cours ou peut être terminée (pas FINISHED)
+        bool shouldDisplay = storyQuest != null && 
+                            (storyQuest.state == E_QuestState.IN_PROGRESS || 
+                             storyQuest.state == E_QuestState.CAN_FINISH);
 
-        if (storyQuest != null && storyQuest.state == E_QuestState.IN_PROGRESS)
+        if (shouldDisplay)
         {
             if (questStoryPanel != null) questStoryPanel.SetActive(true);
             
             if (questStoryTitleText != null)
             {
                 questStoryTitleText.text = storyQuest.GetCurrentStepDisplayName();
+                
+                // Ajouter un indicateur pour les quêtes prêtes à être terminées
+                if (storyQuest.state == E_QuestState.CAN_FINISH)
+                {
+                    questStoryTitleText.text += " !";
+                }
             }
             
             if (questStoryDescriptionText != null)
@@ -231,7 +254,7 @@ public class S_UIQuestMenu : MonoBehaviour
         }
         else
         {
-            // Pas de quête d'histoire active
+            // Pas de quête d'histoire active ou quête terminée
             if (questStoryPanel != null) questStoryPanel.SetActive(false);
             
             if (questStoryTitleText != null)
@@ -248,18 +271,29 @@ public class S_UIQuestMenu : MonoBehaviour
 
     /**
      * Met à jour l'affichage des quêtes secondaires
+     * Note: Les quêtes FINISHED sont filtrées et ne sont pas affichées
      */
     private void UpdateSideQuestsUI()
     {
-        S_Quest[] sideQuests = S_QuestManager.instance.GetSideQuests();
+        S_Quest[] allSideQuests = S_QuestManager.instance.GetSideQuests();
+        
+        // Filtrer les quêtes terminées - on n'affiche que les quêtes IN_PROGRESS ou CAN_FINISH
+        System.Collections.Generic.List<S_Quest> activeSideQuests = new System.Collections.Generic.List<S_Quest>();
+        foreach (S_Quest sideQuest in allSideQuests)
+        {
+            if (sideQuest != null && sideQuest.state != E_QuestState.FINISHED)
+            {
+                activeSideQuests.Add(sideQuest);
+            }
+        }
 
         for (int i = 0; i < questSideSlots.Length; i++)
         {
             QuestSlotUI slot = questSideSlots[i];
             
-            if (i < sideQuests.Length && sideQuests[i] != null)
+            if (i < activeSideQuests.Count && activeSideQuests[i] != null)
             {
-                S_Quest quest = sideQuests[i];
+                S_Quest quest = activeSideQuests[i];
                 slot.quest = quest;
                 
                 if (slot.panel != null) slot.panel.SetActive(true);
@@ -268,12 +302,8 @@ public class S_UIQuestMenu : MonoBehaviour
                 {
                     slot.titleText.text = quest.GetCurrentStepDisplayName();
                     
-                    // Ajouter un indicateur d'état
-                    if (quest.state == E_QuestState.FINISHED)
-                    {
-                        slot.titleText.text += " ✓";
-                    }
-                    else if (quest.state == E_QuestState.CAN_FINISH)
+                    // Ajouter un indicateur pour les quêtes prêtes à être terminées
+                    if (quest.state == E_QuestState.CAN_FINISH)
                     {
                         slot.titleText.text += " !";
                     }
@@ -314,7 +344,6 @@ public class S_UIQuestMenu : MonoBehaviour
         // Quête histoire
         if (questStoryButton != null)
         {
-            S_Quest storyQuest = S_QuestManager.instance.GetStoryQuest();
             ColorBlock colors = questStoryButton.colors;
             colors.normalColor = (storyQuest != null && storyQuest == selected) ? selectedQuestColor : normalQuestColor;
             questStoryButton.colors = colors;
@@ -336,16 +365,21 @@ public class S_UIQuestMenu : MonoBehaviour
 
     #endregion
 
-    #region Button Callbacks
+    #region Button Callbacks (Public - pour OnClick Unity Inspector)
 
+    //* Fonction à config sur le bouton dans l'Inspector Unity
+    //*===========================================================================================
     /**
      * Appelé quand le joueur clique sur la quête d'histoire
+     * À assigner dans l'Inspector: Button.OnClick -> S_UIQuestMenu.OnClickStoryQuest()
      */
-    private void OnStoryQuestClicked()
+    public void OnClickStoryQuest()
     {
-        S_Quest storyQuest = S_QuestManager.instance.GetStoryQuest();
+        Debug.Log("<color=yellow>[UIQuestMenu]</color> OnClickStoryQuest appelé!");
         
-        if (storyQuest != null && storyQuest.state == E_QuestState.IN_PROGRESS)
+        if (S_QuestManager.instance == null) return;
+        
+        if (storyQuest != null && (storyQuest.state == E_QuestState.IN_PROGRESS || storyQuest.state == E_QuestState.CAN_FINISH))
         {
             S_QuestManager.instance.SetSelectedQuestForDisplay(storyQuest);
             UpdateSelectionHighlight();
@@ -353,11 +387,47 @@ public class S_UIQuestMenu : MonoBehaviour
         }
     }
 
+    
     /**
-     * Appelé quand le joueur clique sur une quête secondaire
+     * Appelé quand le joueur clique sur la quête secondaire 1
+     * À assigner dans l'Inspector: Button.OnClick -> S_UIQuestMenu.OnClickSideQuest1()
      */
-    private void OnSideQuestClicked(int index)
+    public void OnClickSideQuest1()
     {
+        Debug.Log("<color=yellow>[UIQuestMenu]</color> OnClickSideQuest1 appelé!");
+        SelectSideQuest(0);
+    }
+
+    /**
+     * Appelé quand le joueur clique sur la quête secondaire 2
+     * À assigner dans l'Inspector: Button.OnClick -> S_UIQuestMenu.OnClickSideQuest2()
+     */
+    public void OnClickSideQuest2()
+    {
+        Debug.Log("<color=yellow>[UIQuestMenu]</color> OnClickSideQuest2 appelé!");
+        SelectSideQuest(1);
+    }
+
+    /**
+     * Appelé quand le joueur clique sur la quête secondaire 3
+     * À assigner dans l'Inspector: Button.OnClick -> S_UIQuestMenu.OnClickSideQuest3()
+     */
+    public void OnClickSideQuest3()
+    {
+        Debug.Log("<color=yellow>[UIQuestMenu]</color> OnClickSideQuest3 appelé!");
+        SelectSideQuest(2);
+    }
+    //*===========================================================================================
+
+    /**
+     * Sélectionne une quête secondaire par son index
+     */
+    private void SelectSideQuest(int index)
+    {
+        Debug.Log($"<color=yellow>[UIQuestMenu]</color> SelectSideQuest appelé pour index: {index}");
+        
+        if (S_QuestManager.instance == null) return;
+        
         if (index >= 0 && index < questSideSlots.Length)
         {
             S_Quest quest = questSideSlots[index].quest;
@@ -373,7 +443,7 @@ public class S_UIQuestMenu : MonoBehaviour
 
     #endregion
 
-    #region Localization Helpers
+    #region Language
 
     /**
      * Retourne le texte localisé selon la langue actuelle
@@ -443,4 +513,33 @@ public class S_UIQuestMenu : MonoBehaviour
     }
 
     #endregion
+
+    #region Debug
+
+    [ContextMenu("Side Quest 1 Click")]
+    private void DebugClickSideQuest1()
+    {
+        OnClickSideQuest1();
+    }
+
+    [ContextMenu("Side Quest 2 Click")]
+    private void DebugClickSideQuest2()
+    {
+        OnClickSideQuest2();
+    }
+
+    [ContextMenu("Side Quest 3 Click")]
+    private void DebugClickSideQuest3()
+    {
+        OnClickSideQuest3();
+    }
+
+    [ContextMenu("Story Quest Click")]
+    private void DebugClickStoryQuest()
+    {
+        OnClickStoryQuest();
+    }
+
+    #endregion
+
 }

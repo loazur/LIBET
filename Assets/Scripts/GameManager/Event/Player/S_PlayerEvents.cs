@@ -139,6 +139,20 @@ public class S_PlayerEvents
     }
 
     /**
+     * Événement déclenché pour verrouiller/déverrouiller la caméra du joueur
+     *
+     * @var		mixed	onLockPlayerCamera
+     */
+    public event Action<bool> onLockPlayerCamera;
+    public void LockPlayerCamera(bool locked)
+    {
+        if (onLockPlayerCamera != null)
+        {
+            onLockPlayerCamera(locked);
+        }
+    }
+
+    /**
      * Événement déclenché quand le joueur ramasse une clé
      *
      * @var		mixed	onKeyCollected

@@ -11,7 +11,7 @@ using UnityEngine;
  * @version	v1.0.0	Wednesday, January 8th, 2026.
  */
 [CreateAssetMenu(fileName = "New Alzheimer Event Reward", menuName = "Quest System/Rewards/Alzheimer Event Reward", order = 2)]
-public class RewardAlzheimerEvent : QuestReward
+public class SO_RewardAlzheimerEvent : SO_QuestReward
 {
     /**
      * Déclenche un événement Alzheimer aléatoire
