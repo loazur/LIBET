@@ -1559,6 +1559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::S_GameUserData
   dropdownLanguage: {fileID: 4989107334560102167}
   sliderTypingSpeed: {fileID: 564478903317641672}
+  cameraShakeToggle: {fileID: 6002274148489283070}
 --- !u!114 &7696061241891205667
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10443,13 +10444,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 5429511242791326086}
     m_Modifications:
     - target: {fileID: 7838596760186534, guid: 1853e704c7d76d44699871b59b382518, type: 3}
+      propertyPath: m_IsOn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838596760186534, guid: 1853e704c7d76d44699871b59b382518, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7838596760186534, guid: 1853e704c7d76d44699871b59b382518, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7838596760186534, guid: 1853e704c7d76d44699871b59b382518, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7838596760186534, guid: 1853e704c7d76d44699871b59b382518, type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 167172999299861229}
     - target: {fileID: 7838596760186534, guid: 1853e704c7d76d44699871b59b382518, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -10460,11 +10473,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7838596760186534, guid: 1853e704c7d76d44699871b59b382518, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TriggerPulse
+      value: setCurrentCameraShake
       objectReference: {fileID: 0}
     - target: {fileID: 7838596760186534, guid: 1853e704c7d76d44699871b59b382518, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: BackgroundPulse, Assembly-CSharp
+      value: S_GameUserData, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7838596760186534, guid: 1853e704c7d76d44699871b59b382518, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
@@ -10563,6 +10576,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1853e704c7d76d44699871b59b382518, type: 3}
+--- !u!114 &6002274148489283070 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7838596760186534, guid: 1853e704c7d76d44699871b59b382518, type: 3}
+  m_PrefabInstance: {fileID: 6005415554227858264}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Toggle
 --- !u!224 &8318357497526153599 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2316886171891505703, guid: 1853e704c7d76d44699871b59b382518, type: 3}

@@ -17,6 +17,7 @@ public class S_HeadbobSystem : MonoBehaviour
     [SerializeField] private float movementThreshold = 0.1f; // Seuil minimal pour déclencher le headbob
 
     private Vector3 startPos;
+
     private bool isHeadbobActive = false;
 
     //! Walk
@@ -40,7 +41,7 @@ public class S_HeadbobSystem : MonoBehaviour
     {
         CheckForHeadbobTrigger();
 
-        if (isHeadbobActive)
+        if (isHeadbobActive && S_GameUserData.instance.currentCameraShake)
         {
             ApplyHeadbob();
         }

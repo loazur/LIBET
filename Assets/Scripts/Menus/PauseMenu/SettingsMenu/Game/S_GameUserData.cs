@@ -9,18 +9,12 @@ public class S_GameUserData : MonoBehaviour
     [Header("Gestion de l'UI")]
     [SerializeField] private TMPro.TMP_Dropdown dropdownLanguage; //! Dropdown du langage
     [SerializeField] private Slider sliderTypingSpeed; //! Slider de la vitesse d'écriture
+    [SerializeField] private Toggle cameraShakeToggle; //! Toggle du temblement de la camera
 
     public enum Languages
     {
         French,
         English
-    }
-
-    public enum CameraShake
-    {
-        Enabled,
-        Lowered,
-        Disabled
     }
 
     public enum ATHSizes
@@ -32,13 +26,13 @@ public class S_GameUserData : MonoBehaviour
 
     //! Valeurs par défauts
     private const Languages defaultLanguage = Languages.French;
-    private const CameraShake defaultCameraShake = CameraShake.Enabled;
+    private const bool defaultCameraShake = true;
     private const ATHSizes defaultATHSize = ATHSizes.Medium;
     private const float defaultTypingSpeed = 7f;
 
     //! Actuellement utilisé
     public Languages currentLanguage { get; private set; } // Voir Enum
-    public CameraShake currentCameraShake { get; private set; } // Voir Enum
+    public bool currentCameraShake { get; private set; } // Voir Enum
     public ATHSizes currentATHSize { get; private set; } // Voir Enum
     public float currentTypingSpeed { get; private set; } // 1 - 50
 
@@ -65,14 +59,13 @@ public class S_GameUserData : MonoBehaviour
         OnLanguageChanged?.Invoke();
     }
 
-    public void setCurrentCameraShake(int indexCameraShake)
+    public void setCurrentCameraShake(bool enabled)
     {
-        if ((int)currentCameraShake == indexCameraShake)
+        if (currentCameraShake == enabled)
             return;
 
-        currentCameraShake = (CameraShake)indexCameraShake;
-
-        OnCameraShakeChanged?.Invoke();
+        currentCameraShake = enabled;
+        cameraShakeToggle.isOn = currentCameraShake;
     }
 
     public void setCurrentATHSize(int indexATHSize)
@@ -104,7 +97,7 @@ public class S_GameUserData : MonoBehaviour
 
     public void resetCurrentCameraShake()
     {
-        setCurrentCameraShake((int)defaultCameraShake);
+        setCurrentCameraShake(defaultCameraShake);
     }
 
     public void resetCurrentATHSize()
@@ -120,7 +113,6 @@ public class S_GameUserData : MonoBehaviour
     //?------------------------------------- EVENTS
 
     public event Action OnLanguageChanged;
-    public event Action OnCameraShakeChanged;
     public event Action OnATHSizeChanged;
 
 
@@ -130,7 +122,7 @@ public class S_GameUserData : MonoBehaviour
     {
         // Met à jour les préferences
         PlayerPrefs.SetInt("GameLanguage", (int)currentLanguage);
-        PlayerPrefs.SetInt("CameraShake", (int)currentCameraShake);
+        PlayerPrefs.SetInt("CameraShake", Convert.ToInt32(currentCameraShake));
         PlayerPrefs.SetInt("ATHSize", (int)currentATHSize);
         PlayerPrefs.SetFloat("TypingSpeed", currentTypingSpeed);
 
@@ -147,7 +139,7 @@ public class S_GameUserData : MonoBehaviour
             resetCurrentLanguage();
 
         if (PlayerPrefs.HasKey("CameraShake")) //~ CameraShake
-            setCurrentCameraShake(PlayerPrefs.GetInt("CameraShake"));
+            setCurrentCameraShake(Convert.ToBoolean(PlayerPrefs.GetInt("CameraShake")));
         else
             resetCurrentCameraShake();
 
