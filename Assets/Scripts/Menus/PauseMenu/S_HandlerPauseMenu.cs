@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class S_HandlerPauseMenu : MonoBehaviour
 {
@@ -10,7 +11,10 @@ public class S_HandlerPauseMenu : MonoBehaviour
     [Header("Menu Navigation")]
     [SerializeField] private S_PauseMenu pauseMenu;
 
-    //~ Références vers d'autre classes
+    [Header("Fond du menu pause")]
+    [SerializeField] private Image pauseMenuBackground;
+
+    [Header("Référence vers d'autre classes")]
     [SerializeField] private S_PlayerController playerController;
     [SerializeField] private S_FirstPersonCamera playerCamera;
 
@@ -85,6 +89,7 @@ public class S_HandlerPauseMenu : MonoBehaviour
 
     public void CompletelyCloseMenu()
     {
+        pauseMenuBackground.gameObject.SetActive(false);
         currentMenu.DeactivateMenu();
         currentMenu = null;
 
