@@ -4,17 +4,24 @@ using UnityEngine.UI;
 
 public class S_PauseMenu : S_Menu
 {
-    [Header("Menu Navigation")]
-    [SerializeField] private S_SettingsMenu settingsMenu;
 
-    [Header("Boutons Pause Menu")]
-    [SerializeField] private Button continueButton;
-    [SerializeField] private Button settingsButton;
-    [SerializeField] private Button quitButton;
+        [Header("Menu Navigation")]
+        [SerializeField] private S_SettingsMenu settingsMenu;
+
+        [Header("Boutons Pause Menu")]
+        [SerializeField] private Button continueButton;
+        [SerializeField] private Button settingsButton;
+        [SerializeField] private Button quitButton;
+
+        [Header("Fond du menu pause")]
+        [SerializeField] private Image pauseMenuBackground;
 
     protected override void OnEnable()
     {
         base.OnEnable(); // Utilise le OnEnable du parent
+
+        if (pauseMenuBackground != null)
+            pauseMenuBackground.gameObject.SetActive(true);
 
         S_HandlerPauseMenu.instance.DisableAll();
         S_HandlerPauseMenu.instance.setMenuOpened(true);
@@ -23,17 +30,23 @@ public class S_PauseMenu : S_Menu
 
     public void OnContinueClicked()
     {
+        if (pauseMenuBackground != null)
+            pauseMenuBackground.gameObject.SetActive(false);
         S_HandlerPauseMenu.instance.CompletelyCloseMenu();
     }
 
     public void OnSettingsClicked()
     {
+        if (pauseMenuBackground != null)
+            pauseMenuBackground.gameObject.SetActive(true);
         settingsMenu.ActivateMenu();
         DeactivateMenu();
     }
 
     public void OnQuitClicked()
     {
+        if (pauseMenuBackground != null)
+            pauseMenuBackground.gameObject.SetActive(false);
         // Changement de scene
         S_SceneLoader.instance.LoadScene("MainMenu");
     }
