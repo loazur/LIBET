@@ -225,7 +225,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Camera
+  m_text: CAMERA
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5c913a69ab9010d4cba7b96a24c14944, type: 2}
   m_sharedMaterial: {fileID: 7161294906521287193, guid: 5c913a69ab9010d4cba7b96a24c14944, type: 2}
@@ -508,6 +508,7 @@ GameObject:
   - component: {fileID: 8708344096271657526}
   - component: {fileID: 3478260723023379003}
   - component: {fileID: 6554549602802517136}
+  - component: {fileID: 4344465489945937305}
   m_Layer: 5
   m_Name: Titre
   m_TagString: Untagged
@@ -562,7 +563,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: VIDEO
+  m_text: GRAPHISME
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5c913a69ab9010d4cba7b96a24c14944, type: 2}
   m_sharedMaterial: {fileID: 7161294906521287193, guid: 5c913a69ab9010d4cba7b96a24c14944, type: 2}
@@ -634,6 +635,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4344465489945937305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987912502089114171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - GRAPHISME
+  - VIDEO
+  attachedToKeybind: 0
 --- !u!1 &2369354756933531445
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,6 +963,7 @@ GameObject:
   - component: {fileID: 4371597857606959869}
   - component: {fileID: 7932580112091613062}
   - component: {fileID: 3570184179181041982}
+  - component: {fileID: 278378069595799839}
   m_Layer: 5
   m_Name: Titre
   m_TagString: Untagged
@@ -1072,6 +1090,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &278378069595799839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3397776994627468357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - OPTIONS
+  - SETTINGS
+  attachedToKeybind: 0
 --- !u!1 &3729428228514855093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1553,6 +1587,7 @@ GameObject:
   - component: {fileID: 3934234089545952369}
   - component: {fileID: 9114406561087170637}
   - component: {fileID: 6618409695840129635}
+  - component: {fileID: 7835233365164485824}
   m_Layer: 5
   m_Name: Titre
   m_TagString: Untagged
@@ -1679,6 +1714,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7835233365164485824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5804727711637276174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - MANETTE
+  - CONTROLLER
+  attachedToKeybind: 0
 --- !u!1 &5893073737665350140
 GameObject:
   m_ObjectHideFlags: 0
@@ -1835,6 +1886,7 @@ GameObject:
   - component: {fileID: 5559836973767688585}
   - component: {fileID: 2399897303725837061}
   - component: {fileID: 7227299203246706332}
+  - component: {fileID: 2280927210841107947}
   m_Layer: 5
   m_Name: Titre
   m_TagString: Untagged
@@ -1961,6 +2013,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2280927210841107947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7245846235167426458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - CLAVIER
+  - KEYBOARD
+  attachedToKeybind: 0
 --- !u!1 &7677762781422540445
 GameObject:
   m_ObjectHideFlags: 0
@@ -1972,6 +2040,7 @@ GameObject:
   - component: {fileID: 4222615822579694445}
   - component: {fileID: 5939047734999665564}
   - component: {fileID: 2568524832788195760}
+  - component: {fileID: 5677532282113953283}
   m_Layer: 5
   m_Name: Titre
   m_TagString: Untagged
@@ -2098,6 +2167,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5677532282113953283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7677762781422540445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - OPTIONS DE JEU
+  - GAME OPTIONS
+  attachedToKeybind: 0
 --- !u!1 &7740301792673733400
 GameObject:
   m_ObjectHideFlags: 0
@@ -3079,7 +3164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2676627822481305662, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
       propertyPath: m_text
-      value: OPTION DE JEU
+      value: OPTIONS DE JEU
       objectReference: {fileID: 0}
     - target: {fileID: 2676627822481305662, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
       propertyPath: m_fontSize
@@ -3227,11 +3312,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7129986405201698101, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
       propertyPath: 'textInEachLanguages.Array.data[0]'
-      value: OPTION DE JEU
+      value: OPTIONS DE JEU
       objectReference: {fileID: 0}
     - target: {fileID: 7129986405201698101, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
       propertyPath: 'textInEachLanguages.Array.data[1]'
-      value: Game OPtion
+      value: GAME OPTIONS
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3385,6 +3470,10 @@ PrefabInstance:
     - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: 'textInEachLanguages.Array.data[0]'
       value: 'GAUCHE :'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[1]'
+      value: 'LEFT :'
       objectReference: {fileID: 0}
     - target: {fileID: 8410898412242679071, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: m_Text
@@ -3568,6 +3657,10 @@ PrefabInstance:
       propertyPath: 'textInEachLanguages.Array.data[0]'
       value: 'S''ACCROUPIR :'
       objectReference: {fileID: 0}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[1]'
+      value: 'CROUCH :'
+      objectReference: {fileID: 0}
     - target: {fileID: 6310975588736739894, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 14.540009
@@ -3612,7 +3705,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_text
-      value: 'Resolution : '
+      value: 'RESOLUTION :'
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_margin.x
@@ -4450,9 +4543,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_text
-      value: 'Sensibilite Manette :
-
-'
+      value: 'SENSIBILITE MANETTE :'
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_margin.x
@@ -4637,8 +4728,32 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4451282004078492985}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8601068323423840572}
   m_SourcePrefab: {fileID: 100100000, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+--- !u!1 &2828483112371762368 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+  m_PrefabInstance: {fileID: 1164562725635998038}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8601068323423840572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2828483112371762368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - 'SENSIBILITE MANETTE :'
+  - 'CONTROLLER SENSITIVITY :'
+  attachedToKeybind: 0
 --- !u!224 &8617114972314065417 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
@@ -4760,6 +4875,10 @@ PrefabInstance:
       propertyPath: m_RebindOverlay
       value: 
       objectReference: {fileID: 2499610874410521141}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[1]'
+      value: 'FORWARD :'
+      objectReference: {fileID: 0}
     - target: {fileID: 8499269500631730292, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -5359,6 +5478,10 @@ PrefabInstance:
       propertyPath: 'textInEachLanguages.Array.data[0]'
       value: 'ANNULER  :'
       objectReference: {fileID: 0}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[1]'
+      value: 'CANCEL :'
+      objectReference: {fileID: 0}
     - target: {fileID: 8410898412242679071, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: m_Text
       value: 'ANNULER :'
@@ -5468,7 +5591,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_text
-      value: 'volume sonore :'
+      value: 'VOLUME SONORE :'
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_margin.x
@@ -5653,8 +5776,32 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5234441602323643652}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3748999520315950712}
   m_SourcePrefab: {fileID: 100100000, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+--- !u!1 &3435357152798111124 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+  m_PrefabInstance: {fileID: 1784910782908923906}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3748999520315950712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3435357152798111124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - 'VOLUME SONORE :'
+  - 'SOUND VOLUME :'
+  attachedToKeybind: 0
 --- !u!224 &9185717268267801437 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
@@ -6448,6 +6595,10 @@ PrefabInstance:
       propertyPath: 'textInEachLanguages.Array.data[0]'
       value: 'COURIR :'
       objectReference: {fileID: 0}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[1]'
+      value: 'RUN :'
+      objectReference: {fileID: 0}
     - target: {fileID: 8410898412242679071, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: m_Text
       value: 'COURIR :'
@@ -6488,7 +6639,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_text
-      value: 'V-Sync :'
+      value: 'V-SYNC :'
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_margin.x
@@ -6843,8 +6994,32 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6310564370944612145}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7827685097749941897}
   m_SourcePrefab: {fileID: 100100000, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+--- !u!1 &2156473257041436402 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+  m_PrefabInstance: {fileID: 3063790005894277988}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7827685097749941897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2156473257041436402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - "Vitesse d'\xE9criture :"
+  - 'Typing Speed :'
+  attachedToKeybind: 0
 --- !u!224 &5565247435949961275 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
@@ -7053,7 +7228,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_text
-      value: 'Plein ecran:'
+      value: 'PLEIN ECRAN :'
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_margin.x
@@ -7194,8 +7369,32 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3054030796143859535}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4481205515116306292}
   m_SourcePrefab: {fileID: 100100000, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+--- !u!1 &2012330021449028855 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+  m_PrefabInstance: {fileID: 3207876547239158113}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4481205515116306292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012330021449028855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - 'PLEIN ECRAN :'
+  - 'FULLSCREEN :'
+  attachedToKeybind: 0
 --- !u!224 &5421161256909552190 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
@@ -7352,8 +7551,32 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8318357497526153599}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8008389622915940850}
   m_SourcePrefab: {fileID: 100100000, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+--- !u!1 &1985966195420430159 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+  m_PrefabInstance: {fileID: 3235273918912269017}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8008389622915940850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985966195420430159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - 'Tremblement camera :'
+  - 'Camera Shake :'
+  attachedToKeybind: 0
 --- !u!224 &5429511242791326086 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
@@ -7381,7 +7604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_text
-      value: 'Sensibilite Souris :'
+      value: 'SENSIBILITE SOURIS :'
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_margin.x
@@ -7566,8 +7789,32 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6724992272903494051}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 515846824002626171}
   m_SourcePrefab: {fileID: 100100000, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+--- !u!1 &363849142499107081 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+  m_PrefabInstance: {fileID: 3631369256807994527}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &515846824002626171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363849142499107081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - 'SENSIBILITE SOURIS :'
+  - 'MOUSE SENSITIVITY :'
+  attachedToKeybind: 0
 --- !u!224 &6186337100180983744 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
@@ -7788,7 +8035,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_text
-      value: 'volume musique :'
+      value: 'VOLUME MUSIQUE :'
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_margin.x
@@ -7973,8 +8220,32 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5566394653980986249}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3373337137410472579}
   m_SourcePrefab: {fileID: 100100000, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+--- !u!1 &677871199861745344 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+  m_PrefabInstance: {fileID: 4468091469056955222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3373337137410472579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677871199861745344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - 'VOLUME MUSIQUE :'
+  - 'MUSIC VOLUME :'
+  attachedToKeybind: 0
 --- !u!224 &6466788965270472713 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
@@ -8956,7 +9227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7129986405201698101, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
       propertyPath: 'textInEachLanguages.Array.data[1]'
-      value: MANETTE
+      value: CONTROLLER
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8989,7 +9260,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_text
-      value: 'Inverse l''axe X :'
+      value: 'INVERSE L''AXE X :'
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_margin.x
@@ -9130,13 +9401,37 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5759014211363970550}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4517109121924960519}
   m_SourcePrefab: {fileID: 100100000, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
 --- !u!224 &2502841736512991520 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
   m_PrefabInstance: {fileID: 4973274186696616575}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8245263271452876777 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+  m_PrefabInstance: {fileID: 4973274186696616575}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4517109121924960519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8245263271452876777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - 'INVERSE L''AXE X :'
+  - 'INVERSE X AXIS :'
+  attachedToKeybind: 0
 --- !u!1001 &5403020778497163512
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9272,6 +9567,10 @@ PrefabInstance:
     - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: 'textInEachLanguages.Array.data[0]'
       value: 'INTERAGIR :'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[1]'
+      value: 'INTERACT :'
       objectReference: {fileID: 0}
     - target: {fileID: 8410898412242679071, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: m_Text
@@ -9434,6 +9733,10 @@ PrefabInstance:
     - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: 'textInEachLanguages.Array.data[0]'
       value: 'RECULER :'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[1]'
+      value: 'BACKWARD :'
       objectReference: {fileID: 0}
     - target: {fileID: 8410898412242679071, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: m_Text
@@ -9786,6 +10089,18 @@ PrefabInstance:
       propertyPath: m_RebindOverlay
       value: 
       objectReference: {fileID: 3039156725537066241}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[0]'
+      value: 'BOUGER :'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[1]'
+      value: 'MOVE :'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8410898412242679071, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: m_Text
+      value: 'AVANCER :'
+      objectReference: {fileID: 0}
     - target: {fileID: 8499269500631730292, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -10586,6 +10901,10 @@ PrefabInstance:
       propertyPath: 'textInEachLanguages.Array.data[0]'
       value: 'COURIR :'
       objectReference: {fileID: 0}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[1]'
+      value: 'RUN :'
+      objectReference: {fileID: 0}
     - target: {fileID: 6310975588736739894, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 26.410004
@@ -10751,6 +11070,10 @@ PrefabInstance:
     - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: 'textInEachLanguages.Array.data[0]'
       value: 'DROITE :'
+      objectReference: {fileID: 0}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[1]'
+      value: 'RIGHT :'
       objectReference: {fileID: 0}
     - target: {fileID: 8410898412242679071, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: m_Text
@@ -11188,6 +11511,10 @@ PrefabInstance:
       propertyPath: 'textInEachLanguages.Array.data[0]'
       value: 'ANNULER  :'
       objectReference: {fileID: 0}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[1]'
+      value: 'CANCEL :'
+      objectReference: {fileID: 0}
     - target: {fileID: 8410898412242679071, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: m_Text
       value: 'ANNULER  :'
@@ -11226,6 +11553,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3183291443637825327}
     m_Modifications:
+    - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      propertyPath: m_text
+      value: 'LANGUE :'
+      objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_margin.x
       value: -33.164032
@@ -11465,7 +11796,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4261666513061876128}
   m_SourcePrefab: {fileID: 100100000, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
 --- !u!224 &4202795683487952384 stripped
 RectTransform:
@@ -11483,6 +11817,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TMP_Dropdown
+--- !u!1 &7675746090640916681 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+  m_PrefabInstance: {fileID: 6767832313416070495}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4261666513061876128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7675746090640916681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - 'LANGUE :'
+  - 'LANGUAGE :'
+  attachedToKeybind: 0
 --- !u!1001 &6976204832496453824
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12199,6 +12554,10 @@ PrefabInstance:
       propertyPath: 'textInEachLanguages.Array.data[0]'
       value: 'S''ACCROUPIR :'
       objectReference: {fileID: 0}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[1]'
+      value: 'CROUCH :'
+      objectReference: {fileID: 0}
     - target: {fileID: 8410898412242679071, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: m_Text
       value: 'S''ACCROUPIR :'
@@ -12747,6 +13106,10 @@ PrefabInstance:
       propertyPath: 'textInEachLanguages.Array.data[0]'
       value: 'INTERAGIR :'
       objectReference: {fileID: 0}
+    - target: {fileID: 6175118744658736378, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
+      propertyPath: 'textInEachLanguages.Array.data[1]'
+      value: 'INTERACT :'
+      objectReference: {fileID: 0}
     - target: {fileID: 8410898412242679071, guid: 75f4b880d73caab4fb3f691f7a6f4602, type: 3}
       propertyPath: m_Text
       value: 'INTERAGIR :'
@@ -12833,7 +13196,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_text
-      value: 'Inverse l''axe Y :'
+      value: 'INVERSE L''AXE Y :'
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_margin.x
@@ -12974,13 +13337,37 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6169463942472074680}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5283281014338099443}
   m_SourcePrefab: {fileID: 100100000, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
 --- !u!224 &1041245346863561954 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
   m_PrefabInstance: {fileID: 7623539641968207805}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6820087208917226027 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+  m_PrefabInstance: {fileID: 7623539641968207805}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5283281014338099443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6820087208917226027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - 'INVERSE L''AXE Y :'
+  - 'INVERSE Y AXIS :'
+  attachedToKeybind: 0
 --- !u!1001 &7638923661875603652
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12991,7 +13378,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_text
-      value: 'Effets de particules :'
+      value: 'EFFETS DE PARTICULES :'
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_margin.x
@@ -13111,7 +13498,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2559160819168616356, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_text
-      value: 
+      value: WIP
       objectReference: {fileID: 0}
     - target: {fileID: 4256465833754460911, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -13248,13 +13635,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8773076334546248263}
   m_SourcePrefab: {fileID: 100100000, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
 --- !u!224 &990113865245193115 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
   m_PrefabInstance: {fileID: 7638923661875603652}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6731607514385096018 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+  m_PrefabInstance: {fileID: 7638923661875603652}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8773076334546248263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6731607514385096018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - 'EFFETS DE PARTICULES :'
+  - 'PARTICLE EFFECTS :'
+  attachedToKeybind: 0
 --- !u!114 &8273708001391078028 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1788198494059823688, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
@@ -13920,7 +14331,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_text
-      value: 'volume general :'
+      value: 'VOLUME GENERAL :'
       objectReference: {fileID: 0}
     - target: {fileID: 98229530182536774, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       propertyPath: m_margin.x
@@ -14105,13 +14516,37 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4710534074932285618}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5033806707324479299}
   m_SourcePrefab: {fileID: 100100000, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
 --- !u!224 &1413745722349071685 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
   m_PrefabInstance: {fileID: 8368213639619098138}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4848208770326512524 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+  m_PrefabInstance: {fileID: 8368213639619098138}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5033806707324479299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4848208770326512524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - 'VOLUME GENERAL :'
+  - 'GENERAL VOLUME :'
+  attachedToKeybind: 0
 --- !u!1001 &8404712639345682475
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14689,13 +15124,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2834439146728749787}
   m_SourcePrefab: {fileID: 100100000, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
 --- !u!224 &2133876945867909135 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7475834410093976415, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
   m_PrefabInstance: {fileID: 8800722031752590160}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5569795812973397702 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3992882830172353942, guid: 27489700abb51704bbaecf4dec9c74bd, type: 3}
+  m_PrefabInstance: {fileID: 8800722031752590160}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2834439146728749787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5569795812973397702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - 'Taille de l''ATH :'
+  - 'ATH Size :'
+  attachedToKeybind: 0
 --- !u!1001 &9107353316645693113
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14871,7 +15330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2676627822481305662, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
       propertyPath: m_text
-      value: VIDEO
+      value: GRAPHISME
       objectReference: {fileID: 0}
     - target: {fileID: 2676627822481305662, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
       propertyPath: m_fontSize
@@ -15023,7 +15482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7129986405201698101, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
       propertyPath: 'textInEachLanguages.Array.data[1]'
-      value: GRAPHIC
+      value: VIDEO
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
