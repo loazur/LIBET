@@ -3171,9 +3171,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6306842671375863325, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 771068026}
-    - targetCorrespondingSourceObject: {fileID: -8717785900731429739, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1060426638}
     - targetCorrespondingSourceObject: {fileID: 9165172548270355759, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 441403959}
@@ -4815,33 +4812,6 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!1 &1060426636 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -8717785900731429739, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
-  m_PrefabInstance: {fileID: 457421173}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1060426638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1060426636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5da81418740838d46b76317056b059af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::S_Piano
-  timePressed: 0.2
-  numberOfKeysSimulated: 5
-  playInterval: 0.5
-  pianoTracks:
-  - {fileID: 11400000, guid: 31c7ede4b816a89448e4a6715a949881, type: 2}
-  - {fileID: 11400000, guid: 2884955d7cf9ff320a9ab6f3c9e9b16d, type: 2}
-  musicUI: {fileID: 0}
-  trackNameText: {fileID: 0}
-  trackAuthorText: {fileID: 0}
-  stopDistance: 3
 --- !u!1 &1104981983
 GameObject:
   m_ObjectHideFlags: 0
