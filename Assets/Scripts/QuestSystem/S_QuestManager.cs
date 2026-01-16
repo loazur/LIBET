@@ -1108,27 +1108,6 @@ public class S_QuestManager : MonoBehaviour, SI_DataPersistance
         return quest;
     }
 
-    /**
-     * Vérifie si toutes les quêtes du jour sont terminées
-     *
-     * @author	Lucas
-     * @since	v0.0.1
-     * @version	v1.0.0	Monday, January 13th, 2026.
-     * @access	public
-     * @return	bool	True si toutes les quêtes sont terminées
-     */
-    public bool AreAllDailyQuestsCompleted()
-    {
-        // Vérifier les quêtes secondaires
-        foreach (S_Quest quest in dailySideQuests)
-        {
-            if (quest.state != E_QuestState.FINISHED)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
 
     #endregion
     

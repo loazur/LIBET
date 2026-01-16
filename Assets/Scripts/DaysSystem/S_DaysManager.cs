@@ -306,16 +306,10 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     {
 
 
-        // Si questsDone est forcé à true (pour les tests), retourner true
-        // if (questsDone)
-        // {
-        //     return true;
-        // }
-
         // Vérifier via le système de quêtes
         if (S_QuestManager.instance != null)
         {
-            return S_QuestManager.instance.AreAllDailyQuestsCompleted();
+            return S_LaunchRandomQuest.instance.AllQuestCompleted();
         }
         else //& Cas où S_QuestManager n'est pas initialisé
         {
