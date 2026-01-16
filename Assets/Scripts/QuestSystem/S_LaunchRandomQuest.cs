@@ -10,7 +10,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class S_LaunchRandomQuest : MonoBehaviour
+public class S_LaunchRandomQuest : MonoBehaviour, SI_DataPersistance
 {
     public static S_LaunchRandomQuest instance { get; private set; }
 
@@ -52,6 +52,33 @@ public class S_LaunchRandomQuest : MonoBehaviour
             return;
         }
     }
+
+    //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde des quetes actuels
+
+    public void LoadData(S_GameData gameData)
+    {
+        selectedQuestsForDay.Clear();
+
+        foreach(SO_QuestInfo eachQuestInfo in gameData.questsOfTheDay.Values)
+        {
+            selectedQuestsForDay.Add(eachQuestInfo);
+        }
+    }
+
+    public void SaveData(S_GameData gameData)
+    {
+        gameData.questsOfTheDay.Clear();
+
+        foreach(SO_QuestInfo eachQuestInfo in selectedQuestsForDay)
+        {
+            gameData.questsOfTheDay.Add(eachQuestInfo.id, eachQuestInfo);
+        }
+    }
+
+    public int GetLoadPriority() => -50; // Charger après S_QuestManager
+
 
     #region Difficulty Calculation
 
