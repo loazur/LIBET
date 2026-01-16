@@ -76,43 +76,46 @@ public class S_DataPersistanceManager : MonoBehaviour
 
     public void NewGame()
     {
-        // Charger les position/rotation par défaut
         gameData = new S_GameData();
-
-        // Sauvegarder les positions/rotations actuelles de TOUS les objets persistants de la scène
-        foreach(SI_DataPersistance dataPersistanceObject in dataPersistanceObjects)
+        
+        Debug.Log("Nouvelle partie créée");
+        
+        // Démarre le comptage pour une nouvelle partie
+        if (S_PlayTimeManager.instance != null)
         {
-            dataPersistanceObject.SaveData(gameData);
+            S_PlayTimeManager.instance.StartTracking();
         }
-
-        // Crée un timestamp pour savoir quand ça a été sauvegardé pour la derniere fois
-        gameData.lastUpdated = System.DateTime.Now.ToBinary();
-
     }
 
     public void LoadGame()
     {
-        // Load any data using the data handler
         gameData = dataHandler.Load(selectedProfileId);
 
-        // if no data load do nothing
         if (gameData == null)
         {
+            Debug.Log("Aucune donnée trouvée, nouvelle partie initialisée");
             NewGame();
             return;
         }
 
-        // ✅ Trier par priorité avant de charger
         var sortedObjects = dataPersistanceObjects
             .OrderBy(obj => obj.GetLoadPriority())
             .ToList();
 
-        // push the loaded data to all other scripts that need it
-        foreach(SI_DataPersistance dataPersistanceObject in dataPersistanceObjects)
+        Debug.Log($"<color=cyan>[DataPersistance]</color> Chargement de {sortedObjects.Count} objet(s) par ordre de priorité");
+
+        foreach(SI_DataPersistance dataPersistanceObject in sortedObjects)
         {
             dataPersistanceObject.LoadData(gameData);
         }
 
+        Debug.Log("Donnée chargés depuis le fichier");
+        
+        // Démarre le comptage du temps après le chargement
+        if (S_PlayTimeManager.instance != null)
+        {
+            S_PlayTimeManager.instance.StartTracking();
+        }
     }
 
     public void SaveGame()
