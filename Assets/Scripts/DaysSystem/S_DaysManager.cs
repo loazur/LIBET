@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class S_DaysManager : MonoBehaviour
+public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 {
     //! S_DaysManager gère le gameplay général, le changement de jour etc...
     public static S_DaysManager instance { get; private set; }
@@ -26,8 +26,6 @@ public class S_DaysManager : MonoBehaviour
     //~ Actions
     public event Action OnDayEnd;
     public event Action OnDayLost; // Event quand le joueur perd un jour
-
-    //TODO Manque la gestion des quetes du jour
 
     //TEST
     // public bool questsDone = false;
@@ -60,6 +58,31 @@ public class S_DaysManager : MonoBehaviour
             HandleTime();
         }
     }
+
+    //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde jour actuel
+
+    public void LoadData(S_GameData gameData)
+    {
+        currentDay = gameData.currentDay;
+        timeLasted = gameData.timeLasted;
+        isDayActive = gameData.isDayActive;
+
+        // Génération des médicaments
+        S_MedicinesManager.instance.GenerateMedicines(S_MedicinesManager.instance.GetRemainingMedicines(), medicinesPerDay);
+
+        //TODO Remettre les quetes généré
+    }
+
+    public void SaveData(S_GameData gameData)
+    {
+        gameData.currentDay = currentDay;
+        gameData.timeLasted = timeLasted;
+        gameData.isDayActive = isDayActive;
+    }
+
+    public int GetLoadPriority() => 100; // ✅ Charger en dernier
 
     //! ---------- Gestion du temps ----------
 
