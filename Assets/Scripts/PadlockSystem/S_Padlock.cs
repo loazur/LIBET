@@ -14,7 +14,6 @@ public class S_Padlock : MonoBehaviour
     
     [Header("Settings")]
     [SerializeField] private bool unlockOnce = true; // Se déverrouille qu'une seule fois
-    [SerializeField] private bool debugMode = false;
     
     private bool isUnlocked = false;
 
@@ -27,9 +26,6 @@ public class S_Padlock : MonoBehaviour
             return;
 
         currentInput += digit;
-
-        if (debugMode)
-            Debug.Log($"[Padlock] Input actuel: {currentInput}");
 
         // Vérifie si la longueur correspond
         if (currentInput.Length == password.Length)
@@ -46,9 +42,6 @@ public class S_Padlock : MonoBehaviour
         if (currentInput.Length > 0)
         {
             currentInput = currentInput.Substring(0, currentInput.Length - 1);
-            
-            if (debugMode)
-                Debug.Log($"[Padlock] Caractère effacé: {currentInput}");
         }
     }
 
@@ -58,9 +51,6 @@ public class S_Padlock : MonoBehaviour
     public void ClearInput()
     {
         currentInput = "";
-        
-        if (debugMode)
-            Debug.Log("[Padlock] Input réinitialisé");
     }
 
     /// <summary>
@@ -72,17 +62,11 @@ public class S_Padlock : MonoBehaviour
         {
             isUnlocked = true;
             onPasswordCorrect?.Invoke();
-            
-            if (debugMode)
-                Debug.Log("<color=green>[Padlock] Mot de passe CORRECT !</color>");
         }
         else
         {
             onPasswordIncorrect?.Invoke();
             ClearInput(); // Reset après échec
-            
-            if (debugMode)
-                Debug.Log("<color=red>[Padlock] Mot de passe INCORRECT !</color>");
         }
     }
 
@@ -117,8 +101,5 @@ public class S_Padlock : MonoBehaviour
     {
         isUnlocked = false;
         ClearInput();
-        
-        if (debugMode)
-            Debug.Log("[Padlock] Cadenas réinitialisé");
     }
 }
