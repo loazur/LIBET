@@ -14,6 +14,9 @@ public class S_GameData
     public Vector3 cameraRotation;
     public bool isCrouching;
 
+    // PlayTime
+    public float playTime;
+
     // Items
     public SerializedDictionary<string, Vector3> itemsPosition;
     public SerializedDictionary<string, Quaternion> itemsRotation;
@@ -33,7 +36,6 @@ public class S_GameData
     public SerializedDictionary<string, SO_QuestInfo> questsOfTheDay;
     
 
-
     //& Constructeurs -> Contient les valeurs initiales
     public S_GameData()
     {
@@ -42,6 +44,9 @@ public class S_GameData
         playerRotation = Quaternion.identity;
         isCrouching = false;
         cameraRotation = Vector3.zero;
+
+        // PlayTime
+        playTime = 0f;
 
         // Items
         itemsPosition = new SerializedDictionary<string, Vector3>();
