@@ -1795,7 +1795,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
+  m_AnchoredPosition: {x: 0.000030517578, y: -0.000061035156}
   m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &6177368403171249969
@@ -2170,6 +2170,7 @@ GameObject:
   - component: {fileID: 6957746896849080415}
   - component: {fileID: 7710404698888235694}
   - component: {fileID: 5200129011003631226}
+  - component: {fileID: 2857989620504535630}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -2224,7 +2225,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: READ
+  m_text: LIRE
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2296,6 +2297,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2857989620504535630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6867276570798758725}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - LIRE
+  - READ
+  attachedToKeybind: 0
 --- !u!1 &6910875261104782377
 GameObject:
   m_ObjectHideFlags: 0
@@ -2728,6 +2745,7 @@ GameObject:
   - component: {fileID: 1704155578567897635}
   - component: {fileID: 1785954885868866480}
   - component: {fileID: 4149888707415210993}
+  - component: {fileID: 2352400579283051549}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -2782,7 +2800,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CLOSE
+  m_text: FERMER
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2854,6 +2872,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2352400579283051549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8397627666133800903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da84d24ee077cf90aa28029071aca5fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
+  textInEachLanguages:
+  - FERMER
+  - CLOSE
+  attachedToKeybind: 0
 --- !u!1 &8569313402201874541
 GameObject:
   m_ObjectHideFlags: 0

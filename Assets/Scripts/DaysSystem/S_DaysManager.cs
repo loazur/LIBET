@@ -8,6 +8,8 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     //~ Information du système de jours
     [Header("Information du système de jours")]
+    [SerializeField] private S_PlayerController player; // Joueur
+    [SerializeField] private Transform spawnPoint; // Le spawn de Libet chaque jour
     [SerializeField] private float dayDuration = 300f; // Durée d'une journée en seconde
     [SerializeField] private float percentageLucidityJaugeAward = 15; // Pourcentage récupérer de jauge de lucidité en pourcentage
     [SerializeField] private int maxDays = 15; // Jours max pour atteindre la fin du jeu
@@ -17,7 +19,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     [Range(1, 10)]
     [SerializeField] private int medicinesPerDay; //! Rajouter le nombre de spawnPoint équivalent
 
-
     //~ Information du jour actuel
     private int currentDay = 1; // Jour actuel par défaut 1
     private float timeLasted = 0; // Temps ecoulé actuellement
@@ -26,9 +27,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     //~ Actions
     public event Action OnDayEnd;
     public event Action OnDayLost; // Event quand le joueur perd un jour
-
-    //TEST
-    // public bool questsDone = false;
 
     void Awake() //& Création du manager
     {
@@ -80,7 +78,7 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         gameData.isDayActive = isDayActive;
     }
 
-    public int GetLoadPriority() => 100; // ✅ Charger en dernier
+    public int GetLoadPriority() => 100; // Charger en dernier
 
     //! ---------- Gestion du temps ----------
 
@@ -154,6 +152,8 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         
         // Démarrer le jour 1
         StartDay();
+
+
     }
 
     private void PrepareNextDay() //& Prépare le jour d'après, gènère tout ce qu'il faut
@@ -174,6 +174,12 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         // Génération des quetes aléatoire
         GenerateQuests();
         Debug.Log($"<color=green>[DaysManager]</color> Quêtes générées pour le jour {currentDay}");
+
+        // Diminuer le temps de perte de lucidité chaque jours
+        float LucidityDecreaseRateAccessor = S_AlzheimerEventsManager.instance.GetLucidityDecreaseRate();
+        LucidityDecreaseRateAccessor = LucidityDecreaseRateAccessor / 15;                                 //! ICI - Ajuster la diminution
+
+        S_AlzheimerEventsManager.instance.SetlucidityDecreaseRate(LucidityDecreaseRateAccessor);
 
         // On commence le prochain jour
         StartDay();
@@ -304,25 +310,16 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
      */
     public bool AreQuestsDone()
     {
-
-
-        // Si questsDone est forcé à true (pour les tests), retourner true
-        // if (questsDone)
-        // {
-        //     return true;
-        // }
-
-        // Vérifier via le système de quêtes
+        //& Vérifier via le système de quêtes
         if (S_QuestManager.instance != null)
         {
-            return S_QuestManager.instance.AreAllDailyQuestsCompleted();
+            return S_LaunchRandomQuest.instance.AllQuestCompleted();
         }
         else //& Cas où S_QuestManager n'est pas initialisé
         {
             Debug.LogWarning("[DaysManager] S_QuestManager.instance est null!");
             return false;
         }
-        
     }
 
     //! ---------- Méthodes publiques ----------
@@ -335,7 +332,9 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         // Sauvegarde
         S_DataPersistanceManager.instance.SaveGame();
 
-        //TODO - TP au spawn (à coté du lit)
+        // Tp au spawn (avec la bonne orientation)
+        player.transform.position = spawnPoint.position;
+        player.transform.rotation = spawnPoint.rotation;
 
         Debug.Log($"Jour {currentDay} commencé");
     }

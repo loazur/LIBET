@@ -195,7 +195,7 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
     {
         UI.readButton.interactable = activeNote.pages[page].pageType == PageType.TEXTURE;
 
-        if (activeNote.pages[page].pageType != PageType.TEXTURE)
+        if (activeNote.pages[page].pageType != PageType.TEXT)
         {
             readSubscript = false;
         }
@@ -253,8 +253,10 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
         UI.previousButton.interactable = !(currentPage == 0);
         UI.nextButton.interactable = !(currentPage == activeNote.pages.Length - 1);
 
-        var useSubscript = activePage.pageType == PageType.TEXTURE && activePage.useSubscript;
+         // Le bouton Read est visible seulement pour les pages TEXT avec subscript
+        var useSubscript = activePage.pageType == PageType.TEXT && activePage.useSubscript;
         UI.readButton.alpha = useSubscript ? (readSubscript ? 0.5f : 1f) : 0f;
+        UI.readButton.interactable = useSubscript; 
 
         UpdateCanvasGroup(readSubscript, UI.subscriptGroup);
     }
