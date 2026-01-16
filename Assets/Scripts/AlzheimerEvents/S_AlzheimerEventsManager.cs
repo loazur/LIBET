@@ -12,8 +12,8 @@ using UnityEngine;
  * @version	v1.0.0	Sunday, December 21st, 2025.
  * @global
  */
-public class S_AlzheimerEventsManager : MonoBehaviour
-{
+public class S_AlzheimerEventsManager : MonoBehaviour, SI_DataPersistance
+{  
     public static S_AlzheimerEventsManager instance { get; private set; }
 
     //~ Configuration des Events
@@ -176,6 +176,22 @@ public class S_AlzheimerEventsManager : MonoBehaviour
         if (instance == this)
             instance = null;
     }
+
+    //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde Jauge de lucidité
+
+    public void LoadData(S_GameData gameData)
+    {
+        SetLucidity(gameData.lucidityJauge);
+    }
+
+    public void SaveData(S_GameData gameData)
+    {
+        gameData.lucidityJauge = lucidity;
+    }
+
+    public int GetLoadPriority() => 0; // ✅ Priorité normale
 
     #endregion
 

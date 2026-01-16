@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class S_QuestManager : MonoBehaviour
+public class S_QuestManager : MonoBehaviour, SI_DataPersistance
 {
     #region ATTRIBUTS
     // *==========================================================================*
@@ -67,7 +67,9 @@ public class S_QuestManager : MonoBehaviour
             ResetAllQuests();
         }
         
-        questMap = CreateQuestMap();
+        // ✅ Ne crée la questMap que si aucune donnée sauvegardée
+        // Le vrai chargement se fera dans LoadData()
+        questMap = new Dictionary<string, S_Quest>();
     }
 
     private void Start()
@@ -572,6 +574,41 @@ public class S_QuestManager : MonoBehaviour
     #region Save & Load
 
 
+    //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde des quetes
+
+    public void LoadData(S_GameData gameData)
+    {
+        questMap.Clear();
+
+        // ✅ Si des quêtes sont sauvegardées, les utiliser
+        if (gameData.quests != null && gameData.quests.Count > 0)
+        {
+            foreach (KeyValuePair<string, S_Quest> eachQuests in gameData.quests)
+            {
+                questMap.Add(eachQuests.Key, eachQuests.Value);
+            }
+        }
+        else
+        {
+            // ✅ Sinon, créer la map depuis les ScriptableObjects
+            questMap = CreateQuestMap();
+        }
+    }
+
+    public void SaveData(S_GameData gameData)
+    {
+        gameData.quests.Clear();
+
+        foreach (KeyValuePair<string, S_Quest> eachQuests in questMap)
+        {
+            gameData.quests.Add(eachQuests.Key, eachQuests.Value);
+        }
+    }
+
+    public int GetLoadPriority() => -100; // ✅ Charger en premier
+
     /**
      * Sauvegarde une quête dans les PlayerPrefs
      *
@@ -582,6 +619,7 @@ public class S_QuestManager : MonoBehaviour
      * @param	s_quest	quest	
      * @return	void
      */
+
     private void SaveQuest(S_Quest quest)
     {
         try

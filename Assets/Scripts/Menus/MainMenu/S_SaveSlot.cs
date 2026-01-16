@@ -10,8 +10,6 @@ public class S_SaveSlot : MonoBehaviour
     [Header("Contenu")]
     [SerializeField] private GameObject noDataContent;
     [SerializeField] private GameObject hasDataContent;
-    [SerializeField] private TextMeshProUGUI percentageCompleteText; //TODO - Trouver quelque chose a afficher sur le slot: Location? Nombre de clés? Temps de jeu?
-
     [SerializeField] private Button clearButton;
 
     private bool hasData = false;
@@ -35,8 +33,27 @@ public class S_SaveSlot : MonoBehaviour
 
             hasData = true;
 
-            //TODO - Changer le texte affiché ici
+            //~ Affichage information du slot
+            TextMeshProUGUI hasDataText = hasDataContent.GetComponent<TextMeshProUGUI>();
 
+            // Temps de jeu
+            int hours = Mathf.FloorToInt(data.playTime / 3600f);
+            int minutes = Mathf.FloorToInt(data.playTime % 3600f / 60f);
+            int seconds = Mathf.FloorToInt(data.playTime % 60f);
+
+            string formatedTime = $"{hours:00}:{minutes:00}:{seconds:00}";
+
+
+            // Affichage dans la bonne langue
+            if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
+            {
+                hasDataText.text = $"Jour actuel :  + {data.currentDay} | Temps de jeu : {formatedTime}";
+            }
+            else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
+            {
+                hasDataText.text =  $"Current day :  + {data.currentDay} | Play time : {formatedTime}";
+            }
+            
         }
     }
 

@@ -278,7 +278,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LOCATION / KEYS / TIMEPLAYED
+  m_text: DAYS / TIMEPLAYED
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5c913a69ab9010d4cba7b96a24c14944, type: 2}
   m_sharedMaterial: {fileID: 7161294906521287193, guid: 5c913a69ab9010d4cba7b96a24c14944, type: 2}
@@ -363,8 +363,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
   textInEachLanguages:
-  - LOCATION / KEYS / TIMEPLAYED
-  - LOCATION / KEYS / TIMEPLAYED
+  - DAYS / TIMEPLAYED
+  - DAYS / TIMEPLAYED
   attachedToKeybind: 0
 --- !u!1 &1247878903812944447
 GameObject:
@@ -955,7 +955,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LOCATION / KEYS / TIMEPLAYED
+  m_text: DAYS / TIMEPLAYED
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5c913a69ab9010d4cba7b96a24c14944, type: 2}
   m_sharedMaterial: {fileID: 7161294906521287193, guid: 5c913a69ab9010d4cba7b96a24c14944, type: 2}
@@ -1040,8 +1040,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
   textInEachLanguages:
-  - LOCATION / KEYS / TIMEPLAYED
-  - LOCATION / KEYS / TIMEPLAYED
+  - DAYS / TIMEPLAYED
+  - DAYS / TIMEPLAYED
   attachedToKeybind: 0
 --- !u!1 &6912569319622860776
 GameObject:
@@ -1338,7 +1338,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LOCATION / KEYS / TIMEPLAYED
+  m_text: DAYS / TIMEPLAYED
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5c913a69ab9010d4cba7b96a24c14944, type: 2}
   m_sharedMaterial: {fileID: 7161294906521287193, guid: 5c913a69ab9010d4cba7b96a24c14944, type: 2}
@@ -1423,8 +1423,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::S_TextTranslator
   textInEachLanguages:
-  - LOCATION / KEYS / TIMEPLAYED
-  - LOCATION / KEYS / TIMEPLAYED
+  - DAYS / TIMEPLAYED
+  - DAYS / TIMEPLAYED
   attachedToKeybind: 0
 --- !u!1 &9104451713790370594
 GameObject:
@@ -2719,7 +2719,6 @@ MonoBehaviour:
   profileId: 2
   noDataContent: {fileID: 3379211148256511184}
   hasDataContent: {fileID: 1192240538326063241}
-  percentageCompleteText: {fileID: 0}
   clearButton: {fileID: 3820264342183353775}
 --- !u!1001 &4435426622126869736
 PrefabInstance:
@@ -2732,6 +2731,18 @@ PrefabInstance:
     - target: {fileID: 2676627822481305662, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
       propertyPath: m_text
       value: VALIDER
+      objectReference: {fileID: 0}
+    - target: {fileID: 4052870950743723380, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 974467907939612812}
+    - target: {fileID: 4052870950743723380, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnConfirmClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 4052870950743723380, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: S_ConfirmationPopupMenu, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4189619305258955688, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
       propertyPath: m_Pivot.x
@@ -3509,7 +3520,6 @@ MonoBehaviour:
   profileId: 1
   noDataContent: {fileID: 5750247505109909391}
   hasDataContent: {fileID: 8260414078855661540}
-  percentageCompleteText: {fileID: 0}
   clearButton: {fileID: 4519329413036730349}
 --- !u!224 &8163641534401563342 stripped
 RectTransform:
@@ -4040,6 +4050,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6836915172713842028}
     m_Modifications:
+    - target: {fileID: 4052870950743723380, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 974467907939612812}
+    - target: {fileID: 4052870950743723380, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnCancelClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 4052870950743723380, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: S_ConfirmationPopupMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4189619305258955688, guid: b07fa13ff1c40c841a8902b4343ffeec, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4467,7 +4489,6 @@ MonoBehaviour:
   profileId: 0
   noDataContent: {fileID: 7724196970386784485}
   hasDataContent: {fileID: 5709604983926383662}
-  percentageCompleteText: {fileID: 0}
   clearButton: {fileID: 4121365920461277957}
 --- !u!114 &8818351787255107655 stripped
 MonoBehaviour:
