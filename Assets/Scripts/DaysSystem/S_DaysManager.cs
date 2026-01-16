@@ -154,6 +154,8 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         
         // Démarrer le jour 1
         StartDay();
+
+
     }
 
     private void PrepareNextDay() //& Prépare le jour d'après, gènère tout ce qu'il faut
@@ -174,6 +176,12 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         // Génération des quetes aléatoire
         GenerateQuests();
         Debug.Log($"<color=green>[DaysManager]</color> Quêtes générées pour le jour {currentDay}");
+
+        // Diminuer le temps de perte de lucidité chaque jours
+        float LucidityDecreaseRateAccessor = S_AlzheimerEventsManager.instance.GetLucidityDecreaseRate();
+        LucidityDecreaseRateAccessor = LucidityDecreaseRateAccessor / 15;                                 //! ICI - Ajuster la diminution
+
+        S_AlzheimerEventsManager.instance.SetlucidityDecreaseRate(LucidityDecreaseRateAccessor);
 
         // On commence le prochain jour
         StartDay();
@@ -304,25 +312,16 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
      */
     public bool AreQuestsDone()
     {
-
-
-        // Si questsDone est forcé à true (pour les tests), retourner true
-        // if (questsDone)
-        // {
-        //     return true;
-        // }
-
-        // Vérifier via le système de quêtes
+        //& Vérifier via le système de quêtes
         if (S_QuestManager.instance != null)
         {
-            return S_QuestManager.instance.AreAllDailyQuestsCompleted();
+            return S_LaunchRandomQuest.instance.AllQuestCompleted();
         }
         else //& Cas où S_QuestManager n'est pas initialisé
         {
             Debug.LogWarning("[DaysManager] S_QuestManager.instance est null!");
             return false;
         }
-        
     }
 
     //! ---------- Méthodes publiques ----------
