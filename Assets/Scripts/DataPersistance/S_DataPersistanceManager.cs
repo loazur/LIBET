@@ -102,6 +102,11 @@ public class S_DataPersistanceManager : MonoBehaviour
             return;
         }
 
+        // ✅ Trier par priorité avant de charger
+        var sortedObjects = dataPersistanceObjects
+            .OrderBy(obj => obj.GetLoadPriority())
+            .ToList();
+
         // push the loaded data to all other scripts that need it
         foreach(SI_DataPersistance dataPersistanceObject in dataPersistanceObjects)
         {

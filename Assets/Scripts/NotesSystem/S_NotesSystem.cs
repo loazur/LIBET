@@ -45,7 +45,7 @@ public struct UIElements
     public RectTransform listRect {get {return _listRect;}}
 }
 
-public class S_NotesSystem : MonoBehaviour
+public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
 {
     #region Data and Action
 
@@ -135,6 +135,34 @@ public class S_NotesSystem : MonoBehaviour
     }
 
     #endregion
+
+     //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde notes obtenus
+
+    public void LoadData(S_GameData gameData)
+    {
+        // Récupérer les notes stockés
+        notes.Clear();
+
+        foreach (KeyValuePair<string, S_Note> eachNote in gameData.notesObtained)
+        {
+            notes.Add(eachNote.Key, eachNote.Value);
+        }
+    }
+
+    public void SaveData(S_GameData gameData)
+    {
+        // Sauvegarder les notes actuels
+        gameData.notesObtained.Clear();
+
+        foreach (KeyValuePair<string, S_Note> eachNote in notes)
+        {
+            gameData.notesObtained.Add(eachNote.Key, eachNote.Value);
+        }
+    }
+
+    public int GetLoadPriority() => 0; // ✅ Priorité normale
 
 
     public void Open()
