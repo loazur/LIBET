@@ -351,6 +351,37 @@ public class S_AlzheimerEventsManager : MonoBehaviour, SI_DataPersistance
         }
     }
 
+    /**
+     * Setter pour la vitesse de diminution
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Friday, January 16th, 2026.
+     * @access	public
+     * @param	float	rate	
+     * @return	void
+     */
+    public void SetlucidityDecreaseRate(float rate)
+    {
+        lucidityDecreaseRate = rate;
+    }
+
+    /**
+     * Getter pour la vitesse de diminution
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Friday, January 16th, 2026.	
+     * @access	public
+     * @param	out	floa	
+     * @return	void
+     */
+    public float GetLucidityDecreaseRate()
+    {
+        return lucidityDecreaseRate;
+    }
+
+
     #endregion
 
     #region Gestion des Events
@@ -920,6 +951,8 @@ public class S_AlzheimerEventsManager : MonoBehaviour, SI_DataPersistance
         ResetAllEventsState();
         Debug.Log("<color=yellow>[Debug]</color> États des events réinitialisés");
     }
+
+    
 
     #endregion
 }

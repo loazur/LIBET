@@ -38,7 +38,7 @@ public class S_LaunchRandomQuest : MonoBehaviour, SI_DataPersistance
     [SerializeField] private int daysPerDifficultyLevel = 3; //& Genre c'est le décalage 3-6-9-12-15 | 5 niveau de difficulté
 
     // Quêtes actuellement sélectionnées pour le jour
-    private List<SO_QuestInfo> selectedQuestsForDay = new List<SO_QuestInfo>();
+    private List<SO_QuestInfo> selectedQuestsForDay = new List<SO_QuestInfo>(); //& Quêtes sélectionnées pour le jour actuel
 
     void Awake()
     {
@@ -283,6 +283,32 @@ public class S_LaunchRandomQuest : MonoBehaviour, SI_DataPersistance
     public int GetQuestsPerDay()
     {
         return questsPerDay;
+    }
+
+    #endregion
+
+    #region EVENTS
+
+    /**
+     * Vérifie si toutes les quêtes du jour sont complétées
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Friday, January 16th, 2026.
+     * @access	public
+     * @return	boolean
+     */
+    public bool AllQuestCompleted()
+    {
+        foreach (SO_QuestInfo questInfo in selectedQuestsForDay)
+        {
+            S_Quest quest = S_QuestManager.instance.GetQuestByID(questInfo.id);
+            if (quest.state == E_QuestState.FINISHED)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     #endregion
