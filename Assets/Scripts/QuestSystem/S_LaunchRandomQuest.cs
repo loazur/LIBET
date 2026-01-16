@@ -65,9 +65,6 @@ public class S_LaunchRandomQuest : MonoBehaviour, SI_DataPersistance
         {
             selectedQuestsForDay.Add(eachQuestInfo);
         }
-        
-        // ✅ AJOUT: Restaurer les quêtes dans S_QuestManager si le jour est actif
-        // Note: Vérifie que S_QuestManager a déjà chargé ses données avant!
     }
 
     public void SaveData(S_GameData gameData)
@@ -80,7 +77,7 @@ public class S_LaunchRandomQuest : MonoBehaviour, SI_DataPersistance
         }
     }
 
-     public int GetLoadPriority() => -50; // Charger après S_QuestManager
+    public int GetLoadPriority() => -50; // Charger après S_QuestManager
 
 
     #region Difficulty Calculation

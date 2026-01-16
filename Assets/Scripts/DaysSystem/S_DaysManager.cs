@@ -71,8 +71,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
         // Génération des médicaments
         S_MedicinesManager.instance.GenerateMedicines(S_MedicinesManager.instance.GetRemainingMedicines(), medicinesPerDay);
-
-        //TODO Remettre les quetes généré
     }
 
     public void SaveData(S_GameData gameData)
