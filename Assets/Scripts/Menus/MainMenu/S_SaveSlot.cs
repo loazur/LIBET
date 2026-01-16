@@ -12,9 +12,6 @@ public class S_SaveSlot : MonoBehaviour
     [SerializeField] private GameObject hasDataContent;
     [SerializeField] private Button clearButton;
 
-    private string remainingDays; 
-    private string timeplayed;
-
     private bool hasData = false;
 
     public void SetData(S_GameData data)
@@ -36,15 +33,25 @@ public class S_SaveSlot : MonoBehaviour
 
             hasData = true;
 
+            //~ Affichage information du slot
             TextMeshProUGUI hasDataText = hasDataContent.GetComponent<TextMeshProUGUI>();
 
+            // Temps de jeu
+            int hours = Mathf.FloorToInt(data.playTime / 3600f);
+            int minutes = Mathf.FloorToInt(data.playTime % 3600f / 60f);
+            int seconds = Mathf.FloorToInt(data.playTime % 60f);
+
+            string formatedTime = $"{hours:00}:{minutes:00}:{seconds:00}";
+
+
+            // Affichage dans la bonne langue
             if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
             {
-                hasDataText.text = "Jour actuel : " + data.currentDay;
+                hasDataText.text = $"Jour actuel :  + {data.currentDay} | Temps de jeu : {formatedTime}";
             }
             else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
             {
-                hasDataText.text = "Current day : " + data.currentDay;
+                hasDataText.text =  $"Current day :  + {data.currentDay} | Play time : {formatedTime}";
             }
             
         }
