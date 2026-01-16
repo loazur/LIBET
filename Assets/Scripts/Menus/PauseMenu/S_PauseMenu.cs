@@ -47,6 +47,10 @@ public class S_PauseMenu : S_Menu
     {
         if (pauseMenuBackground != null)
             pauseMenuBackground.gameObject.SetActive(false);
+
+        // Remet l'écoulement du temps
+        Time.timeScale = 1f;
+
         // Changement de scene
         S_SceneLoader.instance.LoadScene("MainMenu");
     }

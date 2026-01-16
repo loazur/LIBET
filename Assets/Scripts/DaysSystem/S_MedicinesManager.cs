@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class S_MedicinesManager : MonoBehaviour
+public class S_MedicinesManager : MonoBehaviour, SI_DataPersistance
 {
     //! S_MedicinesManager gère le spawn des médicaments et la gestion des stocks
 
@@ -35,6 +35,27 @@ public class S_MedicinesManager : MonoBehaviour
             return;
         }
     }
+
+    //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde médicaments
+
+    public void LoadData(S_GameData gameData)
+    {
+        // Récupération nombre de médicaments
+        medicinesNotEaten = gameData.medicinesOfCurrentDay;
+
+        // Cleanup des medicines pour ensuite les faire spawn dans S_DaysManager
+        CleanupRemainingMedicines();
+    }
+
+    public void SaveData(S_GameData gameData)
+    {
+        // Sauvegarder le nombre de médicaments
+        gameData.medicinesOfCurrentDay = medicinesNotEaten;
+    }
+
+    public int GetLoadPriority() => 50; // ✅ Charger avant S_DaysManager
 
     //! ---------- Génération des médicaments ----------
 
