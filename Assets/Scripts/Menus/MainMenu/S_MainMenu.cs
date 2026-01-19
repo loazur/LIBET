@@ -26,18 +26,24 @@ public class S_MainMenu : S_Menu
 
     public void OnPlayGameClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_button_confirm, S_FMODEvents.instance.target.position);
+
         saveSlotsMenu.ActivateMenu();
         DeactivateMenu();
     }
 
     public void OnSettingsClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_option_click, S_FMODEvents.instance.target.position);
+
         settingMenu.ActivateMenu();
         DeactivateMenu();
     }
 
     public void OnLeaveClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_return, S_FMODEvents.instance.target.position);
+
         Application.Quit();
         Debug.Log("Retour au bureau...");
     }
