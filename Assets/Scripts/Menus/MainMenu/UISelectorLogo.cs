@@ -18,7 +18,7 @@ public class UISelectorLogo : MonoBehaviour
 
         S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_change_selection, S_FMODEvents.instance.target.position);
 
-        Debug.Log($"[UISelectorLogo] Open → {name}");
+        // Debug.Log($"[UISelectorLogo] Open → {name}");
         isOpen = true;
         gameObject.SetActive(true);
         animator.SetBool("IsActive", true);
@@ -28,7 +28,7 @@ public class UISelectorLogo : MonoBehaviour
     {
         if (!isOpen) return;
 
-        Debug.Log($"[UISelectorLogo] Close → {name}");
+        // Debug.Log($"[UISelectorLogo] Close → {name}");
         isOpen = false;
         animator.SetBool("IsActive", false);
     }
@@ -36,7 +36,7 @@ public class UISelectorLogo : MonoBehaviour
     // Fermeture forcée et immédiate (pour éviter les chevauchements)
     public void ForceClose()
     {
-        Debug.Log($"[UISelectorLogo] ForceClose → {name}");
+        // Debug.Log($"[UISelectorLogo] ForceClose → {name}");
         isOpen = false;
         if (animator != null)
         {
