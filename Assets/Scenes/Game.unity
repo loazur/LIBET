@@ -1091,43 +1091,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.62016463, y: 0.08400138, z: 0.7092667}
   m_Center: {x: -0.3020954, y: 0.030564575, z: -0.19703512}
---- !u!84 &221957406
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1001 &224523035
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5310,7 +5273,7 @@ PrefabInstance:
       addedObject: {fileID: 721860520}
     - targetCorrespondingSourceObject: {fileID: -3112803773261232274, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 721860519}
+      addedObject: {fileID: 721860522}
     - targetCorrespondingSourceObject: {fileID: -2191989708355688406, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 837207052}
@@ -5319,7 +5282,7 @@ PrefabInstance:
       addedObject: {fileID: 837207051}
     - targetCorrespondingSourceObject: {fileID: -2191989708355688406, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 837207050}
+      addedObject: {fileID: 837207053}
     - targetCorrespondingSourceObject: {fileID: -7588160717586775405, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 326857650}
@@ -5578,7 +5541,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
 --- !u!4 &457421174 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8827475152875373778, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
   m_PrefabInstance: {fileID: 457421173}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &457421175 stripped
@@ -5939,7 +5902,7 @@ PrefabInstance:
     - target: {fileID: 3427824855752784596, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 221957406}
+      objectReference: {fileID: 1334334810}
     - target: {fileID: 4302015194351260662, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.073
@@ -5986,15 +5949,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4778589793290955877, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -98.20364
+      value: -11.31531
       objectReference: {fileID: 0}
     - target: {fileID: 4778589793290955877, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.75214
+      value: 4.162262
       objectReference: {fileID: 0}
     - target: {fileID: 4778589793290955877, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -31.271559
+      value: -1.0351028
       objectReference: {fileID: 0}
     - target: {fileID: 7996509961754788833, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -6682,22 +6645,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -3112803773261232274, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
   m_PrefabInstance: {fileID: 457421173}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &721860519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 721860514}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26ebab41cdfb21d0c86b360e111745b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::S_CupboardInteractable
-  objectToTurn: {fileID: 721860514}
-  rotationAmount: 90
-  speed: 1
-  rightHandle: 0
 --- !u!114 &721860520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6728,6 +6675,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 962cdf264e21b73199b691388284e053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::S_OutlineHandler
+--- !u!114 &721860522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721860514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12d834966624d407aa5fe224fd4b8056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_DoorInteractable
+  isRotatingDoor: 0
+  speed: 1
+  rotationAmount: 90
+  slideDirection: {x: 0, y: 0, z: 1}
+  slideAmount: 0.8
 --- !u!1 &727152742
 GameObject:
   m_ObjectHideFlags: 0
@@ -7042,22 +7006,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -2191989708355688406, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
   m_PrefabInstance: {fileID: 457421173}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &837207050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 837207045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26ebab41cdfb21d0c86b360e111745b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::S_CupboardInteractable
-  objectToTurn: {fileID: 837207045}
-  rotationAmount: 90
-  speed: 1
-  rightHandle: 1
 --- !u!114 &837207051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7088,6 +7036,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 962cdf264e21b73199b691388284e053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::S_OutlineHandler
+--- !u!114 &837207053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837207045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12d834966624d407aa5fe224fd4b8056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_DoorInteractable
+  isRotatingDoor: 0
+  speed: 1
+  rotationAmount: 90
+  slideDirection: {x: 0, y: 0, z: -1}
+  slideAmount: 0.8
 --- !u!1 &860701262
 GameObject:
   m_ObjectHideFlags: 0
@@ -7371,7 +7336,7 @@ Material:
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowIntensity: {r: 1, g: 0, b: 0, a: 0}
     - _ToLightDir: {r: 0.9774494, g: 0.21117042, b: 0.00000013690442, a: 0.39}
-    - _WindDirection: {r: 0.018700818, g: 0.0112204915, b: 0.0018700819, a: 0}
+    - _WindDirection: {r: 0.21789292, g: 0.13073584, b: 0.021789309, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!1 &956123742
@@ -8989,6 +8954,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+--- !u!84 &1334334810
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1341753128 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3348236383970775373, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
