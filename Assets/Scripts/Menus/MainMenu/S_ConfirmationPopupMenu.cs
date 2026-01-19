@@ -14,6 +14,8 @@ public class S_ConfirmationPopupMenu : S_Menu
 
     public void OnConfirmClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_button_confirm, S_FMODEvents.instance.target.position);
+
         S_DataPersistanceManager.instance.DeleteProfileData(saveSlot.GetProfileId());
         saveSlotsMenu.ActivateMenu(); // Rafraichit le menu
         DeactivateMenu();
@@ -21,6 +23,8 @@ public class S_ConfirmationPopupMenu : S_Menu
 
     public void OnCancelClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_return, S_FMODEvents.instance.target.position);
+
         saveSlotsMenu.ActivateMenu(); // Rafraichit le menu
         DeactivateMenu();
     }
