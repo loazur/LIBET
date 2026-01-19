@@ -16,6 +16,8 @@ public class UISelectorLogo : MonoBehaviour
     {
         if (isOpen) return;
 
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_change_selection, S_FMODEvents.instance.target.position);
+
         Debug.Log($"[UISelectorLogo] Open → {name}");
         isOpen = true;
         gameObject.SetActive(true);
