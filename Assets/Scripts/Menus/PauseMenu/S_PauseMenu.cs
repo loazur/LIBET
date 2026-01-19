@@ -30,6 +30,8 @@ public class S_PauseMenu : S_Menu
 
     public void OnContinueClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_button_confirm, S_FMODEvents.instance.target.position);
+
         if (pauseMenuBackground != null)
             pauseMenuBackground.gameObject.SetActive(false);
         S_HandlerPauseMenu.instance.CompletelyCloseMenu();
@@ -37,6 +39,8 @@ public class S_PauseMenu : S_Menu
 
     public void OnSettingsClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_option_click, S_FMODEvents.instance.target.position);
+
         if (pauseMenuBackground != null)
             pauseMenuBackground.gameObject.SetActive(true);
         settingsMenu.ActivateMenu();
@@ -45,6 +49,8 @@ public class S_PauseMenu : S_Menu
 
     public void OnQuitClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_return, S_FMODEvents.instance.target.position);
+
         if (pauseMenuBackground != null)
             pauseMenuBackground.gameObject.SetActive(false);
 

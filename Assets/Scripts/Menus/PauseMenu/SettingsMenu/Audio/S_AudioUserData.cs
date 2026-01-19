@@ -12,8 +12,8 @@ public class S_AudioUserData : MonoBehaviour
 
     //! Valeurs par défauts
     private const float defaultMasterVolume = 1f;
-    private const float defaultSoundEffectsVolume = 1f;
-    private const float defaultMusicVolume = 0.15f;
+    private const float defaultSoundEffectsVolume = 0.3f;
+    private const float defaultMusicVolume = 0.10f;
 
     //! Actuellement utilisé
     //! Voir S_SoundsBusManager

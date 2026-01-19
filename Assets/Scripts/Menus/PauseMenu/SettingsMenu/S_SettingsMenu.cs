@@ -68,42 +68,56 @@ public class S_SettingsMenu : S_Menu
 
     public void OnGameClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_option_click, S_FMODEvents.instance.target.position);
+
         gameMenu.ActivateMenu();
         DeactivateMenu();
     }
 
     public void OnAudioClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_option_click, S_FMODEvents.instance.target.position);
+
         audioMenu.ActivateMenu();
         DeactivateMenu();
     }
 
     public void OnVideoClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_option_click, S_FMODEvents.instance.target.position);
+
         videoMenu.ActivateMenu();
         DeactivateMenu();
     }
 
     public void OnCameraClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_option_click, S_FMODEvents.instance.target.position);
+
         cameraMenu.ActivateMenu();
         DeactivateMenu();
     }
 
     public void OnKeyboardClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_option_click, S_FMODEvents.instance.target.position);
+        
         keyboardMenu.ActivateMenu();
         DeactivateMenu();
     }
 
     public void OnControllerClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_option_click, S_FMODEvents.instance.target.position);
+
         controllerMenu.ActivateMenu();
         DeactivateMenu();
     }
 
     public void OnReturnClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_button_confirm, S_FMODEvents.instance.target.position);
+
         if (currentSceneName != "MainMenu")
         {
             pauseMenu.ActivateMenu();

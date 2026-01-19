@@ -20,11 +20,15 @@ public class S_SliderTMPLink : MonoBehaviour
 
     void OnSliderChanged(float value) //& Met à jour le input field en fonction du slider
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_option_click, S_FMODEvents.instance.target.position);
+
         inputField.text = value.ToString("0.##", CultureInfo.InvariantCulture);
     }
 
     void OnInputChanged(string value) //& Met à jour le slider en fonction du input field
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_option_click, S_FMODEvents.instance.target.position);
+
         if (float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out float result))
         {
             result = Mathf.Clamp(result, slider.minValue, slider.maxValue);
