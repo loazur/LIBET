@@ -18,7 +18,6 @@ public class S_PlayerSprint : MonoBehaviour
     public void Sprint(ref Vector3 movementVector3) //& Gére le sprint du joueur
     {
         movementVector3 *= sprintMultiplier;
-        playerController.meshRenderer.material = playerController.sprintMat; // Change le material lorsque le joueur cours
-
+        //playerController.meshRenderer.material = playerController.sprintMat; // Change le material lorsque le joueur cours
     }
 }

@@ -33,6 +33,8 @@ public class S_SaveSlotsMenu : S_Menu
 
     public void OnSaveSlotClicked(S_SaveSlot saveSlot)
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_button_confirm, S_FMODEvents.instance.target.position);
+
         // Met à jour le profile id du save slot 
         S_DataPersistanceManager.instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
 
@@ -47,12 +49,16 @@ public class S_SaveSlotsMenu : S_Menu
 
     public void OnClearClicked(S_SaveSlot saveSlot)
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_change_selection, S_FMODEvents.instance.target.position);
+
         confirmationPopupMenu.ActivateMenu(saveSlot);
         DeactivateMenu();
     }
 
     public void OnBackClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_return, S_FMODEvents.instance.target.position);
+
         mainMenu.ActivateMenu();
         DeactivateMenu();
     }

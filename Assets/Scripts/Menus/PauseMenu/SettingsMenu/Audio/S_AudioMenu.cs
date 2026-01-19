@@ -28,6 +28,8 @@ public class S_AudioMenu : S_Menu
 
     public void OnReturnClicked()
     {
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_return, S_FMODEvents.instance.target.position);
+
         settingsMenu.ActivateMenu();
         DeactivateMenu();
     }

@@ -14398,11 +14398,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8770407351771946865, guid: 14db12723f7041544896b455eab85c77, type: 3}
       propertyPath: m_MaxValue
-      value: 180
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 8770407351771946865, guid: 14db12723f7041544896b455eab85c77, type: 3}
       propertyPath: m_MinValue
-      value: 1
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8770407351771946865, guid: 14db12723f7041544896b455eab85c77, type: 3}
       propertyPath: m_WholeNumbers
@@ -16028,6 +16028,22 @@ PrefabInstance:
     - target: {fileID: 7887816018813699279, guid: 14db12723f7041544896b455eab85c77, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8770407351771946865, guid: 14db12723f7041544896b455eab85c77, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8770407351771946865, guid: 14db12723f7041544896b455eab85c77, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 167172999299861229}
+    - target: {fileID: 8770407351771946865, guid: 14db12723f7041544896b455eab85c77, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: setCurrentTypingSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 8770407351771946865, guid: 14db12723f7041544896b455eab85c77, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: S_GameUserData, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
