@@ -181,6 +181,13 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
         S_AlzheimerEventsManager.instance.SetlucidityDecreaseRate(LucidityDecreaseRateAccessor);
 
+        //TODO Ajouter ICI la logique du 2eme jours (scenatio)
+        if (currentDay == 2)
+        {
+            // TODO Lancer le scénario du jour 2
+        }
+
+
         // On commence le prochain jour
         StartDay();
     }
