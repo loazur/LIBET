@@ -33,14 +33,26 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     void Awake() //& Création du manager
     {
+        Debug.Log($"[DaysManager] Awake appelé sur {gameObject.name}");
+        
         if (instance == null)
         {
             instance = this;
+            Debug.Log("[DaysManager] Instance créée avec succès");
 
-            S_AlzheimerEventsManager.instance.OnLucidityZero += OnLucidityReachedZero; // Si Lucidity 0
+            if (S_AlzheimerEventsManager.instance != null)
+            {
+                S_AlzheimerEventsManager.instance.OnLucidityZero += OnLucidityReachedZero;
+                Debug.Log("[DaysManager] Abonné à OnLucidityZero");
+            }
+            else
+            {
+                Debug.LogWarning("[DaysManager] S_AlzheimerEventsManager.instance est NULL dans Awake!");
+            }
         }
         else
         {
+            Debug.LogWarning($"[DaysManager] Instance déjà existante! Destruction de {gameObject.name}");
             Destroy(gameObject);
             return;
         }
@@ -49,6 +61,8 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     void Start() //& Initialize le 1er jour
     {
+        Debug.Log($"[DaysManager] Start appelé - enabled: {enabled}, gameObject.activeInHierarchy: {gameObject.activeInHierarchy}");
+        
         InitializeFirstDay();
 
         // Désactiver le KeyOnDoorPrefab au début
@@ -354,7 +368,7 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     {
         timeLasted = 0f;
         isDayActive = true;
-
+        
         // Sauvegarde
         S_DataPersistanceManager.instance.SaveGame();
 
@@ -431,6 +445,8 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     {
         SetCurrentDay(2);
     }
+
+
 
 
 
