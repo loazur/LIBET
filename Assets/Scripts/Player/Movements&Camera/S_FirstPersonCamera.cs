@@ -6,37 +6,38 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
     [Header("Gestion de la caméra")]
     [SerializeField] private Transform player;
     private Camera playerCamera;
+    private Rigidbody playerRigidbody; 
 
-    private float limitYup = 90f; //Limite quand on regarde en haut
-    private float limitYdown = -90f; //Limite quand on regarde en bas
+    private float limitYup = 90f;
+    private float limitYdown = -90f;
     
-    [Header("Limites horizontales")]  // UTILISER POUR LES CHAISES
-    private bool limitHorizontalRotation = false; // Activer/désactiver la limite
-    private float limitXLeft = -90f; // Limite à gauche
-    private float limitXRight = 90f; // Limite à droite
-    private float basePlayerRotation = 0f; // Rotation de base quand on active les limites
+    [Header("Limites horizontales")]
+    private bool limitHorizontalRotation = false;
+    private float limitXLeft = -90f;
+    private float limitXRight = 90f;
+    private float basePlayerRotation = 0f;
     
     private Vector2 lookValue = Vector2.zero;
 
     private float cameraVerticalRotation = 0f;
-    private float playerHorizontalRotation = 0f; // Nouvelle variable pour tracker la rotation horizontale
+    private float playerHorizontalRotation = 0f;
     private bool isRotationActive = true;
 
-    void Start() //& INITIALISATION VARIABLES
+    void Start()
     {
         playerCamera = GetComponent<Camera>();
+        playerRigidbody = player.GetComponent<Rigidbody>(); 
 
         UpdateFieldOfView();
         setCursorEnabled(false);
 
-        S_CameraUserData.instance.OnFieldOfViewChanged += UpdateFieldOfView; // Lance cet fonction à chaque fois que le FOV change
-        // Subscribe to player events for camera lock/unlock
+        S_CameraUserData.instance.OnFieldOfViewChanged += UpdateFieldOfView;
+        
         if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
         {
             S_GameManager.instance.playerEvents.onLockPlayerCamera += OnLockPlayerCamera;
         }
         
-        // Initialiser la rotation horizontale
         playerHorizontalRotation = player.localEulerAngles.y;
         if (playerHorizontalRotation > 180f)
         {
@@ -57,30 +58,22 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
         }
     }
 
-    void Update() //& PAS PHYSICS
+    void LateUpdate()
     {
         Rotate();
     }
 
-     //!---------------- SI_DataPersistance ----------------
-
-    //~ Sauvegarde rotation de la camera
-
     public void LoadData(S_GameData gameData)
     {
-        // Charger la rotation locale de la caméra (ce script est sur la caméra)
         transform.localEulerAngles = gameData.cameraRotation;
         
-        // Mettre à jour cameraVerticalRotation pour que Rotate() fonctionne correctement
         cameraVerticalRotation = gameData.cameraRotation.x;
         
-        // Corriger les valeurs > 180 (Unity représente -90 comme 270)
         if (cameraVerticalRotation > 180f)
         {
             cameraVerticalRotation -= 360f;
         }
         
-        // Charger la rotation horizontale du joueur
         playerHorizontalRotation = player.localEulerAngles.y;
         if (playerHorizontalRotation > 180f)
         {
@@ -90,58 +83,52 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
 
     public void SaveData(S_GameData gameData)
     {
-        // Sauvegarder la rotation locale de la caméra (ce script est sur la caméra)
         gameData.cameraRotation = transform.localEulerAngles;
     }
 
-    //! --------------- Fonctions privés ---------------
-
-    private void Rotate() //& Gère la rotation de la camera et du joueur
+    private void Rotate()
     {
-        if (!canRotateCamera()) // Si désactivé
+        if (!canRotateCamera())
         {
             return;
         }
 
-        // Ajuste la vitesse de la camera en fonction du controller utilisé
-        if (!S_UserInput.instance.isUsingController()) // Clavier & Souris
+        if (!S_UserInput.instance.isUsingController())
         {
-            lookValue = S_UserInput.instance.LookInput * (S_CameraUserData.instance.currentSensibilityMouse / 10); // divise par 100 (car plus précis pour régler)
+            lookValue = S_UserInput.instance.LookInput * (S_CameraUserData.instance.currentSensibilityMouse / 10);
         }
-        else // Manettes
+        else
         {
-            lookValue = S_UserInput.instance.LookInput * S_CameraUserData.instance.currentSensibilityController; // divise par 100 (car plus précis pour régler)
+            lookValue = S_UserInput.instance.LookInput * S_CameraUserData.instance.currentSensibilityController;
         }
 
-        // Inversion de X,Y
         if (S_CameraUserData.instance.currentInverseXAxis) lookValue.x *= -1f;
         if (S_CameraUserData.instance.currentInverseYAxis) lookValue.y *= -1f;
         
-        lookValue *= Time.deltaTime; // Pour que la sensibilité s'ajuste au framerate
+        lookValue *= Time.deltaTime;
 
-        // Rotation vertical
+        // Rotation vertical (caméra seulement)
         cameraVerticalRotation -= lookValue.y;
         cameraVerticalRotation = Mathf.Clamp(cameraVerticalRotation, limitYdown, limitYup);
         transform.localEulerAngles = Vector3.right * cameraVerticalRotation;
 
-        // Rotation horizontal
         if (limitHorizontalRotation)
         {
             playerHorizontalRotation += lookValue.x;
             playerHorizontalRotation = Mathf.Clamp(playerHorizontalRotation, limitXLeft, limitXRight);
             
-            // Appliquer la rotation relative à la rotation de base fixe
-            player.localEulerAngles = Vector3.up * (basePlayerRotation + playerHorizontalRotation);
+            // Utiliser MoveRotation au lieu de localEulerAngles
+            Quaternion targetRotation = Quaternion.Euler(0f, basePlayerRotation + playerHorizontalRotation, 0f);
+            playerRigidbody.MoveRotation(targetRotation);
         }
         else
         {
-            player.Rotate(Vector3.up * lookValue.x);
+            Quaternion deltaRotation = Quaternion.Euler(Vector3.up * lookValue.x);
+            playerRigidbody.MoveRotation(playerRigidbody.rotation * deltaRotation);
         }
     }
 
-    //? ------------------------------------------------    
-
-    public void setCursorEnabled(bool isEnabled) //& Affiche/Enleve le curseur (ou le lock)
+    public void setCursorEnabled(bool isEnabled)
     {
         if (isEnabled)
         {
@@ -150,50 +137,40 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
         }
         else
         {
-            // Pour que le camera sois lock et ne bouge plus
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
     }
 
-    // Handler pour l'événement de verrouillage/déverrouillage de la caméra
     public void OnLockPlayerCamera(bool locked)
     {
-        // Si locked == true -> désactiver la rotation
         setRotationEnabled(!locked ? true : false);
-        // Afficher le curseur si la caméra est verrouillée (ex: menu ouvert)
         setCursorEnabled(locked);
     }
 
-    public bool canRotateCamera() //& A le droit de rotate la camera
+    public bool canRotateCamera()
     {
         return isRotationActive;
     }
 
-    public void setRotationEnabled(bool isEnabled) //& Active/Désactive la rotation
+    public void setRotationEnabled(bool isEnabled)
     {
         isRotationActive = isEnabled;
     }
 
-    public void setHorizontalLimitEnabled(bool isEnabled) //& Active/Désactive la limite horizontale
+    public void setHorizontalLimitEnabled(bool isEnabled)
     {
         limitHorizontalRotation = isEnabled;
         
-        // Synchroniser playerHorizontalRotation avec la rotation actuelle du joueur
         if (isEnabled)
         {
-            // Sauvegarder la rotation de base (celle de la chaise)
             basePlayerRotation = player.localEulerAngles.y;
-            // Réinitialiser l'offset à 0
             playerHorizontalRotation = 0f;
         }
     }
-
-    //? ------------------------------------------------
 
     private void UpdateFieldOfView()
     {
         playerCamera.fieldOfView = S_CameraUserData.instance.currentFieldOfView;
     }
-    
 }
