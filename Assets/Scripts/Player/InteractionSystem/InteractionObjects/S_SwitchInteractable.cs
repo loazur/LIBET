@@ -14,8 +14,6 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
 
     void Start()
     {
-        lightObjects = new List<Light>();
-
         UpdateInteractText(); // Setup
         
         S_GameUserData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
