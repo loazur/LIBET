@@ -87,13 +87,14 @@ public class S_QuestPoint : MonoBehaviour
         if (autoStartQuest && currentQuestState == E_QuestState.CAN_START && !hasTriggeredStart)
         {
             hasTriggeredStart = true;
-            Debug.Log($"<color=green>[QuestPoint]</color> Auto-démarrage de '{questId}'");
+            Debug.Log($"<color=green>[QuestPoint]</color> Auto-démarrage de '{questId}' (état actuel: {currentQuestState})");
             S_GameManager.instance.questEvents.StartQuest(questId);
         }
 
         // Auto-finalisation (sans zone) - avec protection contre appels multiples
         if (autoFinishQuest && currentQuestState == E_QuestState.CAN_FINISH && !hasTriggeredFinish)
         {
+            hasTriggeredFinish = true; // ⚠️ MANQUAIT CETTE LIGNE!
             Debug.Log($"<color=green>[QuestPoint]</color> Auto-finalisation de '{questId}'");
             S_GameManager.instance.questEvents.FinishQuest(questId);
         }
@@ -106,6 +107,8 @@ public class S_QuestPoint : MonoBehaviour
         S_GameManager.instance.questEvents.onQuestStateChange += QuestStateChange;
         S_GameManager.instance.inputEvents.onSubmitPressed += SubmitPressed;
         isSubscribed = true;
+        
+        Debug.Log($"<color=blue>[QuestPoint]</color> '{questId}' abonné aux événements (autoStart={autoStartQuest}, startPoint={startPoint})");
     }
 
     private void UnsubscribeFromEvents()

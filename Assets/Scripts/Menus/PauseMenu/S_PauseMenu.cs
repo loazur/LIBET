@@ -5,16 +5,16 @@ using UnityEngine.UI;
 public class S_PauseMenu : S_Menu
 {
 
-        [Header("Menu Navigation")]
-        [SerializeField] private S_SettingsMenu settingsMenu;
+    [Header("Menu Navigation")]
+    [SerializeField] private S_SettingsMenu settingsMenu;
 
-        [Header("Boutons Pause Menu")]
-        [SerializeField] private Button continueButton;
-        [SerializeField] private Button settingsButton;
-        [SerializeField] private Button quitButton;
+    [Header("Boutons Pause Menu")]
+    [SerializeField] private Button continueButton;
+    [SerializeField] private Button settingsButton;
+    [SerializeField] private Button quitButton;
 
-        [Header("Fond du menu pause")]
-        [SerializeField] private Image pauseMenuBackground;
+    [Header("Fond du menu pause")]
+    [SerializeField] private Image pauseMenuBackground;
 
     protected override void OnEnable()
     {
@@ -23,7 +23,7 @@ public class S_PauseMenu : S_Menu
         if (pauseMenuBackground != null)
             pauseMenuBackground.gameObject.SetActive(true);
 
-        S_HandlerPauseMenu.instance.DisableAll();
+        //S_HandlerPauseMenu.instance.DisableAll();
         S_HandlerPauseMenu.instance.setMenuOpened(true);
         S_HandlerPauseMenu.instance.setCurrentMenu(this);
     }

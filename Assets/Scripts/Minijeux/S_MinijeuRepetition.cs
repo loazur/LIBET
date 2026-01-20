@@ -6,13 +6,6 @@ using TMPro;
 
 public class S_MinijeuRepetition : MonoBehaviour
 {
-    [SerializeField] private S_PlayerController playerController;
-    [SerializeField] private S_FirstPersonCamera playerCamera;
-
-    private S_PlayerCrouch playerCrouch;
-    private S_PlayerInteract playerInteract;
-    private S_PlayerFootsteps playerFootsteps;
-
     [Header("UI References")]
     [SerializeField] private GameObject minigamePanel;
     [SerializeField] private Button confirmButton;
@@ -102,10 +95,6 @@ public class S_MinijeuRepetition : MonoBehaviour
             
         if (feedbackText != null)
             feedbackText.text = "";
-
-        playerCrouch = playerController.GetComponent<S_PlayerCrouch>();
-        playerInteract = playerController.GetComponent<S_PlayerInteract>();
-        playerFootsteps = playerController.GetComponent<S_PlayerFootsteps>();
     }
     
     /// <summary>
@@ -114,6 +103,15 @@ public class S_MinijeuRepetition : MonoBehaviour
     /// <param name="onCompleteCallback">Callback appelé à la fin (true = succès)</param>
     public void StartMinigame(Action<bool> onCompleteCallback)
     {
+        if (S_MenuManager.instance != null)
+        {
+            if (!S_MenuManager.instance.RegisterMenuOpen(S_MenuManager.MenuType.MINIGAME))
+            {
+                Debug.LogWarning("[MenuMinijeu] Impossible de démarrer le menu minigame, un menu est ouvert");
+                return;
+            }
+        }
+
         onComplete = onCompleteCallback;
         
         // ✅ Décide du nombre de clics SEULEMENT la première fois
@@ -165,7 +163,7 @@ public class S_MinijeuRepetition : MonoBehaviour
         if (buttonBackground != null)
             buttonBackground.color = normalColor;
 
-        DisableMovements();
+        //DisableMovements();
         
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -364,13 +362,17 @@ public class S_MinijeuRepetition : MonoBehaviour
     private IEnumerator CloseAfterDelay()
     {
         yield return new WaitForSeconds(1f);
+
+        if (S_MenuManager.instance != null)
+        {
+            S_MenuManager.instance.RegisterMenuClose(S_MenuManager.MenuType.MINIGAME);
+        }
         
         // Ferme l'UI
         if (minigamePanel != null)
             minigamePanel.SetActive(false);
         
-        EnableMovements();
-        
+        //EnableMovements();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         
@@ -404,25 +406,5 @@ public class S_MinijeuRepetition : MonoBehaviour
     {
         if (confirmButton != null)
             confirmButton.onClick.RemoveListener(OnConfirmButtonClicked);
-    }
-
-    private void EnableMovements()
-    {
-        playerController.setMovementsEnabled(true);
-        playerCamera.setCursorEnabled(false);
-        playerCamera.setRotationEnabled(true);
-        playerInteract.setInteractionEnabled(true);
-        playerCrouch.setAbleToCrouch(true);
-        playerFootsteps.SetSoundsEnabled(true);
-    }
-
-    private void DisableMovements()
-    {
-        playerController.setMovementsEnabled(false);
-        playerCamera.setCursorEnabled(true);
-        playerCamera.setRotationEnabled(false);
-        playerInteract.setInteractionEnabled(false);
-        playerCrouch.setAbleToCrouch(false);
-        playerFootsteps.SetSoundsEnabled(false);
     }
 }
