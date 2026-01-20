@@ -300,6 +300,9 @@ public class S_LaunchRandomQuest : MonoBehaviour, SI_DataPersistance
      */
     public bool AllQuestCompleted()
     {
+        if (selectedQuestsForDay.Count == 0) // Dans le cas où y'a pas de quête
+            return true;
+        
         foreach (SO_QuestInfo questInfo in selectedQuestsForDay)
         {
             S_Quest quest = S_QuestManager.instance.GetQuestByID(questInfo.id);
