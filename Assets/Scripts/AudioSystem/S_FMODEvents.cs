@@ -33,6 +33,10 @@ public class S_FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference ui_option_click {get; private set;}
     [field: SerializeField] public EventReference ui_return {get; private set;}
 
+    [field: Header("Alzheimer Events")]
+    [field: SerializeField] public EventReference strong_AE {get; private set;}
+    [field: SerializeField] public EventReference weak_AE {get; private set;}
+
     void Awake()
     {
         if (instance == null)

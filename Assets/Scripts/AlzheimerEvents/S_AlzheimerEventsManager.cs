@@ -563,16 +563,14 @@ public class S_AlzheimerEventsManager : MonoBehaviour, SI_DataPersistance
             return;
         }
 
-        //TODO Lancer un sons différent en fonction de l'intensité
-        
         // Jouer un son différent lors de l'activation de l'event en fonction de l'intensité
         if (eventData.baseIntensity > 0.5f) // Puissant
         {
-            //S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.BLABLABLA, S_FMODEvents.instance.target.position);
+            S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.strong_AE, S_FMODEvents.instance.target.position);
         }
         else // Non puissant
         {
-            //S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.BLABLABLA, S_FMODEvents.instance.target.position);
+            S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.weak_AE, S_FMODEvents.instance.target.position);
         }
 
         //TODO Post Processing durant 2-3s en fonction de l'intensité aussi peut etre

@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.strings.bank
   Name: MasterBank.strings
   StudioPath: bank:/MasterBank.strings
-  lastModified: 639044273786632139
+  lastModified: 639045190477145116
   FileSizes:
   - Name: Desktop
-    Value: 1764
+    Value: 1870
   Exists: 1
 --- !u!114 &-8845907502932150375
 MonoBehaviour:
@@ -252,10 +252,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639044273786732139
+  lastModified: 639045201437722543
   FileSizes:
   - Name: Desktop
-    Value: 2811200
+    Value: 2893504
   Exists: 1
 --- !u!114 &-6601238760623468385
 MonoBehaviour:
@@ -387,7 +387,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.bank
   Name: MasterBank
   StudioPath: bank:/MasterBank
-  lastModified: 639044215686471152
+  lastModified: 639045190477142581
   FileSizes:
   - Name: Desktop
     Value: 1378
@@ -481,7 +481,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639039235369170898
+  lastModified: 639045190529584261
   FileSizes:
   - Name: Desktop
     Value: 6967136
@@ -585,13 +585,15 @@ MonoBehaviour:
   - {fileID: -7990489285944151817}
   - {fileID: -8845907502932150375}
   - {fileID: 6161182376619231629}
+  - {fileID: 1722954184223389730}
+  - {fileID: 8614645343256216816}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2968363842700604913}
   StringsBanks:
   - {fileID: -9218343506306915907}
   cacheVersion: 131857
-  cacheTime: 639044273786732139
+  cacheTime: 639045201437722543
   SerializableEventsDict:
   - key: event:/Environment/Door/openingDoorTest
     index: 0
@@ -621,6 +623,10 @@ MonoBehaviour:
     index: 12
   - key: event:/UI/Menus/ui_change_selection
     index: 13
+  - key: event:/AlzheimerEvents/strong-AE
+    index: 14
+  - key: event:/AlzheimerEvents/weak-AE
+    index: 15
 --- !u!114 &225602694130353072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -750,6 +756,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &1722954184223389730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/AlzheimerEvents/strong-AE
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/AlzheimerEvents/strong-AE
+  Guid:
+    Data1: -1467358204
+    Data2: 1138672862
+    Data3: -1673640791
+    Data4: -1845006019
+  Banks:
+  - {fileID: -6678976764220933779}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &2169174001060198945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1092,6 +1125,33 @@ MonoBehaviour:
     Data2: 1162829408
     Data3: 1934250412
     Data4: -2106340875
+  Banks:
+  - {fileID: -6678976764220933779}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &8614645343256216816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/AlzheimerEvents/weak-AE
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/AlzheimerEvents/weak-AE
+  Guid:
+    Data1: 1673579817
+    Data2: 1160097474
+    Data3: 106621851
+    Data4: 983232769
   Banks:
   - {fileID: -6678976764220933779}
   IsStream: 0
