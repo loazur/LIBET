@@ -67,9 +67,10 @@ public class S_QuestManager : MonoBehaviour, SI_DataPersistance
             ResetAllQuests();
         }
         
-        // ✅ Ne crée la questMap que si aucune donnée sauvegardée
-        // Le vrai chargement se fera dans LoadData()
-        questMap = new Dictionary<string, S_Quest>();
+        //  CORRECTION: Créer la questMap immédiatement depuis les ScriptableObjects
+        // LoadData() pourra écraser ces données si une sauvegarde existe
+        questMap = CreateQuestMap();
+        Debug.Log($"<color=green>[QuestManager]</color> Awake: {questMap.Count} quête(s) chargée(s) depuis les SO");
     }
 
     private void Start()
@@ -85,6 +86,7 @@ public class S_QuestManager : MonoBehaviour, SI_DataPersistance
         {
             if (quest.state == E_QuestState.REQUIREMENTS_NOT_MET && CheckRequirementsMet(quest))
             {
+                Debug.Log($"<color=green>[QuestManager]</color> Quête '{quest.info.id}' passe de REQUIREMENTS_NOT_MET à CAN_START");
                 ChangeQuestState(quest.info.id, E_QuestState.CAN_START);
             }
         }
@@ -119,10 +121,13 @@ public class S_QuestManager : MonoBehaviour, SI_DataPersistance
         // et que PlayerLevelManager initialise le niveau du joueur
         yield return new WaitForSeconds(0.5f);
 
+        // DEBUG: Afficher l'état de la questMap
+        Debug.Log($"<color=magenta>[QuestManager]</color> === INITIALISATION === questMap contient {questMap.Count} quête(s)");
+
         // Notifier l'état initial de toutes les quêtes
         foreach(S_Quest quest in questMap.Values)
         {
-            // Debug.Log($"[S_QuestManager] Quête '{quest.info.displayName}' (ID: {quest.info.id}) - État: {quest.state}");
+            Debug.Log($"<color=magenta>[QuestManager]</color> Quête '{quest.info?.id ?? "NULL"}' - État: {quest.state}");
             
             if (quest.state  ==  E_QuestState.IN_PROGRESS)
             {
@@ -553,18 +558,32 @@ public class S_QuestManager : MonoBehaviour, SI_DataPersistance
         // start true and prove to be false
         bool meetsRequirements = true;
 
+        // Null check pour la quête et son info
+        if (quest == null || quest.info == null)
+        {
+            Debug.LogWarning("[S_QuestManager] CheckRequirementsMet: quest ou quest.info est null");
+            return false;
+        }
+
         // check player level requirements
         if (currentPlayerLevel < quest.info.levelRequirement)
         {
             meetsRequirements = false;
         }
 
-        // check quest prerequisites for completion
-        foreach (SO_QuestInfo prerequisiteQuestInfo in quest.info.prerequisiteQuests)
+        // check quest prerequisites for completion (avec null check)
+        if (quest.info.prerequisiteQuests != null && quest.info.prerequisiteQuests.Length > 0)
         {
-            if (GetQuestByID(prerequisiteQuestInfo.id).state != E_QuestState.FINISHED)
+            foreach (SO_QuestInfo prerequisiteQuestInfo in quest.info.prerequisiteQuests)
             {
-                meetsRequirements = false;
+                if (prerequisiteQuestInfo == null) continue;
+                
+                S_Quest prerequisiteQuest = GetQuestByID(prerequisiteQuestInfo.id);
+                if (prerequisiteQuest == null || prerequisiteQuest.state != E_QuestState.FINISHED)
+                {
+                    meetsRequirements = false;
+                    break; // Pas besoin de continuer si un prérequis n'est pas rempli
+                }
             }
         }
 
@@ -585,15 +604,19 @@ public class S_QuestManager : MonoBehaviour, SI_DataPersistance
         // ✅ Si des quêtes sont sauvegardées, les utiliser
         if (gameData.quests != null && gameData.quests.Count > 0)
         {
+            Debug.Log($"<color=cyan>[QuestManager]</color> Chargement de {gameData.quests.Count} quête(s) sauvegardée(s)");
             foreach (KeyValuePair<string, S_Quest> eachQuests in gameData.quests)
             {
                 questMap.Add(eachQuests.Key, eachQuests.Value);
+                Debug.Log($"<color=cyan>[QuestManager]</color> → Quête '{eachQuests.Key}' chargée - État: {eachQuests.Value.state}");
             }
         }
         else
         {
             // ✅ Sinon, créer la map depuis les ScriptableObjects
+            Debug.Log("<color=yellow>[QuestManager]</color> Aucune quête sauvegardée, création depuis les ScriptableObjects...");
             questMap = CreateQuestMap();
+            Debug.Log($"<color=green>[QuestManager]</color> {questMap.Count} quête(s) créée(s) depuis les SO");
         }
     }
 
