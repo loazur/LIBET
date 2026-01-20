@@ -17,10 +17,6 @@ public class S_GameData
     // PlayTime
     public float playTime;
 
-    // Items
-    public SerializedDictionary<string, Vector3> itemsPosition;
-    public SerializedDictionary<string, Quaternion> itemsRotation;
-
     // Infos des jours
     public int currentDay;
     public float timeLasted;
@@ -47,10 +43,6 @@ public class S_GameData
 
         // PlayTime
         playTime = 0f;
-
-        // Items
-        itemsPosition = new SerializedDictionary<string, Vector3>();
-        itemsRotation = new SerializedDictionary<string, Quaternion>();
 
         // Infos des jours
         currentDay = 0;

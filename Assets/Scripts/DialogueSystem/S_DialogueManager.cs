@@ -22,12 +22,6 @@ public class S_DialogueManager : S_Menu
     private Queue<S_DialogueLine> lines;
     [HideInInspector] public bool isDialogueActive;
 
-    //~ Références d'autres scripts
-    [Header("Références vers d'autres scripts")]
-    [SerializeField] private S_PlayerController playerController;
-    [SerializeField] private S_PlayerInteract playerInteract;
-    [SerializeField] private S_FirstPersonCamera firstPersonCamera;
-
     void Start()
     {
         EndDialogue();
@@ -43,7 +37,14 @@ public class S_DialogueManager : S_Menu
 
     public void StartDialogue(S_Dialogue dialogue) //& Démarre le dialogue
     {
-        DisableMovCamMenus();
+        if (S_MenuManager.instance != null)
+        {
+            if (!S_MenuManager.instance.RegisterMenuOpen(S_MenuManager.MenuType.DIALOGUE))
+            {
+                Debug.LogWarning("[DialogueManager] Impossible de démarrer le dialogue, un menu est ouvert");
+                return;
+            }
+        }
 
         uiContainer.SetActive(true); // Active le visuel
 
@@ -88,29 +89,13 @@ public class S_DialogueManager : S_Menu
 
     private void EndDialogue() //& Termine le dialogue
     {
-        EnableMovCamMenus();
+        if (S_MenuManager.instance != null)
+        {
+            S_MenuManager.instance.RegisterMenuClose(S_MenuManager.MenuType.DIALOGUE);
+        }
 
         isDialogueActive = false;
         uiContainer.SetActive(false); // Désactive le visuel
     }
 
-    //?-------------------------------------------------
-
-    private void EnableMovCamMenus()
-    {
-        playerController.setMovementsEnabled(true); // Mouvements
-        playerInteract.setInteractionEnabled(true); // Interactions
-        firstPersonCamera.setCursorEnabled(false); // Curseur
-        firstPersonCamera.setRotationEnabled(true); // Rotation camera
-        S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(true);
-    }
-
-    private void DisableMovCamMenus()
-    {
-        playerController.setMovementsEnabled(false); // Mouvements
-        playerInteract.setInteractionEnabled(false); // Interactions
-        firstPersonCamera.setCursorEnabled(true); // Curseur
-        firstPersonCamera.setRotationEnabled(false); // Rotation camera
-        S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(false);
-    }
 }
