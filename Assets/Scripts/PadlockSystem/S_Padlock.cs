@@ -13,8 +13,7 @@ public class S_Padlock : MonoBehaviour
     [SerializeField] private UnityEvent onPasswordIncorrect;
     
     [Header("Settings")]
-    [SerializeField] private bool unlockOnce = true; // Se déverrouille qu'une seule fois
-    
+    [SerializeField] private bool unlockOnce = true; // Se déverrouille qu'une seule fois    
     private bool isUnlocked = false;
 
     /// <summary>

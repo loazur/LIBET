@@ -1,3 +1,4 @@
+using UnityEditor.Search;
 using UnityEngine;
 
 public class S_PadlockInteractable : MonoBehaviour, SI_Interactable
@@ -8,6 +9,12 @@ public class S_PadlockInteractable : MonoBehaviour, SI_Interactable
     [SerializeField] private string interactText = "not_set"; // Texte à afficher
 
     private bool shown = false;
+
+    [Header("Supprimer un objet après déverrouillage (optionnel)")]
+    [SerializeField] private GameObject objectToDestroyOnUnlock;
+
+    [Header("Option supplémentaire pour les quêtes")]
+    [SerializeField] private bool isQuestPadlock = true; //& Indique si le cadenas est lié à une quête
 
 
     void Start() //& Initialize la montre
@@ -44,6 +51,16 @@ public class S_PadlockInteractable : MonoBehaviour, SI_Interactable
     {
         Hide();
         Destroy(gameObject);
+
+        //TODO METTRE les truc quand le cadna est OK
+        // Désactiver l'objet optionnel
+        if (objectToDestroyOnUnlock != null)
+        {
+            objectToDestroyOnUnlock.SetActive(false);
+        }
+
+        // Envoyer event au piano pour dire qu'il est déverrouillé
+        S_GameManager.instance.playerEvents.PadlockUnlocked();
     }
 
     private void Show()

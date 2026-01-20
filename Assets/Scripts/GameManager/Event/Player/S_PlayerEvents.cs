@@ -223,5 +223,18 @@ public class S_PlayerEvents
         }
     }
 
+    /**
+     * Événement déclenché quand un cadenas est déverrouillé
+     *
+     * @var		mixed	onPadlockUnlocked
+     */
+    public event Action onPadlockUnlocked;
+    public void PadlockUnlocked()
+    {
+        if (onPadlockUnlocked != null)
+        {
+            onPadlockUnlocked();
+        }
+    }
 
 }

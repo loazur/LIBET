@@ -61,17 +61,15 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     void Start() //& Initialize le 1er jour
     {
+        Debug.Log("===============================================================> Start appelé sur DaysManager");
         Debug.Log($"[DaysManager] Start appelé - enabled: {enabled}, gameObject.activeInHierarchy: {gameObject.activeInHierarchy}");
         
         InitializeFirstDay();
 
-        // Désactiver le KeyOnDoorPrefab au début
-        if (KeyOnDoorPrefab != null)
-        {
-            Debug.Log("KeyOnDoorPrefab désactivé au démarrage.");
-            // KeyOnDoorPrefab.SetActive(false);
-            
-        }
+        Debug.Log("====================> KeyOnDoorPrefab désactivé au démarrage.");
+        KeyOnDoorPrefab.SetActive(false); // Désactive le prefab au début
+
+        
     }
 
     void Update() //& Gère l'écoulement du jour
@@ -174,6 +172,9 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         
         // Génération des quetes aléatoire
         GenerateQuests();
+
+        //& Désactive le prefab de la clé sous la porte
+        KeyOnDoorPrefab.SetActive(false); 
         
         // Démarrer le jour 1
         StartDay();
@@ -207,19 +208,18 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         S_AlzheimerEventsManager.instance.SetlucidityDecreaseRate(LucidityDecreaseRateAccessor);
 
         //TODO Ajouter ICI la logique du 2eme jours (scenatio)
-        if (currentDay == 2)
+        // Gérer l'état du KeyOnDoorPrefab en fonction du jour
+        if (KeyOnDoorPrefab != null)
         {
-            // Activer le prefab de la clé sur porte
-            if (KeyOnDoorPrefab != null)
+            if (currentDay >= 2)
             {
                 KeyOnDoorPrefab.SetActive(true);
             }
-            else
-            {
-                Debug.LogWarning("KeyOnDoorPrefab est null! Impossible de l'activer pour le jour 2.");
-            }
         }
-
+        else
+        {
+            Debug.LogWarning("KeyOnDoorPrefab est null! Impossible de gérer son état.");
+        }
 
         // On commence le prochain jour
         StartDay();
@@ -301,7 +301,15 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         // Randomiser le soleil
         RandomizeSunTime();
 
-        
+        // Gérer l'état du KeyOnDoorPrefab en fonction du jour
+        if (KeyOnDoorPrefab != null)
+        {
+            if (currentDay >= 2)
+            {
+                KeyOnDoorPrefab.SetActive(true);
+                Debug.Log($"KeyOnDoorPrefab activé pour le jour {currentDay}");
+            }
+        }
 
         // Redémarrer le jour
         StartDay();
@@ -446,6 +454,11 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         SetCurrentDay(2);
     }
 
+    [ContextMenu("Show current day info")]
+    private void Debug_ShowCurrentDayInfo()
+    {
+        Debug.Log($"<color=yellow>[DaysManager DEBUG]</color> Jour actuel: {currentDay}, Temps écoulé: {timeLasted:F2}s, Jour actif: {isDayActive}");
+    }
 
 
 
