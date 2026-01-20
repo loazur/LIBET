@@ -14,6 +14,9 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     [SerializeField] private float percentageLucidityJaugeAward = 15; // Pourcentage récupérer de jauge de lucidité en pourcentage
     [SerializeField] private int maxDays = 15; // Jours max pour atteindre la fin du jeu
 
+    [Header("Prefabs spécifiques aux quêtes")]
+    [SerializeField] private GameObject KeyOnDoorPrefab; // Prefab de la clé sur porte (jour 2)
+
     //~ Génération des médicaments
     [Header("Gestion de la génération des médicaments")]
     [Range(1, 10)]
@@ -30,14 +33,26 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     void Awake() //& Création du manager
     {
+        Debug.Log($"[DaysManager] Awake appelé sur {gameObject.name}");
+        
         if (instance == null)
         {
             instance = this;
+            Debug.Log("[DaysManager] Instance créée avec succès");
 
-            S_AlzheimerEventsManager.instance.OnLucidityZero += OnLucidityReachedZero; // Si Lucidity 0
+            if (S_AlzheimerEventsManager.instance != null)
+            {
+                S_AlzheimerEventsManager.instance.OnLucidityZero += OnLucidityReachedZero;
+                Debug.Log("[DaysManager] Abonné à OnLucidityZero");
+            }
+            else
+            {
+                Debug.LogWarning("[DaysManager] S_AlzheimerEventsManager.instance est NULL dans Awake!");
+            }
         }
         else
         {
+            Debug.LogWarning($"[DaysManager] Instance déjà existante! Destruction de {gameObject.name}");
             Destroy(gameObject);
             return;
         }
@@ -46,7 +61,17 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     void Start() //& Initialize le 1er jour
     {
+        Debug.Log($"[DaysManager] Start appelé - enabled: {enabled}, gameObject.activeInHierarchy: {gameObject.activeInHierarchy}");
+        
         InitializeFirstDay();
+
+        // Désactiver le KeyOnDoorPrefab au début
+        if (KeyOnDoorPrefab != null)
+        {
+            Debug.Log("KeyOnDoorPrefab désactivé au démarrage.");
+            // KeyOnDoorPrefab.SetActive(false);
+            
+        }
     }
 
     void Update() //& Gère l'écoulement du jour
@@ -184,7 +209,15 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         //TODO Ajouter ICI la logique du 2eme jours (scenatio)
         if (currentDay == 2)
         {
-            // TODO Lancer le scénario du jour 2
+            // Activer le prefab de la clé sur porte
+            if (KeyOnDoorPrefab != null)
+            {
+                KeyOnDoorPrefab.SetActive(true);
+            }
+            else
+            {
+                Debug.LogWarning("KeyOnDoorPrefab est null! Impossible de l'activer pour le jour 2.");
+            }
         }
 
 
@@ -335,7 +368,7 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     {
         timeLasted = 0f;
         isDayActive = true;
-
+        
         // Sauvegarde
         S_DataPersistanceManager.instance.SaveGame();
 
@@ -406,6 +439,14 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     {
         LoseDay("Debug - Forcé");
     }
+
+    [ContextMenu("Mettre jour 2")]
+    private void Debug_SetDay2()
+    {
+        SetCurrentDay(2);
+    }
+
+
 
 
 
