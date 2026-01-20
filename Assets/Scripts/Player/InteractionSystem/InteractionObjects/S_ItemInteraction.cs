@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersistance
+public class S_ItemInteraction : MonoBehaviour, SI_Interactable
 {
     [SerializeField] private string id;
     
@@ -42,7 +42,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
     }
 
     //!---------------- SI_DataPersistance ----------------
-
+    /*
     //~ Sauvegarde position/rotation de chaque item
 
     public void LoadData(S_GameData gameData)
@@ -73,6 +73,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable, SI_DataPersista
         gameData.itemsPosition.Add(id, transform.position);
         gameData.itemsRotation.Add(id, transform.rotation);
     }
+    */
 
     //! Méthodes provenant de l'interface SI_Interactable
 

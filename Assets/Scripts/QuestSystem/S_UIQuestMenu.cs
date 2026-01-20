@@ -134,10 +134,11 @@ public class S_UIQuestMenu : MonoBehaviour
 
         if (!isOpen) //~ Ouvert
         {
+            /*
             //& Réactiver le curseur de la souris si le menu est ouvert
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-
+            
             //& Bloquer la caméra du joueur
             if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
             {
@@ -145,30 +146,25 @@ public class S_UIQuestMenu : MonoBehaviour
             }
             
             // Le menu vient de s'ouvrir
+            */
             UpdateQuestMenuUI();
-            
-            // Notifier le GameManager que le menu est ouvert (pour pause, curseur, etc.)
-            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+
+            if (S_MenuManager.instance != null)
             {
-                S_GameManager.instance.playerEvents.MenuOpened();
+                if (!S_MenuManager.instance.RegisterMenuOpen(S_MenuManager.MenuType.QUESTS))
+                {
+                    Debug.LogWarning("[DialogueManager] Impossible de démarrer le menu quests, un menu est ouvert");
+                    return;
+                }
             }
+            
         }
         else //~ Fermé
         {
-            //& Re-locker le curseur si le menu est fermé
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
 
-            //& Débloquer la caméra du joueur
-            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+            if (S_MenuManager.instance != null)
             {
-                S_GameManager.instance.playerEvents.LockPlayerCamera(false);
-            }
-
-            // Le menu vient de se fermer
-            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
-            {
-                S_GameManager.instance.playerEvents.MenuClosed();
+                S_MenuManager.instance.RegisterMenuClose(S_MenuManager.MenuType.QUESTS);
             }
         }
     }
@@ -182,15 +178,9 @@ public class S_UIQuestMenu : MonoBehaviour
         {
             uiQuestMenu.SetActive(false);
 
-            // Re-locker le curseur si le menu est fermé
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
-            // Débloquer la caméra du joueur et notifier la fermeture
-            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
+            if (S_MenuManager.instance != null)
             {
-                S_GameManager.instance.playerEvents.LockPlayerCamera(false);
-                S_GameManager.instance.playerEvents.MenuClosed();
+                S_MenuManager.instance.RegisterMenuClose(S_MenuManager.MenuType.QUESTS);
             }
         }
     }

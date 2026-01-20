@@ -58,14 +58,6 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
     private List<S_NoteData> noteDatas = new List<S_NoteData>();
     private static Action<S_Note> A_display = delegate {};
 
-    //~ Références
-    [SerializeField] private S_PlayerController playerController;
-    [SerializeField] private S_FirstPersonCamera playerCamera;
-
-    private S_PlayerCrouch playerCrouch;
-    private S_PlayerInteract playerInteract;
-    private S_PlayerFootsteps playerFootsteps;
-
     #endregion
     
     #region Audio
@@ -102,13 +94,6 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
     void OnDisable()
     {
         A_display -= DisplayNote;
-    }
-
-    void Awake()
-    {
-        playerCrouch = playerController.GetComponent<S_PlayerCrouch>();
-        playerInteract = playerController.GetComponent<S_PlayerInteract>();
-        playerFootsteps = playerController.GetComponent<S_PlayerFootsteps>();
     }
 
     void Start()
@@ -167,7 +152,15 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
 
     public void Open()
     {
-        DisableMouvements(); // Désactive les scripts
+
+        if (S_MenuManager.instance != null)
+        {
+            if (!S_MenuManager.instance.RegisterMenuOpen(S_MenuManager.MenuType.NOTES))
+            {
+                Debug.LogWarning("[NotesMenu] Impossible de démarrer le menu notes, un menu est ouvert");
+                return;
+            }
+        }
 
         UpdateList();
         UpdateCanvasGroup(true, UI.listConvasGroup);
@@ -182,9 +175,19 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
     {
         if (note == null) return;
 
-        DisableMouvements();
+        if (S_MenuManager.instance != null)
+        {
+            if (!S_MenuManager.instance.RegisterMenuOpen(S_MenuManager.MenuType.NOTES))
+            {
+                if (S_MenuManager.instance.GetCurrentOpenMenu() != S_MenuManager.MenuType.NOTES)
+                {
+                    Debug.LogWarning("[NotesMenu] Impossible de démarrer le menu notes, un menu est ouvert");
+                    return;
+                }
+            }
+        }
 
-        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.noteOpen, playerController.transform.position);
+        S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.noteOpen, S_FMODEvents.instance.target.position);
 
         UpdateCanvasGroup(true, UI.noteCanvasGroup);
         activeNote = note;
@@ -239,7 +242,7 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
     {
         if (playSFX)
         {
-             S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.noteClose, playerController.transform.position);
+             S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.noteClose, S_FMODEvents.instance.target.position);
         }
 
         UpdateCanvasGroup(false, UI.noteCanvasGroup);
@@ -290,14 +293,14 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
 
     public void Next()
     {
-         S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.noteTurnPage, playerController.transform.position);
+         S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.noteTurnPage, S_FMODEvents.instance.target.position);
 
         currentPage++;
         DisplayPage(currentPage);
     }
     public void Previous()
     {
-         S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.noteTurnPage, playerController.transform.position);
+         S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.noteTurnPage, S_FMODEvents.instance.target.position);
 
         currentPage--;
         DisplayPage(currentPage);
@@ -320,14 +323,17 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
     }
     private void OnNoteClose()
     {
+        if (!usingNotesSystem)
+        {
+            if (S_MenuManager.instance != null)
+            {
+                S_MenuManager.instance.RegisterMenuClose(S_MenuManager.MenuType.NOTES);
+            }
+        }
+
         activeNote = null;
         currentPage = 0;
         readSubscript = false;
-
-        if (!usingNotesSystem)
-        {
-            EnableMovements(); // Active les scripts
-        }
     }
     private void UpdateCanvasGroup(bool state, CanvasGroup canvasGroup)
     {
@@ -364,24 +370,4 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
     }
 
     //?-----------------------------------------------------------
-
-    private void EnableMovements()
-    {
-        playerController.setMovementsEnabled(true);
-        playerCamera.setCursorEnabled(false);
-        playerCamera.setRotationEnabled(true);
-        playerInteract.setInteractionEnabled(true);
-        playerCrouch.setAbleToCrouch(true);
-        playerFootsteps.SetSoundsEnabled(true);
-    }
-
-    private void DisableMouvements()
-    {
-        playerController.setMovementsEnabled(false);
-        playerCamera.setCursorEnabled(true);
-        playerCamera.setRotationEnabled(false);
-        playerInteract.setInteractionEnabled(false);
-        playerCrouch.setAbleToCrouch(false);
-        playerFootsteps.SetSoundsEnabled(false);
-    }
 }
