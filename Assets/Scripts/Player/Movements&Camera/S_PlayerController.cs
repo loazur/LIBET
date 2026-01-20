@@ -45,6 +45,9 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
     {
         meshRenderer = GetComponent<MeshRenderer>();
         playerRigidbody = GetComponent<Rigidbody>();
+        
+        // Lisser visuellement
+        playerRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 
         colliderOverhead = overheadCheck.GetComponent<SphereCollider>();
         colliderGround = groundCheck.GetComponent<BoxCollider>();
@@ -53,7 +56,7 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
         playerCrouch = GetComponent<S_PlayerCrouch>();
         playerNoClip = GetComponent<S_PlayerNoClip>();
 
-        stepRayUpper.transform.localPosition = new Vector3(stepRayUpper.transform.localPosition.x, -stepHeight, stepRayUpper.transform.localPosition.z); // Hauteur = hauteur steps
+        stepRayUpper.transform.localPosition = new Vector3(stepRayUpper.transform.localPosition.x, -stepHeight, stepRayUpper.transform.localPosition.z);
 
         overheadCheck.SetActive(false); // On désactive overheadCheck dès qu'on spawn
     }
