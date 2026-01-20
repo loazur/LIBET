@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
 {
