@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class S_SaveSlotsMenu : S_Menu
 {
     [Header("Menu Navigation")]
     [SerializeField] private S_MainMenu mainMenu;
     [SerializeField] private S_ConfirmationPopupMenu confirmationPopupMenu;
-
+    
     private S_SaveSlot[] saveSlots;
 
     void Awake()
@@ -29,11 +30,11 @@ public class S_SaveSlotsMenu : S_Menu
             profilesGameData.TryGetValue(saveSlot.GetProfileId(), out S_GameData profileData);
             saveSlot.SetData(profileData);
         }
+        
     }
 
     public void OnSaveSlotClicked(S_SaveSlot saveSlot)
     {
-        
         S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_button_confirm, S_FMODEvents.instance.target.position);
 
         // Met à jour le profile id du save slot 
