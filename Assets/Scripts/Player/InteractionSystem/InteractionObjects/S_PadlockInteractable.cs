@@ -44,6 +44,8 @@ public class S_PadlockInteractable : MonoBehaviour, SI_Interactable
     {
         Hide();
         Destroy(gameObject);
+
+        //TODO METTRE les truc quand le cadna est OK
     }
 
     private void Show()
