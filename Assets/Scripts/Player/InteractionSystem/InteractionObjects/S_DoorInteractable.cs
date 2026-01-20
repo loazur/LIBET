@@ -109,11 +109,11 @@ public class S_DoorInteractable : MonoBehaviour, SI_Interactable
 
         if (forwardAmount >= forwardDirection)
         {
-            endRotation = Quaternion.Euler(new Vector3(0, startRotationVec.y + rotationAmount, 0));
+            endRotation = Quaternion.Euler(new Vector3(startRotationVec.x, startRotationVec.y + rotationAmount, startRotationVec.z));
         }
         else
         {
-            endRotation = Quaternion.Euler(new Vector3(0, startRotationVec.y - rotationAmount, 0));
+            endRotation = Quaternion.Euler(new Vector3(startRotationVec.x, startRotationVec.y - rotationAmount, startRotationVec.z));
         }
 
         isOpen = true;

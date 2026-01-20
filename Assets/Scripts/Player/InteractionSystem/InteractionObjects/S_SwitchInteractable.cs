@@ -1,10 +1,11 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
 {
     //~ Gestion de l'interrupteur
     [Header("Gestion de l'interrupteur")]
-    [SerializeField] private Light lightObject; // Object qui a la light
+    [SerializeField] private List<Light> lightObjects; // liste des lights
     [SerializeField] private float offLightIntensity = 0f; // Intensité de la lumière eteinte
     [SerializeField] private float onLightIntensity; // Intensité de la lumière allumé
 
@@ -56,14 +57,20 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
             // Changement des valeurs
             isOn = true;
 
-            lightObject.intensity = onLightIntensity;
+            foreach(Light light in lightObjects)
+            {
+                light.intensity = onLightIntensity;
+            }
         }
         else
         {
             // Changement des valeurs
             isOn = false;
 
-            lightObject.intensity = offLightIntensity;
+            foreach(Light light in lightObjects)
+            {
+                light.intensity = offLightIntensity;
+            }
         }
     }
 

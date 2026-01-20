@@ -14,14 +14,6 @@ public class S_HandlerPauseMenu : MonoBehaviour
     [Header("Fond du menu pause")]
     [SerializeField] private Image pauseMenuBackground;
 
-    [Header("Référence vers d'autre classes")]
-    [SerializeField] private S_PlayerController playerController;
-    [SerializeField] private S_FirstPersonCamera playerCamera;
-
-    private S_PlayerCrouch playerCrouch;
-    private S_PlayerInteract playerInteract;
-    private S_PlayerFootsteps playerFootsteps;
-
     private string currentSceneName;
         
     private bool menuOpened = false;
@@ -35,9 +27,6 @@ public class S_HandlerPauseMenu : MonoBehaviour
             instance = this;
 
             currentSceneName = SceneManager.GetActiveScene().name;
-            playerCrouch = playerController.GetComponent<S_PlayerCrouch>();
-            playerInteract = playerController.GetComponent<S_PlayerInteract>();
-            playerFootsteps = playerController.GetComponent<S_PlayerFootsteps>();
         }
         else if (instance != this)
         {
@@ -51,7 +40,17 @@ public class S_HandlerPauseMenu : MonoBehaviour
         {
             if (!menuOpened) // Ouverture MenuPause
             {
+                if (S_MenuManager.instance != null)
+                {
+                    if (!S_MenuManager.instance.RegisterMenuOpen(S_MenuManager.MenuType.PAUSE))
+                    {
+                        Debug.LogWarning("[DialogueManager] Impossible de démarrer le menu pause, un menu est ouvert");
+                        return;
+                    }
+                }
+
                 pauseMenu.ActivateMenu();
+                Time.timeScale = 0; // Désactive l'écoulement du temps
             }
             else // Fermeture n'importe quel menu
             {
@@ -63,37 +62,18 @@ public class S_HandlerPauseMenu : MonoBehaviour
 
     //! --------------- Fonctions principales ---------------
 
-    public void EnableAll()
-    {
-        playerController.setMovementsEnabled(true);
-        playerCamera.setCursorEnabled(false);
-        playerCamera.setRotationEnabled(true);
-        playerInteract.setInteractionEnabled(true);
-        playerCrouch.setAbleToCrouch(true);
-        playerFootsteps.SetSoundsEnabled(true);
-
-        Time.timeScale = 1; // Réactive l'écoulement du temps
-    }
-
-    public void DisableAll()
-    {
-        playerController.setMovementsEnabled(false);
-        playerCamera.setCursorEnabled(true);
-        playerCamera.setRotationEnabled(false);
-        playerInteract.setInteractionEnabled(false);
-        playerCrouch.setAbleToCrouch(false);
-        playerFootsteps.SetSoundsEnabled(false);
-
-        Time.timeScale = 0; // Désactive l'écoulement du temps
-    }
-
     public void CompletelyCloseMenu()
     {
+        if (S_MenuManager.instance != null)
+        {
+            S_MenuManager.instance.RegisterMenuClose(S_MenuManager.MenuType.PAUSE);
+        }
+
         pauseMenuBackground.gameObject.SetActive(false);
         currentMenu.DeactivateMenu();
         currentMenu = null;
 
-        EnableAll();
+        Time.timeScale = 1; // Réactive l'écoulement du temps
         setMenuOpened(false);
     }
 

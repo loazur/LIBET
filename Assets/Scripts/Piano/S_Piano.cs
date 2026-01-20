@@ -30,6 +30,7 @@ class S_Piano : MonoBehaviour, SI_Interactable
     private float keyPressDepth = 0.022f;
     private List<GameObject> pianoKeys = new();
     private string interactText = "Jouer du piano";
+    private bool isUnlocked = false;
 
 
     //*========================================================
@@ -48,6 +49,9 @@ class S_Piano : MonoBehaviour, SI_Interactable
                 pianoKeys.Add(child.gameObject);
 
         DisableUIMusic();
+        
+        // S'abonner à l'événement de déverrouillage du cadenas
+        S_GameManager.instance.playerEvents.onPadlockUnlocked += OnPadlockUnlocked;
     }
 
     void Update()
@@ -67,6 +71,20 @@ class S_Piano : MonoBehaviour, SI_Interactable
     #region Gestion Interaction
 
     /**
+     * Déverrouille le piano lorsque le cadenas est ouvert
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, January 20th, 2026.
+     * @access	private
+     * @return	void
+     */
+    private void OnPadlockUnlocked()
+    {
+        isUnlocked = true;
+    }
+
+    /**
      * Toggle le jeu du piano
      *
      * @author	Lucas
@@ -78,6 +96,11 @@ class S_Piano : MonoBehaviour, SI_Interactable
      */
     public void Interact(Transform playerTransform)
     {
+        if (!isUnlocked)
+        {
+            return; // Piano verrouillé, ne rien faire
+        }
+        
         if (pianoEmitter.IsPlaying())
         {
             StopPlaying();
@@ -331,7 +354,23 @@ class S_Piano : MonoBehaviour, SI_Interactable
      */
     public string getInteractText()
     {
-        return pianoEmitter.IsPlaying() ? "Arrêter de jouer" : interactText;
+        if (!isUnlocked)
+        {
+            if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
+                return "Impossible";
+            else
+                return "Impossible";
+        }
+        
+        if (pianoEmitter.IsPlaying())
+        {
+            if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
+                return "Arrêter de jouer";
+            else
+                return "Stop playing";
+        }
+        
+        return interactText;
     }
 
     /**

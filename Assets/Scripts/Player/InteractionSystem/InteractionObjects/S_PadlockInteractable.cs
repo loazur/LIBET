@@ -1,3 +1,4 @@
+using UnityEditor.Search;
 using UnityEngine;
 
 public class S_PadlockInteractable : MonoBehaviour, SI_Interactable
@@ -7,21 +8,14 @@ public class S_PadlockInteractable : MonoBehaviour, SI_Interactable
     [SerializeField] private GameObject displayPanelPadlock;
     [SerializeField] private string interactText = "not_set"; // Texte à afficher
 
-    [SerializeField] private S_PlayerController playerController;
-    [SerializeField] private S_FirstPersonCamera playerCamera;
-
-    private S_PlayerCrouch playerCrouch;
-    private S_PlayerInteract playerInteract;
-    private S_PlayerFootsteps playerFootsteps;
-
     private bool shown = false;
 
-    void Awake()
-    {
-        playerCrouch = playerController.GetComponent<S_PlayerCrouch>();
-        playerInteract = playerController.GetComponent<S_PlayerInteract>();
-        playerFootsteps = playerController.GetComponent<S_PlayerFootsteps>();
-    }
+    [Header("Supprimer un objet après déverrouillage (optionnel)")]
+    [SerializeField] private GameObject objectToDestroyOnUnlock;
+
+    [Header("Option supplémentaire pour les quêtes")]
+    [SerializeField] private bool isQuestPadlock = true; //& Indique si le cadenas est lié à une quête
+
 
     void Start() //& Initialize la montre
     {
@@ -57,34 +51,43 @@ public class S_PadlockInteractable : MonoBehaviour, SI_Interactable
     {
         Hide();
         Destroy(gameObject);
+
+        //TODO METTRE les truc quand le cadna est OK
+        // Désactiver l'objet optionnel
+        if (objectToDestroyOnUnlock != null)
+        {
+            objectToDestroyOnUnlock.SetActive(false);
+        }
+
+        // Envoyer event au piano pour dire qu'il est déverrouillé
+        S_GameManager.instance.playerEvents.PadlockUnlocked();
     }
 
     private void Show()
     {
+        if (S_MenuManager.instance != null)
+        {
+            if (!S_MenuManager.instance.RegisterMenuOpen(S_MenuManager.MenuType.PADLOCK))
+            {
+                Debug.LogWarning("[DialogueManager] Impossible de démarrer le menu cadenas, un menu est ouvert");
+                return;
+            }
+        }
+
         shown = true;
 
         displayPanelPadlock.SetActive(true);
-
-        playerController.setMovementsEnabled(false);
-        playerCamera.setCursorEnabled(true);
-        playerCamera.setRotationEnabled(false);
-        playerInteract.setInteractionEnabled(false);
-        playerCrouch.setAbleToCrouch(false);
-        playerFootsteps.SetSoundsEnabled(false);
     }
 
     private void Hide()
     {
+        if (S_MenuManager.instance != null)
+        {
+            S_MenuManager.instance.RegisterMenuClose(S_MenuManager.MenuType.PADLOCK);
+        }
         shown = false;
 
         displayPanelPadlock.SetActive(false);
-
-        playerController.setMovementsEnabled(true);
-        playerCamera.setCursorEnabled(false);
-        playerCamera.setRotationEnabled(true);
-        playerInteract.setInteractionEnabled(true);
-        playerCrouch.setAbleToCrouch(true);
-        playerFootsteps.SetSoundsEnabled(true);
     }
     
 

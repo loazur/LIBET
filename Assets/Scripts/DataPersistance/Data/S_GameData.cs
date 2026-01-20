@@ -17,10 +17,6 @@ public class S_GameData
     // PlayTime
     public float playTime;
 
-    // Items
-    public SerializedDictionary<string, Vector3> itemsPosition;
-    public SerializedDictionary<string, Quaternion> itemsRotation;
-
     // Infos des jours
     public int currentDay;
     public float timeLasted;
@@ -48,10 +44,6 @@ public class S_GameData
         // PlayTime
         playTime = 0f;
 
-        // Items
-        itemsPosition = new SerializedDictionary<string, Vector3>();
-        itemsRotation = new SerializedDictionary<string, Quaternion>();
-
         // Infos des jours
         currentDay = 0;
         timeLasted = 0f;
@@ -67,5 +59,17 @@ public class S_GameData
         questsOfTheDay = new SerializedDictionary<string, SO_QuestInfo>();
     }
 
-    //TODO - Créer des fonction publiques pour récupérer les données
+    public string getPlayTime()
+    {
+        int hours = Mathf.FloorToInt(playTime / 3600f);
+        int minutes = Mathf.FloorToInt(playTime % 3600f / 60f);
+        int seconds = Mathf.FloorToInt(playTime % 60f);
+
+        return $"{hours:00}:{minutes:00}:{seconds:00}";
+    }
+
+    public int getCurrentDay()
+    {
+        return currentDay;
+    }
 }
