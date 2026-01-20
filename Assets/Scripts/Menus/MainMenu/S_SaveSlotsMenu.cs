@@ -33,6 +33,7 @@ public class S_SaveSlotsMenu : S_Menu
 
     public void OnSaveSlotClicked(S_SaveSlot saveSlot)
     {
+        
         S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.ui_button_confirm, S_FMODEvents.instance.target.position);
 
         // Met à jour le profile id du save slot 

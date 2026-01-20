@@ -18,6 +18,7 @@ public class S_DataPersistanceManager : MonoBehaviour
 
     private string selectedProfileId = "";
 
+
     void Awake()
     {
         if (instance == null) // Si aucune instance
@@ -47,6 +48,9 @@ public class S_DataPersistanceManager : MonoBehaviour
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
     {
+        if (scene.name == "MainMenu")
+            return;
+
         dataPersistanceObjects = FindAllPersistanceObjects();
         LoadGame(); // Charge la partie au démarrage
     }
@@ -70,8 +74,6 @@ public class S_DataPersistanceManager : MonoBehaviour
     {
         // Met à jour le profile id à utilisé pour la sauvegarde et le chargement
         selectedProfileId = newProfileId;
-
-        LoadGame();
     }
 
     public void NewGame()
@@ -123,6 +125,7 @@ public class S_DataPersistanceManager : MonoBehaviour
         // no data to save
         if (gameData == null)
         {
+            Debug.LogWarning("Aucune donnée de jeu à sauvegarder");
             return;
         }
 
