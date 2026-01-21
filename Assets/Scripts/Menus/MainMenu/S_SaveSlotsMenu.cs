@@ -45,6 +45,9 @@ public class S_SaveSlotsMenu : S_Menu
         if (!saveSlot.HasDataInSlot()) //~ Si nouvelle partie
             S_DataPersistanceManager.instance.DeleteProfileData(saveSlot.GetProfileId());
 
+        // Changement de musique
+        S_AudioManager.instance.SetMusicArea(E_MusicArea.AREA2);
+
         // Charge la scène du jeu
         S_SceneLoader.instance.LoadScene("Game");
     }

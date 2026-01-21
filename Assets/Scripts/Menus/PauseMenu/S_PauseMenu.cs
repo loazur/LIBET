@@ -57,6 +57,9 @@ public class S_PauseMenu : S_Menu
         // Remet l'écoulement du temps
         Time.timeScale = 1f;
 
+        // Remet la musique du MainMenu
+        S_AudioManager.instance.SetMusicArea(E_MusicArea.AREA1);
+
         // Changement de scene
         S_SceneLoader.instance.LoadScene("MainMenu");
     }
