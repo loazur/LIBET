@@ -11050,6 +11050,43 @@ Transform:
   - {fileID: 604217203}
   m_Father: {fileID: 450101313}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!84 &562155647
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &563014105
 GameObject:
   m_ObjectHideFlags: 0
@@ -11180,7 +11217,7 @@ PrefabInstance:
     - target: {fileID: 3427824855752784596, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 1564335867}
+      objectReference: {fileID: 562155647}
     - target: {fileID: 4278186514454610778, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_BoundingSphereOverride.w
       value: 0
@@ -18141,7 +18178,7 @@ Material:
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowIntensity: {r: 1, g: 0, b: 0, a: 0}
     - _ToLightDir: {r: 0.9774494, g: 0.21117042, b: 0.00000013690442, a: 0.39}
-    - _WindDirection: {r: 0.19497532, g: 0.11698521, b: 0.019497534, a: 0}
+    - _WindDirection: {r: 0.7680591, g: 0.46083555, b: 0.07680601, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!1 &956123742
@@ -34845,43 +34882,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
---- !u!84 &1564335867
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!114 &1567712821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96994,15 +96994,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::S_PickKeyOnDoor
   AlarmSound:
     Guid:
-      Data1: 949468895
-      Data2: 1236194630
-      Data3: 1383768500
-      Data4: 1664038223
-    Path: event:/Player/footsteps
+      Data1: 1116358830
+      Data2: 1216443145
+      Data3: -1958993006
+      Data4: 640644246
+    Path: event:/Environment/Sonnerie/Sonnerie
   soundLoopInterval: 0.1
   doorID: DoorDesktop
   keyID: KeyDesktop
-  maxDistance: 10
+  maxDistance: 50
 --- !u!114 &2064602142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97018,11 +97018,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 949468895
-      Data2: 1236194630
-      Data3: 1383768500
-      Data4: 1664038223
-    Path: event:/Player/footsteps
+      Data1: 1116358830
+      Data2: 1216443145
+      Data3: -1958993006
+      Data4: 640644246
+    Path: event:/Environment/Sonnerie/Sonnerie
   Event: 
   EventPlayTrigger: 0
   EventStopTrigger: 0

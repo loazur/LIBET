@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.strings.bank
   Name: MasterBank.strings
   StudioPath: bank:/MasterBank.strings
-  lastModified: 639046040247296187
+  lastModified: 639046722203679546
   FileSizes:
   - Name: Desktop
-    Value: 1870
+    Value: 1918
   Exists: 1
 --- !u!114 &-8845907502932150375
 MonoBehaviour:
@@ -170,10 +170,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 639046040247386345
+  lastModified: 639046722204832648
   FileSizes:
   - Name: Desktop
-    Value: 2893504
+    Value: 2921184
   Exists: 1
 --- !u!114 &-4870894736169669456
 MonoBehaviour:
@@ -202,6 +202,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-4650948763717658603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Environment/Sonnerie/Sonnerie
+  m_EditorClassIdentifier: FMODUnityEditor::FMODUnity.EditorEventRef
+  Path: event:/Environment/Sonnerie/Sonnerie
+  Guid:
+    Data1: 1116358830
+    Data2: 1216443145
+    Data3: -1958993006
+    Data4: 640644246
+  Banks:
+  - {fileID: -6678976764220933779}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 3997
 --- !u!114 &-3021430525700563996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,7 +272,7 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/MasterBank.bank
   Name: MasterBank
   StudioPath: bank:/MasterBank
-  lastModified: 639034911620691829
+  lastModified: 639046722203666175
   FileSizes:
   - Name: Desktop
     Value: 1378
@@ -319,10 +346,10 @@ MonoBehaviour:
   Path: Assets/FMOD Project/LIBET/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 639046040602003906
+  lastModified: 639046721199633516
   FileSizes:
   - Name: Desktop
-    Value: 3361024
+    Value: 3361088
   Exists: 1
 --- !u!114 &-814982336192900278
 MonoBehaviour:
@@ -412,13 +439,14 @@ MonoBehaviour:
   - {fileID: 6161182376619231629}
   - {fileID: -289016027200833958}
   - {fileID: -7423433256044310602}
+  - {fileID: -4650948763717658603}
   EditorParameters: []
   MasterBanks:
   - {fileID: -2968363842700604913}
   StringsBanks:
   - {fileID: -9218343506306915907}
   cacheVersion: 131857
-  cacheTime: 639046040602003906
+  cacheTime: 639046722204832648
   SerializableEventsDict:
   - key: event:/Environment/Door/openingDoorTest
     index: 0
