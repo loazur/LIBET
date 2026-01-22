@@ -4,11 +4,11 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
 {
     //~ Références
     [Header("References")]
-    [HideInInspector] public Rigidbody playerRigidbody;
     [HideInInspector] public MeshRenderer meshRenderer;
     public CapsuleCollider capsuleCollider;
     public Material baseMat;
     public Material sprintMat;
+    public Rigidbody playerRigidbody;
 
     //~ Scripts de mouvements
     private S_PlayerSprint playerSprint;

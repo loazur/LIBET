@@ -88,8 +88,10 @@ public class S_DaysTransitionScreen : MonoBehaviour
             S_MenuManager.instance.RegisterMenuClose(S_MenuManager.MenuType.DAYS_TRANSITION);
         }
 
-        OnTransitionScreenEnd?.Invoke();
+        
         uiContainer.SetActive(false);
+
+        OnTransitionScreenEnd?.Invoke();
     }
 
     private IEnumerator FadeIn()
