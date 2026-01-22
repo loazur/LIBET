@@ -237,4 +237,35 @@ public class S_PlayerEvents
         }
     }
 
+        /**
+     * Événement déclenché pour déverrouiller un tiroir
+     * Utiliser DrawerUnlock("drawer_id") pour déclencher le déverrouillage
+     *
+     * @var		mixed	onDrawerUnlocked
+     */
+    public event Action<string> onDrawerUnlocked;
+    public void DrawerUnlock(string drawerID)
+    {
+        if (onDrawerUnlocked != null)
+        {
+            onDrawerUnlocked(drawerID);
+        }
+    }
+
+    /**
+     * Événement déclenché pour déverrouiller un placard
+     * Utiliser CupboardUnlock("cupboard_id") pour déclencher le déverrouillage
+     *
+     * @var		mixed	onCupboardUnlocked
+     */
+    public event Action<string> onCupboardUnlocked;
+    public void CupboardUnlock(string cupboardID)
+    {
+        if (onCupboardUnlocked != null)
+        {
+            onCupboardUnlocked(cupboardID);
+        }
+    }
+
+
 }

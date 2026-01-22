@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5071e0d96564fb4b98148a8776e57cf, type: 3}
+  m_Name: PP_AlzheimerEffect_Flash
+  m_EditorClassIdentifier: Assembly-CSharp::SO_AlzheimerPostProcessEffect
+  parameter: 1
+  targetValue: 10
+  duration: 5
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 4.3354115
+      outSlope: 4.3354115
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.24592383
+    - serializedVersion: 3
+      time: 0.4905257
+      value: 0.5692004
+      inSlope: 0.14146093
+      outSlope: 0.14146093
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.34475175
+    - serializedVersion: 3
+      time: 1.2004753
+      value: 0.25167078
+      inSlope: -1.0993159
+      outSlope: 0.36317068
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.12958685
+      outWeight: 0.6270909
+    - serializedVersion: 3
+      time: 1.9154425
+      value: 0.42563957
+      inSlope: 0.0007778617
+      outSlope: -0.16241181
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.5606467
+      outWeight: 0.59034806
+    - serializedVersion: 3
+      time: 2.6791873
+      value: 0.0073381085
+      inSlope: -0.7157767
+      outSlope: 0.57029337
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.5311781
+      outWeight: 0.7902036
+    - serializedVersion: 3
+      time: 3.328608
+      value: 0.25742605
+      inSlope: -0.048735753
+      outSlope: -0.06357821
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.94809204
+      outWeight: 0.64294153
+    - serializedVersion: 3
+      time: 4.01653
+      value: 0.043684214
+      inSlope: 0.024588889
+      outSlope: 0.024588889
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 4.6100054
+      value: 0.014344394
+      inSlope: -0.2378555
+      outSlope: -0.65933377
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.75386244
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  intensityMultiplier: 1

@@ -573,17 +573,23 @@ public class S_AlzheimerEventsManager : MonoBehaviour, SI_DataPersistance
             S_AudioManager.instance.PlayOneShot(S_FMODEvents.instance.weak_AE, S_FMODEvents.instance.target.position);
         }
 
-        //TODO Post Processing durant 2-3s en fonction de l'intensité aussi peut etre
+        //Post Processing durant 2-3s en fonction de l'intensité aussi peut etre
+
+        float multiplier = currentTier?.intensityMultiplier ?? 1f;
+        eventData.currentIntensity = eventData.GetAdjustedIntensity(lucidity, multiplier);
+        eventData.hasTriggered = true;
+
+        // DEBUG
+        Debug.Log($"[PP CALL] intensity envoyée = {eventData.currentIntensity}");
+
+        S_AlzheimerPostProcessManager.instance
+            ?.PlayRandomEffect(eventData.currentIntensity);
 
 
         // Instancie l'event
         GameObject instance = Instantiate(eventData.eventPrefab, eventsContainer);
         instance.name = $"Event_{eventData.eventName}";
 
-        // Calcule et applique l'intensité
-        float multiplier = currentTier?.intensityMultiplier ?? 1f;
-        eventData.currentIntensity = eventData.GetAdjustedIntensity(lucidity, multiplier);
-        eventData.hasTriggered = true;
 
         // Crée l'entrée dans la liste active
         var activeEvent = new ActiveEvent(eventData, instance);

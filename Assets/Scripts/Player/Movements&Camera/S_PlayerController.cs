@@ -4,11 +4,11 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
 {
     //~ Références
     [Header("References")]
-    [HideInInspector] public Rigidbody playerRigidbody;
     [HideInInspector] public MeshRenderer meshRenderer;
     public CapsuleCollider capsuleCollider;
     public Material baseMat;
     public Material sprintMat;
+    public Rigidbody playerRigidbody;
 
     //~ Scripts de mouvements
     private S_PlayerSprint playerSprint;
@@ -76,7 +76,6 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
  
         Move(S_UserInput.instance.MoveInput); // Gestion Mouvements
         HandleGravity(); // Gestion de la gravité
-        StepClimb(); // Gestion Stairs
     }
     
 
@@ -206,75 +205,6 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
     public Vector3 GetSlopeMoveDirection(Vector3 movementVector3) //& Calcul un nouveau vector quand le joueur est un sur un slope
     {
         return Vector3.ProjectOnPlane(movementVector3, slopeHit.normal).normalized;
-    }
-
-    private void StepClimb() //& Gestion Montée Escaliers
-    {
-        if (OnSlope(out _) || !isGrounded()) // Réglages de bugs
-        {
-            return;
-        }
-
-        // Vérifier si le joueur se déplace
-        if (S_UserInput.instance.MoveInput == Vector2.zero)
-        {
-            return;
-        }
-
-        float raycastDistanceLower = 1f;
-        float raycastDistanceUpper = 0.4f;
-
-        // Utiliser les positions des GameObjects stepRayLower et stepRayUpper
-        Vector3 lowerRayPos = stepRayLower.transform.position;
-        Vector3 upperRayPos = stepRayUpper.transform.position;
-
-        // Tableau de directions pour couvrir un arc de 90° devant le joueur
-        Vector3[] directions = new Vector3[]
-        {
-            new Vector3(0, 0, 1),       // 0° (centre)
-            new Vector3(0.2f, 0, 1),    // ~11°
-            new Vector3(-0.2f, 0, 1),   // ~-11°
-            new Vector3(0.4f, 0, 1),    // ~22°
-            new Vector3(-0.4f, 0, 1),   // ~-22°
-            new Vector3(0.6f, 0, 1),    // ~31°
-            new Vector3(-0.6f, 0, 1),   // ~-31°
-            new Vector3(0.8f, 0, 1),    // ~39°
-            new Vector3(-0.8f, 0, 1),   // ~-39°
-            new Vector3(1.0f, 0, 1),    // ~45°
-            new Vector3(-1.0f, 0, 1),   // ~-45°
-            new Vector3(1.2f, 0, 1),    // ~50°
-            new Vector3(-1.2f, 0, 1),   // ~-50°
-            new Vector3(1.5f, 0, 1),    // ~56°
-            new Vector3(-1.5f, 0, 1)    // ~-56°
-        };
-
-        RaycastHit hitLower;
-        RaycastHit hitUpper;
-
-        // Boucle à travers toutes les directions
-        foreach (Vector3 direction in directions)
-        {
-            Vector3 transformedDirection = transform.TransformDirection(direction);
-
-            // Debug rays - Rouge pour lower, Bleu pour upper
-            Debug.DrawRay(lowerRayPos, transformedDirection * raycastDistanceLower, Color.red, 0.1f);
-            Debug.DrawRay(upperRayPos, transformedDirection * raycastDistanceUpper, Color.blue, 0.1f);
-
-            if (Physics.Raycast(lowerRayPos, transformedDirection, out hitLower, raycastDistanceLower))
-            {
-                // Debug ray - Vert si le lower raycast touche quelque chose
-                Debug.DrawRay(lowerRayPos, transformedDirection * hitLower.distance, Color.green, 0.1f);
-
-                if (!Physics.Raycast(upperRayPos, transformedDirection, out hitUpper, raycastDistanceUpper))
-                {
-                    // Debug ray - Jaune quand on monte une marche
-                    Debug.DrawRay(upperRayPos, transformedDirection * raycastDistanceUpper, Color.yellow, 0.1f);
-
-                    playerRigidbody.position -= new Vector3(0f, -stepSmooth, 0f);
-                    return; // Sort de la fonction dès qu'on monte une marche
-                }
-            }
-        }
     }
 
     //? ------------------------------------------------    
