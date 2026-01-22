@@ -13,6 +13,8 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     [SerializeField] private float dayDuration = 300f; // Durée d'une journée en seconde
     [SerializeField] private float percentageLucidityJaugeAward = 15; // Pourcentage récupérer de jauge de lucidité en pourcentage
     [SerializeField] private int maxDays = 15; // Jours max pour atteindre la fin du jeu
+    [SerializeField] private float transitionScreenDuration = 2f;
+    [SerializeField] private string[] lores;
 
     [Header("Prefabs spécifiques aux quêtes")]
     [SerializeField] private GameObject KeyOnDoorPrefab; // Prefab de la clé sur porte (jour 2)
@@ -48,6 +50,16 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
             else
             {
                 Debug.LogWarning("[DaysManager] S_AlzheimerEventsManager.instance est NULL dans Awake!");
+            }
+
+            if (S_DaysTransitionScreen.instance != null)
+            {
+                S_DaysTransitionScreen.instance.OnTransitionScreenEnd += StartDay;
+                Debug.Log("[DaysManager] Abonné à OnTransitionScreenEnd");
+            }
+            else
+            {
+                Debug.LogWarning("[DaysManager] S_DaysTransitionScreen.instance est NULL dans Awake!");
             }
         }
         else
@@ -161,8 +173,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     private void InitializeFirstDay() //& Initialise le jour 1 avec génération des éléments
     {
         Debug.Log("Initialisation du jour 1");
-
-        //TODO Afficher écran transition
         
         // Générer les médicaments pour le jour 1
         GenerateMedicines();
@@ -175,10 +185,13 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
         //& Désactive le prefab de la clé sous la porte
         KeyOnDoorPrefab.SetActive(false); 
-        
-        // Démarrer le jour 1
-        StartDay();
 
+        // Démarrer le jour 1
+        S_DaysTransitionScreen.instance.TriggerTransitionScreen(currentDay, 
+            S_AlzheimerEventsManager.instance.Lucidity,
+            S_MedicinesManager.instance.GetStoredMedicines(), 
+            lores, 
+            transitionScreenDuration);
 
     }
 
@@ -188,8 +201,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         SetCurrentDay(currentDay + 1);
 
         Debug.Log($"Préparation du jour {currentDay}");
-
-        //TODO - Afficher écran de transition
         
         // Générer les médicaments en fonction medicinesPerDay
         GenerateMedicines();
@@ -222,7 +233,11 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         }
 
         // On commence le prochain jour
-        StartDay();
+        S_DaysTransitionScreen.instance.TriggerTransitionScreen(currentDay, 
+            S_AlzheimerEventsManager.instance.Lucidity,
+            S_MedicinesManager.instance.GetStoredMedicines(), 
+            lores, 
+            transitionScreenDuration);
     }
 
     //! ---------- Randomisation du soleil ----------
@@ -280,7 +295,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         }
 
         RestartCurrentDay();
-        //TODO Afficher ecran de transition
     }
 
     private void RestartCurrentDay() //& Réinitialise le jour actuel
@@ -312,7 +326,11 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         }
 
         // Redémarrer le jour
-        StartDay();
+        S_DaysTransitionScreen.instance.TriggerTransitionScreen(currentDay, 
+            S_AlzheimerEventsManager.instance.Lucidity,
+            S_MedicinesManager.instance.GetStoredMedicines(), 
+            lores, 
+            transitionScreenDuration);
 
         Debug.Log($"Jour {currentDay} réinitialisé");
     }
