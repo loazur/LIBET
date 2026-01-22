@@ -125,6 +125,9 @@ class S_Piano : MonoBehaviour, SI_Interactable
      */
     private void StartPlaying()
     {
+        //& Ouvrir le placard vérrouillé
+        S_GameManager.instance.playerEvents.CupboardUnlock("cupboard_Piano");
+
         pianoEmitter.Play();
         currentTrack = GetRandomPianoTrack();
         SetPianoTrack(currentTrack.track);
