@@ -28,7 +28,16 @@ public class S_NoteData : MonoBehaviour
     public void UpdateInfo(S_Note note, Color color)
     {
         this.note = note;
-        label.text = note.label;
+
+        if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
+        {
+            label.text = note.labelFrench;
+        }
+        else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
+        {
+            label.text = note.labelEnglish;
+        }
+
         bgImage.color = color;
     }
     public void Display()

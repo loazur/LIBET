@@ -14,6 +14,10 @@ public class S_PlayerInteract : MonoBehaviour
     // Pour gérer l'interaction maintenue
     private HoldToInteract currentHoldingItem = null;
 
+    // Pour gérer les minijeux
+    private S_AbstractMinigame currentMinigame = null;
+    private SI_Interactable currentMinigameInteractable = null;
+
     void Update() //& PAS PHYSICS
     {
         SI_Interactable interactable = GetInteractableObject();
@@ -60,6 +64,24 @@ public class S_PlayerInteract : MonoBehaviour
                 }
             }
         }
+        else if (interactable != null && interactable.getTransform().TryGetComponent(out S_AbstractMinigame minigame)) // Minijeu
+        {
+            if (S_UserInput.instance.InteractAction.WasPressedThisFrame())
+            {
+                if (interactable != null)
+                {
+                    // Stocker les références
+                    currentMinigame = minigame;
+                    currentMinigameInteractable = interactable;
+                    
+                    // S'abonner à l'événement
+                    minigame.OnMinigameWin += OnMinigameCompleted;
+                    
+                    // Lancer le minijeu
+                    minigame.TriggerMinigame();
+                }
+            }
+        }
         else // Interaction normale (pas besoin de maintenir)
         {
             if (S_UserInput.instance.InteractAction.WasPressedThisFrame())
@@ -76,6 +98,31 @@ public class S_PlayerInteract : MonoBehaviour
                 currentHoldingItem.holdTimer = currentHoldingItem.howLongToHold;
                 currentHoldingItem = null;
             }
+        }
+    }
+
+    private void OnMinigameCompleted()
+    {
+        if (currentMinigameInteractable != null && currentMinigame != null)
+        {
+            // Appeler l'interaction
+            currentMinigameInteractable.Interact(transform);
+            
+            // Se désabonner pour éviter les fuites mémoire
+            currentMinigame.OnMinigameWin -= OnMinigameCompleted;
+            
+            // Reset
+            currentMinigame = null;
+            currentMinigameInteractable = null;
+        }
+    }
+
+    void OnDestroy()
+    {
+        // Nettoyage si le script est détruit pendant un minijeu
+        if (currentMinigame != null)
+        {
+            currentMinigame.OnMinigameWin -= OnMinigameCompleted;
         }
     }
 
