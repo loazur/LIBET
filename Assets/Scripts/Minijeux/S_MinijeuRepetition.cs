@@ -383,6 +383,8 @@ public class S_MinijeuRepetition : MonoBehaviour
         onComplete?.Invoke(true);
         
         Debug.Log($"[MinijeuRepetition] Terminé avec succès ({currentClicks} clics, {reopenCount} réouvertures)");
+
+        S_GameManager.instance.playerEvents.DrawerUnlock("drawer_office");
     }
     
     /// <summary>

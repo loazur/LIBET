@@ -600,7 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 962cdf264e21b73199b691388284e053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::S_OutlineHandler
---- !u!114 &66628704
+--- !u!114 &66628709
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -609,14 +609,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 66628692}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12d834966624d407aa5fe224fd4b8056, type: 3}
+  m_Script: {fileID: 11500000, guid: bf7326c1ab898244f9b71dcb9716062c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::S_DoorInteractable
+  m_EditorClassIdentifier: Assembly-CSharp::S_DrawerLocked
   isRotatingDoor: 0
   speed: 1
   rotationAmount: 90
   slideDirection: {x: 0, y: 0, z: -1}
   slideAmount: 0.4
+  drawerID: drawer_office
+  playLockedSound: 1
 --- !u!1 &69793294
 GameObject:
   m_ObjectHideFlags: 0
@@ -9898,7 +9900,7 @@ PrefabInstance:
       addedObject: {fileID: 66628698}
     - targetCorrespondingSourceObject: {fileID: 4087786866310590189, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 66628704}
+      addedObject: {fileID: 66628709}
     - targetCorrespondingSourceObject: {fileID: 7925216999376857854, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 134834417}
@@ -11050,43 +11052,6 @@ Transform:
   - {fileID: 604217203}
   m_Father: {fileID: 450101313}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &562155647
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &563014105
 GameObject:
   m_ObjectHideFlags: 0
@@ -11217,7 +11182,7 @@ PrefabInstance:
     - target: {fileID: 3427824855752784596, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 562155647}
+      objectReference: {fileID: 588841894}
     - target: {fileID: 4278186514454610778, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_BoundingSphereOverride.w
       value: 0
@@ -11631,6 +11596,43 @@ MonoBehaviour:
   rotationAmount: 110
   speed: 1
   rightHandle: 1
+--- !u!84 &588841894
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &593878559 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -306802693417411999, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
@@ -18178,7 +18180,7 @@ Material:
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowIntensity: {r: 1, g: 0, b: 0, a: 0}
     - _ToLightDir: {r: 0.9774494, g: 0.21117042, b: 0.00000013690442, a: 0.39}
-    - _WindDirection: {r: 0.7680591, g: 0.46083555, b: 0.07680601, a: 0}
+    - _WindDirection: {r: 0.00632267, g: 0.0037936012, b: 0.0006322668, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!1 &956123742
