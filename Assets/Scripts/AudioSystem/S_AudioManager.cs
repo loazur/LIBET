@@ -26,6 +26,7 @@ public class S_AudioManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
 
             eventInstances = new List<EventInstance>();
             eventEmitters = new List<StudioEventEmitter>();

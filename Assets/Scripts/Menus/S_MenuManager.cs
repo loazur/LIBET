@@ -16,6 +16,7 @@ public class S_MenuManager : MonoBehaviour
     {
         NONE,
         PAUSE,
+        DAYS_TRANSITION,
         DIALOGUE,
         MINIGAME,
         NOTES,
