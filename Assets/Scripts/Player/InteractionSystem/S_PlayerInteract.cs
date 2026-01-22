@@ -60,6 +60,12 @@ public class S_PlayerInteract : MonoBehaviour
                 }
             }
         }
+        /*
+        else if (interactable != null && interactable.getTransform().TryGetComponent(out HoldToInteract holdingScript))
+        {
+            
+        }
+        */
         else // Interaction normale (pas besoin de maintenir)
         {
             if (S_UserInput.instance.InteractAction.WasPressedThisFrame())
