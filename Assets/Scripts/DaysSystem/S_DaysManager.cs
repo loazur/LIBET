@@ -42,6 +42,7 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
             instance = this;
             Debug.Log("[DaysManager] Instance créée avec succès");
 
+            // Assignement des events
             if (S_AlzheimerEventsManager.instance != null)
             {
                 S_AlzheimerEventsManager.instance.OnLucidityZero += OnLucidityReachedZero;
