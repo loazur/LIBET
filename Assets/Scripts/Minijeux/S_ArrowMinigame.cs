@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class arrow_minigame : MonoBehaviour
+public class S_ArrowMinigame : S_AbstractMinigame
 {
-
     private GameObject minigame;
     [SerializeField] private Image background;
     [SerializeField] private Image arrow1;
@@ -15,6 +14,31 @@ public class arrow_minigame : MonoBehaviour
     [SerializeField] private List<Image> arrows = new List<Image>(); // up, right, down, left
 
     private List<int> sequence;
+
+    /* FERMER
+        if (S_MenuManager.instance != null) 
+        {
+            S_MenuManager.instance.RegisterMenuClose(S_MenuManager.MenuType.MINIGAME);
+        }
+        */
+
+    public override void TriggerMinigame()
+    {
+        Debug.Log("Minijeu commencé!");
+
+        // Lancer un menu
+        if (S_MenuManager.instance != null)
+        {
+            if (!S_MenuManager.instance.RegisterMenuOpen(S_MenuManager.MenuType.MINIGAME))
+            {
+                Debug.LogWarning("[ArrowMinigame] Impossible de démarrer le menu ArrowMinigame, un menu est ouvert");
+                return;
+            }
+        }
+
+        //TODO
+
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -51,6 +75,5 @@ public class arrow_minigame : MonoBehaviour
 
         // subscribe to the event that triggers the minigame
     }
-
 
 }
