@@ -21,6 +21,12 @@ public class S_TakeKey : MonoBehaviour, SI_Interactable
     {
         UpdateInteractText();
         S_GameUserData.instance.OnLanguageChanged += UpdateInteractText;
+
+        // S'autodétruit si déja trouvé
+        if (S_KeyManager.instance.HasKey(doorID, keyID))
+        {
+            Destroy(gameObject);
+        }
     }
 
     void OnDestroy()
