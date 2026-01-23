@@ -33,6 +33,10 @@ public class S_GameData
 
     // Keys
     public SerializedDictionary<string, List<string>> collectedKeys;
+
+    // Drawers / Cupboards
+    public SerializedDictionary<string, bool> unlockedDrawers;
+    public SerializedDictionary<string, bool> unlockedCupboards;
     
 
     //& Constructeurs -> Contient les valeurs initiales
@@ -63,6 +67,10 @@ public class S_GameData
 
         // Keys
         collectedKeys = new SerializedDictionary<string, List<string>>();
+
+        // Drawers / cupboards
+        unlockedDrawers = new SerializedDictionary<string, bool>();
+        unlockedCupboards = new SerializedDictionary<string, bool>();
     }
 
     public string getPlayTime()

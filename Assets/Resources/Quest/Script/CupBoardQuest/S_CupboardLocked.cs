@@ -10,8 +10,16 @@ using UnityEngine;
  * @version	v1.0.0	Tuesday, January 21st, 2026.
  * @global
  */
-public class S_CupboardLocked : S_CupboardInteractable
+public class S_CupboardLocked : S_CupboardInteractable, SI_DataPersistance
 {
+    [SerializeField] private string id;
+    
+    [ContextMenu("Generate guid for id")]
+    private void GenerateGuid()
+    {
+        id = System.Guid.NewGuid().ToString();
+    }
+
     [Header("Configuration du verrouillage")]
     [Tooltip("L'ID unique de ce placard (utilisé pour le déverrouillage via événement)")]
     [SerializeField] private string cupboardID = "cupboard_01";
@@ -43,6 +51,30 @@ public class S_CupboardLocked : S_CupboardInteractable
             S_GameManager.instance.playerEvents.onCupboardUnlocked -= OnCupboardUnlockEvent;
         }
     }
+
+    //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde de si le cupboard est unlocked
+
+    public void LoadData(S_GameData gameData)
+    {
+        if (gameData.unlockedCupboards.TryGetValue(id, out bool isUnlocked))
+        {
+            this.isUnlocked = isUnlocked;
+        }
+    }
+
+    public void SaveData(S_GameData gameData)
+    {
+        if (gameData.unlockedCupboards.ContainsKey(id))
+        {
+            gameData.unlockedCupboards.Remove(id);
+        }
+
+        gameData.unlockedCupboards.Add(id, isUnlocked);
+    }
+
+    public int GetLoadPriority() => 0; // ✅ Priorité normale
 
     //! Override de l'interaction pour ajouter la logique de verrouillage
     //! =====================================================
