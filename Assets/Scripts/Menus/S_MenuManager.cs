@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Manager centralisé pour gérer l'ouverture/fermeture de tous les menus du jeu
@@ -11,6 +13,13 @@ public class S_MenuManager : MonoBehaviour
     [Header("État actuel")]
     [SerializeField] private MenuType currentOpenMenu = MenuType.NONE;
     [SerializeField] private bool isAnyMenuOpen = false;
+
+    //~ Helping UI
+    [Header("UI D'aide")]
+    [SerializeField] private GameObject uiHelpContainer;
+    [SerializeField] private TextMeshProUGUI cancelKeybindText;
+    [SerializeField] private TextMeshProUGUI helpText;
+    private bool isHelpingUIOpened = false;
 
     public enum MenuType
     {
@@ -162,5 +171,34 @@ public class S_MenuManager : MonoBehaviour
         // Re-lock le curseur
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    //!--------- UI D'aide ---------
+
+    public void EnableHelpingUI(string text) //& Active l'UI d'aide
+    {
+        if (isHelpingUIOpened) return;
+
+        UpdateKeybindText();
+
+        helpText.text = text;
+        uiHelpContainer.SetActive(true);
+
+        isHelpingUIOpened = true;
+    }
+
+    public void DisableHelpingUI() //& Désactive l'UI d'aide
+    {
+        if (!isHelpingUIOpened) return;
+
+        helpText.text = "...";
+        uiHelpContainer.SetActive(false);
+
+        isHelpingUIOpened = false;
+    }
+
+    private void UpdateKeybindText() //& Met à jour l'UI de la touche Cancel
+    {
+        cancelKeybindText.text = S_UserInput.instance.CancelInteractionAction.GetBindingDisplayString();
     }
 }

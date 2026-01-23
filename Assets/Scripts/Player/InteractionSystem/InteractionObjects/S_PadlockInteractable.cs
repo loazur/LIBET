@@ -75,8 +75,17 @@ public class S_PadlockInteractable : MonoBehaviour, SI_Interactable
         }
 
         shown = true;
-
         displayPanelPadlock.SetActive(true);
+
+        // Traduction texte d'aide
+        if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
+        {
+            S_MenuManager.instance.EnableHelpingUI("Quitter le menu");
+        }
+        else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
+        {
+            S_MenuManager.instance.EnableHelpingUI("Quit the menu");
+        }
     }
 
     private void Hide()
@@ -88,6 +97,9 @@ public class S_PadlockInteractable : MonoBehaviour, SI_Interactable
         shown = false;
 
         displayPanelPadlock.SetActive(false);
+
+        // Fermeture UI d'aide
+        S_MenuManager.instance.DisableHelpingUI();
     }
     
 
