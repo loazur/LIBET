@@ -9,7 +9,7 @@ public class S_PlayerCrouch : MonoBehaviour, SI_DataPersistance
     [HideInInspector] public float speedDecreaser = 1.2f;
     [HideInInspector] public bool isCrouching = false;
     private float originalHeight;
-    private float crouchHeight = 0.6f;
+    private float crouchHeight = 0.4f;
 
     private bool canCrouch = true;
 
