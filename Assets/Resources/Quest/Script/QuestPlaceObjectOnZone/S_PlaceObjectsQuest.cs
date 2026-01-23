@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class S_PlaceObjectsQuest : S_QuestStep
 {
-    [Header("Fonctionnement:")]
-    [Header("Mettre un tag sur l'objet à placer qui sera QuestZone")]
+    [Header("Zone Reference")]
+    [SerializeField] private S_PlaceObjectZone targetZone;
 
     [Header("Validation Mode")]
     [SerializeField] private bool useTagMode = true;
@@ -16,34 +16,25 @@ public class S_PlaceObjectsQuest : S_QuestStep
     [Header("Prefab Mode")]
     [SerializeField] private GameObject[] validPrefabs;
 
+    [Header("Specific Quest Step Settings")]
+    [Tooltip("Mettre ici LastKey pour débloquer le placard à la fin de la quête")]
+    [SerializeField] private string questNameStep = "";
+
     private int placedCount = 0;
     private bool isSubscribed = false;
 
     private HashSet<GameObject> registeredObjects = new();
 
-    private S_PlaceObjectZone targetZone;
-
     private void Start()
     {
-        GameObject zoneObj = GameObject.FindWithTag("QuestZone");
-
-        if (zoneObj == null)
-        {
-            Debug.LogError("[S_PlaceObjectsQuest] No object with tag 'QuestZone' found in scene");
-            enabled = false;
-            return;
-        }
-
-        targetZone = zoneObj.GetComponent<S_PlaceObjectZone>();
-
         if (targetZone == null)
         {
-            Debug.LogError($"[S_PlaceObjectsQuest] '{zoneObj.name}' has no S_PlaceObjectZone component");
+            Debug.LogError("[S_PlaceObjectsQuest] Target zone reference is not assigned in inspector");
             enabled = false;
             return;
         }
 
-        Debug.Log($"[S_PlaceObjectsQuest] Connected to zone: {zoneObj.name}");
+        Debug.Log($"[S_PlaceObjectsQuest] Connected to zone: {targetZone.name}");
         StartCoroutine(InitializeWhenReady());
     }
 
@@ -109,6 +100,11 @@ public class S_PlaceObjectsQuest : S_QuestStep
 
     private void CompleteQuest()
     {
+        if (questNameStep == "LastKey")
+        {
+            S_GameManager.instance.playerEvents.CupboardUnlock("LastKey");
+        }
+
         Debug.Log("[S_PlaceObjectsQuest] Quête complétée !");
         FinishQuestStep();
     }

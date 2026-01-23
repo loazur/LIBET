@@ -3,35 +3,25 @@ using System.Collections;
 
 public class S_GoToLocationQuest : S_QuestStep
 {
+    [Header("Zone Reference")]
+    [SerializeField] private S_GoToZone targetZone;
+
     [Header("Conditions")]
     [SerializeField] private string playerTag = "Player";
 
     private bool isCompleted = false;
     private bool isSubscribed = false;
 
-    private S_GoToZone targetZone;
-
     private void Start()
     {
-        GameObject zoneObj = GameObject.FindWithTag("QuestZone");
-
-        if (zoneObj == null)
-        {
-            Debug.LogError("[S_GoToLocationQuest] No object with tag 'QuestZone' found in scene");
-            enabled = false;
-            return;
-        }
-
-        targetZone = zoneObj.GetComponent<S_GoToZone>();
-
         if (targetZone == null)
         {
-            Debug.LogError($"[S_GoToLocationQuest] '{zoneObj.name}' has no S_GoToZone component");
+            Debug.LogError("[S_GoToLocationQuest] Target zone reference is not assigned in inspector");
             enabled = false;
             return;
         }
 
-        Debug.Log($"[S_GoToLocationQuest] Connected to zone: {zoneObj.name}");
+        Debug.Log($"[S_GoToLocationQuest] Connected to zone: {targetZone.name}");
         StartCoroutine(InitializeWhenReady());
     }
 
