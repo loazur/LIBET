@@ -13695,7 +13695,7 @@ PrefabInstance:
     - target: {fileID: 3427824855752784596, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 1821853591}
+      objectReference: {fileID: 2030378955}
     - target: {fileID: 4278186514454610778, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_BoundingSphereOverride.w
       value: 0.00083545217
@@ -16656,6 +16656,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e9bcf8686ac79cf49bc46894578c3d3d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 701412391}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e9bcf8686ac79cf49bc46894578c3d3d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 701412399}
   m_SourcePrefab: {fileID: 100100000, guid: e9bcf8686ac79cf49bc46894578c3d3d, type: 3}
 --- !u!1 &701412390 stripped
 GameObject:
@@ -18449,6 +18452,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e9bcf8686ac79cf49bc46894578c3d3d, type: 3}
   m_PrefabInstance: {fileID: 701412389}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &701412399
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701412390}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.025563164, y: 0.062033385, z: 0.0041366704}
+  m_Center: {x: -0.00019359402, y: 0.005837167, z: -0.0000431568}
 --- !u!1 &707517465 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3324649111441768206, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
@@ -32081,7 +32105,7 @@ Material:
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowIntensity: {r: 1, g: 0, b: 0, a: 0}
     - _ToLightDir: {r: 0.9774494, g: 0.21117042, b: 0.00000013690442, a: 0.39}
-    - _WindDirection: {r: 0.08477282, g: 0.050863713, b: 0.0084772855, a: 0}
+    - _WindDirection: {r: 0.094570555, g: 0.056742333, b: 0.009457051, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!1 &956123742
@@ -41216,6 +41240,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e9bcf8686ac79cf49bc46894578c3d3d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1167138107}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e9bcf8686ac79cf49bc46894578c3d3d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1167138111}
   m_SourcePrefab: {fileID: 100100000, guid: e9bcf8686ac79cf49bc46894578c3d3d, type: 3}
 --- !u!1 &1167138104 stripped
 GameObject:
@@ -43009,6 +43036,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e9bcf8686ac79cf49bc46894578c3d3d, type: 3}
   m_PrefabInstance: {fileID: 1167138103}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1167138111
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167138104}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.025563164, y: 0.062033385, z: 0.0041366704}
+  m_Center: {x: -0.00019168667, y: 0.005837167, z: -0.00004351443}
 --- !u!1 &1170074081 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -9182872359880364613, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
@@ -76214,43 +76262,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::S_ChairInteractable
   chairCollider: {fileID: 1804693844}
   rotationZ: 3
---- !u!84 &1821853591
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!114 &1823398357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139263,6 +139274,43 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.61255777, y: 1.0808079, z: 0.1422849}
   m_Center: {x: 0, y: -0.0051890668, z: -0.036544718}
+--- !u!84 &2030378955
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!4 &2045103528 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1966287264669771160, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}

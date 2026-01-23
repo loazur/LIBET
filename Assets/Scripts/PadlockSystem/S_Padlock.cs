@@ -61,6 +61,12 @@ public class S_Padlock : MonoBehaviour
         {
             isUnlocked = true;
             onPasswordCorrect?.Invoke();
+
+            // Déclenche l'événement de quête pour le cadenas déverrouillé
+            if (S_GameManager.instance != null)
+            {
+                S_GameManager.instance.playerEvents.PadlockUnlocked();
+            }
         }
         else
         {
