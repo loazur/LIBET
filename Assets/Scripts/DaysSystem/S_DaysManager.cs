@@ -18,6 +18,7 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     [Header("Prefabs spécifiques aux quêtes")]
     [SerializeField] private GameObject KeyOnDoorPrefab; // Prefab de la clé sur porte (jour 2)
+    [SerializeField] private GameObject NotePrefab;
 
     //~ Génération des médicaments
     [Header("Gestion de la génération des médicaments")]
@@ -79,8 +80,10 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         
         InitializeFirstDay();
 
-        Debug.Log("====================> KeyOnDoorPrefab désactivé au démarrage.");
-        KeyOnDoorPrefab.SetActive(false); // Désactive le prefab au début
+         //& Désactive le prefab au début
+        KeyOnDoorPrefab.SetActive(false);
+        NotePrefab.SetActive(false);
+
 
         
     }
@@ -185,7 +188,8 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         GenerateQuests();
 
         //& Désactive le prefab de la clé sous la porte
-        KeyOnDoorPrefab.SetActive(false); 
+        KeyOnDoorPrefab.SetActive(false);
+        NotePrefab.SetActive(false);
 
         // Démarrer le jour 1
         S_DaysTransitionScreen.instance.TriggerTransitionScreen(currentDay, 
@@ -221,17 +225,12 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
         //TODO Ajouter ICI la logique du 2eme jours (scenatio)
         // Gérer l'état du KeyOnDoorPrefab en fonction du jour
-        if (KeyOnDoorPrefab != null)
+        if (currentDay >= 2)
         {
-            if (currentDay >= 2)
-            {
-                KeyOnDoorPrefab.SetActive(true);
-            }
+            KeyOnDoorPrefab.SetActive(true);
+            NotePrefab.SetActive(true);
         }
-        else
-        {
-            Debug.LogWarning("KeyOnDoorPrefab est null! Impossible de gérer son état.");
-        }
+
 
         // On commence le prochain jour
         S_DaysTransitionScreen.instance.TriggerTransitionScreen(currentDay, 
@@ -317,14 +316,14 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         RandomizeSunTime();
 
         // Gérer l'état du KeyOnDoorPrefab en fonction du jour
-        if (KeyOnDoorPrefab != null)
+
+        if (currentDay >= 2)
         {
-            if (currentDay >= 2)
-            {
-                KeyOnDoorPrefab.SetActive(true);
-                Debug.Log($"KeyOnDoorPrefab activé pour le jour {currentDay}");
-            }
+            KeyOnDoorPrefab.SetActive(true);
+            NotePrefab.SetActive(true);
+            Debug.Log($"KeyOnDoorPrefab activé pour le jour {currentDay}");
         }
+
 
         // Redémarrer le jour
         S_DaysTransitionScreen.instance.TriggerTransitionScreen(currentDay, 

@@ -111,6 +111,17 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         }
 
         UpdateInteractText();
+
+
+        // Traduction texte d'aide
+        if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
+        {
+            S_MenuManager.instance.EnableHelpingUI("Pour ce lever");
+        }
+        else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
+        {
+            S_MenuManager.instance.EnableHelpingUI("To get up");
+        }
     }
 
     private void GetUp() //& Se lever
@@ -145,6 +156,9 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         playerInteract = null;
 
         UpdateInteractText();
+
+        // Fermer l'UI d'aide
+        S_MenuManager.instance.DisableHelpingUI();
     }
     
     private void UpdateInteractText() //& Gestion du texte en fonction de la langue

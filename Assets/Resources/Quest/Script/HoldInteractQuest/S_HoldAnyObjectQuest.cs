@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEditor.Search;
 
 /**
  * Quête : Maintenir une interaction sur un objet
@@ -11,6 +12,7 @@ public class S_HoldAnyObjectQuest : S_QuestStep
     [Header("Quest Settings")]
     [SerializeField] private string requiredTag = "";          // optionnel
     [SerializeField] private string specificObjectName = "";   // optionnel
+    [SerializeField] private bool openCupboardOnComplete = false;
 
     private bool hasCompleted = false;
     private bool isSubscribed = false;
@@ -77,7 +79,10 @@ public class S_HoldAnyObjectQuest : S_QuestStep
     {
         hasCompleted = true;
 
-        Debug.Log($"[S_HoldAnyObjectQuest] Completed with {obj.name}");
+        if (openCupboardOnComplete)
+        {
+            S_GameManager.instance.playerEvents.DrawerUnlock("drawer_office");
+        }
 
         ChangeState($"HoldInteraction:{obj.name}", "COMPLETE");
         FinishQuestStep();
