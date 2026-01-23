@@ -118,6 +118,16 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         {
             S_GameManager.instance.playerEvents.ItemPickedUp(gameObject);
         }
+
+        // Traduction texte d'aide
+        if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
+        {
+            S_MenuManager.instance.EnableHelpingUI("Appuyer pour lacher \nMaintenir pour lancer");
+        }
+        else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
+        {
+            S_MenuManager.instance.EnableHelpingUI("Press to drop \nHold to throw");
+        }
     }
 
     private void HoldingItem() //& Gestion lorsqu'on tient un item
@@ -173,6 +183,9 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         // Déstruction components au moment de drop
         playerInteract = null;
         playerCamera = null;
+
+        // Fin du menu d'aide
+        S_MenuManager.instance.DisableHelpingUI();
     }
 
     private void ThrowItem() //& Lancer un item
@@ -195,6 +208,9 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
         // Déstruction components au moment de throw
         playerInteract = null;
         playerCamera = null;
+
+        // Fin du menu d'aide
+        S_MenuManager.instance.DisableHelpingUI();
     }
 
     private void ReEnableInteractionsAndRB() //& Réactive tout ce qui avait été desactivé lors de PickupItem()
