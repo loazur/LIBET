@@ -30,6 +30,12 @@ public class S_TPInteraction : MonoBehaviour, SI_Interactable
         S_GameUserData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
 
         SubscribeToKeyManager();
+
+        // Possède déjà le droit de ce TP
+        if (S_KeyManager.instance.HasAllKeys(teleportID, 1))
+        {
+            isUnlocked = true;
+        }
     }
 
     void OnDestroy()
