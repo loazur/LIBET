@@ -13,6 +13,8 @@ using UnityEngine;
  */
 public class S_LockedDoor : S_DoorInteractable
 {
+    //TODO peut etre load pas si elle est déjà collecté ou pas la clé de la porte (a tester)
+
     [Header("Configuration du verrouillage")]
     [Tooltip("L'ID unique de cette porte (doit correspondre au doorID des clés)")]
     [SerializeField] private string doorID = "door_01";
@@ -35,6 +37,12 @@ public class S_LockedDoor : S_DoorInteractable
         if (S_KeyManager.instance != null)
         {
             S_KeyManager.instance.OnKeyCollected += OnKeyCollected;
+        }
+
+        // Vérification de si il a toutes les clés nécessaires
+        if (S_KeyManager.instance.HasAllKeys(doorID, requiredKeyCount))
+        {
+            isUnlocked = true;
         }
     }
 
