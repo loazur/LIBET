@@ -30,7 +30,7 @@ public class S_NoteInteractable : MonoBehaviour, SI_Interactable
         }
         if (add)
         {
-            S_NotesSystem.AddNote(note.label, note);
+            S_NotesSystem.AddNote(note.labelFrench, note);
             Destroy(gameObject);
         }
     }

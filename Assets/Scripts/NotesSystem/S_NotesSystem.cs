@@ -74,7 +74,15 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
     {
         get
         {
-            return activeNote.pages[currentPage];
+            if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
+            {
+                return activeNote.pagesFrench[currentPage];
+            }
+            else
+            {
+                return activeNote.pagesEnglish[currentPage];
+            }
+            
         }
     }
     private int currentPage = 0;
@@ -194,36 +202,70 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
 
         DisplayPage(0);
     }
+
     private void DisplayPage(int page)
     {
-        UI.readButton.interactable = activeNote.pages[page].pageType == PageType.TEXTURE;
+        if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French) // Français
+        {
+            UI.readButton.interactable = activeNote.pagesFrench[page].pageType == PageType.TEXTURE;
 
-        if (activeNote.pages[page].pageType != PageType.TEXT)
-        {
-            readSubscript = false;
-        }
-        else
-        {
-            if (readSubscript)
+            if (activeNote.pagesFrench[page].pageType != PageType.TEXT)
             {
-                UpdateSubscript();
+                readSubscript = false;
+            }
+            else
+            {
+                if (readSubscript)
+                {
+                    UpdateSubscript();
+                }
+            }
+
+
+            switch (activeNote.pagesFrench[page].pageType)
+            {
+                case PageType.TEXT:
+                    UI.page.sprite = defaultPageTexture;
+                    UI.textObj.text = activeNote.pagesFrench[page].text;
+                    break;
+
+                case PageType.TEXTURE:
+                    UI.page.sprite = activeNote.pagesFrench[page].texture;
+                    UI.textObj.text = string.Empty;
+                    break;
             }
         }
-
-
-
-        switch (activeNote.pages[page].pageType)
+        else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English) // English
         {
-            case PageType.TEXT:
-                UI.page.sprite = defaultPageTexture;
-                UI.textObj.text = activeNote.pages[page].text;
-                break;
+            UI.readButton.interactable = activeNote.pagesEnglish[page].pageType == PageType.TEXTURE;
 
-            case PageType.TEXTURE:
-                UI.page.sprite = activeNote.pages[page].texture;
-                UI.textObj.text = string.Empty;
-                break;
+            if (activeNote.pagesEnglish[page].pageType != PageType.TEXT)
+            {
+                readSubscript = false;
+            }
+            else
+            {
+                if (readSubscript)
+                {
+                    UpdateSubscript();
+                }
+            }
+
+
+            switch (activeNote.pagesEnglish[page].pageType)
+            {
+                case PageType.TEXT:
+                    UI.page.sprite = defaultPageTexture;
+                    UI.textObj.text = activeNote.pagesEnglish[page].text;
+                    break;
+
+                case PageType.TEXTURE:
+                    UI.page.sprite = activeNote.pagesEnglish[page].texture;
+                    UI.textObj.text = string.Empty;
+                    break;
+            }
         }
+        
 
         UpdateUI();
     }
@@ -254,9 +296,17 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
     private void UpdateUI()
     {
         UI.previousButton.interactable = !(currentPage == 0);
-        UI.nextButton.interactable = !(currentPage == activeNote.pages.Length - 1);
+        
+        if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
+        {
+            UI.nextButton.interactable = !(currentPage == activeNote.pagesFrench.Length - 1);
+        }
+        else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
+        {
+            UI.nextButton.interactable = !(currentPage == activeNote.pagesEnglish.Length - 1);
+        }
 
-         // Le bouton Read est visible seulement pour les pages TEXT avec subscript
+        // Le bouton Read est visible seulement pour les pages TEXT avec subscript
         var useSubscript = activePage.pageType == PageType.TEXT && activePage.useSubscript;
         UI.readButton.alpha = useSubscript ? (readSubscript ? 0.5f : 1f) : 0f;
         UI.readButton.interactable = useSubscript; 

@@ -215,7 +215,7 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
         // Diminuer le temps de perte de lucidité chaque jours
         float LucidityDecreaseRateAccessor = S_AlzheimerEventsManager.instance.GetLucidityDecreaseRate();
-        LucidityDecreaseRateAccessor = LucidityDecreaseRateAccessor / 15;                                 //! ICI - Ajuster la diminution
+        LucidityDecreaseRateAccessor = LucidityDecreaseRateAccessor + LucidityDecreaseRateAccessor / 4;                                 //! ICI - Ajuster la diminution
 
         S_AlzheimerEventsManager.instance.SetlucidityDecreaseRate(LucidityDecreaseRateAccessor);
 
@@ -451,6 +451,12 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         }
 
         currentDay = newDay;
+    }
+
+    //& Events pour voir si on a atteint le jour 2
+    public bool IsDay2Reached()
+    {
+        return currentDay >= 2;
     }
 
     #region  DEBUG
