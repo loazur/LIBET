@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 public class S_PlaceObjectsQuest : S_QuestStep
 {
-    [Header("Fonctionnement:")]
-    [Header("Mettre un tag sur l'objet à placer qui sera QuestZone")]
+    [Header("Zone Identification")]
+    [Tooltip("L'ID unique de la zone cible (doit correspondre à l'ID sur le S_PlaceObjectZone)")]
+    [SerializeField] private string targetZoneId = "";
 
     [Header("Validation Mode")]
     [SerializeField] private bool useTagMode = true;
@@ -16,34 +17,37 @@ public class S_PlaceObjectsQuest : S_QuestStep
     [Header("Prefab Mode")]
     [SerializeField] private GameObject[] validPrefabs;
 
+    [Header("Specific Quest Step Settings")]
+    [Tooltip("Mettre ici LastKey pour débloquer le placard à la fin de la quête")]
+    [SerializeField] private string questNameStep = "";
+
     private int placedCount = 0;
     private bool isSubscribed = false;
 
     private HashSet<GameObject> registeredObjects = new();
 
-    private S_PlaceObjectZone targetZone;
+    private S_PlaceObjectZone targetZone = null;
 
     private void Start()
     {
-        GameObject zoneObj = GameObject.FindWithTag("QuestZone");
+        StartCoroutine(FindZoneAndInitialize());
+    }
 
-        if (zoneObj == null)
-        {
-            Debug.LogError("[S_PlaceObjectsQuest] No object with tag 'QuestZone' found in scene");
-            enabled = false;
-            return;
-        }
+    private IEnumerator FindZoneAndInitialize()
+    {
+        // Attendre une frame pour que les zones s'enregistrent
+        yield return null;
 
-        targetZone = zoneObj.GetComponent<S_PlaceObjectZone>();
+        targetZone = S_PlaceObjectZone.GetZoneById(targetZoneId);
 
         if (targetZone == null)
         {
-            Debug.LogError($"[S_PlaceObjectsQuest] '{zoneObj.name}' has no S_PlaceObjectZone component");
+            Debug.LogError($"[S_PlaceObjectsQuest] No zone found with ID '{targetZoneId}'");
             enabled = false;
-            return;
+            yield break;
         }
 
-        Debug.Log($"[S_PlaceObjectsQuest] Connected to zone: {zoneObj.name}");
+        Debug.Log($"[S_PlaceObjectsQuest] Connected to zone: {targetZone.name} (ID: {targetZoneId})");
         StartCoroutine(InitializeWhenReady());
     }
 
@@ -109,6 +113,10 @@ public class S_PlaceObjectsQuest : S_QuestStep
 
     private void CompleteQuest()
     {
+
+        S_GameManager.instance.playerEvents.CupboardUnlock("LastKey");
+
+
         Debug.Log("[S_PlaceObjectsQuest] Quête complétée !");
         FinishQuestStep();
     }
