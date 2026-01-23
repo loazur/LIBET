@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 public class S_PlaceObjectsQuest : S_QuestStep
 {
-    [Header("Zone Reference")]
-    [SerializeField] private S_PlaceObjectZone targetZone;
+    [Header("Zone Identification")]
+    [Tooltip("L'ID unique de la zone cible (doit correspondre à l'ID sur le S_PlaceObjectZone)")]
+    [SerializeField] private string targetZoneId = "";
 
     [Header("Validation Mode")]
     [SerializeField] private bool useTagMode = true;
@@ -25,16 +26,28 @@ public class S_PlaceObjectsQuest : S_QuestStep
 
     private HashSet<GameObject> registeredObjects = new();
 
+    private S_PlaceObjectZone targetZone = null;
+
     private void Start()
     {
+        StartCoroutine(FindZoneAndInitialize());
+    }
+
+    private IEnumerator FindZoneAndInitialize()
+    {
+        // Attendre une frame pour que les zones s'enregistrent
+        yield return null;
+
+        targetZone = S_PlaceObjectZone.GetZoneById(targetZoneId);
+
         if (targetZone == null)
         {
-            Debug.LogError("[S_PlaceObjectsQuest] Target zone reference is not assigned in inspector");
+            Debug.LogError($"[S_PlaceObjectsQuest] No zone found with ID '{targetZoneId}'");
             enabled = false;
-            return;
+            yield break;
         }
 
-        Debug.Log($"[S_PlaceObjectsQuest] Connected to zone: {targetZone.name}");
+        Debug.Log($"[S_PlaceObjectsQuest] Connected to zone: {targetZone.name} (ID: {targetZoneId})");
         StartCoroutine(InitializeWhenReady());
     }
 
@@ -100,10 +113,9 @@ public class S_PlaceObjectsQuest : S_QuestStep
 
     private void CompleteQuest()
     {
-        if (questNameStep == "LastKey")
-        {
-            S_GameManager.instance.playerEvents.CupboardUnlock("LastKey");
-        }
+
+        S_GameManager.instance.playerEvents.CupboardUnlock("LastKey");
+
 
         Debug.Log("[S_PlaceObjectsQuest] Quête complétée !");
         FinishQuestStep();

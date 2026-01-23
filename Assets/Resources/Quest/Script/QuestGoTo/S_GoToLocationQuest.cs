@@ -3,25 +3,37 @@ using System.Collections;
 
 public class S_GoToLocationQuest : S_QuestStep
 {
-    [Header("Zone Reference")]
-    [SerializeField] private S_GoToZone targetZone;
+    [Header("Zone Identification")]
+    [Tooltip("L'ID unique de la zone cible (doit correspondre à l'ID sur le S_GoToZone)")]
+    [SerializeField] private string targetZoneId = "";
 
     [Header("Conditions")]
     [SerializeField] private string playerTag = "Player";
 
     private bool isCompleted = false;
     private bool isSubscribed = false;
+    private S_GoToZone targetZone = null;
 
     private void Start()
     {
+        StartCoroutine(FindZoneAndInitialize());
+    }
+
+    private IEnumerator FindZoneAndInitialize()
+    {
+        // Attendre une frame pour que les zones s'enregistrent
+        yield return null;
+
+        targetZone = S_GoToZone.GetZoneById(targetZoneId);
+
         if (targetZone == null)
         {
-            Debug.LogError("[S_GoToLocationQuest] Target zone reference is not assigned in inspector");
+            Debug.LogError($"[S_GoToLocationQuest] No zone found with ID '{targetZoneId}'");
             enabled = false;
-            return;
+            yield break;
         }
 
-        Debug.Log($"[S_GoToLocationQuest] Connected to zone: {targetZone.name}");
+        Debug.Log($"[S_GoToLocationQuest] Connected to zone: {targetZone.name} (ID: {targetZoneId})");
         StartCoroutine(InitializeWhenReady());
     }
 
