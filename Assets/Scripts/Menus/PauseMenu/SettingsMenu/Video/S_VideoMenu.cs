@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class S_VideoMenu : S_Menu
@@ -11,14 +12,21 @@ public class S_VideoMenu : S_Menu
     [SerializeField] private Button returnButton;
     [SerializeField] private Button leaveButton;
 
+    private string currentSceneName;
+
     //! Mise à jour sliders / Boutons resets sont géré directement via S_VideoUserData
 
     protected override void OnEnable()
     {
         base.OnEnable(); // Utilise le OnEnable du parent
 
-        S_HandlerPauseMenu.instance.setCurrentMenu(this);
-        S_HandlerPauseMenu.instance.setMenuOpened(true);
+        currentSceneName = SceneManager.GetActiveScene().name;
+
+        if (currentSceneName != "MainMenu")
+        {
+            S_HandlerPauseMenu.instance.setCurrentMenu(this);
+            S_HandlerPauseMenu.instance.setMenuOpened(true);
+        }
     }
 
     public void OnSaveClicked()

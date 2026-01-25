@@ -25,7 +25,8 @@ public class S_TakeKey : MonoBehaviour, SI_Interactable
         // S'autodétruit si déja trouvé
         if (S_KeyManager.instance.HasKey(doorID, keyID))
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 
@@ -60,7 +61,8 @@ public class S_TakeKey : MonoBehaviour, SI_Interactable
         }
 
         //& Détruire l'objet clé
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     public string getInteractText()

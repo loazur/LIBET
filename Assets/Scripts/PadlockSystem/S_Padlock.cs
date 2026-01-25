@@ -30,7 +30,8 @@ public class S_Padlock : MonoBehaviour, SI_DataPersistance
         if (isUnlocked)
         {
             onPasswordCorrect?.Invoke();
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 

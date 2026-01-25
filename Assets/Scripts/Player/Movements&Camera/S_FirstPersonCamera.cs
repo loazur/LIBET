@@ -86,6 +86,8 @@ public class S_FirstPersonCamera : MonoBehaviour, SI_DataPersistance
         gameData.cameraRotation = transform.localEulerAngles;
     }
 
+    public int GetLoadPriority() => 0; // Valeur par défaut
+
     private void Rotate()
     {
         if (!canRotateCamera())

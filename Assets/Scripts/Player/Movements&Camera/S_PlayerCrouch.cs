@@ -59,6 +59,8 @@ public class S_PlayerCrouch : MonoBehaviour, SI_DataPersistance
         gameData.isCrouching = isCrouching;
     }
 
+    public int GetLoadPriority() => 0; // Valeur par défaut
+
     //! --------------- Fonctions privés ---------------
 
     private void OnCrouch() //& Gestion de l'accroupissement

@@ -42,27 +42,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         {
             instance = this;
             Debug.Log("[DaysManager] Instance créée avec succès");
-
-            // Assignement des events
-            if (S_AlzheimerEventsManager.instance != null)
-            {
-                S_AlzheimerEventsManager.instance.OnLucidityZero += OnLucidityReachedZero;
-                Debug.Log("[DaysManager] Abonné à OnLucidityZero");
-            }
-            else
-            {
-                Debug.LogWarning("[DaysManager] S_AlzheimerEventsManager.instance est NULL dans Awake!");
-            }
-
-            if (S_DaysTransitionScreen.instance != null)
-            {
-                S_DaysTransitionScreen.instance.OnTransitionScreenEnd += StartDay;
-                Debug.Log("[DaysManager] Abonné à OnTransitionScreenEnd");
-            }
-            else
-            {
-                Debug.LogWarning("[DaysManager] S_DaysTransitionScreen.instance est NULL dans Awake!");
-            }
         }
         else
         {
@@ -75,6 +54,28 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     void Start() //& Initialize le 1er jour
     {
+        // Assignement des events
+        if (S_AlzheimerEventsManager.instance != null)
+        {
+            S_AlzheimerEventsManager.instance.OnLucidityZero += OnLucidityReachedZero;
+            Debug.Log("[DaysManager] Abonné à OnLucidityZero");
+        }
+        else
+        {
+            Debug.LogWarning("[DaysManager] S_AlzheimerEventsManager.instance est NULL dans Awake!");
+        }
+
+        if (S_DaysTransitionScreen.instance != null)
+        {
+            S_DaysTransitionScreen.instance.OnTransitionScreenEnd += StartDay;
+            Debug.Log("[DaysManager] Abonné à OnTransitionScreenEnd");
+        }
+        else
+        {
+            Debug.LogWarning("[DaysManager] S_DaysTransitionScreen.instance est NULL dans Awake!");
+        }
+        
+
         Debug.Log("===============================================================> Start appelé sur DaysManager");
         Debug.Log($"[DaysManager] Start appelé - enabled: {enabled}, gameObject.activeInHierarchy: {gameObject.activeInHierarchy}");
         

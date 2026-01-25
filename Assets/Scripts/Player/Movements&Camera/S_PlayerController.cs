@@ -98,6 +98,8 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
         gameData.playerRotation = transform.rotation;
     }
 
+    public int GetLoadPriority() => 0; // Valeur par défaut
+
     //! --------------- Fonctions privés ------------------
 
     private void Move(Vector2 movementVector) //& Gére les mouvements du joueur et la gravité

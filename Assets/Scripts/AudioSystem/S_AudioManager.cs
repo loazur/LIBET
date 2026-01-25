@@ -47,8 +47,9 @@ public class S_AudioManager : MonoBehaviour
         InitializeMusic(S_FMODEvents.instance.music);
     }
 
-    void OnDestroy()
+    void OnDisable()
     {
+        Debug.Log("AudioManager disabled, cleaning up FMOD instances.");
         CleanUp();
     }
 
