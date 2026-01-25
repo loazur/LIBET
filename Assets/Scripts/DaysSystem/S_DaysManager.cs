@@ -401,13 +401,13 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     {
         timeLasted = 0f;
         isDayActive = true;
-        
-        // Sauvegarde
-        S_DataPersistanceManager.instance.SaveGame();
 
         // Tp au spawn (avec la bonne orientation)
         player.transform.position = spawnPoint.position;
         player.transform.rotation = spawnPoint.rotation;
+        
+        // Sauvegarde
+        S_DataPersistanceManager.instance.SaveGame();
 
         Debug.Log($"Jour {currentDay} commencé");
     }

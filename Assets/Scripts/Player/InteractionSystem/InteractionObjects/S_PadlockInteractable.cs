@@ -1,4 +1,3 @@
-using UnityEditor.Search;
 using UnityEngine;
 
 public class S_PadlockInteractable : MonoBehaviour, SI_Interactable
