@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 {
@@ -34,6 +35,8 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     public event Action OnDayEnd;
     public event Action OnDayLost; // Event quand le joueur perd un jour
 
+    S_TakeKey keyUnderDoor;
+
     void Awake() //& Création du manager
     {
         Debug.Log($"[DaysManager] Awake appelé sur {gameObject.name}");
@@ -54,6 +57,9 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     void Start() //& Initialize le 1er jour
     {
+        // Initialize keyUnderDoor
+        keyUnderDoor = KeyOnDoorPrefab.GetComponent<S_TakeKey>();
+        
         // Assignement des events
         if (S_AlzheimerEventsManager.instance != null)
         {
@@ -81,7 +87,7 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         
         InitializeFirstDay();
 
-         //& Désactive le prefab au début
+        //& Désactive le prefab au début
         KeyOnDoorPrefab.SetActive(false);
         NotePrefab.SetActive(false);
 
@@ -318,7 +324,7 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
         // Gérer l'état du KeyOnDoorPrefab en fonction du jour
 
-        if (currentDay >= 2)
+        if (currentDay >= 2 && keyUnderDoor.isKeyTaken == false)
         {
             KeyOnDoorPrefab.SetActive(true);
             NotePrefab.SetActive(true);
