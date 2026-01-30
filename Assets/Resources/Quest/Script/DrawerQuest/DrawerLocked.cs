@@ -10,8 +10,16 @@ using UnityEngine;
  * @version	v1.0.0	Tuesday, January 21st, 2026.
  * @global
  */
-public class S_DrawerLocked : S_DoorInteractable
+public class S_DrawerLocked : S_DoorInteractable, SI_DataPersistance
 {
+    [SerializeField] private string id;
+    
+    [ContextMenu("Generate guid for id")]
+    private void GenerateGuid()
+    {
+        id = System.Guid.NewGuid().ToString();
+    }
+
     [Header("Configuration du verrouillage")]
     [Tooltip("L'ID unique de ce tiroir (utilisé pour le déverrouillage via événement)")]
     [SerializeField] private string drawerID = "drawer_01";
@@ -43,6 +51,31 @@ public class S_DrawerLocked : S_DoorInteractable
             S_GameManager.instance.playerEvents.onDrawerUnlocked -= OnDrawerUnlockEvent;
         }
     }
+
+     //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde de si le drawer est unlocked
+
+    public void LoadData(S_GameData gameData)
+    {
+        if (gameData.unlockedDrawers.TryGetValue(id, out bool isUnlocked))
+        {
+            this.isUnlocked = isUnlocked;
+        }
+    }
+
+    public void SaveData(S_GameData gameData)
+    {
+        if (gameData.unlockedDrawers.ContainsKey(id))
+        {
+            gameData.unlockedDrawers.Remove(id);
+        }
+
+        gameData.unlockedDrawers.Add(id, isUnlocked);
+    }
+
+    public int GetLoadPriority() => 0; // ✅ Priorité normale
+
 
     //! Override de l'interaction pour ajouter la logique de verrouillage
     //! =====================================================

@@ -13,6 +13,7 @@ public class S_TakeKey : MonoBehaviour, SI_Interactable
     [Tooltip("L'ID unique de cette clé (doit être unique parmi les clés de la même porte)")]
     [SerializeField] private string keyID = "key_01";
 
+    public bool isKeyTaken = false;
     private string interactText = "not_set";
 
     //*-----------------------------------------------------*
@@ -21,6 +22,13 @@ public class S_TakeKey : MonoBehaviour, SI_Interactable
     {
         UpdateInteractText();
         S_GameUserData.instance.OnLanguageChanged += UpdateInteractText;
+
+        // S'autodétruit si déja trouvé
+        if (S_KeyManager.instance.HasKey(doorID, keyID))
+        {
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
+        }
     }
 
     void OnDestroy()
@@ -54,7 +62,9 @@ public class S_TakeKey : MonoBehaviour, SI_Interactable
         }
 
         //& Détruire l'objet clé
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        gameObject.SetActive(false);
+        isKeyTaken = true;
     }
 
     public string getInteractText()

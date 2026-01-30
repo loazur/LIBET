@@ -10,7 +10,7 @@ using UnityEngine;
  * @version	v1.0.0	Monday, January 5th, 2026.
  * @global
  */
-public class S_KeyManager : MonoBehaviour
+public class S_KeyManager : MonoBehaviour, SI_DataPersistance
 {
     //~ Singleton
     public static S_KeyManager instance { get; private set; }
@@ -34,6 +34,35 @@ public class S_KeyManager : MonoBehaviour
             return;
         }
     }
+
+    //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde clés obtenus
+
+    public void LoadData(S_GameData gameData)
+    {
+        // Récupérer les clés stockés
+        collectedKeys.Clear();
+
+        foreach (KeyValuePair<string, List<string>> eachNote in gameData.collectedKeys)
+        {
+            collectedKeys.Add(eachNote.Key, eachNote.Value);
+        }
+    }
+
+    public void SaveData(S_GameData gameData)
+    {
+        // Sauvegarder les clés actuels
+        gameData.collectedKeys.Clear();
+
+        foreach (KeyValuePair<string, List<string>> eachNote in collectedKeys)
+        {
+            gameData.collectedKeys.Add(eachNote.Key, eachNote.Value);
+        }
+    }
+
+    public int GetLoadPriority() => 0; // ✅ Priorité normale
+
 
     
     /**

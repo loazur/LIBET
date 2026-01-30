@@ -25,6 +25,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class S_UIQuestMenu : MonoBehaviour
 {
@@ -130,37 +131,29 @@ public class S_UIQuestMenu : MonoBehaviour
         if (uiQuestMenu == null) return;
 
         bool isOpen = uiQuestMenu.activeSelf;
-        uiQuestMenu.SetActive(!isOpen);
 
-        if (!isOpen) //~ Ouvert
+        if (!isOpen) //~ Veut ouvrir le menu
         {
-            /*
-            //& Réactiver le curseur de la souris si le menu est ouvert
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            
-            //& Bloquer la caméra du joueur
-            if (S_GameManager.instance != null && S_GameManager.instance.playerEvents != null)
-            {
-                S_GameManager.instance.playerEvents.LockPlayerCamera(true);
-            }
-            
-            // Le menu vient de s'ouvrir
-            */
-            UpdateQuestMenuUI();
-
+            // VÉRIFIER D'ABORD si on peut ouvrir
             if (S_MenuManager.instance != null)
             {
                 if (!S_MenuManager.instance.RegisterMenuOpen(S_MenuManager.MenuType.QUESTS))
                 {
-                    Debug.LogWarning("[DialogueManager] Impossible de démarrer le menu quests, un menu est ouvert");
-                    return;
+                    Debug.LogWarning("[MenuQuests] Impossible de démarrer le menu quests, un menu est ouvert");
+                    return; // Bloquer l'ouverture
                 }
             }
+
+            // Si on arrive ici, on peut ouvrir le menu
+            uiQuestMenu.SetActive(true);
+            UpdateQuestMenuUI();
             
+            // Sélectionner automatiquement la première quête disponible
+            SelectFirstAvailableQuest();
         }
-        else //~ Fermé
+        else //~ Veut fermer le menu
         {
+            uiQuestMenu.SetActive(false);
 
             if (S_MenuManager.instance != null)
             {
@@ -531,5 +524,56 @@ public class S_UIQuestMenu : MonoBehaviour
     }
 
     #endregion
+
+    /**
+     * Sélectionne automatiquement la première quête disponible
+     * Priorité: Story Quest > Side Quest 1 > Side Quest 2 > Side Quest 3
+     */
+    private void SelectFirstAvailableQuest()
+    {
+        if (S_QuestManager.instance == null) return;
+
+        // 1. Essayer la quête d'histoire en premier
+        if (storyQuest != null && 
+            (storyQuest.state == E_QuestState.IN_PROGRESS || storyQuest.state == E_QuestState.CAN_FINISH))
+        {
+            S_QuestManager.instance.SetSelectedQuestForDisplay(storyQuest);
+            UpdateSelectionHighlight();
+            
+            // Sélectionner le bouton dans l'EventSystem pour la navigation au clavier/manette
+            if (questStoryButton != null)
+            {
+                EventSystem.current?.SetSelectedGameObject(questStoryButton.gameObject);
+            }
+            
+            Debug.Log($"<color=cyan>[UIQuestMenu]</color> Quête histoire auto-sélectionnée: {storyQuest.info.displayName}");
+            return;
+        }
+
+        // 2. Sinon, essayer les quêtes secondaires dans l'ordre
+        for (int i = 0; i < questSideSlots.Length; i++)
+        {
+            S_Quest quest = questSideSlots[i].quest;
+            
+            if (quest != null && 
+                (quest.state == E_QuestState.IN_PROGRESS || quest.state == E_QuestState.CAN_FINISH))
+            {
+                S_QuestManager.instance.SetSelectedQuestForDisplay(quest);
+                UpdateSelectionHighlight();
+                
+                // Sélectionner le bouton dans l'EventSystem
+                if (questSideSlots[i].button != null)
+                {
+                    UnityEngine.EventSystems.EventSystem.current?.SetSelectedGameObject(questSideSlots[i].button.gameObject);
+                }
+                
+                Debug.Log($"<color=cyan>[UIQuestMenu]</color> Quête secondaire {i + 1} auto-sélectionnée: {quest.info.displayName}");
+                return;
+            }
+        }
+
+        // 3. Aucune quête disponible
+        Debug.Log("<color=yellow>[UIQuestMenu]</color> Aucune quête disponible à sélectionner");
+    }
 
 }

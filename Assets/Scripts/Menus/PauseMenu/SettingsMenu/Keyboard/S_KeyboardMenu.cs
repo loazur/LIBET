@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class S_KeyboardMenu : S_Menu
@@ -10,14 +11,21 @@ public class S_KeyboardMenu : S_Menu
     [SerializeField] private Button returnButton;
     [SerializeField] private Button leaveButton;
 
+    private string currentSceneName;
+
     //! Mise à jour sliders des keybinds automatiquement via le prefab lié
 
     protected override void OnEnable()
     {
         base.OnEnable(); // Utilise le OnEnable du parent
 
-        S_HandlerPauseMenu.instance.setCurrentMenu(this);
-        S_HandlerPauseMenu.instance.setMenuOpened(true);
+        currentSceneName = SceneManager.GetActiveScene().name;
+
+        if (currentSceneName != "MainMenu")
+        {
+            S_HandlerPauseMenu.instance.setCurrentMenu(this);
+            S_HandlerPauseMenu.instance.setMenuOpened(true);
+        }
     }
 
     public void OnReturnClicked()

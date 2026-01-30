@@ -61,9 +61,11 @@ public class S_SettingsMenu : S_Menu
                 }
             }
         }
-
-        S_HandlerPauseMenu.instance.setCurrentMenu(this);
-        S_HandlerPauseMenu.instance.setMenuOpened(true);
+        else
+        {
+            S_HandlerPauseMenu.instance.setCurrentMenu(this);
+            S_HandlerPauseMenu.instance.setMenuOpened(true);
+        }
     }
 
     public void OnGameClicked()

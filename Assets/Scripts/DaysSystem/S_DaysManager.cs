@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 {
@@ -34,6 +35,8 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     public event Action OnDayEnd;
     public event Action OnDayLost; // Event quand le joueur perd un jour
 
+    S_TakeKey keyUnderDoor;
+
     void Awake() //& Création du manager
     {
         Debug.Log($"[DaysManager] Awake appelé sur {gameObject.name}");
@@ -42,27 +45,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         {
             instance = this;
             Debug.Log("[DaysManager] Instance créée avec succès");
-
-            // Assignement des events
-            if (S_AlzheimerEventsManager.instance != null)
-            {
-                S_AlzheimerEventsManager.instance.OnLucidityZero += OnLucidityReachedZero;
-                Debug.Log("[DaysManager] Abonné à OnLucidityZero");
-            }
-            else
-            {
-                Debug.LogWarning("[DaysManager] S_AlzheimerEventsManager.instance est NULL dans Awake!");
-            }
-
-            if (S_DaysTransitionScreen.instance != null)
-            {
-                S_DaysTransitionScreen.instance.OnTransitionScreenEnd += StartDay;
-                Debug.Log("[DaysManager] Abonné à OnTransitionScreenEnd");
-            }
-            else
-            {
-                Debug.LogWarning("[DaysManager] S_DaysTransitionScreen.instance est NULL dans Awake!");
-            }
         }
         else
         {
@@ -75,12 +57,37 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     void Start() //& Initialize le 1er jour
     {
+        // Initialize keyUnderDoor
+        keyUnderDoor = KeyOnDoorPrefab.GetComponent<S_TakeKey>();
+        
+        // Assignement des events
+        if (S_AlzheimerEventsManager.instance != null)
+        {
+            S_AlzheimerEventsManager.instance.OnLucidityZero += OnLucidityReachedZero;
+            Debug.Log("[DaysManager] Abonné à OnLucidityZero");
+        }
+        else
+        {
+            Debug.LogWarning("[DaysManager] S_AlzheimerEventsManager.instance est NULL dans Awake!");
+        }
+
+        if (S_DaysTransitionScreen.instance != null)
+        {
+            S_DaysTransitionScreen.instance.OnTransitionScreenEnd += StartDay;
+            Debug.Log("[DaysManager] Abonné à OnTransitionScreenEnd");
+        }
+        else
+        {
+            Debug.LogWarning("[DaysManager] S_DaysTransitionScreen.instance est NULL dans Awake!");
+        }
+        
+
         Debug.Log("===============================================================> Start appelé sur DaysManager");
         Debug.Log($"[DaysManager] Start appelé - enabled: {enabled}, gameObject.activeInHierarchy: {gameObject.activeInHierarchy}");
         
         InitializeFirstDay();
 
-         //& Désactive le prefab au début
+        //& Désactive le prefab au début
         KeyOnDoorPrefab.SetActive(false);
         NotePrefab.SetActive(false);
 
@@ -317,7 +324,7 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
         // Gérer l'état du KeyOnDoorPrefab en fonction du jour
 
-        if (currentDay >= 2)
+        if (currentDay >= 2 && keyUnderDoor.isKeyTaken == false)
         {
             KeyOnDoorPrefab.SetActive(true);
             NotePrefab.SetActive(true);
@@ -394,13 +401,13 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     {
         timeLasted = 0f;
         isDayActive = true;
-        
-        // Sauvegarde
-        S_DataPersistanceManager.instance.SaveGame();
 
         // Tp au spawn (avec la bonne orientation)
         player.transform.position = spawnPoint.position;
         player.transform.rotation = spawnPoint.rotation;
+        
+        // Sauvegarde
+        S_DataPersistanceManager.instance.SaveGame();
 
         Debug.Log($"Jour {currentDay} commencé");
     }
