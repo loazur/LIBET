@@ -21,12 +21,12 @@ public class S_HeadbobSystem : MonoBehaviour
     private bool isHeadbobActive = false;
 
     //! Walk
-    // 0.075f Amount
+    // 0.055f Amount
     // 8f     Frequency
     // 10     Smooth
 
     //! Run
-    // 0.0805f   Amount
+    // 0.0755f   Amount
     // 12f       Frequency
     // 10        Smooth
 
@@ -71,13 +71,13 @@ public class S_HeadbobSystem : MonoBehaviour
 
         if (S_UserInput.instance.SprintInput) // Courir
         {
-            Amount = 0.0805f;
+            Amount = 0.0755f;
             Frequency = 12f;
             Smooth = 10;
         }
         else // Marcher
         {
-            Amount = 0.075f;
+            Amount = 0.055f;
             Frequency = 8f;
             Smooth = 10;
         }
