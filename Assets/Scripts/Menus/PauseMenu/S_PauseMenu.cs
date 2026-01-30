@@ -60,6 +60,9 @@ public class S_PauseMenu : S_Menu
         // Remet la musique du MainMenu
         S_AudioManager.instance.SetMusicArea(E_MusicArea.AREA1);
 
+        // Désactivé le menu avant changement de scène
+        DeactivateMenu();
+
         // Changement de scene
         S_SceneLoader.instance.LoadScene("MainMenu");
     }
