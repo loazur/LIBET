@@ -143,7 +143,9 @@ public class S_PlayerInteract : MonoBehaviour
                 return interactableHit; // Priorité à ce que le joueur regarde
             }
         }
-        
+
+        //! Détection d'interaction le plus proche (et à travers les murs)
+        /*
         //~ Utilisation de la méthode avec la sphere (si jamais le raycast n'a rien donné)
         List<SI_Interactable> interactableList = new List<SI_Interactable>();
         Collider[] colliderArray = Physics.OverlapSphere(transform.position, interactRange); // Récupère tout les colliders autour du joueur
@@ -181,8 +183,11 @@ public class S_PlayerInteract : MonoBehaviour
                 }
             }
         }
+        
 
         return closestInteractable; // Retourne l'interaction la plus proche
+        */
+        return null;
     }
 
     //? ------------------------------------------------
