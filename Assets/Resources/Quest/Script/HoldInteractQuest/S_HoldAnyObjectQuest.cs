@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using UnityEditor.Search;
 
 /**
  * Quête : Maintenir une interaction sur un objet

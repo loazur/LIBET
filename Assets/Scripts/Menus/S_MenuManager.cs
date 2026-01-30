@@ -38,7 +38,6 @@ public class S_MenuManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -131,7 +130,6 @@ public class S_MenuManager : MonoBehaviour
         var playerController = FindAnyObjectByType<S_PlayerController>();
         var playerCamera = FindAnyObjectByType<S_FirstPersonCamera>();
         var playerInteract = FindAnyObjectByType<S_PlayerInteract>();
-        var playerCrouch = playerController?.GetComponent<S_PlayerCrouch>();
         var playerFootsteps = playerController?.GetComponent<S_PlayerFootsteps>();
 
         if (playerController != null) playerController.setMovementsEnabled(false);
@@ -141,7 +139,6 @@ public class S_MenuManager : MonoBehaviour
             playerCamera.setRotationEnabled(false);
         }
         if (playerInteract != null) playerInteract.setInteractionEnabled(false);
-        if (playerCrouch != null) playerCrouch.setAbleToCrouch(false);
         if (playerFootsteps != null) playerFootsteps.SetSoundsEnabled(false);
     }
 
@@ -155,7 +152,6 @@ public class S_MenuManager : MonoBehaviour
         var playerController = FindAnyObjectByType<S_PlayerController>();
         var playerCamera = FindAnyObjectByType<S_FirstPersonCamera>();
         var playerInteract = FindAnyObjectByType<S_PlayerInteract>();
-        var playerCrouch = playerController?.GetComponent<S_PlayerCrouch>();
         var playerFootsteps = playerController?.GetComponent<S_PlayerFootsteps>();
 
         if (playerController != null) playerController.setMovementsEnabled(true);
@@ -165,7 +161,6 @@ public class S_MenuManager : MonoBehaviour
             playerCamera.setRotationEnabled(true);
         }
         if (playerInteract != null) playerInteract.setInteractionEnabled(true);
-        if (playerCrouch != null) playerCrouch.setAbleToCrouch(true);
         if (playerFootsteps != null) playerFootsteps.SetSoundsEnabled(true);
 
         // Re-lock le curseur

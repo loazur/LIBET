@@ -1,8 +1,16 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class S_Padlock : MonoBehaviour
+public class S_Padlock : MonoBehaviour, SI_DataPersistance
 {
+    [SerializeField] private string id;
+    
+    [ContextMenu("Generate guid for id")]
+    private void GenerateGuid()
+    {
+        id = System.Guid.NewGuid().ToString();
+    }
+
     [Header("Configuration")]
     [SerializeField] private string password = "1234";
     [Tooltip("Mot de passe actuellement entré par le joueur")]
@@ -15,6 +23,41 @@ public class S_Padlock : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private bool unlockOnce = true; // Se déverrouille qu'une seule fois    
     private bool isUnlocked = false;
+
+    void Start()
+    {
+        // Si déjà unlocked s'autodétruit
+        if (isUnlocked)
+        {
+            onPasswordCorrect?.Invoke();
+            //Destroy(gameObject);
+            gameObject.SetActive(false);
+        }
+    }
+
+    //!---------------- SI_DataPersistance ----------------
+
+    //~ Sauvegarde de si le cupboard est unlocked
+
+    public void LoadData(S_GameData gameData)
+    {
+        if (gameData.unlockedPadlocks.TryGetValue(id, out bool isUnlocked))
+        {
+            this.isUnlocked = isUnlocked;
+        }
+    }
+
+    public void SaveData(S_GameData gameData)
+    {
+        if (gameData.unlockedPadlocks.ContainsKey(id))
+        {
+            gameData.unlockedPadlocks.Remove(id);
+        }
+
+        gameData.unlockedPadlocks.Add(id, isUnlocked);
+    }
+
+    public int GetLoadPriority() => 0; // ✅ Priorité normale
 
     /// <summary>
     /// Ajoute un caractère au mot de passe en cours
@@ -61,6 +104,12 @@ public class S_Padlock : MonoBehaviour
         {
             isUnlocked = true;
             onPasswordCorrect?.Invoke();
+
+            // Déclenche l'événement de quête pour le cadenas déverrouillé
+            if (S_GameManager.instance != null)
+            {
+                S_GameManager.instance.playerEvents.PadlockUnlocked();
+            }
         }
         else
         {

@@ -22,6 +22,10 @@ public class S_DialogueManager : S_Menu
     private Queue<S_DialogueLine> lines;
     [HideInInspector] public bool isDialogueActive;
 
+    // Vitesse d'écriture
+    const float defaultTypingSpeed = 7f; 
+    private float typingSpeed = defaultTypingSpeed;
+
     void Start()
     {
         EndDialogue();
@@ -83,7 +87,7 @@ public class S_DialogueManager : S_Menu
         foreach (char letter in dialogueLine.line.ToCharArray())
         {
             dialogueText.text += letter;
-            yield return new WaitForSeconds(S_GameUserData.instance.currentTypingSpeed / 100); // Divisé par 100 car c'est plus facile de regler de 1 à 100 que 0.1 à 1
+            yield return new WaitForSeconds(typingSpeed / 100); // Divisé par 100 car c'est plus facile de regler de 1 à 100 que 0.1 à 1
         }
     }
 
@@ -96,6 +100,19 @@ public class S_DialogueManager : S_Menu
 
         isDialogueActive = false;
         uiContainer.SetActive(false); // Désactive le visuel
+    }
+
+
+    //? ----------------------------
+
+    public void setTypingSpeed(float newTypingSpeed)
+    {
+        typingSpeed = newTypingSpeed;
+    }
+
+    public void resetTypingSpeed()
+    {
+        typingSpeed = defaultTypingSpeed;
     }
 
 }

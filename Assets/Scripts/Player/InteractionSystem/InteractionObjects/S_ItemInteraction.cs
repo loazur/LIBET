@@ -14,7 +14,7 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
     [Header("Gestion de l'item")]
     [SerializeField] private string interactText = "not_set"; // Nom de l'objet
     [SerializeField] private float distanceMultiplier = 1.45f; // Distance de l'item quand on le tient
-    private float offsetY = 0.6f; // Position vertical de l'item quant on le tient (0.6 = au milieu de l'ecran)
+    private float offsetY = 0.7f; // Position vertical de l'item quant on le tient (0.7 = au milieu de l'ecran)
     private S_PlayerInteract playerInteract;
     private S_FirstPersonCamera playerCamera;
     private Rigidbody rigidbodyItem;
@@ -42,38 +42,42 @@ public class S_ItemInteraction : MonoBehaviour, SI_Interactable
     }
 
     //!---------------- SI_DataPersistance ----------------
-    /*
     //~ Sauvegarde position/rotation de chaque item
 
     public void LoadData(S_GameData gameData)
     {
-        if (gameData.itemsPosition.TryGetValue(id, out Vector3 itemPosition))
+        if (tag == "CD")
         {
-            transform.position = itemPosition;
-        }
+            if (gameData.cdsPositions.TryGetValue(id, out Vector3 itemPosition))
+            {
+                transform.position = itemPosition;
+            }
 
-        if (gameData.itemsRotation.TryGetValue(id, out Quaternion itemRotation))
-        {
-            transform.rotation = itemRotation;
+            if (gameData.cdsRotations.TryGetValue(id, out Quaternion itemRotation))
+            {
+                transform.rotation = itemRotation;
+            }
         }
     }
 
     public void SaveData(S_GameData gameData)
     {
-        if (gameData.itemsPosition.ContainsKey(id))
+        if (tag == "CD")
         {
-            gameData.itemsPosition.Remove(id);
-        }
+            if (gameData.cdsPositions.ContainsKey(id))
+            {
+                gameData.cdsPositions.Remove(id);
+            }
 
-        if (gameData.itemsRotation.ContainsKey(id))
-        {
-            gameData.itemsRotation.Remove(id);
-        }
+            if (gameData.cdsRotations.ContainsKey(id))
+            {
+                gameData.cdsRotations.Remove(id);
+            }
 
-        gameData.itemsPosition.Add(id, transform.position);
-        gameData.itemsRotation.Add(id, transform.rotation);
+            gameData.cdsPositions.Add(id, transform.position);
+            gameData.cdsRotations.Add(id, transform.rotation);
+        }
     }
-    */
 
     //! Méthodes provenant de l'interface SI_Interactable
 

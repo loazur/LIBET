@@ -12,7 +12,6 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
 
     //~ Scripts de mouvements
     private S_PlayerSprint playerSprint;
-    private S_PlayerCrouch playerCrouch;
     private S_PlayerNoClip playerNoClip;
 
     //~ Variables de mouvements
@@ -53,7 +52,6 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
         colliderGround = groundCheck.GetComponent<BoxCollider>();
 
         playerSprint = GetComponent<S_PlayerSprint>();
-        playerCrouch = GetComponent<S_PlayerCrouch>();
         playerNoClip = GetComponent<S_PlayerNoClip>();
 
         // Position stepRayUpper à la bonne hauteur - Z réduit à 0.2f
@@ -98,6 +96,8 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
         gameData.playerRotation = transform.rotation;
     }
 
+    public int GetLoadPriority() => 0; // Valeur par défaut
+
     //! --------------- Fonctions privés ------------------
 
     private void Move(Vector2 movementVector) //& Gére les mouvements du joueur et la gravité
@@ -111,14 +111,9 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
         Vector3 move = transform.forward * movementVector.y + transform.right * movementVector.x;
         move.Normalize();
 
-        // Réduction de vitesse quand accroupi
-        if (playerCrouch.isCrouching)
-        {
-            move /= playerCrouch.speedDecreaser;
-        }
 
         //* Gestion du sprint
-        if (S_UserInput.instance.SprintInput && !playerCrouch.isCrouching)
+        if (S_UserInput.instance.SprintInput)
         {
             playerSprint.Sprint(ref move); // Modifie la variable initial
         }
@@ -166,7 +161,7 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
                 playerRigidbody.linearVelocity = slopeParallel; // Annule la vitesse perpendiculaire a la slope
                 playerRigidbody.AddForce(Vector3.down * gravity, ForceMode.Acceleration); // Colle a la slope
 
-                float slopeGravityMultiplier = 7.5f;
+                float slopeGravityMultiplier = 1.5f; // Vitesse sur une rampe
 
                 if (S_UserInput.instance.MoveInput != Vector2.zero) // Lors d'un mouvement sur slope
                 {
