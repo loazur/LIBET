@@ -8,7 +8,6 @@ public class S_GameUserData : MonoBehaviour
 
     [Header("Gestion de l'UI")]
     [SerializeField] private TMPro.TMP_Dropdown dropdownLanguage; //! Dropdown du langage
-    [SerializeField] private Slider sliderTypingSpeed; //! Slider de la vitesse d'écriture
     [SerializeField] private Toggle cameraShakeToggle; //! Toggle du temblement de la camera
 
     public enum Languages
@@ -28,13 +27,11 @@ public class S_GameUserData : MonoBehaviour
     private const Languages defaultLanguage = Languages.French;
     private const bool defaultCameraShake = true;
     private const ATHSizes defaultATHSize = ATHSizes.Medium;
-    private const float defaultTypingSpeed = 7f;
 
     //! Actuellement utilisé
     public Languages currentLanguage { get; private set; } // Voir Enum
     public bool currentCameraShake { get; private set; } // Voir Enum
     public ATHSizes currentATHSize { get; private set; } // Voir Enum
-    public float currentTypingSpeed { get; private set; } // 1 - 50
 
     void Awake()
     {
@@ -78,16 +75,6 @@ public class S_GameUserData : MonoBehaviour
         OnATHSizeChanged?.Invoke();
     }
 
-    public void setCurrentTypingSpeed(float newTypingSpeed)
-    {
-        if (currentTypingSpeed == newTypingSpeed)
-            return;
-
-        currentTypingSpeed = newTypingSpeed;
-        sliderTypingSpeed.value = currentTypingSpeed;
-        
-    }
-
     //?------------------------------------- RESETS
 
     public void resetCurrentLanguage()
@@ -105,11 +92,6 @@ public class S_GameUserData : MonoBehaviour
         setCurrentATHSize((int)defaultATHSize);
     }
 
-    public void resetCurrentTypingSpeed()
-    {
-        setCurrentTypingSpeed(defaultTypingSpeed);
-    }
-
     //?------------------------------------- EVENTS
 
     public event Action OnLanguageChanged;
@@ -124,7 +106,6 @@ public class S_GameUserData : MonoBehaviour
         PlayerPrefs.SetInt("GameLanguage", (int)currentLanguage);
         PlayerPrefs.SetInt("CameraShake", Convert.ToInt32(currentCameraShake));
         PlayerPrefs.SetInt("ATHSize", (int)currentATHSize);
-        PlayerPrefs.SetFloat("TypingSpeed", currentTypingSpeed);
 
         // Les sauvegarde dans PlayerPrefs
         PlayerPrefs.Save();
@@ -147,11 +128,6 @@ public class S_GameUserData : MonoBehaviour
             setCurrentATHSize(PlayerPrefs.GetInt("ATHSize"));
         else
             resetCurrentATHSize();
-
-        if (PlayerPrefs.HasKey("TypingSpeed")) //~ TypingSpeed
-            setCurrentTypingSpeed(PlayerPrefs.GetFloat("TypingSpeed"));
-        else
-            resetCurrentTypingSpeed();
     }
 
     
