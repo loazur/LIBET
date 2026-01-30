@@ -161,7 +161,7 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
                 playerRigidbody.linearVelocity = slopeParallel; // Annule la vitesse perpendiculaire a la slope
                 playerRigidbody.AddForce(Vector3.down * gravity, ForceMode.Acceleration); // Colle a la slope
 
-                float slopeGravityMultiplier = 7.5f;
+                float slopeGravityMultiplier = 1.5f; // Vitesse sur une rampe
 
                 if (S_UserInput.instance.MoveInput != Vector2.zero) // Lors d'un mouvement sur slope
                 {
