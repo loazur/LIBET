@@ -13,7 +13,6 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
     private S_PlayerController playerController;
     private S_FirstPersonCamera playerCamera;
     private S_PlayerInteract playerInteract;
-    private S_PlayerCrouch playerCrouch;
     private Collider playerCollider;
     private Rigidbody playerRigidBody;
     private string interactText = "not_set";
@@ -47,7 +46,6 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
             player = playerTransform.gameObject;
             playerController = player.GetComponent<S_PlayerController>();
             playerCamera = playerTransform.GetComponentInChildren<S_FirstPersonCamera>();
-            playerCrouch = playerController.GetComponentInChildren<S_PlayerCrouch>();
             playerRigidBody = player.GetComponent<Rigidbody>();
             playerCollider = player.GetComponent<Collider>();
             playerInteract = player.GetComponent<S_PlayerInteract>();
@@ -70,8 +68,6 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
 
     private void Sit() //& S'assoir
     {
-        if (playerCrouch.isCrouching) return;
-
         // On garde en mémoire la position quand le joueur s'assois
         playerLastPos = player.transform.position;
 
@@ -93,10 +89,8 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         playerRigidBody.isKinematic = true;
 
         // Bloquer les mouvements du joueur
-
         playerInteract.setInteractionEnabled(false);
         playerController.setMovementsEnabled(false);
-        playerCrouch.setAbleToCrouch(false);
         S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(false);
 
         //Activation limitation des mouvements de camera
@@ -138,7 +132,6 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         // Débloquer les mouvements du joueur
         playerInteract.setInteractionEnabled(true);
         playerController.setMovementsEnabled(true);
-        playerCrouch.setAbleToCrouch(true);
         S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(true);
 
         // Désactivation limitation des mouvements de camera
@@ -150,7 +143,6 @@ public class S_ChairInteractable : MonoBehaviour, SI_Interactable
         player = null;
         playerController = null;
         playerCamera = null;
-        playerCrouch = null;
         playerRigidBody = null;
         playerCollider = null;
         playerInteract = null;

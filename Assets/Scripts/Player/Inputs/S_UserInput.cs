@@ -10,7 +10,6 @@ public class S_UserInput : MonoBehaviour
     public Vector2 LookInput { get; private set; }
     public InputAction InteractAction { get; private set; } // -> Publique (à besoin de récuperer la touche pour l'UI)
     public InputAction CancelInteractionAction { get; private set; } // -> Publique (utilisé en appuyant et maintenant le bouton)
-    public bool CrouchInput { get; private set; }
     public bool SprintInput { get; private set; }
     public bool MenuOpenCloseInput { get; private set; }
     // Quest menu pressed this frame (true only on the frame the button was pressed)
@@ -22,7 +21,6 @@ public class S_UserInput : MonoBehaviour
 
     private InputAction _moveAction;
     private InputAction _lookAction;
-    private InputAction _crouchAction;
     private InputAction _sprintAction;
     private InputAction _menuOpenCloseAction;
     private InputAction _questMenuAction;
@@ -70,7 +68,6 @@ public class S_UserInput : MonoBehaviour
         _lookAction = _playerInput.actions["Look"];
         InteractAction = _playerInput.actions["Interact"];
         CancelInteractionAction = _playerInput.actions["CancelInteraction"];
-        _crouchAction = _playerInput.actions["Crouch"];
         _sprintAction = _playerInput.actions["Sprint"];
         _menuOpenCloseAction = _playerInput.actions["MenuOpenClose"];
         _questMenuAction = _playerInput.actions["QuestMenu"];
@@ -86,7 +83,6 @@ public class S_UserInput : MonoBehaviour
     {
         MoveInput = _moveAction.ReadValue<Vector2>();
         LookInput = _lookAction.ReadValue<Vector2>();
-        CrouchInput = _crouchAction.WasPressedThisFrame();
         SprintInput = _sprintAction.IsPressed();
         MenuOpenCloseInput = _menuOpenCloseAction.WasPressedThisFrame();
         QuestMenuInput = _questMenuAction.WasPressedThisFrame();
