@@ -1,5 +1,6 @@
 // Quete secondaire : Interagir avec N objets ayant le tag X
 
+using System.Collections;
 using UnityEngine;
 
 class S_InteractWithNObjectWithTagX : S_QuestStep
@@ -76,7 +77,7 @@ class S_InteractWithNObjectWithTagX : S_QuestStep
         {
             hasCompleted = true;
             Debug.Log("[S_InteractWithNObjectWithTagX] Quest step completed!");
-            OnQuestStepCompleted();
+            // OnQuestStepCompleted();
             UnsubscribeFromEvents();
         }
     }
