@@ -32,7 +32,9 @@ public class S_DayNightManager : MonoBehaviour
     [SerializeField] private float timeEnd = 0.75f; // 18h
 
     public event Action onDayEnd; // Event lancé quand le jour ce termine
-    //
+    
+    // Flag pour éviter d'appeler onDayEnd plusieurs fois
+    private bool dayEndTriggered = false;
 
     [Header("Couleurs du ciel")]
     [Tooltip("Couleur du ciel à midi")]
@@ -158,8 +160,7 @@ public class S_DayNightManager : MonoBehaviour
         }
 
         // Par défaut, démarrer en jour
-        //TODO Sera lancé par le S_DaysManager
-        StartDay();
+        //StartDay();
     }
 
     /**
@@ -178,13 +179,17 @@ public class S_DayNightManager : MonoBehaviour
         {
             // Increment time automatiquement
             timeLasted += Time.deltaTime / dayLength;
-            timeLasted %= 1; // Keep time in range [0, 1]
+            
+            // NE PAS utiliser modulo ici, sinon le jour redémarre automatiquement
+            // timeLasted %= 1; // ENLEVER CETTE LIGNE
         }
 
-        // Lancement de l'event pour dire que la fin du jour a été atteint
-        if (timeLasted >= timeEnd)
+        // Lancement de l'event pour dire que la fin du jour a été atteint (UNE SEULE FOIS)
+        if (timeLasted >= timeEnd && !dayEndTriggered)
         {
+            dayEndTriggered = true;
             onDayEnd?.Invoke();
+            Debug.Log($"<color=orange>[DayNightManager]</color> Fin du jour déclenchée à {GetCurrentTimeString()}");
         }
         
         // Apply lighting/rotation for the current time
@@ -443,8 +448,10 @@ public class S_DayNightManager : MonoBehaviour
      */
     public void StartDay()
     {
-        timeLasted = timeStart; 
+        timeLasted = timeStart;
+        dayEndTriggered = false; // Réinitialiser le flag
         UpdateLighting(timeLasted);
+        Debug.Log($"<color=green>[DayNightManager]</color> Nouveau jour commencé à {GetCurrentTimeString()}");
     }
 
     /**
@@ -456,6 +463,7 @@ public class S_DayNightManager : MonoBehaviour
     public void StartNight()
     {
         timeLasted = timeEnd;
+        dayEndTriggered = false; // Réinitialiser le flag
         UpdateLighting(timeLasted);
     }
 
@@ -474,13 +482,18 @@ public class S_DayNightManager : MonoBehaviour
             return newTime;
         }
 
+        // Réinitialiser le flag si on revient avant timeEnd
+        if (newTime < timeEnd)
+        {
+            dayEndTriggered = false;
+        }
+
         // Met à jour la variable interne puis applique l'éclairage
         timeLasted = newTime;
         UpdateLighting(timeLasted);
         return timeLasted;
     }
 
-    
     /**
      * Convertit une valeur de temps normalisée (0..1) en heure/minute (format 24h).
      * Renvoie un Vector2Int(x=hour, y=minute).
@@ -535,5 +548,9 @@ public class S_DayNightManager : MonoBehaviour
         Vector2Int hm = TimeToHourMinute(timeLasted);
         return hm.x.ToString("D2") + ":" + hm.y.ToString("D2");
     }
+
+    public float GetTimeStart() => timeStart;
+    public float GetTimeEnd() => timeEnd;
+
 
 }

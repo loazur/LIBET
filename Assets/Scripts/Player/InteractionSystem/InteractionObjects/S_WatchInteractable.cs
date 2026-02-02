@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class S_WatchInteractable : MonoBehaviour, SI_Interactable
 {
@@ -10,8 +11,8 @@ public class S_WatchInteractable : MonoBehaviour, SI_Interactable
     //~ Gestion de l'UI
     [Header("UI")]
     [SerializeField] private GameObject watchUI;
-    [SerializeField] private RectTransform secondsHand;
-    const float degreesPerFullDay = 360f; // Un tour complet = 360°
+    [SerializeField] private RectTransform secondsHand; // Aiguille des secondes
+    [SerializeField] private TextMeshProUGUI timeText; // Texte optionnel pour afficher l'heure digitale
 
     private bool isUsed = false;
     private Transform playerTransform; // Référence au joueur
@@ -20,7 +21,24 @@ public class S_WatchInteractable : MonoBehaviour, SI_Interactable
     {
         UpdateInteractText(); // Setup
         
-        S_GameUserData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
+        if (S_GameUserData.instance != null)
+        {
+            S_GameUserData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
+        }
+
+        // S'assurer que l'UI est désactivée au démarrage
+        if (watchUI != null)
+        {
+            watchUI.SetActive(false);
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (S_GameUserData.instance != null)
+        {
+            S_GameUserData.instance.OnLanguageChanged -= UpdateInteractText;
+        }
     }
 
     void Update() //& Gère la mise à jour de l'affichage
@@ -59,8 +77,11 @@ public class S_WatchInteractable : MonoBehaviour, SI_Interactable
         if (isUsed) return;
 
         isUsed = true;
-        watchUI.SetActive(true); // Affichage de l'UI
-
+        
+        if (watchUI != null)
+        {
+            watchUI.SetActive(true); // Affichage de l'UI
+        }
     }
 
     private void DisableWatch() //& Désactive la montre
@@ -68,7 +89,12 @@ public class S_WatchInteractable : MonoBehaviour, SI_Interactable
         if (!isUsed) return;
 
         isUsed = false;
-        watchUI.SetActive(false);
+        
+        if (watchUI != null)
+        {
+            watchUI.SetActive(false);
+        }
+        
         playerTransform = null; // Réinitialiser la référence
         
         UpdateInteractText(); // Mettre à jour le texte d'interaction
@@ -88,35 +114,59 @@ public class S_WatchInteractable : MonoBehaviour, SI_Interactable
 
     private void UpdateClock()
     {
-        //TODO Changer en fonction du temps du S_DayNight
-        // Calculer la rotation : 0% = 0°, 100% = 360°
-        float rotation = S_DaysManager.instance.GetDayProgress() * degreesPerFullDay;
+        if (S_DayNightManager.instance == null) return;
+
+        // Récupérer les valeurs du DayNightManager
+        float currentTime = S_DayNightManager.instance.timeLasted;
+        float timeStart = S_DayNightManager.instance.GetTimeStart();
+        float timeEnd = S_DayNightManager.instance.GetTimeEnd();
+
+        // Calculer la progression normalisée entre timeStart et timeEnd (0 à 1)
+        float normalizedProgress = Mathf.InverseLerp(timeStart, timeEnd, currentTime);
         
-        secondsHand.rotation = Quaternion.Euler(0, 0, -rotation); // Négatif pour tourner dans le sens horaire
+        // Clamper pour éviter les valeurs hors limites
+        normalizedProgress = Mathf.Clamp01(normalizedProgress);
+
+        // Calculer la rotation de l'aiguille (360° = un tour complet)
+        float rotation = normalizedProgress * 360f;
+        
+        // Appliquer la rotation (négatif pour tourner dans le sens horaire)
+        if (secondsHand != null)
+        {
+            secondsHand.rotation = Quaternion.Euler(0, 0, -rotation);
+        }
+
+        // Mettre à jour le texte digital (optionnel)
+        if (timeText != null)
+        {
+            timeText.text = S_DayNightManager.instance.GetCurrentTimeString();
+        }
     }
 
     private void UpdateInteractText() //& Gestion du texte en fonction de la langue
     {
+        if (S_GameUserData.instance == null) return;
+
         if (!isUsed)
         {
             if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
             {
-                interactText = "Activer";
+                interactText = "Regarder l'heure";
             }
             else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
             {
-                interactText = "Enable";
+                interactText = "Check time";
             }
         }
         else
         {
             if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
             {
-                interactText = "Désactiver";
+                interactText = "Fermer";
             }
             else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
             {
-                interactText = "Disable";
+                interactText = "Close";
             }
         }
     }
