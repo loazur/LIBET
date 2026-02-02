@@ -46,7 +46,7 @@ class S_LaunchQuestPerDay : MonoBehaviour
         // Premier lancement au jour 0
         DailyQuestChange = principalQuestParameters[0].DecalageBetweenQuestDays;
         InitialiseCurrentQuest(0);
-        LauchOneQuest();
+        LauchCurrentQuest();
         CalcNextCallForQuest();
     }
 
@@ -63,13 +63,22 @@ class S_LaunchQuestPerDay : MonoBehaviour
         //! SI PB POTENTIELLEMENT ICI
         int currentDay = S_DaysManager.instance.GetCurrentDay();
 
-        if (currentDay >= DailyQuestChange)
+        // Récupérer la quête et vérifier qu'elle est terminée avant d'en lancer une nouvelle
+        S_Quest quest = S_GameManager.instance.questManager.GetQuestByID(currentQuest.id);
+
+        if (quest != null && currentDay >= DailyQuestChange)
         {
+            if (quest.state != E_QuestState.FINISHED)
+            {
+                // La quête courante n'est pas encore terminée -> ne rien faire
+                return;
+            }
             int nextIndex = (DailyQuestChange / principalQuestParameters[0].DecalageBetweenQuestDays);
+
             if (nextIndex < principalQuestParameters.Length)
             {
                 InitialiseCurrentQuest(nextIndex);
-                LauchOneQuest();
+                LauchCurrentQuest();
                 CalcNextCallForQuest();
             }
         }
@@ -77,13 +86,31 @@ class S_LaunchQuestPerDay : MonoBehaviour
     }
 
 
-
+    /**
+     * Initialise la quête actuelle en fonction de l'index
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, February 2nd, 2026.
+     * @access	private
+     * @param	int	index	
+     * @return	void
+     */
     private void InitialiseCurrentQuest(int index)
     {
         currentQuest = principalQuestParameters[index].QuestPrincipal;
     }
 
-    private void LauchOneQuest()
+    /**
+     * Lance la quête actuelle
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, February 2nd, 2026.
+     * @access	private
+     * @return	void
+     */
+    private void LauchCurrentQuest()
     {
         // Obtenir le questid de la quête principale
         string questId = currentQuest.id;
@@ -93,6 +120,15 @@ class S_LaunchQuestPerDay : MonoBehaviour
 
     }
 
+    /**
+     * Cherche le jour où on doit lancer la prochaine quête
+     *
+     * @author	Lucas
+     * @since	v0.0.1
+     * @version	v1.0.0	Monday, February 2nd, 2026.
+     * @access	private
+     * @return	void
+     */
     private void CalcNextCallForQuest()
     {
         int decalage = principalQuestParameters[0].DecalageBetweenQuestDays;
