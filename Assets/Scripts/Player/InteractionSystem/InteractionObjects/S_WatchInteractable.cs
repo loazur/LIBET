@@ -88,6 +88,7 @@ public class S_WatchInteractable : MonoBehaviour, SI_Interactable
 
     private void UpdateClock()
     {
+        //TODO Changer en fonction du temps du S_DayNight
         // Calculer la rotation : 0% = 0°, 100% = 360°
         float rotation = S_DaysManager.instance.GetDayProgress() * degreesPerFullDay;
         

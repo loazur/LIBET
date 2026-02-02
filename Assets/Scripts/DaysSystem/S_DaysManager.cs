@@ -16,10 +16,14 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     [SerializeField] private int maxDays = 15; // Jours max pour atteindre la fin du jeu
     [SerializeField] private float transitionScreenDuration = 2f;
     [SerializeField] private string[] lores;
+    
 
+    //! Déplacer dans HandleDayManager
+    /*
     [Header("Prefabs spécifiques aux quêtes")]
     [SerializeField] private GameObject KeyOnDoorPrefab; // Prefab de la clé sur porte (jour 2)
     [SerializeField] private GameObject NotePrefab;
+    */
 
     //~ Génération des médicaments
     [Header("Gestion de la génération des médicaments")]
@@ -28,7 +32,7 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     //~ Information du jour actuel
     private int currentDay = 1; // Jour actuel par défaut 1
-    private float timeLasted = 0; // Temps ecoulé actuellement
+    private float timeLasted = 0; //TODO Utiliser le temps de S_DayNight
     private bool isDayActive = false; // Jour actif ou non
 
     //~ Actions
@@ -58,7 +62,7 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     void Start() //& Initialize le 1er jour
     {
         // Initialize keyUnderDoor
-        keyUnderDoor = KeyOnDoorPrefab.GetComponent<S_TakeKey>();
+        //keyUnderDoor = KeyOnDoorPrefab.GetComponent<S_TakeKey>();
         
         // Assignement des events
         if (S_AlzheimerEventsManager.instance != null)
@@ -88,8 +92,8 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         InitializeFirstDay();
 
         //& Désactive le prefab au début
-        KeyOnDoorPrefab.SetActive(false);
-        NotePrefab.SetActive(false);
+        //KeyOnDoorPrefab.SetActive(false);
+        //NotePrefab.SetActive(false);
 
 
         
@@ -195,8 +199,8 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         GenerateQuests();
 
         //& Désactive le prefab de la clé sous la porte
-        KeyOnDoorPrefab.SetActive(false);
-        NotePrefab.SetActive(false);
+        //KeyOnDoorPrefab.SetActive(false);
+        //NotePrefab.SetActive(false);
 
         // Démarrer le jour 1
         S_DaysTransitionScreen.instance.TriggerTransitionScreen(currentDay, 
@@ -209,7 +213,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     private void PrepareNextDay() //& Prépare le jour d'après, gènère tout ce qu'il faut
     {
-        timeLasted = 0f;
         SetCurrentDay(currentDay + 1);
 
         Debug.Log($"Préparation du jour {currentDay}");
@@ -230,6 +233,9 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
         S_AlzheimerEventsManager.instance.SetlucidityDecreaseRate(LucidityDecreaseRateAccessor);
 
+
+        //! A déplacer dans le HandleHistoryQuest
+        /*
         //TODO Ajouter ICI la logique du 2eme jours (scenatio)
         // Gérer l'état du KeyOnDoorPrefab en fonction du jour
         if (currentDay >= 2)
@@ -237,6 +243,7 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
             KeyOnDoorPrefab.SetActive(true);
             NotePrefab.SetActive(true);
         }
+        */
 
 
         // On commence le prochain jour
@@ -251,6 +258,8 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     private void RandomizeSunTime() //& Randomise l'heure du soleil entre 10h et 18h
     {
+        //TODO Utilisé le S_DayNightManager avec la méthode StartDay au lieu de randomisé 
+
         // Convertir 10h et 18h en temps normalisé (0..1)
         // 10h = 10/24 = 0.4167
         // 18h = 18/24 = 0.75
@@ -306,9 +315,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     private void RestartCurrentDay() //& Réinitialise le jour actuel
     {
-        // Réinitialiser le temps
-        timeLasted = 0f;
-
         // Régénérer les quêtes
         GenerateQuests();
 
@@ -322,14 +328,16 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         // Randomiser le soleil
         RandomizeSunTime();
 
+        //! Déplacer dans le manager lié
         // Gérer l'état du KeyOnDoorPrefab en fonction du jour
-
+        /*
         if (currentDay >= 2 && keyUnderDoor.isKeyTaken == false)
         {
             KeyOnDoorPrefab.SetActive(true);
             NotePrefab.SetActive(true);
             Debug.Log($"KeyOnDoorPrefab activé pour le jour {currentDay}");
         }
+        */
 
 
         // Redémarrer le jour
