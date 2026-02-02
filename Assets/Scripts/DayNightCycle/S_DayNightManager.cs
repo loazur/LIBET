@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Rendering;
-using Assert = UnityEngine.Assertions.Assert;
 
 public class S_DayNightManager : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class S_DayNightManager : MonoBehaviour
     public Light spotLight;
     public Material skyboxMaterial; // Assigner le material Skybox/Procedural
     
-    [Header("Cycle")]
+    //~ Important
+    [Header("Gestion du temps du jour")]
     public float dayLength = 120f; // Length of a full day in seconds
     [Space]
     [Tooltip("Cocher pour contrôler manuellement l'heure du jour")]
@@ -24,7 +26,15 @@ public class S_DayNightManager : MonoBehaviour
     [Tooltip("Contrôle manuel du temps (0 = minuit, 0.5 = midi, 1 = minuit)")]
     [Range(0f, 1f)]
     public float manualTime = 0.5f;
-    public float time;
+    public float timeLasted;
+
+    [SerializeField] private float timeStart = 0.25f; // 8h
+    [SerializeField] private float timeEnd = 0.75f; // 18h
+
+    public event Action onDayEnd; // Event lancé quand le jour ce termine
+    
+    // Flag pour éviter d'appeler onDayEnd plusieurs fois
+    private bool dayEndTriggered = false;
 
     [Header("Couleurs du ciel")]
     [Tooltip("Couleur du ciel à midi")]
@@ -150,7 +160,7 @@ public class S_DayNightManager : MonoBehaviour
         }
 
         // Par défaut, démarrer en jour
-        StartDay();
+        //StartDay();
     }
 
     /**
@@ -163,17 +173,27 @@ public class S_DayNightManager : MonoBehaviour
         // Utiliser le temps manuel ou auto-incrémenter
         if (useManualTime)
         {
-            time = manualTime;
+            timeLasted = manualTime;
         }
         else
         {
             // Increment time automatiquement
-            time += Time.deltaTime / dayLength;
-            time %= 1; // Keep time in range [0, 1]
+            timeLasted += Time.deltaTime / dayLength;
+            
+            // NE PAS utiliser modulo ici, sinon le jour redémarre automatiquement
+            // timeLasted %= 1; // ENLEVER CETTE LIGNE
+        }
+
+        // Lancement de l'event pour dire que la fin du jour a été atteint (UNE SEULE FOIS)
+        if (timeLasted >= timeEnd && !dayEndTriggered)
+        {
+            dayEndTriggered = true;
+            onDayEnd?.Invoke();
+            Debug.Log($"<color=orange>[DayNightManager]</color> Fin du jour déclenchée à {GetCurrentTimeString()}");
         }
         
         // Apply lighting/rotation for the current time
-        UpdateLighting(time);
+        UpdateLighting(timeLasted);
     }
 
     /**
@@ -365,21 +385,21 @@ public class S_DayNightManager : MonoBehaviour
         
         float ambientBlend = 0f;
         
-        if (time < sunriseStart)
+        if (timeLasted < sunriseStart)
         {
             ambientBlend = 0f;
         }
-        else if (time < sunriseEnd)
+        else if (timeLasted < sunriseEnd)
         {
-            ambientBlend = Mathf.InverseLerp(sunriseStart, sunriseEnd, time);
+            ambientBlend = Mathf.InverseLerp(sunriseStart, sunriseEnd, timeLasted);
         }
-        else if (time < sunsetStart)
+        else if (timeLasted < sunsetStart)
         {
             ambientBlend = 1f;
         }
-        else if (time < sunsetEnd)
+        else if (timeLasted < sunsetEnd)
         {
-            ambientBlend = 1f - Mathf.InverseLerp(sunsetStart, sunsetEnd, time);
+            ambientBlend = 1f - Mathf.InverseLerp(sunsetStart, sunsetEnd, timeLasted);
         }
         else
         {
@@ -428,8 +448,10 @@ public class S_DayNightManager : MonoBehaviour
      */
     public void StartDay()
     {
-        time = 0.25f; // midi approximatif
-        UpdateLighting(time);
+        timeLasted = timeStart;
+        dayEndTriggered = false; // Réinitialiser le flag
+        UpdateLighting(timeLasted);
+        Debug.Log($"<color=green>[DayNightManager]</color> Nouveau jour commencé à {GetCurrentTimeString()}");
     }
 
     /**
@@ -440,8 +462,9 @@ public class S_DayNightManager : MonoBehaviour
      */
     public void StartNight()
     {
-        time = 0.75f; // minuit
-        UpdateLighting(time);
+        timeLasted = timeEnd;
+        dayEndTriggered = false; // Réinitialiser le flag
+        UpdateLighting(timeLasted);
     }
 
     /**
@@ -459,13 +482,18 @@ public class S_DayNightManager : MonoBehaviour
             return newTime;
         }
 
+        // Réinitialiser le flag si on revient avant timeEnd
+        if (newTime < timeEnd)
+        {
+            dayEndTriggered = false;
+        }
+
         // Met à jour la variable interne puis applique l'éclairage
-        time = newTime;
-        UpdateLighting(time);
-        return time;
+        timeLasted = newTime;
+        UpdateLighting(timeLasted);
+        return timeLasted;
     }
 
-    
     /**
      * Convertit une valeur de temps normalisée (0..1) en heure/minute (format 24h).
      * Renvoie un Vector2Int(x=hour, y=minute).
@@ -493,7 +521,7 @@ public class S_DayNightManager : MonoBehaviour
      */
     public Vector2Int GetCurrentHourMinute()
     {
-        return TimeToHourMinute(time);
+        return TimeToHourMinute(timeLasted);
     }
 
     /**
@@ -517,8 +545,12 @@ public class S_DayNightManager : MonoBehaviour
      */
     public string GetCurrentTimeString()
     {
-        Vector2Int hm = TimeToHourMinute(time);
+        Vector2Int hm = TimeToHourMinute(timeLasted);
         return hm.x.ToString("D2") + ":" + hm.y.ToString("D2");
     }
+
+    public float GetTimeStart() => timeStart;
+    public float GetTimeEnd() => timeEnd;
+
 
 }
