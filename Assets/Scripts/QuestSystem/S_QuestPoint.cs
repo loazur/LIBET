@@ -94,7 +94,7 @@ public class S_QuestPoint : MonoBehaviour
         // Auto-finalisation (sans zone) - avec protection contre appels multiples
         if (autoFinishQuest && currentQuestState == E_QuestState.CAN_FINISH && !hasTriggeredFinish)
         {
-            hasTriggeredFinish = true; // ⚠️ MANQUAIT CETTE LIGNE!
+            hasTriggeredFinish = true;
             Debug.Log($"<color=green>[QuestPoint]</color> Auto-finalisation de '{questId}'");
             S_GameManager.instance.questEvents.FinishQuest(questId);
         }
