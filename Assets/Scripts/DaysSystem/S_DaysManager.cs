@@ -15,12 +15,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     [SerializeField] private int maxDays = 15; // Jours max pour atteindre la fin du jeu
     [SerializeField] private float transitionScreenDuration = 2f;
     [SerializeField] private string[] lores;
-    
-
-    //! Déplacer dans HandleDayManager
-    [Header("Prefabs spécifiques aux quêtes")]
-    [SerializeField] private GameObject KeyOnDoorPrefab; // Prefab de la clé sur porte (jour 2)
-    [SerializeField] private GameObject NotePrefab;
 
     //~ Génération des médicaments
     [Header("Gestion de la génération des médicaments")]
@@ -34,8 +28,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     //~ Actions
     public event Action OnDayEnd;
     public event Action OnDayLost; // Event quand le joueur perd un jour
-
-    S_TakeKey keyUnderDoor;
 
     void Awake() //& Création du manager
     {
@@ -57,9 +49,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     void Start() //& Initialize le 1er jour
     {
-        // Initialize keyUnderDoor
-        keyUnderDoor = KeyOnDoorPrefab.GetComponent<S_TakeKey>();
-        
         // Assignement des events
         if (S_AlzheimerEventsManager.instance != null)
         {
@@ -96,10 +85,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         Debug.Log($"[DaysManager] Start appelé - enabled: {enabled}, gameObject.activeInHierarchy: {gameObject.activeInHierarchy}");
         
         InitializeFirstDay();
-
-        //& Désactive le prefab au début
-        KeyOnDoorPrefab.SetActive(false);
-        NotePrefab.SetActive(false);
 
 
         
@@ -185,10 +170,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         // Génération des quetes aléatoire
         GenerateQuests();
 
-        //& Désactive le prefab de la clé sous la porte
-        KeyOnDoorPrefab.SetActive(false);
-        NotePrefab.SetActive(false);
-
         // Démarrer le jour 1
         S_DaysTransitionScreen.instance.TriggerTransitionScreen(currentDay, 
             S_AlzheimerEventsManager.instance.Lucidity,
@@ -217,19 +198,12 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
         S_AlzheimerEventsManager.instance.SetlucidityDecreaseRate(LucidityDecreaseRateAccessor);
 
-
-        //! A déplacer dans le HandleHistoryQuest
-        
-        //TODO Ajouter ICI la logique du 2eme jours (scenatio)
-        // Gérer l'état du KeyOnDoorPrefab en fonction du jour
-        if (currentDay >= 2)
+        // Mettre à jour les prefabs de quêtes via S_QuestDayManager
+        if (S_QuestDayManager.instance != null)
         {
-            KeyOnDoorPrefab.SetActive(true);
-            NotePrefab.SetActive(true);
+            S_QuestDayManager.instance.UpdateQuestPrefabsForDay(currentDay);
         }
         
-
-
         // On commence le prochain jour
         S_DaysTransitionScreen.instance.TriggerTransitionScreen(currentDay, 
             S_AlzheimerEventsManager.instance.Lucidity,
@@ -287,16 +261,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
         // Réinitialiser la lucidité à un niveau de base
         S_AlzheimerEventsManager.instance.RecoverLucidity(10000);
-
-        //! Déplacer dans le manager lié
-        // Gérer l'état du KeyOnDoorPrefab en fonction du jour
-        if (currentDay >= 2 && keyUnderDoor.isKeyTaken == false)
-        {
-            KeyOnDoorPrefab.SetActive(true);
-            NotePrefab.SetActive(true);
-            Debug.Log($"KeyOnDoorPrefab activé pour le jour {currentDay}");
-        }
-
 
         // Redémarrer le jour
         S_DaysTransitionScreen.instance.TriggerTransitionScreen(currentDay, 
@@ -454,3 +418,4 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
     #endregion
 }
+
