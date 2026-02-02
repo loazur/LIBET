@@ -23321,7 +23321,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
 --- !u!4 &457421174 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8827475152875373778, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
   m_PrefabInstance: {fileID: 457421173}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &457421175 stripped
@@ -24055,11 +24055,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
---- !u!1 &522013504 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6674530590338098598, guid: 9c18369ddc752784f8da36a3fb659e0c, type: 3}
-  m_PrefabInstance: {fileID: 1114805659}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &522013505 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8551063060481569518, guid: 9c18369ddc752784f8da36a3fb659e0c, type: 3}
@@ -24070,31 +24065,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5347185739788918538, guid: 9c18369ddc752784f8da36a3fb659e0c, type: 3}
   m_PrefabInstance: {fileID: 1114805659}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 522013504}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8733f1559a1c8bb479efd7d814dd34cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &522013507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 522013504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6c959420a78a1c4da79ec0b0da009be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::S_LaunchRandomQuest
-  questListDifficulty1: []
-  questListDifficulty2: []
-  questListDifficulty3: []
-  questListDifficulty4: []
-  questListDifficulty5: []
-  questsPerDay: 3
-  daysPerDifficultyLevel: 3
 --- !u!1 &528495404 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8198917910963371609, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
@@ -24212,7 +24188,7 @@ PrefabInstance:
     - target: {fileID: 3427824855752784596, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 1777759036}
+      objectReference: {fileID: 659244089}
     - target: {fileID: 4302015194351260662, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.073
@@ -25018,6 +24994,43 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 6074491113535969966, guid: 59a43be0b3951f241af2e0650db73bf4, type: 3}
+--- !u!84 &659244089
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &663344789 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5168699524576430034, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
@@ -34344,7 +34357,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 59a43be0b3951f241af2e0650db73bf4, type: 3}
 --- !u!4 &782842570 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -9180711260530955972, guid: 59a43be0b3951f241af2e0650db73bf4, type: 3}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 59a43be0b3951f241af2e0650db73bf4, type: 3}
   m_PrefabInstance: {fileID: 782842569}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &782842571 stripped
@@ -51772,7 +51785,7 @@ Material:
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowIntensity: {r: 1, g: 0, b: 0, a: 0}
     - _ToLightDir: {r: 0.9774494, g: 0.21117042, b: 0.00000013690442, a: 0.39}
-    - _WindDirection: {r: 0.07666503, g: 0.045999035, b: 0.007666508, a: 0}
+    - _WindDirection: {r: 0.06916389, g: 0.041498333, b: 0.006916387, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!1 &956123742
@@ -60261,22 +60274,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 344925477}
     m_Modifications:
+    - target: {fileID: 4293594378754937919, guid: 9c18369ddc752784f8da36a3fb659e0c, type: 3}
+      propertyPath: keyOnDoorPrefab
+      value: 
+      objectReference: {fileID: 2064602140}
     - target: {fileID: 5347185739788918538, guid: 9c18369ddc752784f8da36a3fb659e0c, type: 3}
       propertyPath: questCanvas
       value: 
       objectReference: {fileID: 8244282449625993535}
     - target: {fileID: 5347185739788918538, guid: 9c18369ddc752784f8da36a3fb659e0c, type: 3}
-      propertyPath: loadQuestState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5347185739788918538, guid: 9c18369ddc752784f8da36a3fb659e0c, type: 3}
       propertyPath: QuestDisplayTitle
       value: 
       objectReference: {fileID: 229219327203376671}
-    - target: {fileID: 5347185739788918538, guid: 9c18369ddc752784f8da36a3fb659e0c, type: 3}
-      propertyPath: resetAllQuestsOnStart
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6674530590338098598, guid: 9c18369ddc752784f8da36a3fb659e0c, type: 3}
       propertyPath: m_Name
       value: QuestManager
@@ -60324,10 +60333,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6674530590338098598, guid: 9c18369ddc752784f8da36a3fb659e0c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 522013507}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c18369ddc752784f8da36a3fb659e0c, type: 3}
 --- !u!114 &1123650635
 MonoBehaviour:
@@ -90358,43 +90364,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.5411639, y: 1.1193535, z: 0.4554268}
   m_Center: {x: 0.00000020861626, y: -0.000003874302, z: 0.000000603497}
---- !u!84 &1777759036
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1784364074 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -9172553765958393395, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
