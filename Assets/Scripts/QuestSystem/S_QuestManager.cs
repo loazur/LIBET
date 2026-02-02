@@ -76,6 +76,12 @@ public class S_QuestManager : MonoBehaviour, SI_DataPersistance
     private void Start()
     {
         StartCoroutine(InitializeWhenReady());
+        
+        // S'abonner au changement de langue
+        if (S_GameUserData.instance != null)
+        {
+            S_GameUserData.instance.OnLanguageChanged += UpdateQuestUI;
+        }
     }
 
     public void Update()
@@ -89,6 +95,15 @@ public class S_QuestManager : MonoBehaviour, SI_DataPersistance
                 Debug.Log($"<color=green>[QuestManager]</color> Quête '{quest.info.id}' passe de REQUIREMENTS_NOT_MET à CAN_START");
                 ChangeQuestState(quest.info.id, E_QuestState.CAN_START);
             }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Se désabonner du changement de langue
+        if (S_GameUserData.instance != null)
+        {
+            S_GameUserData.instance.OnLanguageChanged -= UpdateQuestUI;
         }
     }
 

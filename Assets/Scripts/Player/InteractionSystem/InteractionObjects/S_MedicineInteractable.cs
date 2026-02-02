@@ -41,11 +41,11 @@ public class S_MedicineInteractable : MonoBehaviour, SI_Interactable
     {
         if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.French)
         {
-            interactText = "Manger";
+            interactText = "Prendre";
         }
         else if (S_GameUserData.instance.currentLanguage == S_GameUserData.Languages.English)
         {
-            interactText = "Eat";
+            interactText = "Take";
         }
     }
 }

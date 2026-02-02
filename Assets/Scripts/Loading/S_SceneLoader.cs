@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
+
 
 public class S_SceneLoader : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class S_SceneLoader : MonoBehaviour
     public static S_SceneLoader instance;
 
     [SerializeField] private GameObject loadingScreen;
-    [SerializeField] private Slider slider;
+    [SerializeField] private TextMeshProUGUI loadingText;
 
     void Awake()
     {
@@ -39,7 +41,8 @@ public class S_SceneLoader : MonoBehaviour
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
 
-            slider.value = progress;
+            int totalChars = loadingText.textInfo.characterCount;
+            loadingText.maxVisibleCharacters = Mathf.RoundToInt(progress * totalChars); 
 
             yield return null;
         }

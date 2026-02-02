@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [Serializable]
 public struct UIElements
@@ -160,7 +159,6 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
 
     public void Open()
     {
-
         if (S_MenuManager.instance != null)
         {
             if (!S_MenuManager.instance.RegisterMenuOpen(S_MenuManager.MenuType.NOTES))
@@ -172,6 +170,16 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
 
         UpdateList();
         UpdateCanvasGroup(true, UI.listConvasGroup);
+
+        // Sélectionner la première note de la liste
+        if (noteDatas.Count > 0)
+        {
+            Button firstNoteButton = noteDatas[0].GetComponent<Button>();
+            if (firstNoteButton != null)
+            {
+                EventSystem.current.SetSelectedGameObject(firstNoteButton.gameObject);
+            }
+        }
     }
     public void Close(bool playSFX)
     {
@@ -201,6 +209,13 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
         activeNote = note;
 
         DisplayPage(0);
+
+        // Sélectionner le bouton Next (récupérer le Button depuis le CanvasGroup)
+        Button nextButtonComponent = UI.nextButton.GetComponent<Button>();
+        if (nextButtonComponent != null)
+        {
+            EventSystem.current.SetSelectedGameObject(nextButtonComponent.gameObject);
+        }
     }
 
     private void DisplayPage(int page)

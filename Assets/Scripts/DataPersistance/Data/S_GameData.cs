@@ -12,7 +12,6 @@ public class S_GameData
     public Vector3 playerPosition;
     public Quaternion playerRotation;
     public Vector3 cameraRotation;
-    public bool isCrouching;
 
     // PlayTime
     public float playTime;
@@ -50,7 +49,6 @@ public class S_GameData
         // Player
         playerPosition = Vector3.zero;
         playerRotation = Quaternion.identity;
-        isCrouching = false;
         cameraRotation = Vector3.zero;
 
         // PlayTime
