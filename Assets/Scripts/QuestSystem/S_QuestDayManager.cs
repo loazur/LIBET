@@ -1,9 +1,15 @@
 
 using UnityEngine;
 
-/// <summary>
-/// Gère les éléments de quêtes spécifiques à chaque jour (prefabs, objets débloqués par jour, etc.)
-/// </summary>
+
+/**
+ * Gère les éléments de quêtes spécifiques à chaque jour (prefabs, objets débloqués par jour, etc.)
+ *
+ * @author	Lucas
+ * @since	v0.0.1
+ * @version	v1.0.0	Monday, February 2nd, 2026.
+ * @global
+ */
 public class S_QuestDayManager : MonoBehaviour
 {
     public static S_QuestDayManager instance { get; private set; }
