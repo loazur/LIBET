@@ -452,7 +452,7 @@ Material:
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowIntensity: {r: 1, g: 0, b: 0, a: 0}
     - _ToLightDir: {r: 0.9774494, g: 0.21117042, b: 0.00000013690442, a: 0.39}
-    - _WindDirection: {r: 0.07602678, g: 0.045616083, b: 0.007602682, a: 0}
+    - _WindDirection: {r: 0.45560983, g: 0.2733659, b: 0.045560975, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!1 &31703062
@@ -530,6 +530,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 31703062}
   m_CullTransparentMesh: 1
+--- !u!84 &60458457
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &66516863
 GameObject:
   m_ObjectHideFlags: 0
@@ -1596,43 +1633,6 @@ Transform:
   - {fileID: 5610282}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!84 &187633316
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1001 &195093939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3116,6 +3116,37 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4223040696416298096, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
   m_PrefabInstance: {fileID: 107379727706575993}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &485038455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 485038456}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &485038456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 485038455}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.59, y: 1.87, z: -5.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &511943658
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13266,7 +13297,7 @@ PrefabInstance:
     - target: {fileID: 3427824855752784596, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 187633316}
+      objectReference: {fileID: 60458457}
     - target: {fileID: 4302015194351260662, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_LocalPosition.x
       value: -278.43658
@@ -16401,22 +16432,6 @@ PrefabInstance:
       addedObject: {fileID: 944730001}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
---- !u!114 &107379727706575994 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8997273523485548869, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
-  m_PrefabInstance: {fileID: 107379727706575993}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
---- !u!1 &107379727706575995 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4371730501208967583, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
-  m_PrefabInstance: {fileID: 107379727706575993}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &107379727706575996 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7613577145526839747, guid: a8c2f188376fa6e17b2788450f930dcc, type: 3}
@@ -17857,18 +17872,38 @@ PrefabInstance:
     - target: {fileID: 1604125536758433534, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
       propertyPath: slider
       value: 
-      objectReference: {fileID: 107379727706575994}
+      objectReference: {fileID: 0}
     - target: {fileID: 1604125536758433534, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
       propertyPath: loadingScreen
       value: 
-      objectReference: {fileID: 107379727706575995}
+      objectReference: {fileID: 0}
     - target: {fileID: 2803756533676782569, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
       propertyPath: m_Name
       value: MANAGERS
       objectReference: {fileID: 0}
     - target: {fileID: 4575043854520252316, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 7589659699334930667}
+    - target: {fileID: 4575043854520252316, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575043854520252316, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
+      propertyPath: spawnPoint
+      value: 
+      objectReference: {fileID: 485038456}
+    - target: {fileID: 4575043854520252316, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
+      propertyPath: lores.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575043854520252316, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
+      propertyPath: 'lores.Array.data[0]'
+      value: ...
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575043854520252316, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
+      propertyPath: 'lores.Array.data[1]'
+      value: ...
       objectReference: {fileID: 0}
     - target: {fileID: 4907418110851449696, guid: 0da3800e0d4950f58be226b73b23fc47, type: 3}
       propertyPath: questCanvas
@@ -18739,3 +18774,4 @@ SceneRoots:
   - {fileID: 3590984026122973978}
   - {fileID: 518723548}
   - {fileID: 1437055311}
+  - {fileID: 485038456}
