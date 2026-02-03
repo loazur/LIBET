@@ -1,9 +1,12 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 {
+    #region variables
     //! S_DaysManager gère le gameplay général, le changement de jour etc...
     public static S_DaysManager instance { get; private set; }
 
@@ -21,6 +24,15 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     [Range(1, 10)]
     [SerializeField] private int medicinesPerDay; //! Rajouter le nombre de spawnPoint équivalent
 
+    [Header("Alzheimer Settings")]
+    [Tooltip("Activer/Désactiver la génération des alzheimer events")]
+    public bool is_active_alzheimerEventsList = false;
+    [Tooltip("Liste des alzheimer events pouvant être générés chaque jour")]
+    [SerializeField] private List<SO_AlzheimerEvent> alzheimerEventsList;
+    [Tooltip("Durée en secondes du temps que les alzheimer events restent actifs")]
+    [SerializeField] private float durationActivation = 420; // 7 minutes par défaut
+    [SerializeField] private int numberOfEventsToActivate = 1;
+
     //~ Information du jour actuel
     private int currentDay = 1; // Jour actuel par défaut 1
     private bool isDayActive = false; // Jour actif ou non
@@ -28,6 +40,12 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     //~ Actions
     public event Action OnDayEnd;
     public event Action OnDayLost; // Event quand le joueur perd un jour
+
+    //~ Attributs lié au système d'alzheimer events
+    private List<SO_AlzheimerEvent> activatedAlzheimerEvents; // Liste des alzheimer events activés actuellement
+    private Coroutine deactivateAECoroutine;
+
+    #endregion
 
     void Awake() //& Création du manager
     {
@@ -79,19 +97,13 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         {
             Debug.LogWarning("[DaysManager] S_DayNightManager.instance est NULL dans Awake!");
         }
-
-
-        Debug.Log("===============================================================> Start appelé sur DaysManager");
-        Debug.Log($"[DaysManager] Start appelé - enabled: {enabled}, gameObject.activeInHierarchy: {gameObject.activeInHierarchy}");
         
         InitializeFirstDay();
-
-
-        
     }
 
     //!---------------- SI_DataPersistance ----------------
 
+    #region Chargement et sauvegarde des données
     //~ Sauvegarde jour actuel
 
     public void LoadData(S_GameData gameData)
@@ -110,10 +122,10 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     }
 
     public int GetLoadPriority() => 100; // Charger en dernier
+    #endregion
 
     //! ---------- Gestion du temps ----------
-
-  
+    #region Gestion des journées
     public void TriggerEndDay() //& Ce lance avant EndDay
     {
         if (AreQuestsDone())
@@ -149,6 +161,14 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
             Debug.Log("Fin du jeu atteinte ! Victoire !");
             //TODO Fin du jeu (victoire)
         }
+
+        // Système AE
+        if (deactivateAECoroutine != null) // Annuler la coroutine si elle est en cours
+        {
+            StopCoroutine(deactivateAECoroutine);
+            deactivateAECoroutine = null;
+            DeactivateAEForDay(); // Désactive immédiatement
+        }
     }
 
     private void Award() //& Récompense du joueur
@@ -176,7 +196,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
             S_MedicinesManager.instance.GetStoredMedicines(), 
             lores, 
             transitionScreenDuration);
-
     }
 
     private void PrepareNextDay() //& Prépare le jour d'après, gènère tout ce qu'il faut
@@ -210,10 +229,28 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
             S_MedicinesManager.instance.GetStoredMedicines(), 
             lores, 
             transitionScreenDuration);
+
+        
+        // TODO Générer des alzheimer events si activé
+        if (is_active_alzheimerEventsList)
+        {
+            ActivateAEForDay();
+            
+            // Annuler l'ancienne coroutine si elle existe
+            if (deactivateAECoroutine != null)
+            {
+                StopCoroutine(deactivateAECoroutine);
+            }
+            
+            // Lancer le chronomètre
+            deactivateAECoroutine = StartCoroutine(DeactivateAEAfterDuration());
+        }
     }
+    #endregion
 
     //! --------- Génération des médicaments ---------
 
+    #region Génération des médicaments
     private void GenerateMedicines()
     {
         int medicines = UnityEngine.Random.Range(1, medicinesPerDay + 1); // 1 ou 2 médicaments (ou selon la range définie)
@@ -223,9 +260,11 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
         Debug.Log($"Génération de {medicines} nouveaux médicaments pour le jour {currentDay}.");
     }
-
+    #endregion
 
     //! ---------- Système de perte de jour ----------
+
+    #region Perte de jour et malus
 
     /* Explication 
        Perd 1 jour si:
@@ -281,8 +320,11 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     {
         LoseDay("Quêtes principales non complétées");
     }
+    #endregion
 
-     //! --------- Gestion des quetes ---------
+    //! --------- Gestion des quetes ---------
+
+    #region Quetes
 
     private void GenerateQuests()
     {
@@ -324,6 +366,7 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
             return false;
         }
     }
+    #endregion
 
     //! ---------- Méthodes publiques ----------
 
@@ -387,6 +430,88 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         return currentDay >= 2;
     }
 
+    #region Alzheimer Events
+
+    private void ActivateAEForDay()
+    {
+        //~ Sélectionner n alzheimer event aléatoire dans la liste
+        for (int i = 0; i < numberOfEventsToActivate; i++)
+        {
+            // Copie de la liste pour éviter de modifier l'originale
+            List<SO_AlzheimerEvent> alzheimerEventsListCopy = new List<SO_AlzheimerEvent>(this.alzheimerEventsList);
+
+
+            if (alzheimerEventsListCopy.Count == 0)
+            {
+                Debug.LogWarning("[DaysManager] La liste des alzheimer events est vide!");
+                break;
+            }
+
+            //& Sélection aléatoire
+            int randomIndex = UnityEngine.Random.Range(0, alzheimerEventsListCopy.Count);
+            SO_AlzheimerEvent selectedEvent = alzheimerEventsListCopy[randomIndex];
+
+            //& Activer l'event sélectionné
+            S_AlzheimerEventsManager.instance.ActivateEvent(selectedEvent);
+
+            //& Ajout de l'event à la liste des events activés
+            activatedAlzheimerEvents.Add(selectedEvent);
+
+            //& Retirer l'event de la liste pour éviter les doublons
+            alzheimerEventsListCopy.RemoveAt(randomIndex);
+        }
+    }
+
+    private void DeactivateAEForDay()
+    {
+        //~ Désactiver tous les alzheimer events activés pour la journée
+        foreach (SO_AlzheimerEvent alzheimerEvent in activatedAlzheimerEvents)
+        {
+            S_AlzheimerEventsManager.instance.DeactivateEvent(alzheimerEvent);
+        }
+
+        //& Vider la liste après désactivation
+        activatedAlzheimerEvents.Clear();
+    }
+
+    private IEnumerator DeactivateAEAfterDuration()
+    {
+        Debug.Log($"[DaysManager] Chronomètre alzheimer events démarré pour {durationActivation} secondes");
+        
+        yield return new WaitForSeconds(durationActivation);
+        
+        Debug.Log("[DaysManager] Durée écoulée - Désactivation des alzheimer events");
+        DeactivateAEForDay();
+        deactivateAECoroutine = null;
+    }
+
+    public void AddAEToList(SO_AlzheimerEvent ae) //& Permet d'ajouter un AE dans la liste à partir de n'importe quel script
+    {
+        if (!alzheimerEventsList.Contains(ae))
+        {
+            alzheimerEventsList.Add(ae);
+        }
+        else
+        {
+            Debug.LogWarning("[DaysManager] AE déjà présent dans la liste");
+        }
+
+    }
+
+    public void RemoveAEFromList(SO_AlzheimerEvent ae) //& Permet de supprimer un AE de la liste à partir de n'importe quel script
+    {
+        if (alzheimerEventsList.Contains(ae))
+        {
+            alzheimerEventsList.Remove(ae);
+        }
+        else
+        {
+            Debug.LogWarning("[DaysManager] AE inexistant dans la liste");
+        }
+    }
+
+    #endregion
+
     #region  DEBUG
 
     [ContextMenu("DEBUG - Forcer fin de jour")]
@@ -412,9 +537,6 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     {
         Debug.Log($"<color=yellow>[DaysManager DEBUG]</color> Jour actuel: {currentDay}, Temps écoulé: ..., Jour actif: {isDayActive}");
     }
-
-
-
 
     #endregion
 }

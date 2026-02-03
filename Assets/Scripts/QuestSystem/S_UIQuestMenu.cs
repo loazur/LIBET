@@ -26,6 +26,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 public class S_UIQuestMenu : MonoBehaviour
 {
@@ -119,6 +120,17 @@ public class S_UIQuestMenu : MonoBehaviour
         {
             ToggleQuestMenu();
         } 
+
+        // Fermeture avec l'input MenuOpenclose
+        if(S_UserInput.instance != null && S_UserInput.instance.MenuOpenCloseInput && uiQuestMenu.activeSelf)
+        {
+            uiQuestMenu.SetActive(false);
+
+            if (S_MenuManager.instance != null)
+            {
+                S_MenuManager.instance.RegisterMenuClose(S_MenuManager.MenuType.QUESTS);
+            }
+        }
     }
 
     #region Menu Toggle 
@@ -159,6 +171,24 @@ public class S_UIQuestMenu : MonoBehaviour
             {
                 S_MenuManager.instance.RegisterMenuClose(S_MenuManager.MenuType.QUESTS);
             }
+
+            StartCoroutine(PreventPauseMenuThisFrame());
+        }
+    }
+
+    private IEnumerator PreventPauseMenuThisFrame()
+    {
+        // Empêcher le menu pause de s'ouvrir pendant 1 frame
+        if (S_HandlerPauseMenu.instance != null)
+        {
+            S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(false);
+        }
+        
+        yield return null; // Attendre 1 frame
+        
+        if (S_HandlerPauseMenu.instance != null)
+        {
+            S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(true);
         }
     }
 

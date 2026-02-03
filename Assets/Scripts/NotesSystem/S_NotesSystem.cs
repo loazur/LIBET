@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 [Serializable]
 public struct UIElements
@@ -111,6 +112,7 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
 
     void Update()
     {
+        // Ouverture / Fermeture avec l'input Notes
         if (S_UserInput.instance.NotesMenuInput)
         {
             usingNotesSystem = !usingNotesSystem;
@@ -123,6 +125,32 @@ public class S_NotesSystem : MonoBehaviour, SI_DataPersistance
             {
                 Close(activeNote != null);
             }
+        }
+        
+        // Fermeture avec l'input MenuClose
+        if (S_UserInput.instance.MenuOpenCloseInput && usingNotesSystem)
+        {       
+            usingNotesSystem = false;
+            Close(activeNote != null);
+            
+            // Désactiver temporairement l'ouverture du menu pause pour cette frame
+            StartCoroutine(PreventPauseMenuThisFrame());
+        }
+    }
+
+    private IEnumerator PreventPauseMenuThisFrame()
+    {
+        // Empêcher le menu pause de s'ouvrir pendant 1 frame
+        if (S_HandlerPauseMenu.instance != null)
+        {
+            S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(false);
+        }
+        
+        yield return null; // Attendre 1 frame
+        
+        if (S_HandlerPauseMenu.instance != null)
+        {
+            S_HandlerPauseMenu.instance.setAbleToOpenClosePauseMenu(true);
         }
     }
 
