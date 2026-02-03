@@ -485,6 +485,31 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         deactivateAECoroutine = null;
     }
 
+    public void AddAEToList(SO_AlzheimerEvent ae) //& Permet d'ajouter un AE dans la liste à partir de n'importe quel script
+    {
+        if (!alzheimerEventsList.Contains(ae))
+        {
+            alzheimerEventsList.Add(ae);
+        }
+        else
+        {
+            Debug.LogWarning("[DaysManager] AE déjà présent dans la liste");
+        }
+
+    }
+
+    public void RemoveAEFromList(SO_AlzheimerEvent ae) //& Permet de supprimer un AE de la liste à partir de n'importe quel script
+    {
+        if (alzheimerEventsList.Contains(ae))
+        {
+            alzheimerEventsList.Remove(ae);
+        }
+        else
+        {
+            Debug.LogWarning("[DaysManager] AE inexistant dans la liste");
+        }
+    }
+
     #endregion
 
     #region  DEBUG
