@@ -70,8 +70,6 @@ public class S_PlayerController : MonoBehaviour, SI_DataPersistance
             return;
         }
 
-        Debug.Log(S_UserInput.instance.MoveInput);
-
         //! Tout ce qui en dessous ne sera pas actif en Mode NoClip
  
         Move(S_UserInput.instance.MoveInput); // Gestion Mouvements
