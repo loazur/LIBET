@@ -26,13 +26,15 @@ public class S_ArrowMinigame : S_AbstractMinigame
     [SerializeField] private Color emptyColor = new Color(1, 1, 1, 0.3f);
     
     [Header("Sequence Settings")]
-    [SerializeField] private int sequenceLength = 4;
+    [SerializeField] private int minSequenceLength = 4;
+    [SerializeField] private int maxSequenceLength = 6;
     
     private List<int> sequence = new List<int>(); // Séquence générée aléatoirement
     private List<Image> sequenceArrows = new List<Image>();
     private List<Image> inputArrows = new List<Image>();
     private int currentIndex = 0;
-    private float timeRemaining = 10f;
+    private int sequenceLength = 0; // Longueur de la séquence actuelle
+    private float timeRemaining = 5f;
     private bool isPlaying = false;
 
     private Vector2 lastMoveInput = Vector2.zero;
@@ -60,14 +62,11 @@ public class S_ArrowMinigame : S_AbstractMinigame
         // Générer une nouvelle séquence aléatoire
         GenerateRandomSequence();
         
-        // Générer les UI si pas déjà fait
-        if (sequenceArrows.Count == 0)
-        {
-            GenerateArrowsUI();
-        }
+        // Régénérer les UI à chaque fois pour s'adapter à la nouvelle taille
+        GenerateArrowsUI();
         
         currentIndex = 0;
-        timeRemaining = 10f;
+        timeRemaining = 5f;
         isPlaying = true;
 
         // Afficher la séquence à reproduire
@@ -80,12 +79,17 @@ public class S_ArrowMinigame : S_AbstractMinigame
     private void GenerateRandomSequence()
     {
         sequence.Clear();
+
+        // Taille de la séquence aléatoire entre min et max (inclus)
+        sequenceLength = Random.Range(minSequenceLength, maxSequenceLength + 1);
+
+        // Ajout des touches aléatoires
         for (int i = 0; i < sequenceLength; i++)
         {
             sequence.Add(Random.Range(0, 4)); // 0=haut, 1=droite, 2=bas, 3=gauche
         }
         
-        Debug.Log("Nouvelle séquence générée : " + string.Join(", ", sequence));
+        Debug.Log("Nouvelle séquence générée (longueur " + sequenceLength + ") : " + string.Join(", ", sequence));
     }
 
     private void GenerateArrowsUI()
@@ -103,7 +107,7 @@ public class S_ArrowMinigame : S_AbstractMinigame
         sequenceArrows.Clear();
         inputArrows.Clear();
         
-        // Créer les flèches de séquence
+        // Créer les flèches de séquence (nombre basé sur sequenceLength)
         for (int i = 0; i < sequenceLength; i++)
         {
             GameObject arrowObj = Instantiate(arrowImagePrefab, sequenceContainer);
