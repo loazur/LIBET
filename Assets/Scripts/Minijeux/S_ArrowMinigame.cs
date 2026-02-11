@@ -20,10 +20,10 @@ public class S_ArrowMinigame : S_AbstractMinigame
     [SerializeField] private Sprite arrowLeftSprite;
     
     [Header("Colors")]
-    [SerializeField] private Color normalColor = Color.white;
-    [SerializeField] private Color highlightColor = Color.green;
-    [SerializeField] private Color errorColor = Color.red;
-    [SerializeField] private Color emptyColor = new Color(1, 1, 1, 0.3f);
+    private Color normalColor = Color.white;
+    private Color highlightColor = Color.green;
+    private Color errorColor = Color.red;
+    private Color emptyColor = new Color(1, 1, 1, 0.3f);
     
     [Header("Sequence Settings")]
     [SerializeField] private int minSequenceLength = 4;
