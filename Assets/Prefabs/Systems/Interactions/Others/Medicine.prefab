@@ -242,6 +242,7 @@ GameObject:
   - component: {fileID: 834273704117586479}
   - component: {fileID: 8226735933298226331}
   - component: {fileID: 7397147860140941411}
+  - component: {fileID: -1409621719605536428}
   m_Layer: 0
   m_Name: Medicine
   m_TagString: medicine
@@ -280,7 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::S_MedicineInteractable
   percentageLucidityJaugeAward: 5
-  interactText: Manger
+  interactText: 
 --- !u!114 &6158121086241548390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -900,6 +901,20 @@ CapsuleCollider:
   m_Height: 0.15
   m_Direction: 1
   m_Center: {x: -0.12081312, y: 0, z: -0.09833211}
+--- !u!114 &-1409621719605536428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5979905689615888923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53dfb133055e3ae45a8a21d6f66c8acd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoldInteractAnyObject
+  interactTextFrench: "Prendre le m\xE9dicament"
+  interactTextEnglish: Take the medicine
 --- !u!1 &7946310450750322965
 GameObject:
   m_ObjectHideFlags: 0
