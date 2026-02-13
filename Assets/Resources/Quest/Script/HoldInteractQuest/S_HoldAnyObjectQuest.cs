@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+
 /**
  * Quête : Maintenir une interaction sur un objet
  *

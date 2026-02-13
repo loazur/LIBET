@@ -19,7 +19,7 @@ public class S_DayNightManager : MonoBehaviour
     
     //~ Important
     [Header("Gestion du temps du jour")]
-    public float dayLength = 120f; // Length of a full day in seconds
+    public float dayLength = 420f; // Length of a full day in seconds
     [Space]
     [Tooltip("Cocher pour contrôler manuellement l'heure du jour")]
     public bool useManualTime = false;
