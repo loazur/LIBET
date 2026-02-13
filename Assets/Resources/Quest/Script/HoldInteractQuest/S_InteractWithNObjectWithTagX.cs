@@ -1,91 +1,104 @@
-// Quete secondaire : Interagir avec N objets ayant le tag X
-
-using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 
-class S_InteractWithNObjectWithTagX : S_QuestStep
+public class S_InteractWithNObjectWithTagX : S_QuestStep
 {
-    
-    [Header("Quest Settings")]
+    [Header("Quest Step Settings")]
     [SerializeField] private string targetTag = "";
     [SerializeField] private int requiredInteractions = 1;
+    [SerializeField] private bool destroyObjectOnInteract = false;
 
     private int currentInteractions = 0;
-    private bool isSubscribed = false;
     private bool hasCompleted = false;
 
-    private void Start()
+    // Pour éviter de compter deux fois le même objet
+    private HashSet<int> interactedObjectIds = new HashSet<int>();
+
+    private void OnEnable()
     {
-        StartCoroutine(InitializeWhenReady());
-    }
+        if (S_GameManager.instance == null) return;
 
-    private IEnumerator InitializeWhenReady()
-    {
-        while (S_GameManager.instance == null)
-            yield return null;
+        S_GameManager.instance.playerEvents.onPlayerHoldInteractedWithAnyObject
+            += OnPlayerHoldInteracted;
 
-        SubscribeToEvents();
-    }
-
-    private void SubscribeToEvents()
-    {
-        if (isSubscribed || S_GameManager.instance == null) return;
-
-        S_GameManager.instance.playerEvents.onPlayerHoldInteractedWithAnyObject += OnPlayerHoldInteracted;
-        isSubscribed = true;
-
-        Debug.Log("[S_InteractWithNObjectWithTagX] Subscribed");
-    }
-
-    private void UnsubscribeFromEvents()
-    {
-        if (!isSubscribed || S_GameManager.instance == null) return;
-
-        S_GameManager.instance.playerEvents.onPlayerHoldInteractedWithAnyObject -= OnPlayerHoldInteracted;
-        isSubscribed = false;
+        Debug.Log($"[S_InteractWithNObjectWithTagX] Enabled - Tag: {targetTag}, Required: {requiredInteractions}");
     }
 
     private void OnDisable()
     {
-        UnsubscribeFromEvents();
+        if (S_GameManager.instance == null) return;
+
+        S_GameManager.instance.playerEvents.onPlayerHoldInteractedWithAnyObject
+            -= OnPlayerHoldInteracted;
     }
 
     private void OnPlayerHoldInteracted(GameObject obj)
     {
-        if (hasCompleted) return;
+        if (hasCompleted || obj == null)
+            return;
 
-        if (!IsValidTarget(obj)) return;
+        if (!IsValidTarget(obj))
+            return;
 
-        CompleteQuest(obj);
+        int id = obj.GetInstanceID();
+        if (interactedObjectIds.Contains(id))
+        {
+            Debug.Log($"[QuestStep] {obj.name} already counted");
+            return;
+        }
+
+        interactedObjectIds.Add(id);
+        currentInteractions++;
+
+        Debug.Log($"[QuestStep] Progress {currentInteractions}/{requiredInteractions}");
+
+        if (destroyObjectOnInteract)
+            Destroy(obj);
+
+        if (currentInteractions >= requiredInteractions)
+        {
+            CompleteStep();
+        }
+        else
+        {
+            ChangeState($"Interactions:{currentInteractions}", "IN_PROGRESS");
+        }
     }
 
     private bool IsValidTarget(GameObject obj)
     {
-        if (obj.CompareTag(targetTag))
+        if (string.IsNullOrEmpty(targetTag))
         {
             return true;
         }
-        return false;
+
+        return obj.CompareTag(targetTag);
     }
 
-    private void CompleteQuest(GameObject obj)
+    private void CompleteStep()
     {
-        currentInteractions++;
-        Debug.Log($"[S_InteractWithNObjectWithTagX] Interacted with valid object: {obj.name}. Current interactions: {currentInteractions}/{requiredInteractions}");
+        hasCompleted = true;
 
-        if (currentInteractions >= requiredInteractions)
-        {
-            hasCompleted = true;
-            Debug.Log("[S_InteractWithNObjectWithTagX] Quest step completed!");
-            // OnQuestStepCompleted();
-            UnsubscribeFromEvents();
-        }
+        ChangeState($"Interactions:{currentInteractions}", "COMPLETE");
+        FinishQuestStep();
+
+        Debug.Log("[QuestStep] Step completed");
     }
-
 
     protected override void SetQuestStepState(string state)
     {
-        
-    }
+        if (state == "COMPLETE")
+        {
+            hasCompleted = true;
+            return;
+        }
 
+        if (state.StartsWith("Interactions:"))
+        {
+            if (int.TryParse(state.Split(':')[1], out int value))
+            {
+                currentInteractions = value;
+            }
+        }
+    }
 }
