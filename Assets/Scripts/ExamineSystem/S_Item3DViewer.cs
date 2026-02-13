@@ -55,7 +55,10 @@ public class S_Item3DViewer : MonoBehaviour, IDragHandler, IPointerClickHandler
         
         itemInstance = Instantiate(item, new Vector3(1000, 1000, 1000), Quaternion.identity);
 
-        uiContainer.SetActive(true);
+        // Affichage de l'UI d'aide
+        S_MenuManager.instance.EnableHelpingUI("Pour fermer l'affichage en 3D");
+
+        uiContainer.SetActive(true); // Affichage de l'UI
     }
 
     public void TriggerEndExamine()
@@ -70,7 +73,10 @@ public class S_Item3DViewer : MonoBehaviour, IDragHandler, IPointerClickHandler
         // Nettoyer les listeners
         OnItem3DClicked = null;
 
-        uiContainer.SetActive(false);
+        // Fermeture UI d'aide
+        S_MenuManager.instance.DisableHelpingUI();
+
+        uiContainer.SetActive(false); // Fermeture UI
     }
 
     public void OnDrag(PointerEventData eventData)
