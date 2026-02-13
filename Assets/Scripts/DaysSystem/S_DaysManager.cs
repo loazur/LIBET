@@ -332,13 +332,13 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         if (S_LaunchRandomQuest.instance != null)
         {
             S_LaunchRandomQuest.instance.ResetAllRepeatableQuests();
-            Debug.Log($"----> [DaysManager] Quêtes du jour précédent réinitialisées.");
+            Debug.Log($">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> \n [DaysManager] Quêtes du jour précédent réinitialisées \n >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             
             // Lancer 3 nouvelles quêtes aléatoires selon la difficulté du jour
             S_LaunchRandomQuest.instance.LaunchRandomQuestsForDay(currentDay);
             
             int difficulty = S_LaunchRandomQuest.instance.GetDifficultyForDay(currentDay);
-            Debug.Log($"<color=green>[DaysManager]</color> Quêtes générées pour le jour {currentDay} (Difficulté: {difficulty})");
+            Debug.Log($" ================================================================ \n[DaysManager] Quêtes générées pour le jour {currentDay} (Difficulté: {difficulty}) \n ================================================================");
         }
         else
         {
