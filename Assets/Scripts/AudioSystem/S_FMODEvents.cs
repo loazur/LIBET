@@ -37,6 +37,10 @@ public class S_FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference strong_AE {get; private set;}
     [field: SerializeField] public EventReference weak_AE {get; private set;}
 
+    [field: Header("Puzzle Buttons")]
+    [field: SerializeField] public EventReference buttonPushed {get; private set;}
+    [field: SerializeField] public EventReference buttonUnpushed {get; private set;}
+
     void Awake()
     {
         if (instance == null)
