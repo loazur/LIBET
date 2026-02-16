@@ -223,6 +223,12 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
             S_QuestDayManager.instance.UpdateQuestPrefabsForDay(currentDay);
         }
         
+        // regénérer tout les objets de la scène aux positions sauvegardées
+        if (S_SavePosPrefab.instance != null)
+        {
+            S_SavePosPrefab.instance.SpawnAll();
+        }
+        
         // On commence le prochain jour
         S_DaysTransitionScreen.instance.TriggerTransitionScreen(currentDay, 
             S_AlzheimerEventsManager.instance.Lucidity,
