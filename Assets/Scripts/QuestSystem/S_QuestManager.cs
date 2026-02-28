@@ -1137,10 +1137,12 @@ public class S_QuestManager : MonoBehaviour, SI_DataPersistance
             ChangeQuestState(quest.info.id, E_QuestState.CAN_START);
         }
 
-        // Démarrer la quête via les events
+        // Démarrer la quête directement (évite la race condition si les events ne sont pas encore abonnés)
         if (quest.state == E_QuestState.CAN_START)
         {
-            S_GameManager.instance.questEvents.StartQuest(questInfo.id);
+            quest.InstantiateCurrentQuestStep(this.transform);
+            ChangeQuestState(quest.info.id, E_QuestState.IN_PROGRESS);
+            Debug.Log($"<color=green>[QuestManager]</color> Quête '{questInfo.id}' démarrée directement via StartQuestFromInfo");
         }
 
         return quest;
