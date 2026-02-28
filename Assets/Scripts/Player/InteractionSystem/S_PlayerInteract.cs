@@ -107,6 +107,12 @@ public class S_PlayerInteract : MonoBehaviour
         {
             // Appeler l'interaction
             currentMinigameInteractable.Interact(transform);
+
+            // Notifier le système de quêtes (passe le GameObject du minijeu)
+            if (S_GameManager.instance != null)
+            {
+                S_GameManager.instance.playerEvents.MinigameCompleted(currentMinigame.gameObject);
+            }
             
             // Se désabonner pour éviter les fuites mémoire
             currentMinigame.OnMinigameWin -= OnMinigameCompleted;
