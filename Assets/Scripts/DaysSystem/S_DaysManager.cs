@@ -304,6 +304,12 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
         S_MedicinesManager.instance.CleanupForDayRestart();
         GenerateMedicines();
 
+        // Réinstancier les prefabs de quêtes si nécessaire
+        if (S_QuestDayManager.instance != null)
+        {
+            S_QuestDayManager.instance.UpdateQuestPrefabsOnRestart(currentDay);
+        }
+
         // Réinitialiser la lucidité à un niveau de base
         S_AlzheimerEventsManager.instance.RecoverLucidity(10000);
 

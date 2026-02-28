@@ -267,6 +267,20 @@ public class S_PlayerEvents
         }
     }
 
+    /**
+     * Événement déclenché quand un mini-jeu est complété (victoire)
+     * Passe le GameObject du mini-jeu pour permettre le filtrage par tag/nom
+     *
+     * @var		mixed	onMinigameCompleted
+     */
+    public event Action<GameObject> onMinigameCompleted;
+    public void MinigameCompleted(GameObject minigameObject)
+    {
+        if (onMinigameCompleted != null)
+        {
+            onMinigameCompleted(minigameObject);
+        }
+    }
     
 
 }
