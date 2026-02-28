@@ -223,6 +223,9 @@ public class S_UIQuestMenu : MonoBehaviour
             return;
         }
 
+        //& Synchroniser la quête d'histoire si elle n'a pas encore été captée par l'event
+        SyncStoryQuest();
+
         //& Mettre à jour la quête d'histoire
         UpdateStoryQuestUI();
 
@@ -231,6 +234,26 @@ public class S_UIQuestMenu : MonoBehaviour
 
         //& Mettre en surbrillance la quête sélectionnée
         UpdateSelectionHighlight();
+    }
+
+    /**
+     * Synchronise la référence storyQuest depuis le QuestManager.
+     * Corrige le cas où l'event onQuestStateChange a été émis avant l'abonnement (jour 1).
+     */
+    private void SyncStoryQuest()
+    {
+        if (storyQuest != null) return;
+        if (storyQuestPoint == null || S_QuestManager.instance == null) return;
+
+        string questId = storyQuestPoint.QuestId;
+        if (string.IsNullOrEmpty(questId)) return;
+
+        S_Quest quest = S_QuestManager.instance.GetQuestByID(questId);
+        if (quest != null)
+        {
+            storyQuest = quest;
+            Debug.Log($"<color=cyan>[UIQuestMenu]</color> StoryQuest synchronisée manuellement: {quest.info.displayName} (état: {quest.state})");
+        }
     }
 
     /**
@@ -445,7 +468,7 @@ public class S_UIQuestMenu : MonoBehaviour
         {
             S_Quest quest = questSideSlots[index].quest;
             
-            if (quest != null && quest.state == E_QuestState.IN_PROGRESS)
+            if (quest != null && (quest.state == E_QuestState.IN_PROGRESS || quest.state == E_QuestState.CAN_FINISH))
             {
                 S_QuestManager.instance.SetSelectedQuestForDisplay(quest);
                 UpdateSelectionHighlight();

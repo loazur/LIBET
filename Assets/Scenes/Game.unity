@@ -14872,20 +14872,6 @@ MonoBehaviour:
     - {x: -0.57735026, y: 0.57735026, z: 0.57735026}
     - {x: 0.57735026, y: 0.57735026, z: 0.57735026}
     - {x: 0.57735026, y: 0.57735026, z: 0.57735026}
---- !u!114 &300045389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 300045385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467db91ba27fb680dad39ad92e4ceebd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HoldToInteract
-  howLongToHold: 1.5
-  holdTimer: 0
 --- !u!114 &300045390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14900,6 +14886,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HoldInteractAnyObject
   interactTextFrench: Maintenir E
   interactTextEnglish: Hold E
+--- !u!114 &300045392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300045385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6daeadbdeb958a46858f217a01dff92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_ArrowMinigame
+  minSequenceLength: 4
+  maxSequenceLength: 5
+  gameDuration: 5
 --- !u!1001 &325941301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15262,6 +15263,43 @@ MonoBehaviour:
     - {x: -0.6237079, y: -0.47114408, z: 0.62370795}
     - {x: 0.8765666, y: -0.48128054, z: 0.000000258179}
     - {x: -0.8765666, y: -0.48128054, z: -0.000000258179}
+--- !u!84 &331550845
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1001 &344711481
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15352,20 +15390,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HoldInteractAnyObject
   interactTextFrench: Arroser la plante
   interactTextEnglish: Water the plant
---- !u!114 &352906746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 352906743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467db91ba27fb680dad39ad92e4ceebd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HoldToInteract
-  howLongToHold: 2
-  holdTimer: 0
 --- !u!65 &352906747
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -25879,6 +25903,21 @@ MonoBehaviour:
     - {x: -0.24306011, y: -0.5783014, z: -0.77877426}
     - {x: -0.4824185, y: -0.5651188, z: -0.6692632}
     - {x: -0.45556968, y: -0.6508401, z: -0.60734123}
+--- !u!114 &352906751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352906743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6daeadbdeb958a46858f217a01dff92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_ArrowMinigame
+  minSequenceLength: 4
+  maxSequenceLength: 4
+  gameDuration: 6
 --- !u!114 &353623686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35505,7 +35544,7 @@ PrefabInstance:
       addedObject: {fileID: 1263381025}
     - targetCorrespondingSourceObject: {fileID: -2048852785851873155, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1263381027}
+      addedObject: {fileID: 1263381029}
     - targetCorrespondingSourceObject: {fileID: 4897835215281200507, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1804693845}
@@ -35628,7 +35667,7 @@ PrefabInstance:
       addedObject: {fileID: 1519478412}
     - targetCorrespondingSourceObject: {fileID: -6777025457770198229, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1519478411}
+      addedObject: {fileID: 1519478418}
     - targetCorrespondingSourceObject: {fileID: 6540968486437118983, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1370588975}
@@ -35859,19 +35898,16 @@ PrefabInstance:
       addedObject: {fileID: 300045390}
     - targetCorrespondingSourceObject: {fileID: -2248221802969512970, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 300045389}
-    - targetCorrespondingSourceObject: {fileID: -2248221802969512970, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 300045388}
     - targetCorrespondingSourceObject: {fileID: -2248221802969512970, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 300045387}
+    - targetCorrespondingSourceObject: {fileID: -2248221802969512970, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 300045392}
     - targetCorrespondingSourceObject: {fileID: -9066516175979267980, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 352906745}
-    - targetCorrespondingSourceObject: {fileID: -9066516175979267980, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 352906746}
     - targetCorrespondingSourceObject: {fileID: -9066516175979267980, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 352906747}
@@ -35881,12 +35917,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -9066516175979267980, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 352906748}
+    - targetCorrespondingSourceObject: {fileID: -9066516175979267980, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 352906751}
     - targetCorrespondingSourceObject: {fileID: -7823102943569197011, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2049998294}
-    - targetCorrespondingSourceObject: {fileID: -7823102943569197011, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2049998293}
     - targetCorrespondingSourceObject: {fileID: -7823102943569197011, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2049998295}
@@ -35896,6 +35932,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -7823102943569197011, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2049998296}
+    - targetCorrespondingSourceObject: {fileID: -7823102943569197011, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2049998299}
     - targetCorrespondingSourceObject: {fileID: -3210655627323217816, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1757755032}
@@ -35967,9 +36006,6 @@ PrefabInstance:
       addedObject: {fileID: 1427685290}
     - targetCorrespondingSourceObject: {fileID: 3456143007418083331, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1427685291}
-    - targetCorrespondingSourceObject: {fileID: 3456143007418083331, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1427685292}
     - targetCorrespondingSourceObject: {fileID: 3456143007418083331, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
@@ -35977,6 +36013,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3456143007418083331, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1427685293}
+    - targetCorrespondingSourceObject: {fileID: 3456143007418083331, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1427685296}
     - targetCorrespondingSourceObject: {fileID: -7444228812066684954, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1463562407}
@@ -37178,7 +37217,7 @@ PrefabInstance:
     - target: {fileID: 3427824855752784596, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 573451131}
+      objectReference: {fileID: 331550845}
     - target: {fileID: 4278186514454610778, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
       propertyPath: m_BoundingSphereOverride.w
       value: 0.00083545217
@@ -37258,43 +37297,6 @@ Light:
   m_CorrespondingSourceObject: {fileID: 4457649498424002553, guid: 0f3fcc21540e76c4bb32fc83564fb963, type: 3}
   m_PrefabInstance: {fileID: 569517897}
   m_PrefabAsset: {fileID: 0}
---- !u!84 &573451131
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &575025205 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7170232465518721320, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
@@ -65853,7 +65855,7 @@ Material:
     - _ShadowColor: {r: 1, g: 1, b: 1, a: 1}
     - _ShadowIntensity: {r: 1, g: 0, b: 0, a: 0}
     - _ToLightDir: {r: 0.9774494, g: 0.21117042, b: 0.00000013690442, a: 0.39}
-    - _WindDirection: {r: 0.0090542, g: 0.00543252, b: 0.00090542017, a: 0}
+    - _WindDirection: {r: 0.0884867, g: 0.053092018, b: 0.008848674, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!1 &956123742
@@ -67861,7 +67863,7 @@ PrefabInstance:
       addedObject: {fileID: 1094951081}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5151af5121af74afa98e9ed530b83292, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1094951080}
+      addedObject: {fileID: 1094951086}
   m_SourcePrefab: {fileID: 100100000, guid: 5151af5121af74afa98e9ed530b83292, type: 3}
 --- !u!1 &1094951076 stripped
 GameObject:
@@ -67921,20 +67923,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.2601562, y: 3.2601554, z: 83.59664}
   m_Center: {x: 0, y: 0.000061035156, z: 38.119564}
---- !u!114 &1094951080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1094951076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467db91ba27fb680dad39ad92e4ceebd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HoldToInteract
-  howLongToHold: 0.5
-  holdTimer: 0
 --- !u!114 &1094951081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68706,6 +68694,21 @@ MonoBehaviour:
     - {x: 0.5879378, y: 0.3928475, z: -0.70710677}
     - {x: 0.9238769, y: 0.38268846, z: -0.00096826436}
     - {x: 0.826343, y: 0.3422824, z: -0.44721365}
+--- !u!114 &1094951086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094951076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6daeadbdeb958a46858f217a01dff92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_ArrowMinigame
+  minSequenceLength: 2
+  maxSequenceLength: 3
+  gameDuration: 4
 --- !u!1 &1103926905
 GameObject:
   m_ObjectHideFlags: 0
@@ -88863,7 +88866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HoldInteractAnyObject
   interactTextFrench: Arroser la plante
   interactTextEnglish: Water the plant
---- !u!114 &1263381027
+--- !u!114 &1263381029
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88872,11 +88875,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1263381020}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467db91ba27fb680dad39ad92e4ceebd, type: 3}
+  m_Script: {fileID: 11500000, guid: b6daeadbdeb958a46858f217a01dff92, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HoldToInteract
-  howLongToHold: 2
-  holdTimer: 0
+  m_EditorClassIdentifier: Assembly-CSharp::S_ArrowMinigame
+  minSequenceLength: 4
+  maxSequenceLength: 4
+  gameDuration: 6
 --- !u!1 &1266586002 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2084669032633082767, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
@@ -101688,20 +101692,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HoldInteractAnyObject
   interactTextFrench: Arroser la plante
   interactTextEnglish: Water the plant
---- !u!114 &1427685291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1427685288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467db91ba27fb680dad39ad92e4ceebd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HoldToInteract
-  howLongToHold: 2
-  holdTimer: 0
 --- !u!65 &1427685292
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -112215,6 +112205,21 @@ MonoBehaviour:
     - {x: -0.24306011, y: -0.5783014, z: -0.77877426}
     - {x: -0.4824185, y: -0.5651188, z: -0.6692632}
     - {x: -0.45556968, y: -0.6508401, z: -0.60734123}
+--- !u!114 &1427685296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427685288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6daeadbdeb958a46858f217a01dff92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_ArrowMinigame
+  minSequenceLength: 4
+  maxSequenceLength: 4
+  gameDuration: 6
 --- !u!64 &1440466483
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -124531,20 +124536,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.5137093, y: 1.5065436, z: 77.4386}
   m_Center: {x: 0.5560127, y: 1.3475174e-14, z: 24.233673}
---- !u!114 &1519478411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1519478405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467db91ba27fb680dad39ad92e4ceebd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HoldToInteract
-  howLongToHold: 3
-  holdTimer: 0
 --- !u!114 &1519478412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130759,6 +130750,21 @@ MonoBehaviour:
     - {x: 0.57735026, y: 0.57735026, z: 0.57735026}
     - {x: -0.57735026, y: 0.57735026, z: -0.57735026}
     - {x: -0.57735026, y: 0.57735026, z: 0.57735026}
+--- !u!114 &1519478418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519478405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6daeadbdeb958a46858f217a01dff92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_ArrowMinigame
+  minSequenceLength: 6
+  maxSequenceLength: 8
+  gameDuration: 10
 --- !u!114 &1531888991
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208932,20 +208938,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -7823102943569197011, guid: 5dcb39f7d09f0974ab6cddcf2526c4cc, type: 3}
   m_PrefabInstance: {fileID: 457421173}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2049998293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049998291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467db91ba27fb680dad39ad92e4ceebd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HoldToInteract
-  howLongToHold: 2
-  holdTimer: 0
 --- !u!114 &2049998294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218908,6 +218900,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 962cdf264e21b73199b691388284e053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::S_OutlineHandler
+--- !u!114 &2049998299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2049998291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6daeadbdeb958a46858f217a01dff92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::S_ArrowMinigame
+  minSequenceLength: 4
+  maxSequenceLength: 4
+  gameDuration: 6
 --- !u!1 &2072100894 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 65b2aa9b8b0fcd243b798e9ea8d3db2b, type: 3}
