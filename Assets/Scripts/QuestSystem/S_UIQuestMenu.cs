@@ -411,15 +411,20 @@ public class S_UIQuestMenu : MonoBehaviour
      */
     public void OnClickStoryQuest()
     {
-        Debug.Log("<color=yellow>[UIQuestMenu]</color> OnClickStoryQuest appelé!");
-        
         if (S_QuestManager.instance == null) return;
+
+        // Resynchroniser au cas où
+        SyncStoryQuest();
         
         if (storyQuest != null && (storyQuest.state == E_QuestState.IN_PROGRESS || storyQuest.state == E_QuestState.CAN_FINISH))
         {
             S_QuestManager.instance.SetSelectedQuestForDisplay(storyQuest);
             UpdateSelectionHighlight();
             Debug.Log($"<color=cyan>[UIQuestMenu]</color> Quête histoire sélectionnée: {storyQuest.info.displayName}");
+        }
+        else
+        {
+            Debug.LogWarning($"<color=red>[UIQuestMenu]</color> OnClickStoryQuest IGNORÉ — storyQuest={storyQuest?.info?.displayName ?? "NULL"}, state={storyQuest?.state}");
         }
     }
 
@@ -460,8 +465,6 @@ public class S_UIQuestMenu : MonoBehaviour
      */
     private void SelectSideQuest(int index)
     {
-        Debug.Log($"<color=yellow>[UIQuestMenu]</color> SelectSideQuest appelé pour index: {index}");
-        
         if (S_QuestManager.instance == null) return;
         
         if (index >= 0 && index < questSideSlots.Length)
@@ -473,6 +476,10 @@ public class S_UIQuestMenu : MonoBehaviour
                 S_QuestManager.instance.SetSelectedQuestForDisplay(quest);
                 UpdateSelectionHighlight();
                 Debug.Log($"<color=cyan>[UIQuestMenu]</color> Quête secondaire {index + 1} sélectionnée: {quest.info.displayName}");
+            }
+            else
+            {
+                Debug.LogWarning($"<color=red>[UIQuestMenu]</color> SelectSideQuest({index}) IGNORÉ — quest={quest?.info?.displayName ?? "NULL"}, state={quest?.state}");
             }
         }
     }

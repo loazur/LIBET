@@ -10,11 +10,12 @@ public class S_SwitchInteractable : MonoBehaviour, SI_Interactable
     [SerializeField] private float onLightIntensity; // Intensité de la lumière allumé
 
     private string interactText = "not_set";
-    private bool isOn = false; // Allumé ou non
+    private bool isOn = true; // Allumé ou non
 
     void Start()
     {
         UpdateInteractText(); // Setup
+        SwitchOnOff(isOn);
         
         S_GameUserData.instance.OnLanguageChanged += UpdateInteractText; // Gère changement langue
     }
