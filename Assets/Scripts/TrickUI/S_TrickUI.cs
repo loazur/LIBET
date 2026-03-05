@@ -3,7 +3,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 
 /**
@@ -15,6 +17,12 @@ using TMPro;
  *   - Créer un enfant "PopupPanel" avec un CanvasGroup et un TextMeshProUGUI
  *   - Assigner les références dans l'Inspector
  *   - Remplir les listes TrickName_FR et TrickName_EN avec les mêmes indices
+ *
+ * Placeholders de touches :
+ *   Utiliser {NomAction} dans les textes pour afficher la touche actuelle.
+ *   Ex: "Appuyez sur {Interact} pour interagir"
+ *   Actions disponibles : Interact, CancelInteraction, Sprint, MenuOpenClose,
+ *                          QuestMenu, NotesMenu, Move, Look
  *
  * @author  Lucas
  * @since   v0.0.1
@@ -221,8 +229,8 @@ public class S_TrickUI : MonoBehaviour
         if (popupCanvasGroup == null || popupRectTransform == null || tipText == null)
             yield break;
 
-        // Préparer le texte avant d'activer
-        tipText.text = tip;
+        // Résoudre les placeholders de touches puis afficher
+        tipText.text = ResolveKeyBindings(tip);
 
         // Activer le panel (invisible, alpha 0)
         popupCanvasGroup.alpha = 0f;
@@ -299,6 +307,43 @@ public class S_TrickUI : MonoBehaviour
     #endregion
 
     #region Utilitaires
+
+    /// <summary>
+    /// Résout les placeholders {ActionName} dans le texte par la touche actuellement assignée.
+    /// Retourne le texte original si aucun placeholder n'est trouvé.
+    /// </summary>
+    private string ResolveKeyBindings(string text)
+    {
+        if (S_UserInput.instance == null) return text;
+
+        return Regex.Replace(text, @"\{(\w+)\}", match =>
+        {
+            string actionName = match.Groups[1].Value;
+            InputAction action = GetInputAction(actionName);
+            if (action != null)
+            {
+                string displayString = action.GetBindingDisplayString();
+                return string.IsNullOrEmpty(displayString) ? match.Value : displayString;
+            }
+            return match.Value;
+        });
+    }
+
+    /// <summary>
+    /// Retourne l'InputAction correspondant au nom donné depuis S_UserInput.
+    /// Retourne null si l'action n'existe pas.
+    /// </summary>
+    private InputAction GetInputAction(string actionName)
+    {
+        try
+        {
+            return S_UserInput.instance.GetAction(actionName);
+        }
+        catch
+        {
+            return null;
+        }
+    }
 
     /// <summary>
     /// Retourne la liste de tips selon la langue courante.
