@@ -97,4 +97,13 @@ public class S_UserInput : MonoBehaviour
     {
         return _playerInput.currentControlScheme == "Gamepad";
     }
+
+    /// <summary>
+    /// Retourne l'InputAction correspondant au nom donné (ex: "Interact", "Sprint").
+    /// Utilisé par le système de tips pour résoudre les placeholders {ActionName}.
+    /// </summary>
+    public InputAction GetAction(string actionName)
+    {
+        return _playerInput.actions[actionName];
+    }
 }
