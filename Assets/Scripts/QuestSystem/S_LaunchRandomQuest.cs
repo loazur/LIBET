@@ -306,12 +306,21 @@ public class S_LaunchRandomQuest : MonoBehaviour, SI_DataPersistance
         foreach (SO_QuestInfo questInfo in selectedQuestsForDay)
         {
             S_Quest quest = S_QuestManager.instance.GetQuestByID(questInfo.id);
-            if (quest.state == E_QuestState.FINISHED)
+            if (quest == null)
             {
-                return true;
+                Debug.LogWarning($"<color=yellow>[LaunchRandomQuest]</color> Quête introuvable pour l'ID '{questInfo.id}'");
+                return false;
+            }
+
+            // Une quête journalière est considérée comme validée dès qu'elle est prête à être terminée
+            // ou déjà terminée. Le passage du jour ne doit pas dépendre de la récupération des récompenses.
+            if (quest.state != E_QuestState.CAN_FINISH && quest.state != E_QuestState.FINISHED)
+            {
+                return false;
             }
         }
-        return false;
+
+        return true;
     }
 
     #endregion

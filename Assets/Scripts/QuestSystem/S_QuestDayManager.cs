@@ -45,6 +45,10 @@ public class S_QuestDayManager : MonoBehaviour
         if (S_DaysManager.instance != null)
         {
             S_DaysManager.instance.OnDayEnd += OnDayEnd;
+
+            // Synchroniser immédiatement l'état des prefabs avec le jour actuel.
+            // Cela couvre le premier chargement de scène et les parties chargées en cours de journée.
+            SyncQuestPrefabsWithCurrentDay();
         }
         else
         {
@@ -74,6 +78,16 @@ public class S_QuestDayManager : MonoBehaviour
         {
             DestroyQuestInstances();
         }
+    }
+
+    private void SyncQuestPrefabsWithCurrentDay()
+    {
+        if (S_DaysManager.instance == null)
+        {
+            return;
+        }
+
+        UpdateQuestPrefabsForDay(S_DaysManager.instance.GetCurrentDay());
     }
 
     /**

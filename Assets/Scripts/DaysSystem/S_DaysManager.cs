@@ -113,6 +113,12 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
 
         // Génération des médicaments
         S_MedicinesManager.instance.GenerateMedicines(S_MedicinesManager.instance.GetRemainingMedicines(), medicinesPerDay);
+
+        // S'assurer que les prefabs journaliers correspondent bien au jour chargé
+        if (S_QuestDayManager.instance != null)
+        {
+            S_QuestDayManager.instance.UpdateQuestPrefabsForDay(currentDay);
+        }
     }
 
     public void SaveData(S_GameData gameData)
@@ -368,13 +374,13 @@ public class S_DaysManager : MonoBehaviour, SI_DataPersistance
     public bool AreQuestsDone()
     {
         //& Vérifier via le système de quêtes
-        if (S_QuestManager.instance != null)
+        if (S_LaunchRandomQuest.instance != null)
         {
             return S_LaunchRandomQuest.instance.AllQuestCompleted();
         }
         else //& Cas où S_QuestManager n'est pas initialisé
         {
-            Debug.LogWarning("[DaysManager] S_QuestManager.instance est null!");
+            Debug.LogWarning("[DaysManager] S_LaunchRandomQuest.instance est null!");
             return false;
         }
     }
